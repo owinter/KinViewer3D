@@ -24,164 +24,183 @@
     </Window.CommandBindings>
 
 
-    <DockPanel  LastChildFill="True" Background="LightGray" Focusable="False">
+    <DockPanel  LastChildFill="True"
+                Background="LightGray" 
+                Focusable="False">
         <!--TOP DOCK PANEL-->
         <Border Height="25" 
-			Background="LightGray" 
-			BorderBrush="Black" 
-			BorderThickness="0" 
-			DockPanel.Dock="Top">
+			    Background="LightGray" 
+			    BorderBrush="Black" 
+			    BorderThickness="0" 
+			    DockPanel.Dock="Top">
 
             <!-- TOP Menu bar-->
             <Menu DockPanel.Dock="Top" IsMainMenu="True" >
                 <MenuItem Header="_Datei">
-                    <MenuItem Header="Reset" Click="reset_Button_Click" />
-                    <MenuItem Header="Reload" Click="reload_Button_Click" />
+                    <MenuItem Header="Reset"
+                              Click="reset_Button_Click" />
+                    <MenuItem Header="Reload"
+                              Click="reload_Button_Click" />
                     <Separator />
-                    <MenuItem Header="_Beenden" InputGestureText="F2" Command="ApplicationCommands.Close" />
+                    <MenuItem Header="_Beenden"
+                              InputGestureText="F2"
+                              Command="ApplicationCommands.Close" />
                 </MenuItem>
                 <MenuItem Header="_Bearbeiten"/>
                 <MenuItem Header="_Ansicht">
-                    <MenuItem Header="perspektivische Kamera" Click="perspective_Camera_Click"  />
-                    <MenuItem Header="orthographische Kamera" Click="orthographic_Camera_Click" />
+                    <MenuItem Header="perspektivische Kamera"
+                              Click="perspective_Camera_Click"
+                              Name="miPerspective"
+                              IsCheckable="True"
+                              IsChecked="True"
+                              />
+                    <MenuItem Header="orthographische Kamera"
+                              Click="orthographic_Camera_Click"
+                              Name="miOrthographic"
+                              IsCheckable="True"
+                              IsChecked="False" />
                 </MenuItem>
                 <MenuItem Header="_Hilfe">
-                    <MenuItem Header="Anleitung"  />
+                    <MenuItem Header="Anleitung" Click="Manual_Click"  />
                 </MenuItem>
             </Menu>
         </Border>
 
         <!--LEFT DOCK PANEL-->
         <Border Width="200" 
-			Background="LightGray" 
-			BorderBrush="Black" 
-			BorderThickness="0" 
-			DockPanel.Dock="Left">
+			    Background="LightGray" 
+			    BorderBrush="Black" 
+			    BorderThickness="0" 
+			    DockPanel.Dock="Left">
             <!--LEFT  Input coords-->
             <StackPanel>
                 <Border Background="LightGray" 
-					BorderBrush="Silver" 
-					Width="170" 
-					BorderThickness="2" 
-					CornerRadius="10,10,10,10"
-					Margin="0,5,0,0" Focusable="False">
+					    BorderBrush="Silver" 
+					    Width="170" 
+					    BorderThickness="2" 
+					    CornerRadius="10,10,10,10"
+					    Margin="0,5,0,0"
+                        Focusable="False">
                     <StackPanel x:Name="coordinateInput">
                         <StackPanel>
-                            <Label FontSize="11" FontWeight="Bold" Content="1. Punkt Koordinaten"/>
+                            <Label FontSize="11" FontWeight="Bold" Content="Achsenpunkt"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label Margin="10,0,0,0" FontSize="11" Content="X"/>
                             <TextBox x:Name="value_X1" 
-								Width="30"
-								Height="20"
-								Margin="3,0,0,0" />
+								     Width="30"
+								     Height="20"
+								     Margin="3,0,0,0" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label Margin="10,0,0,0" FontSize="11" Content="Y"/>
                             <TextBox x:Name="value_Y1" 
-								Width="30" 
-								Height="20"
-								Margin="3,0,0,0" />
+								     Width="30" 
+								     Height="20"
+								     Margin="3,0,0,0" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label Margin="10,0,0,0" FontSize="11" Content="Z"/>
                             <TextBox x:Name="value_Z1" 
-								Width="30" 
-								Height="20"
-								Margin="3,0,0,0" />
+								     Width="30" 
+								     Height="20"
+								     Margin="3,0,0,0" />
                         </StackPanel>
                         <StackPanel Margin="0,5,0,0">
-                            <Label FontSize="11" FontWeight="Bold" Content="2. Punkt Koordinaten"/>
+                            <Label FontSize="11" FontWeight="Bold" Content="Handangriffspunkt"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label Margin="10,0,0,0" FontSize="11" Content="X"/>
                             <TextBox x:Name="value_X2" 
-								Width="30" 
-								Height="20"
-								Margin="3,0,0,0" />
+								     Width="30" 
+								     Height="20"
+								     Margin="3,0,0,0" /> 
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label Margin="10,0,0,0" FontSize="11" Content="Y"/>
                             <TextBox x:Name="value_Y2" 
-								Width="30" 
-								Height="20"
-								Margin="3,0,0,0" />
+								     Width="30" 
+								     Height="20"
+								     Margin="3,0,0,0" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label Margin="10,0,0,0" FontSize="11" Content="Z"/>
                             <TextBox x:Name="value_Z2" 
-								Width="30" 
-								Height="20"
-								Margin="3,0,0,0" />
+								     Width="30" 
+								     Height="20"
+								     Margin="3,0,0,0" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Margin="0,5,0,0" FontSize="11" FontWeight="Bold" Content="Element - Dicke:"/>
+                            <Label Margin="0,5,0,0"
+                                   FontSize="11"
+                                   FontWeight="Bold"
+                                   Content="Element - Dicke:"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                             <Slider x:Name="slider_Model_Thickness"
-								Width="120"
-								Minimum="10"
-								Maximum="480"
-								HorizontalAlignment="Center"
-								VerticalAlignment="Center"
-								TickPlacement="BottomRight" 
-								TickFrequency="10" 
-								IsSnapToTickEnabled="True"
-								ValueChanged="setSliderModelThickness"
-								Focusable="False"/>
+								    Width="120"
+								    Minimum="10"
+								    Maximum="480"
+								    HorizontalAlignment="Center"
+								    VerticalAlignment="Center"
+								    TickPlacement="BottomRight" 
+								    TickFrequency="10" 
+								    IsSnapToTickEnabled="True"
+								    ValueChanged="setSliderModelThickness"
+								    Focusable="False"/>
                             <TextBox Text="{Binding Value, ElementName=slider_Model_Thickness, UpdateSourceTrigger=PropertyChanged}" 
-								TextAlignment="Right" 
-								Width="40" Focusable="True" />
+								     TextAlignment="Right" 
+								     Width="40" Focusable="True" />
                         </StackPanel>
                     </StackPanel>
                 </Border>
                 <!--LEFT  Buttons & coords Output in Listbox -->
                 <Border Background="LightGray" 
-					BorderBrush="Silver" Width="170" 
-					BorderThickness="2" 
-					CornerRadius="10,10,10,10" 
-					Margin="0,5,0,0" >
+					    BorderBrush="Silver" Width="170" 
+					    BorderThickness="2" 
+					    CornerRadius="10,10,10,10" 
+					    Margin="0,5,0,0" >
                     <StackPanel>
                         <StackPanel>
                             <Button x:Name="add_Points"
-								Content="Koordinaten hinzufügen"
-								Margin="5"
-								Focusable="False"
-								Click="add_Button_Click" />
+								    Content="Koordinaten hinzufügen"
+								    Margin="5"
+								    Focusable="False"
+								    Click="add_Button_Click" />
 
                         </StackPanel>
                         <StackPanel>
                             <Button x:Name="create_Button" 
-								Content="Modell erstellen" 
-								Margin="5" 
-								Focusable="False"
-								Click="create_Button_Click"/>
+								    Content="Modell erstellen" 
+								    Margin="5" 
+								    Focusable="False"
+								    Click="create_Button_Click"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Button x:Name="clear_listBox1"
-								Content="clear Points"
-								Width="75"
-								Height="30"
-								Margin="5,0,0,0"
-								Focusable="False"
-								Click="clear_listBox1_Button_Click" />
+								    Content="clear Points"
+								    Width="75"
+								    Height="30"
+								    Margin="5,0,0,0"
+								    Focusable="False"
+								    Click="clear_listBox1_Button_Click" />
 
                             <Button x:Name="clear_Button" 
-								Content="clear Viewer"
-								Width="75"
-								Height="30"
-								Margin="5,0,5,0" 
-								Focusable="False"
-								Click="clear_Button_Click"/>
+								    Content="clear Viewer"
+								    Width="75"
+								    Height="30"
+								    Margin="5,0,5,0" 
+								    Focusable="False"
+								    Click="clear_Button_Click"/>
                         </StackPanel>
                         <StackPanel>
-                            <ListBox Margin="5,5,5,5" 
-								x:Name="listBox1" 
-								HorizontalAlignment="Left"
-								Width="160" 
-								Height="260"
-								BorderBrush="Black"
-								Focusable="False">
+                            <ListBox x:Name="listBox1" 
+                                     Margin="5,5,5,5"
+								     HorizontalAlignment="Left"
+								     Width="160" 
+								     Height="260"
+								     BorderBrush="Black"
+								     Focusable="False">
                                 <!--<CheckBox Margin="5,5,5,5"
                                           Name="checkBox1"
                                           HorizontalAlignment="Left"
@@ -211,46 +230,46 @@
 
         <!--RIGHT DOCK PANEL -->
         <Border Width="200" 
-			Background="LightGray" 
-			BorderBrush="Black" 
-			BorderThickness="0" 
-			DockPanel.Dock="Right">
+			    Background="LightGray" 
+			    BorderBrush="Black" 
+			    BorderThickness="0" 
+			    DockPanel.Dock="Right">
             <!--RIGHT control top-->
             <StackPanel>
                 <Border Background="LightGray" 
-					BorderBrush="Silver" 
-					Width="170" 
-					BorderThickness="2" 
-					CornerRadius="10,10,10,10"
-					Margin="0,5,0,0">
+					    BorderBrush="Silver" 
+					    Width="170" 
+					    BorderThickness="2" 
+					    CornerRadius="10,10,10,10"
+					    Margin="0,5,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Label Margin="0,0,0,250" Content="Weitere Steuerelemente"/>
                     </StackPanel>
                 </Border>
                 <!--RIGHT control center-->
                 <Border Background="LightGray" 
-					BorderBrush="Silver" 
-					Width="170" 
-					BorderThickness="2" 
-					CornerRadius="10,10,10,10"
-					Margin="0,5,0,0">
+					    BorderBrush="Silver" 
+					    Width="170" 
+					    BorderThickness="2" 
+					    CornerRadius="10,10,10,10"
+					    Margin="0,5,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Label Margin="0,0,0,125" Content="Weitere Steuerelemente"/>
                     </StackPanel>
                 </Border>
                 <!--RIGHT control bottom-->
                 <Border Background="#eee9e9"
-					BorderBrush="Silver" 
-					Width="170"
-					Height="180"
-					BorderThickness="2" 
-					CornerRadius="10,10,10,10"
-					Margin="0,5,0,0" >
+					    BorderBrush="Silver" 
+					    Width="170"
+					    Height="180"
+					    BorderThickness="2" 
+					    CornerRadius="10,10,10,10"
+					    Margin="0,5,0,0" >
 
                     <Grid Background="#eee9e9"
-						Width="160"
-						Height="170"
-						x:Name="Grid_CoordinateSystem">
+						  Width="160"
+						  Height="170"
+						  x:Name="Grid_CoordinateSystem">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
@@ -264,34 +283,36 @@
 
         <!--BOTTOM DOCK PANEL-->
         <Border Height="50" 
-			Background="LightGray" 
-			BorderBrush="Black" 
-			BorderThickness="0" 
-			DockPanel.Dock="Bottom">
+			    Background="LightGray" 
+			    BorderBrush="Black" 
+			    BorderThickness="0" 
+			    DockPanel.Dock="Bottom">
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <StackPanel>
-                        <Label FontSize="11" FontWeight="Bold" Content="Öffnungswinkel:"/>
-                        <Slider  x:Name = "slider_open_ObjectAngle" 
-							Width = "360"  
-							Minimum="0"
-							Maximum = "180"
-							HorizontalAlignment="Left"
-							VerticalAlignment="Center"
-							TickPlacement="BottomRight" 
-							TickFrequency="1" 
-							IsSnapToTickEnabled="True"
-							Focusable="True"
-							ValueChanged="change_open_ObjectAngle" />
+                        <Label FontSize="11"
+                               FontWeight="Bold"
+                               Content="Öffnungswinkel:"/>
+                        <Slider x:Name = "slider_open_ObjectAngle" 
+							    Width = "360"  
+							    Minimum="0"
+							    Maximum = "180"
+							    HorizontalAlignment="Left"
+							    VerticalAlignment="Center"
+							    TickPlacement="BottomRight" 
+							    TickFrequency="1" 
+							    IsSnapToTickEnabled="True"
+							    Focusable="True"
+							    ValueChanged="change_open_ObjectAngle" />
                     </StackPanel>
                     <StackPanel Margin="45,0,0,0">
                         <Label FontSize="11" Content="Objekttransformation zurücksetzen"/>
                         <Button x:Name="reset_button" 
-							Content="reset"  
-							Click="reset_Button_Click"
-							Height="22"
-							Width="160"
-							Focusable="False"/>
+							    Content="reset"  
+							    Click="reset_Button_Click"
+							    Height="22"
+							    Width="160"
+							    Focusable="False"/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
@@ -299,11 +320,10 @@
 
         <!--LAST CHILD (where the magic takes place  ;) )-->
         <!--VIEWER-CONTENT -->
-        <Border 
-			BorderBrush="Black" 
-			BorderThickness="1" 
-			CornerRadius="3,3,3,3"
-			Margin="0,5,0,0" >
+        <Border BorderBrush="Black" 
+			    BorderThickness="1" 
+			    CornerRadius="3,3,3,3"
+			    Margin="0,5,0,0" >
             <!--HIERHIN VIEWPORT-->
             <KinematicViewer:MainViewPortControl Name="MainUIViewport3D" />
         </Border>
