@@ -10,6 +10,7 @@ namespace KinematicViewer
     {
         private double yaw; // Gieren bzw Schlingern rechts links um y- Achse (Vertikalachse)
         private double pitch; // Neigen um die Querachse x- Achse
+        private Point3D rotationPoint;
 
         public Transformation()
         {
@@ -52,10 +53,17 @@ namespace KinematicViewer
             Transform3DGroup transformGroup = camera.Transform as Transform3DGroup;
             transformGroup.Children.Clear();
             QuaternionRotation3D r = new QuaternionRotation3D(new Quaternion(-phiAxis, phi));
+
+            //Ohne optionalem Parameter wird um den Ursprung (0,0,0) rotiert
+            //Mit optionalem Parameter rotationPoint, kann man um den Mittelpunkt eines Objektes rotieren (new RotateTransform3D(r, rotationPoint));
             transformGroup.Children.Add(new RotateTransform3D(r));
             r = new QuaternionRotation3D(new Quaternion(-thetaAxis, theta));
+
+            //Ohne optionalem Parameter wird um den Ursprung (0,0,0) rotiert
+            //Mit optionalem Parameter rotationPoint, kann man um den Mittelpunkt eines Objektes rotieren (new RotateTransform3D(r, rotationPoint));
             transformGroup.Children.Add(new RotateTransform3D(r));
         }
+      
 
         public void Reset(ProjectionCamera camera)
         {
@@ -75,6 +83,11 @@ namespace KinematicViewer
             return pitch;
         }
 
+        public Point3D getRotationPoint()
+        {
+            return rotationPoint;
+        }
+
         public void setYaw(double value)
         {
             this.yaw = value;
@@ -83,6 +96,11 @@ namespace KinematicViewer
         public void setPitch(double value)
         {
             this.pitch = value;
+        }
+
+        public void setRotationPoint(Point3D rotationPoint)
+        {
+            this.rotationPoint = rotationPoint;
         }
     }
 }

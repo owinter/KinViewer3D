@@ -39,10 +39,22 @@ namespace KinematicViewer
 
         public Cuboid cube;
 
+        //Koordinatenpunkte der Benutzereingabe
+        private List<Point3D> coordPoints;
+
+        //Mittelpunkt des Objektes
+        private Point3D mPoint;
+
+        //Breite bzw Dicke des jeweiligen Models
+        private double modelThickness;
+
 
         public MainViewPortControl()
         {
+            
+
             InitializeComponent();
+            //coordPoints = new List<Point3D>();
             trans = new Transformation();
             c_SystemSmall = new CoordSystemSmall();
             viewportCam = new ViewportCamera(MainGrid, viewport, c_SystemSmall, trans);
@@ -52,9 +64,39 @@ namespace KinematicViewer
 
             //buildSolid();
 
-            viewportCam.resetCam();
+            //viewportCam.resetCam();
             this.CanMoveCamera = true;
         }
+
+        private void generateModel()
+        {
+            for (int i = 0; i <= coordPoints.Count - 2; i += 2)
+            {
+                cube = new Cuboid();
+                cube.buildSolid(coordPoints[i], coordPoints[i + 1], mesh, modelThickness);
+                
+            }
+            group.Children.Remove(modelGeometry);
+
+            // Geometry Model erstellen
+            modelGeometry = new GeometryModel3D(mesh, new DiffuseMaterial(Brushes.Cyan));
+
+            // Geometry Modell Transformieren
+            modelGeometry.Transform = new Transform3DGroup();
+
+            // Geometry Model dem Main Viewport hinzufügen
+            group.Children.Add(modelGeometry);
+
+            ////Kamera für Main Viewport updaten
+            viewportCam.updatePositionCamera();
+
+            //Kamera im Fenster des Koordinatensystems ändern
+            //c_SystemSmall.updatePositionCamera_CoordinateSystem(viewportCam.CameraR, viewportCam.CameraPhi, viewportCam.CameraTheta);
+
+            //Mittelpunkt des Modells berechnen
+            calculateMPoint();
+        }
+
 
         //MAUSSTEUERUNG im MainGrid
         private void MainGrid_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -148,16 +190,45 @@ namespace KinematicViewer
             group.Children.Remove(modelGeometry);
         }
 
-        public void createCube()
+        public void createModel()
         {
-            cube = new Cuboid(modelGeometry, mesh, group);
-            cube.buildCube();
+            mesh = new MeshGeometry3D();
+            generateModel();
+            
         }
 
-        
+        private void calculateMPoint()
+        {
+            double count = coordPoints.Count;
+            double x = 0;
+            double y = 0;
+            double z = 0;
+            for (int i = 0; i < count; i++)
+            {
+                x += coordPoints[i].X / count;
+                y += coordPoints[i].Y / count;
+                z += coordPoints[i].Z / count;
+            }
+            mPoint = new Point3D(x, y, z);
+        }
+
+
 
         //Öffentliche Getter & Setter Methoden
         public bool CanMoveCamera { get; set; }
+
+        public double ModelThickness
+        {
+            get { return modelThickness; }
+            set { modelThickness = value; }
+        }
+
+        public List<Point3D> CoordPoints
+        {
+            get { return coordPoints; }
+            set { coordPoints = value; }
+        }
+
 
     }
 }

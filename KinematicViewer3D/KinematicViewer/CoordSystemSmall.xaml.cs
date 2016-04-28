@@ -48,8 +48,11 @@ namespace KinematicViewer
         // Lichter für das Koordinatensystem.
         private List<Light> Lights = new List<Light>();
 
+        
+
         public CoordSystemSmall()
         {
+            
             InitializeComponent();
             buildCoordinateSystem();
         }
@@ -88,9 +91,9 @@ namespace KinematicViewer
             MeshGeometry3D axes_mesh_z = new MeshGeometry3D();
 
             Point3D origin = new Point3D(0, 0, 0);
-            Point3D xmax = new Point3D(4.5, 0, 0);
-            Point3D ymax = new Point3D(0, 4.5, 0);
-            Point3D zmax = new Point3D(0, 0, 4.5);
+            Point3D xmax = new Point3D(500, 0, 0);
+            Point3D ymax = new Point3D(0, 500, 0);
+            Point3D zmax = new Point3D(0, 0, 500);
             AddSegment(axes_mesh_x, origin, xmax, new Vector3D(0, 1, 0));         //RED Achse     X Achse
             AddSegment(axes_mesh_z, origin, zmax, new Vector3D(0, 1, 0));         //BLUE Achse    Z Achse
             AddSegment(axes_mesh_y, origin, ymax, new Vector3D(1, 0, 0));         //GREEN Achse   Y Achse
@@ -196,6 +199,7 @@ namespace KinematicViewer
         // Position der Camera für das Koordinatensystem.
         public void updatePositionCamera_CoordinateSystem(double coord_CameraR, double coord_CameraPhi, double coord_CameraTheta)
         {
+
             // Berechnung der aktuellen Kamera Position.
             double y = coord_CameraR * Math.Sin(coord_CameraPhi);
             double hyp = coord_CameraR * Math.Cos(coord_CameraPhi);
@@ -240,6 +244,11 @@ namespace KinematicViewer
             coord_CameraPhi = Math.PI / 6.0 - 1 * coord_CameraDPhi;
             coord_CameraTheta = Math.PI / 6.0 + 5 * coord_CameraDTheta;
             coord_CameraR = 13;
+        }
+
+        public void updateC_System(Transformation trans)
+        {
+            trans.Rotate(camera_CoordSystem);
         }
     }
 }

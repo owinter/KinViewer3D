@@ -35,8 +35,9 @@ namespace MainUI
             InitializeComponent();
             coordPoints = new List<Point3D>();
             mvpControl = new MainViewPortControl();
-            cssControl = new CoordSystemSmall();
             MainUIViewport3D.Content = mvpControl;
+            cssControl = new CoordSystemSmall();
+            
             MainUICoordSystemSmall.Content = cssControl; 
             create_Button.IsEnabled = false;
         }
@@ -91,7 +92,10 @@ namespace MainUI
         {
             //Dem MainGrid den focus übergeben
             //MainGrid.Focus();
-            mvpControl.createCube();
+            //mvpControl.createCube();
+            mvpControl.CoordPoints = coordPoints;
+            mvpControl.ModelThickness = modelThickness;
+            mvpControl.createModel();
         }
 
         //Button Listener für das Löschen der ListBox

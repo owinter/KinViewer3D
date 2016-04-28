@@ -120,12 +120,12 @@
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                             <Slider x:Name="slider_Model_Thickness"
 								Width="120"
-								Minimum="0.1"
-								Maximum="2"
+								Minimum="10"
+								Maximum="480"
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center"
 								TickPlacement="BottomRight" 
-								TickFrequency="0.1" 
+								TickFrequency="10" 
 								IsSnapToTickEnabled="True"
 								ValueChanged="setSliderModelThickness"
 								Focusable="False"/>
@@ -256,6 +256,7 @@
                         </Grid.RowDefinitions>
                         <!--HiERHIN COORDSYSTEM SMALL -->
                         <KinematicViewer:CoordSystemSmall Name="MainUICoordSystemSmall" />
+                        <!---->
                     </Grid>
                 </Border>
             </StackPanel>

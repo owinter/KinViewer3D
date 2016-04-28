@@ -189,6 +189,7 @@ namespace KinematicViewer
 
             }
             updatePositionCamera();
+            //c_SystemSmall.updateC_System(trans);
 
             //Kamera im Fenster des Koordinatensystems ändern
             ////c_SystemSmall.updatePositionCamera_CoordinateSystem(cameraR, cameraPhi, cameraTheta);
@@ -222,9 +223,10 @@ namespace KinematicViewer
                         trans.Rotate(o_Camera);
                     }
                     break;
+                    
             }
 
-
+            //c_SystemSmall.updateC_System(trans);
             // Set mouse position back to the center of the viewport in screen coordinates
             MouseUtilities.SetPosition(centerOfViewport);
         }
