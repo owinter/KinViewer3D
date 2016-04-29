@@ -331,53 +331,63 @@
                                              >
                                     <ToolBar Width="Auto"
                                              BorderThickness="1,1,1,0" 
-                                             ClipToBounds="True" 
-                                             
-                                             UseLayoutRounding="True" >
+                                             ClipToBounds="True"
+                                             UseLayoutRounding="True" 
+                                             Background="White" >
+                                        
                                         <Button x:Name="toolBox_Reset_Button"
-                                                Content="Reset View" 
-                                                Click="toolBox_Reset_Button_Click">
-
+                                                Margin="5,0,0,0"
+                                                Click="toolBox_Reset_Button_Click" >
+                                            <Image Source="Image\Icons\16x16\ZoomReset.png"  />
                                         </Button>
-                                        <Button x:Name="toolBox_ZoomIn_Button" 
-                                                Content="Zoom in +" 
+                                        <Button x:Name="toolBox_ZoomIn_Button"
+                                                Margin="5,0,0,0"
                                                 Click="toolBox_ZoomIn_Button_Click">
-
+                                            <Image Source="Image\Icons\16x16\Zoomplus.png"  />
                                         </Button>
-                                        <Button x:Name="toolBox_ZoomOut_Button" 
-                                                Content="Zoom out -" 
+                                        
+                                        <Button x:Name="toolBox_ZoomOut_Button"
+                                                Margin="5,0,0,0"
                                                 Click="toolBox_ZoomOut_Button_Click">
-
+                                            <Image Source="Image\Icons\16x16\ZoomSubtract.png" />
                                         </Button>
+                                        <Separator Margin="5,0,0,0" />
+                                        
+
                                         <Button x:Name="toolBox_Front_Button" 
-                                                Content="Front" 
+                                                Margin="5,0,0,0"
                                                 Click="toolBox_Front_Button_Click">
-
+                                            <Image Source="Image\Icons\16x16\front_side.png" />
                                         </Button>
+
                                         <Button x:Name="toolBox_Back_Button" 
-                                                Content="Back" 
+                                                Margin="5,0,0,0"
                                                 Click="toolBox_Back_Button_Click">
-
+                                            <Image Source="Image\Icons\16x16\back_side.png" />
                                         </Button>
+
                                         <Button x:Name="toolBox_Right_Button" 
-                                                Content="Right" 
+                                                Margin="5,0,0,0"
                                                 Click="toolBox_Right_Button_Click">
-
+                                            <Image Source="Image\Icons\16x16\right_side.png" />
                                         </Button>
+                                        
                                         <Button x:Name="toolBox_Left_Button" 
-                                                Content="Left" 
+                                                Margin="5,0,0,0"
                                                 Click="toolBox_Left_Button_Click">
-
+                                            <Image Source="Image\Icons\16x16\left_side.png" />
                                         </Button>
+
                                         <Button x:Name="toolBox_Top_Button" 
-                                                Content="Top" 
+                                                Margin="5,0,0,0"
                                                 Click="toolBox_Top_Button_Click">
-
+                                            <Image Source="Image\Icons\16x16\top_side.png" />
                                         </Button>
-                                        <Button x:Name="toolBox_Bottom_Button" 
-                                                Content="Bottom" 
-                                                Click="toolBox_Bottom_Button_Click">
 
+                                        <Button x:Name="toolBox_Bottom_Button" 
+                                                Margin="5,0,0,0"
+                                                Click="toolBox_Bottom_Button_Click">
+                                            <Image Source="Image\Icons\16x16\bottom_side.png" />
                                         </Button>
                                     </ToolBar>
                                 </ToolBarTray>

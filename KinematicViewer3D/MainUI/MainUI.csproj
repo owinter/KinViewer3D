@@ -103,6 +103,32 @@
   <ItemGroup>
     <Resource Include="Image\Icons\IconCubeWindow.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Icons\Zoom_in.png" />
+    <Resource Include="Image\Icons\Zoom_out.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Icons\16x16\back_side.PNG" />
+    <Resource Include="Image\Icons\16x16\bottom_side.PNG" />
+    <Resource Include="Image\Icons\16x16\front_side.PNG" />
+    <Resource Include="Image\Icons\16x16\left_side.PNG" />
+    <Resource Include="Image\Icons\16x16\right_side.PNG" />
+    <Resource Include="Image\Icons\16x16\top_side.PNG" />
+    <Resource Include="Image\Icons\16x16\Zoomplus.PNG" />
+    <Resource Include="Image\Icons\16x16\ZoomReset.PNG" />
+    <Resource Include="Image\Icons\16x16\ZoomSubtract.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Icons\24x24\back_side.PNG" />
+    <Resource Include="Image\Icons\24x24\bottom_side.PNG" />
+    <Resource Include="Image\Icons\24x24\front_side.PNG" />
+    <Resource Include="Image\Icons\24x24\left_side.PNG" />
+    <Resource Include="Image\Icons\24x24\right_side.PNG" />
+    <Resource Include="Image\Icons\24x24\top_side.PNG" />
+    <Resource Include="Image\Icons\24x24\Zoomplus.PNG" />
+    <Resource Include="Image\Icons\24x24\ZoomReset.PNG" />
+    <Resource Include="Image\Icons\24x24\ZoomSubtract.PNG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
