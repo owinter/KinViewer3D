@@ -35,7 +35,7 @@
 			    DockPanel.Dock="Top">
 
             <!-- TOP Menu bar-->
-            <Menu DockPanel.Dock="Top" IsMainMenu="True" >
+            <Menu DockPanel.Dock="Top" IsMainMenu="True" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}" >
                 <MenuItem Header="_Datei">
                     <MenuItem Header="Reset"
                               Click="reset_Button_Click" />
@@ -324,8 +324,50 @@
 			    BorderThickness="1" 
 			    CornerRadius="3,3,3,3"
 			    Margin="0,5,0,0" >
-            <!--HIERHIN VIEWPORT-->
-            <KinematicViewer:MainViewPortControl Name="MainUIViewport3D" />
-        </Border>
+                            <DockPanel>
+                                <ToolBarTray DockPanel.Dock="Top"
+                                             Background="#eee9e9"
+                                             IsLocked="False"
+                                             >
+                                    <ToolBar Width="Auto"
+                                             BorderThickness="1,1,1,0" 
+                                             ClipToBounds="True" 
+                                             
+                                             UseLayoutRounding="True" >
+                                        <Button Content="Reset View">
+
+                                        </Button>
+                                        <Button Content="Zoom in +" >
+
+                                        </Button>
+                                        <Button Content="Zoom out -">
+
+                                        </Button>
+                                        <Button Content="Front">
+
+                                        </Button>
+                                        <Button Content="Back">
+
+                                        </Button>
+                                        <Button Content="Right">
+
+                                        </Button>
+                                        <Button Content="Left">
+
+                                        </Button>
+                                        <Button Content="Top">
+
+                                        </Button>
+                                        <Button Content="Bottom">
+
+                                        </Button>
+                                        
+                                    </ToolBar>
+                                </ToolBarTray>
+
+                                <!--HIERHIN VIEWPORT-->
+                                <KinematicViewer:MainViewPortControl Name="MainUIViewport3D" />
+                            </DockPanel>
+      </Border>
     </DockPanel>
 </Window>
