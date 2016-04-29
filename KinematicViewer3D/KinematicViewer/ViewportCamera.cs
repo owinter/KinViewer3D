@@ -29,17 +29,20 @@ namespace KinematicViewer
         //Kamerabreite für orthographische Kamera
         private double o_Width = 1300;
 
-        private Viewport3D viewport;
-        private Grid mainGrid;
-        private CoordSystemSmall c_SystemSmall;
-        private Transformation trans;
+        private double zoomFactor = 75;
 
         //Mitte des ViewPort
         private Point centerOfViewport;
 
         //Speicherung der yaw und pitch Werte
         private double ya;
-        private double pit; 
+        private double pit;
+
+        //benutzbare Instanzen
+        private Viewport3D viewport;
+        private Grid mainGrid;
+        private CoordSystemSmall c_SystemSmall;
+        private Transformation trans;
 
         //Konstruktor
         public ViewportCamera(Grid mainGrid, Viewport3D viewport, CoordSystemSmall c_SystemSmall, Transformation trans)
@@ -168,27 +171,8 @@ namespace KinematicViewer
         //Listener für das Mausrad --> ZOOM Funtkion
         public void viewport_Grid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            switch (MyCam)
-            {
-                case Cam.Perspective:
-                    {
-                        //je kleiner die Division desto schneller wird gezoomt und umgekehrt
-                        //Änderung der Kameraentfernung um das Delta des Mausrades
-                        trans.Zoom(p_Camera, e.Delta / 1);
-                    }
-                    break;
-
-                case Cam.Orthographic:
-                    {
-                        //je kleiner die Division desto schneller wird gezoomt und umgekehrt
-                        //Änderung der Kamerabreite um das Delta des Mausrades
-                        //CameraR = CameraR - e.Delta / 250D;
-                        o_Width -= e.Delta / 2.5D;
-                    }
-                    break;
-
-            }
-            updatePositionCamera();
+            zoomCam(e.Delta);
+            
             //c_SystemSmall.updateC_System(trans);
 
             //Kamera im Fenster des Koordinatensystems ändern
@@ -270,7 +254,7 @@ namespace KinematicViewer
         //Listener für die Tastatureingabe 
         public void viewport_KeyDown( object sender, KeyEventArgs e)
         {
-            double value = 40;
+            double value = 30;
             double zoomFactor = 50;
 
             switch (e.Key)
@@ -349,6 +333,97 @@ namespace KinematicViewer
                     e.Handled = true;
                     break;
             }
+        }
+
+        private void zoomCam(double value)
+        {
+            switch (MyCam)
+            {
+                case Cam.Perspective:
+                    {
+                        //je kleiner die Division desto schneller wird gezoomt und umgekehrt
+                        //Änderung der Kameraentfernung um das Delta des Mausrades
+                        trans.Zoom(p_Camera, value / 1);
+                    }
+                    break;
+
+                case Cam.Orthographic:
+                    {
+                        //je kleiner die Division desto schneller wird gezoomt und umgekehrt
+                        //Änderung der Kamerabreite um das Delta des Mausrades
+                        //CameraR = CameraR - e.Delta / 250D;
+                        o_Width -= value / 2.5D;
+                    }
+                    break;
+
+            }
+            updatePositionCamera();
+        }
+
+        //Toolbox Funktionen
+        public void viewFront()
+        {
+            resetCam();
+        }
+
+        public void viewBack()
+        {   
+            resetCam();
+            //540 entspr. 180°
+            if (MyCam == Cam.Perspective)
+                trans.doYaw(p_Camera, 540);
+            if (MyCam == Cam.Orthographic)
+                trans.doYaw(o_Camera, 540);
+        }
+
+        public void viewRight()
+        {   
+            resetCam();
+            //270 entspr. 90°
+            if (MyCam == Cam.Perspective)
+                trans.doYaw(p_Camera, -270); 
+            if (MyCam == Cam.Orthographic)
+                trans.doYaw(o_Camera, -270);
+        }
+
+        public void viewLeft()
+        {   
+            resetCam();
+            //270 entspr. 90°
+            if (MyCam == Cam.Perspective)
+                trans.doYaw(p_Camera, 270);
+            if (MyCam == Cam.Orthographic)
+                trans.doYaw(o_Camera, 270);
+        }
+
+        public void viewTop()
+        {   
+            resetCam();
+            //270 entspr. 90°
+            if (MyCam == Cam.Perspective)
+                trans.doPitch(p_Camera, -270);
+            if (MyCam == Cam.Orthographic)
+                trans.doPitch(o_Camera, -270);
+        }
+
+        public void viewBottom()
+        {   
+            resetCam();
+            //270 entspr. 90°
+            if (MyCam == Cam.Perspective)
+                trans.doPitch(p_Camera, 270);
+            if (MyCam == Cam.Orthographic)
+                trans.doPitch(o_Camera, 270);
+        }
+
+        public void zoomIn()
+        {
+            zoomCam(zoomFactor);
+        }
+
+        public void zoomOut()
+        {
+            zoomCam(-zoomFactor);
         }
 
 

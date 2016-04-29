@@ -190,6 +190,53 @@ namespace MainUI
 
         }
 
-        
+
+        //ToolBar Buttons
+        private void toolBox_Reset_Button_Click(object sender, RoutedEventArgs e)
+        {
+            mvpControl.resetCam();
+        }
+
+        private void toolBox_ZoomIn_Button_Click(object sender, RoutedEventArgs e)
+        {
+            mvpControl.zoomIn();
+            
+        }
+
+        private void toolBox_ZoomOut_Button_Click(object sender, RoutedEventArgs e)
+        {
+            mvpControl.zoomOut();
+           
+        }
+
+        private void toolBox_Front_Button_Click(object sender, RoutedEventArgs e)
+        {
+            mvpControl.viewFrontSide();
+        }
+
+        private void toolBox_Back_Button_Click(object sender, RoutedEventArgs e)
+        {
+            mvpControl.viewBackSide();
+        }
+
+        private void toolBox_Right_Button_Click(object sender, RoutedEventArgs e)
+        {
+            mvpControl.viewRightSide();
+        }
+
+        private void toolBox_Left_Button_Click(object sender, RoutedEventArgs e)
+        {
+            mvpControl.viewLeftSide();
+        }
+
+        private void toolBox_Top_Button_Click(object sender, RoutedEventArgs e)
+        {
+            mvpControl.viewTopSide();
+        }
+
+        private void toolBox_Bottom_Button_Click(object sender, RoutedEventArgs e)
+        {
+            mvpControl.viewBottomSide();
+        }
     }
 }

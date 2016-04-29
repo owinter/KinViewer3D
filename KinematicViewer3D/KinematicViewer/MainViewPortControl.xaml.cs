@@ -193,8 +193,47 @@ namespace KinematicViewer
         public void createModel()
         {
             mesh = new MeshGeometry3D();
-            generateModel();
-            
+            generateModel();   
+        }
+
+        public void viewFrontSide()
+        {
+            viewportCam.viewFront();
+        }
+
+        public void viewBackSide()
+        {
+            viewportCam.viewBack();
+        }
+
+        public void viewRightSide()
+        {
+            viewportCam.viewRight();
+        }
+
+        public void viewLeftSide()
+        {
+            viewportCam.viewLeft();
+        }
+
+        public void viewTopSide()
+        {
+            viewportCam.viewTop();
+        }
+
+        public void viewBottomSide()
+        {
+            viewportCam.viewBottom();
+        }
+
+        public void zoomIn()
+        {
+            viewportCam.zoomIn();
+        }
+
+        public void zoomOut()
+        {
+            viewportCam.zoomOut();
         }
 
         private void calculateMPoint()

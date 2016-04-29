@@ -334,34 +334,51 @@
                                              ClipToBounds="True" 
                                              
                                              UseLayoutRounding="True" >
-                                        <Button Content="Reset View">
+                                        <Button x:Name="toolBox_Reset_Button"
+                                                Content="Reset View" 
+                                                Click="toolBox_Reset_Button_Click">
 
                                         </Button>
-                                        <Button Content="Zoom in +" >
+                                        <Button x:Name="toolBox_ZoomIn_Button" 
+                                                Content="Zoom in +" 
+                                                Click="toolBox_ZoomIn_Button_Click">
 
                                         </Button>
-                                        <Button Content="Zoom out -">
+                                        <Button x:Name="toolBox_ZoomOut_Button" 
+                                                Content="Zoom out -" 
+                                                Click="toolBox_ZoomOut_Button_Click">
 
                                         </Button>
-                                        <Button Content="Front">
+                                        <Button x:Name="toolBox_Front_Button" 
+                                                Content="Front" 
+                                                Click="toolBox_Front_Button_Click">
 
                                         </Button>
-                                        <Button Content="Back">
+                                        <Button x:Name="toolBox_Back_Button" 
+                                                Content="Back" 
+                                                Click="toolBox_Back_Button_Click">
 
                                         </Button>
-                                        <Button Content="Right">
+                                        <Button x:Name="toolBox_Right_Button" 
+                                                Content="Right" 
+                                                Click="toolBox_Right_Button_Click">
 
                                         </Button>
-                                        <Button Content="Left">
+                                        <Button x:Name="toolBox_Left_Button" 
+                                                Content="Left" 
+                                                Click="toolBox_Left_Button_Click">
 
                                         </Button>
-                                        <Button Content="Top">
+                                        <Button x:Name="toolBox_Top_Button" 
+                                                Content="Top" 
+                                                Click="toolBox_Top_Button_Click">
 
                                         </Button>
-                                        <Button Content="Bottom">
+                                        <Button x:Name="toolBox_Bottom_Button" 
+                                                Content="Bottom" 
+                                                Click="toolBox_Bottom_Button_Click">
 
                                         </Button>
-                                        
                                     </ToolBar>
                                 </ToolBarTray>
 
