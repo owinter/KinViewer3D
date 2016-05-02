@@ -53,8 +53,8 @@
     <Compile Include="Cuboid.cs" />
     <Compile Include="Cylinder.cs" />
     <Compile Include="Drive.cs" />
-    <Compile Include="FixPoint3D.cs" />
     <Compile Include="MouseUtilities.cs" />
+    <Compile Include="Sphere.cs" />
     <Compile Include="Tailgate.cs" />
     <Compile Include="Transformation.cs" />
     <Compile Include="ViewportCamera.cs" />

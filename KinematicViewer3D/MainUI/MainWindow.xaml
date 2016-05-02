@@ -134,13 +134,13 @@
                             <Label Margin="0,5,0,0"
                                    FontSize="11"
                                    FontWeight="Bold"
-                                   Content="Element - Dicke:"/>
+                                   Content="Elementbreite in mm:"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                             <Slider x:Name="slider_Model_Thickness"
 								    Width="120"
-								    Minimum="10"
-								    Maximum="480"
+								    Minimum="0"
+								    Maximum="1000"
 								    HorizontalAlignment="Center"
 								    VerticalAlignment="Center"
 								    TickPlacement="BottomRight" 

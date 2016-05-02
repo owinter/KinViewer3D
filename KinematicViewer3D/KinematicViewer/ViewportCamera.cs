@@ -29,7 +29,7 @@ namespace KinematicViewer
         //Kamerabreite für orthographische Kamera
         private double o_Width = 1300;
 
-        private double zoomFactor = 75;
+        private double zoomFactor = 100;
 
         //Mitte des ViewPort
         private Point centerOfViewport;

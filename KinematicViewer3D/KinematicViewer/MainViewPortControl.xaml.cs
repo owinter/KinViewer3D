@@ -38,6 +38,8 @@ namespace KinematicViewer
         private Transformation trans;
 
         public Cuboid cube;
+        public Sphere sphere;
+        public Cylinder cyl;
 
         //Koordinatenpunkte der Benutzereingabe
         private List<Point3D> coordPoints;
@@ -70,13 +72,20 @@ namespace KinematicViewer
 
         private void generateModel()
         {
-            for (int i = 0; i <= coordPoints.Count - 2; i += 2)
+            group.Children.Remove(modelGeometry);
+
+
+            
+          /*  for (int i = 0; i <= coordPoints.Count - 2; i += 2)
             {
                 cube = new Cuboid();
-                cube.buildSolid(coordPoints[i], coordPoints[i + 1], mesh, modelThickness);
-                
+                cube.buildCuboid(coordPoints[i], coordPoints[i + 1], mesh, modelThickness);
             }
-            group.Children.Remove(modelGeometry);
+
+            sphere = new Sphere(coordPoints[0], modelThickness);
+            mesh = sphere.SphereGeometry;*/
+
+            cyl = new Cylinder(viewport, mesh);
 
             // Geometry Model erstellen
             modelGeometry = new GeometryModel3D(mesh, new DiffuseMaterial(Brushes.Cyan));

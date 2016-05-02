@@ -25,7 +25,7 @@ namespace KinematicViewer
         }
 
         //Erstellen des 3D Modell
-        public void buildSolid(Point3D point1, Point3D point2, MeshGeometry3D mesh, double modelThickness)
+        public void buildCuboid(Point3D point1, Point3D point2, MeshGeometry3D mesh, double modelThickness)
         {
 
             //Umgebungspunkte berechnen

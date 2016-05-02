@@ -185,7 +185,7 @@ namespace MainUI
                                 + "P2(" + value_X2.Text + ", "
                                         + value_Y2.Text + ", "
                                         + value_Z2.Text + ") \n"
-                                        + "Element Dicke: " + modelThickness + "\n";
+                                        + "Elementbreite in mm: " + modelThickness + "\n";
             listBox1.Items.Add(checkBox1);
 
         }
