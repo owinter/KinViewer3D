@@ -22,8 +22,10 @@ namespace KinematicViewer
     /// </summary>
     public partial class MainViewPortControl : UserControl
     {
-        private GeometryModel3D modelGeometry,cuboidGeometry, cylinderGeometry, sphereGeometry;
-        private MeshGeometry3D mesh;
+        private GeometryModel3D cuboidGeometry, 
+                                cylinderGeometry, 
+                                sphereGeometry;
+        
 
         private bool mouseDownRight;
         private bool mouseDownLeft;
@@ -64,7 +66,6 @@ namespace KinematicViewer
             viewportCam.startPerspectiveCamera();
             viewportCam.MyCam = Cam.Perspective;
 
-            //buildSolid();
 
             //viewportCam.resetCam();
             this.CanMoveCamera = true;
@@ -106,7 +107,8 @@ namespace KinematicViewer
 
         private void generateModel()
         {
-            group.Children.Remove(modelGeometry);
+            clearModel();
+
 
             generateCylinder();
             generateCuboid();
@@ -212,7 +214,6 @@ namespace KinematicViewer
 
         public void clearModel()
         {
-            group.Children.Remove(modelGeometry);
             group.Children.Remove(cuboidGeometry);
             group.Children.Remove(cylinderGeometry);
             group.Children.Remove(sphereGeometry);
@@ -220,7 +221,6 @@ namespace KinematicViewer
 
         public void createModel()
         {
-            mesh = new MeshGeometry3D();
             generateModel();   
         }
 
