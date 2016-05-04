@@ -97,7 +97,37 @@ namespace KinematicViewer
         //Erstelle Koordinaten für den mittleren Teil der Heckklappe
         private List<Point3D> makeCoordsMidTail()
         {
-            return null;
+            List<Point3D> points = new List<Point3D>();
+
+            Vector3D vL = (coordsDownTail[6] - coordsUpTail[2]) /4;
+            Vector3D vR = (coordsDownTail[5] - coordsUpTail[3]) /4;
+
+            //Linke seite der Heckklappe
+            Point3D pL0 = coordsUpTail[2];
+            Point3D pL1 = pL0 + vL;
+            Point3D pL2 = pL1 + vL;
+            Point3D pL3 = pL2 + vL;
+            Point3D pL4 = coordsDownTail[6];
+
+            //Rechte Seite der Heckklappe
+            Point3D pR5 = coordsUpTail[3];
+            Point3D pR6 = pR5 + vR;
+            Point3D pR7 = pR6 + vR;
+            Point3D pR8 = pR7 + vR;
+            Point3D pR9 = coordsDownTail[5];
+
+            points.Add(pL0);
+            points.Add(pL1);
+            points.Add(pL2);
+            points.Add(pL3);
+            points.Add(pL4);
+            points.Add(pR5);
+            points.Add(pR6);
+            points.Add(pR7);
+            points.Add(pR8);
+            points.Add(pR9);
+
+            return points;
         }
 
         private void buildUpTail()
@@ -127,12 +157,23 @@ namespace KinematicViewer
 
         private void buildMidTail()
         {
+            for(int i=0; i<=coordsMidTail.Count-7; i++)
+            {
+                generateSphere(coordsMidTail[i], modelThickness);
+                generateCuboid(coordsMidTail[i], coordsMidTail[i + 1], modelThickness);
+            }
 
+            for(int i=5; i<=coordsMidTail.Count-2; i++)
+            {
+                generateSphere(coordsMidTail[i], modelThickness);
+                generateCuboid(coordsMidTail[i], coordsMidTail[i + 1], modelThickness);
+            }
         }
 
         private void buildTail()
         {
             buildUpTail();
+            buildMidTail();
             buildDownTail();
         }
 
