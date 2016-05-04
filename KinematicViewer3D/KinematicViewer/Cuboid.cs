@@ -8,24 +8,14 @@ using System.Windows.Media.Media3D;
 namespace KinematicViewer
 {
     public class Cuboid
-    {
-        //private Point3D point1, point2;
-        //private double modelThickness;
-        
-
-        //public Cuboid(Point3D point1, Point3D point2, double modelThickness)
-         public Cuboid()
+    {       
+         public Cuboid(Point3D point1, Point3D point2, MeshGeometry3D mesh, double modelThickness)
         {
-            //this.point1 = point1;
-            //this.point2 = point2;
-            //this.modelThickness = modelThickness;
-            
-            
-            
+            buildCuboid(point1, point2, mesh, modelThickness);
         }
 
         //Erstellen des 3D Modell
-        public void buildCuboid(Point3D point1, Point3D point2, MeshGeometry3D mesh, double modelThickness)
+        private void buildCuboid(Point3D point1, Point3D point2, MeshGeometry3D mesh, double modelThickness)
         {
 
             //Umgebungspunkte berechnen

@@ -15,11 +15,11 @@ namespace KinematicViewer
         private Point3D center = new Point3D(); // Mittelpunkt 
         private double radius = 100; // in Millimeter
 
-        public Sphere(Point3D center , double radius)
+        public Sphere(Point3D center , double radius, MeshGeometry3D mesh)
         {
             this.center = center;
             this.radius = radius;
-            
+            buildSphere(mesh);
             
         }
 
@@ -47,16 +47,14 @@ namespace KinematicViewer
             set { radius = value; }
         }
 
-        public MeshGeometry3D SphereGeometry
+       /* public MeshGeometry3D SphereGeometry
         {
             get { return CalculateMesh(); }
-        }
+        }*/
         
 
-        private MeshGeometry3D CalculateMesh()
+        private void buildSphere(MeshGeometry3D mesh)
         {
-            MeshGeometry3D mesh = new MeshGeometry3D();
-
             for (int stack = 0; stack <= Stacks; stack++)
             {
                 double phi = Math.PI / 2 - stack * Math.PI / Stacks; 
@@ -98,7 +96,7 @@ namespace KinematicViewer
                     }
                 }
             }
-            return mesh;
+           // return mesh;
         }
     }
 }

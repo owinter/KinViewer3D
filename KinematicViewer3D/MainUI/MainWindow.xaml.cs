@@ -22,7 +22,7 @@ namespace MainUI
     public partial class MainWindow : Window
     {
         //Koordinatenpunkte der Benutzereingabe
-        private List<Point3D> coordPoints;
+        private List<Point3D> axisPoints;
 
         //Model- Dicke (Durchmesser der Linien)
         private double modelThickness;
@@ -33,7 +33,7 @@ namespace MainUI
         public MainWindow()
         {
             InitializeComponent();
-            coordPoints = new List<Point3D>();
+            axisPoints = new List<Point3D>();
             mvpControl = new MainViewPortControl();
             MainUIViewport3D.Content = mvpControl;
             cssControl = new CoordSystemSmall(); 
@@ -109,7 +109,7 @@ namespace MainUI
             //Dem MainGrid den focus übergeben
             //MainGrid.Focus();
             //mvpControl.createCube();
-            mvpControl.CoordPoints = coordPoints;
+            mvpControl.AxisPoints = axisPoints;
             mvpControl.ModelThickness = modelThickness;
             mvpControl.createModel();
         }
@@ -118,7 +118,7 @@ namespace MainUI
         private void clear_listBox1_Button_Click(object sender, RoutedEventArgs e)
         {
             listBox1.Items.Clear();
-            coordPoints.Clear();
+            axisPoints.Clear();
             create_Button.IsEnabled = false;
         }
 
@@ -160,8 +160,8 @@ namespace MainUI
                 Point3D p1 = new Point3D(x1, y1, z1);
                 Point3D p2 = new Point3D(x2, y2, z2);
 
-                coordPoints.Add(p1);
-                coordPoints.Add(p2);
+                axisPoints.Add(p1);
+                axisPoints.Add(p2);
             }
             catch (Exception ex)
             {

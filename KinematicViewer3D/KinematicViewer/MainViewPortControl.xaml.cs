@@ -22,11 +22,6 @@ namespace KinematicViewer
     /// </summary>
     public partial class MainViewPortControl : UserControl
     {
-        private GeometryModel3D cuboidGeometry, 
-                                cylinderGeometry, 
-                                sphereGeometry;
-        
-
         private bool mouseDownRight;
         private bool mouseDownLeft;
 
@@ -42,9 +37,10 @@ namespace KinematicViewer
         public Cuboid cube;
         public Sphere sphere;
         public Cylinder cylinder;
+        public Tailgate tail;
 
-        //Koordinatenpunkte der Benutzereingabe
-        private List<Point3D> coordPoints;
+        //Achsenpunkte der Benutzereingabe
+        private List<Point3D> axisPoints;
 
         //Mittelpunkt des Objektes
         private Point3D mPoint;
@@ -58,7 +54,7 @@ namespace KinematicViewer
             
 
             InitializeComponent();
-            //coordPoints = new List<Point3D>();
+            //axisPoints = new List<Point3D>();
             trans = new Transformation();
             c_SystemSmall = new CoordSystemSmall();
             viewportCam = new ViewportCamera(MainGrid, viewport, c_SystemSmall, trans);
@@ -73,46 +69,46 @@ namespace KinematicViewer
 
         private void generateCylinder()
         {
-            MeshGeometry3D mesh_Cylinder = new MeshGeometry3D();
-            cylinder = new Cylinder(mesh_Cylinder, new Point3D(0, 1, 0), new Vector3D(-100, -600, 0), 50, 128);
-
+            /*MeshGeometry3D mesh_Cylinder = new MeshGeometry3D();
+            cylinder = new Cylinder(mesh_Cylinder, new Point3D(0, 100, 0), new Point3D(500,500,100), 25, 128);
+            
             cylinderGeometry = new GeometryModel3D(mesh_Cylinder, new DiffuseMaterial(Brushes.Cyan));
             cylinderGeometry.Transform = new Transform3DGroup();
-            group.Children.Add(cylinderGeometry);
+            group.Children.Add(cylinderGeometry);*/
         }
 
         private void generateCuboid()
         {
-            MeshGeometry3D mesh_Cuboid = new MeshGeometry3D();
+           /* MeshGeometry3D mesh_Cuboid = new MeshGeometry3D();
             cube = new Cuboid();
-            for (int i = 0; i <= coordPoints.Count - 2; i += 2)
+            for (int i = 0; i <= axisPoints.Count - 2; i += 2)
             {
-                cube.buildCuboid(coordPoints[i], coordPoints[i + 1], mesh_Cuboid, modelThickness);
+                cube.buildCuboid(axisPoints[i], axisPoints[i + 1], mesh_Cuboid, modelThickness);
             }
             cuboidGeometry = new GeometryModel3D(mesh_Cuboid, new DiffuseMaterial(Brushes.Cyan));
             cuboidGeometry.Transform = new Transform3DGroup();
-            group.Children.Add(cuboidGeometry);
+            group.Children.Add(cuboidGeometry);*/
         }
 
         private void generateSphere()
         {
-            MeshGeometry3D mesh_Sphere = new MeshGeometry3D();
-            sphere = new Sphere(coordPoints[0], modelThickness);
+            /*MeshGeometry3D mesh_Sphere = new MeshGeometry3D();
+            sphere = new Sphere(axisPoints[0], modelThickness);
             mesh_Sphere = sphere.SphereGeometry;
 
             sphereGeometry = new GeometryModel3D(mesh_Sphere, new DiffuseMaterial(Brushes.Cyan));
             sphereGeometry.Transform = new Transform3DGroup();
-            group.Children.Add(sphereGeometry);
+            group.Children.Add(sphereGeometry);*/
         }
 
         private void generateModel()
         {
-            clearModel();
+            
 
-
-            generateCylinder();
-            generateCuboid();
-            generateSphere();
+            tail = new Tailgate(AxisPoints, group, modelThickness);
+            //generateCylinder();
+            //generateCuboid();
+            //generateSphere();
 
             ////Kamera für Main Viewport updaten
             viewportCam.updatePositionCamera();
@@ -214,9 +210,7 @@ namespace KinematicViewer
 
         public void clearModel()
         {
-            group.Children.Remove(cuboidGeometry);
-            group.Children.Remove(cylinderGeometry);
-            group.Children.Remove(sphereGeometry);
+            tail.clearModel(); 
         }
 
         public void createModel()
@@ -266,15 +260,15 @@ namespace KinematicViewer
 
         private void calculateMPoint()
         {
-            double count = coordPoints.Count;
+            double count = axisPoints.Count;
             double x = 0;
             double y = 0;
             double z = 0;
             for (int i = 0; i < count; i++)
             {
-                x += coordPoints[i].X / count;
-                y += coordPoints[i].Y / count;
-                z += coordPoints[i].Z / count;
+                x += axisPoints[i].X / count;
+                y += axisPoints[i].Y / count;
+                z += axisPoints[i].Z / count;
             }
             mPoint = new Point3D(x, y, z);
         }
@@ -290,10 +284,10 @@ namespace KinematicViewer
             set { modelThickness = value; }
         }
 
-        public List<Point3D> CoordPoints
+        public List<Point3D> AxisPoints
         {
-            get { return coordPoints; }
-            set { coordPoints = value; }
+            get { return axisPoints; }
+            set { axisPoints = value; }
         }
 
 

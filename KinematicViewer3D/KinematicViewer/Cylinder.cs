@@ -8,27 +8,29 @@ namespace KinematicViewer
 {
     public class Cylinder
     {
-        public Cylinder(MeshGeometry3D mesh, Point3D end_point, Vector3D axis, double radius, int num_sides)
+        public Cylinder(MeshGeometry3D mesh, Point3D end_point, Point3D start_point, double radius, int num_sides)
         {
+            Vector3D axis = start_point - end_point;
             AddCylinder(mesh, end_point, axis, radius, num_sides);
         }
 
         // Add a cylinder.
         private void AddCylinder(MeshGeometry3D mesh, Point3D end_point, Vector3D axis, double radius, int num_sides)
         {
-            // Get two vectors perpendicular to the axis.
+            // Berechnung von zwei senkrechten Vektoren
             Vector3D v1;
             if ((axis.Z < -0.01) || (axis.Z > 0.01))
                 v1 = new Vector3D(axis.Z, axis.Z, -axis.X - axis.Y);
             else
                 v1 = new Vector3D(-axis.Y - axis.Z, axis.X, axis.X);
+
             Vector3D v2 = Vector3D.CrossProduct(v1, axis);
 
             // Make the vectors have length radius.
             v1 *= (radius / v1.Length);
             v2 *= (radius / v2.Length);
 
-            // Make the top end cap.
+            // Top Seite erstellen
             double theta = 0;
             double dtheta = 2 * Math.PI / num_sides;
             for (int i = 0; i < num_sides; i++)
@@ -39,7 +41,7 @@ namespace KinematicViewer
                 AddTriangle(mesh, end_point, p1, p2);
             }
 
-            // Make the bottom end cap.
+            // Bottom Seite erstellen
             Point3D end_point2 = end_point + axis;
             theta = 0;
             for (int i = 0; i < num_sides; i++)
@@ -50,7 +52,7 @@ namespace KinematicViewer
                 AddTriangle(mesh, end_point2, p2, p1);
             }
 
-            // Make the sides.
+            // Seiten erstellen
             theta = 0;
             for (int i = 0; i < num_sides; i++)
             {
