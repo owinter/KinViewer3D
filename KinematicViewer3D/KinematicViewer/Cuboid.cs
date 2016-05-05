@@ -23,22 +23,22 @@ namespace KinematicViewer
 
             //Berechnung aller 6 Seiten eines Rechtecks mit jeweiligen Normalenvektoren für alle Faces / Seiten
             //Rechte Seite
-            buildRectangle(mesh, p_around[0], p_around[1], p_around[5], p_around[4], new Vector3D(1, 0, 0));
+            buildRectangle(mesh, p_around[0], p_around[1], p_around[5], p_around[4]); //, new Vector3D(1, 0, 0)
 
             //Front Seite
-            buildRectangle(mesh, p_around[0], p_around[4], p_around[6], p_around[2], new Vector3D(0, 0, 1));
+            buildRectangle(mesh, p_around[0], p_around[4], p_around[6], p_around[2] ); //, new Vector3D(0, 0, 1)
 
             //Linke Seite
-            buildRectangle(mesh, p_around[2], p_around[6], p_around[7], p_around[3], new Vector3D(-1, 0, 0));
+            buildRectangle(mesh, p_around[2], p_around[6], p_around[7], p_around[3]); //, new Vector3D(-1, 0, 0)
 
             //Back Seite
-            buildRectangle(mesh, p_around[3], p_around[7], p_around[5], p_around[1], new Vector3D(0, 0, -1));
+            buildRectangle(mesh, p_around[3], p_around[7], p_around[5], p_around[1]); //, new Vector3D(0, 0, -1)
 
             //Top Seite
-            buildRectangle(mesh, p_around[4], p_around[5], p_around[7], p_around[6], new Vector3D(0, 1, 0));
+            buildRectangle(mesh, p_around[4], p_around[5], p_around[7], p_around[6]); //, new Vector3D(0, 1, 0)
 
             //Bottom Seite
-            buildRectangle(mesh, p_around[0], p_around[2], p_around[3], p_around[1], new Vector3D(0, -1, 0));
+            buildRectangle(mesh, p_around[0], p_around[2], p_around[3], p_around[1]); //, new Vector3D(0, -1, 0)
         }
 
 
@@ -107,7 +107,7 @@ namespace KinematicViewer
 
 
         //Rechteck erstellen und NormalenVektoren den einzelnen Seiten hinzufügen
-        private void buildRectangle(MeshGeometry3D mesh, Point3D a, Point3D b, Point3D c, Point3D d, Vector3D normal)
+        private void buildRectangle(MeshGeometry3D mesh, Point3D a, Point3D b, Point3D c, Point3D d) //, Vector3D normal
         {
             int baseIndex = mesh.Positions.Count;
 
@@ -118,10 +118,10 @@ namespace KinematicViewer
             mesh.Positions.Add(d);
 
             //Normalen Vektoren hinzufügen
+           /* mesh.Normals.Add(normal);
             mesh.Normals.Add(normal);
             mesh.Normals.Add(normal);
-            mesh.Normals.Add(normal);
-            mesh.Normals.Add(normal);
+            mesh.Normals.Add(normal);*/
 
             //Indices hinzufügen
             mesh.TriangleIndices.Add(baseIndex + 0);
@@ -232,5 +232,235 @@ namespace KinematicViewer
 
             
         }*/
+
+
+
+
+        //Alternativer Cuboid
+        /*
+         * 
+         * 
+         * 
+         * 
+         * public Cuboid()
+        {
+            PropertyChanged(this, new DependencyPropertyChangedEventArgs());
+        }
+        // Width property.
+        // ---------------
+        public static readonly DependencyProperty WidthProperty =
+            DependencyProperty.Register("Width",
+                typeof(double), typeof(Cuboid),
+                new PropertyMetadata(1.0, PropertyChanged));
+
+        public double Width
+        {
+            set { SetValue(WidthProperty, value); }
+            get { return (double)GetValue(WidthProperty); }
+        }
+
+        // Height property.
+        // ----------------
+        public static readonly DependencyProperty HeightProperty =
+            DependencyProperty.Register("Height",
+                typeof(double), typeof(Cuboid),
+                new PropertyMetadata(1.0, PropertyChanged));
+
+        public double Height
+        {
+            set { SetValue(HeightProperty, value); }
+            get { return (double)GetValue(HeightProperty); }
+        }
+
+        // Depth property.
+        // ---------------
+        public static readonly DependencyProperty DepthProperty =
+            DependencyProperty.Register("Depth",
+                typeof(double), typeof(Cuboid),
+                new PropertyMetadata(1.0, PropertyChanged));
+
+        public double Depth
+        {
+            set { SetValue(DepthProperty, value); }
+            get { return (double)GetValue(DepthProperty); }
+        }
+
+        // Origin property.
+        // ----------------
+
+        public static readonly DependencyProperty OriginProperty =
+            DependencyProperty.Register("Origin",
+                typeof(Point3D), typeof(Cuboid),
+                new PropertyMetadata(new Point3D(-0.5, -0.5, -0.5),
+                                     PropertyChanged));
+
+        public Point3D Origin
+        {
+            set { SetValue(OriginProperty, value); }
+            get { return (Point3D)GetValue(OriginProperty); }
+        }
+
+
+        // Slices property.
+        // ----------------
+        public static readonly DependencyProperty SlicesProperty =
+            DependencyProperty.Register("Slices", typeof(int), typeof(Cuboid),
+                new PropertyMetadata(10, PropertyChanged),
+                    ValidateSlices);
+
+        public int Slices
+        {
+            get { return (int)GetValue(SlicesProperty); }
+            set { SetValue(SlicesProperty, value); }
+        }
+
+        // Stacks property.
+        // ----------------
+        public static readonly DependencyProperty StacksProperty =
+            DependencyProperty.Register("Stacks", typeof(int), typeof(Cuboid),
+                new PropertyMetadata(10, PropertyChanged),
+                    ValidateSlices);
+
+        public int Stacks
+        {
+            get { return (int)GetValue(StacksProperty); }
+            set { SetValue(StacksProperty, value); }
+        }
+
+        // Slivers property.
+        // ----------------
+        public static readonly DependencyProperty SliversProperty =
+            DependencyProperty.Register("Slivers", typeof(int), typeof(Cuboid),
+                new PropertyMetadata(10, PropertyChanged),
+                    ValidateSlices);
+
+        public int Slivers
+        {
+            get { return (int)GetValue(SliversProperty); }
+            set { SetValue(SliversProperty, value); }
+        }
+
+        static bool ValidateSlices(object obj)
+        {
+            return (int)obj > 0;
+        }
+
+
+        protected override void Triangulate(DependencyPropertyChangedEventArgs args,
+                                            Point3DCollection vertices, 
+                                            Vector3DCollection normals, 
+                                            Int32Collection indices, 
+                                            PointCollection textures)
+        {
+            vertices.Clear();
+            normals.Clear();
+            indices.Clear();
+            textures.Clear();
+
+            // Front.
+            for (int iy = 0; iy <= Stacks; iy++)
+            {
+                double y = Origin.Y + Height - iy * Height / Stacks;
+
+                for (int ix = 0; ix <= Slices; ix++)
+                {
+                    double x = Origin.X + ix * Width / Slices;
+                    vertices.Add(new Point3D(x, y, Origin.Z + Depth));
+                }
+            }
+
+            // Back
+            for (int iy = 0; iy <= Stacks; iy++)
+            {
+                double y = Origin.Y + Height - iy * Height / Stacks;
+
+                for (int ix = 0; ix <= Slices; ix++)
+                {
+                    double x = Origin.X + Width - ix * Width / Slices;
+                    vertices.Add(new Point3D(x, y, Origin.Z));
+                }
+            }
+
+            // Left
+            for (int iy = 0; iy <= Stacks; iy++)
+            {
+                double y = Origin.Y + Height - iy * Height / Stacks;
+
+                for (int iz = 0; iz <= Slivers; iz++)
+                {
+                    double z = Origin.Z + iz * Depth / Slivers;
+                    vertices.Add(new Point3D(Origin.X, y, z));
+                }
+            }
+
+            // Right
+            for (int iy = 0; iy <= Stacks; iy++)
+            {
+                double y = Origin.Y + Height - iy * Height / Stacks;
+
+                for (int iz = 0; iz <= Slivers; iz++)
+                {
+                    double z = Origin.Z + Depth - iz * Depth / Slivers;
+                    vertices.Add(new Point3D(Origin.X + Width, y, z));
+                }
+            }
+
+            // Top
+            for (int iz = 0; iz <= Slivers; iz++)
+            {
+                double z = Origin.Z + iz * Depth / Slivers;
+
+                for (int ix = 0; ix <= Slices; ix++)
+                {
+                    double x = Origin.X + ix * Width / Slices;
+                    vertices.Add(new Point3D(x, Origin.Y + Height, z));
+                }
+            }
+
+            // Top
+            for (int iz = 0; iz <= Slivers; iz++)
+            {
+                double z = Origin.Z + Depth - iz * Depth / Slivers;
+
+                for (int ix = 0; ix <= Slices; ix++)
+                {
+                    double x = Origin.X + ix * Width / Slices;
+                    vertices.Add(new Point3D(x, Origin.Y, z));
+                }
+            }
+
+            for (int side = 0; side < 6; side++)
+            {
+                for (int iy = 0; iy <= Stacks; iy++)
+                {
+                    double y = (double)iy / Stacks;
+
+                    for (int ix = 0; ix <= Slices; ix++)
+                    {
+                        double x = (double)ix / Slices;
+                        textures.Add(new Point(x, y));
+                    }
+                }
+            }
+
+            // Front, back, left, right
+            for (int side = 0; side < 6; side++)
+            {
+                for (int iy = 0; iy < Stacks; iy++)
+                    for (int ix = 0; ix < Slices; ix++)
+                    {
+                        indices.Add(side * (Slices + 1) * (Stacks + 1) + iy * (Slices + 1) + ix);
+                        indices.Add(side * (Slices + 1) * (Stacks + 1) + (iy + 1) * (Slices + 1) + ix);
+                        indices.Add(side * (Slices + 1) * (Stacks + 1) + iy * (Slices + 1) + ix + 1);
+
+                        indices.Add(side * (Slices + 1) * (Stacks + 1) + iy * (Slices + 1) + ix + 1);
+                        indices.Add(side * (Slices + 1) * (Stacks + 1) + (iy + 1) * (Slices + 1) + ix);
+                        indices.Add(side * (Slices + 1) * (Stacks + 1) + (iy + 1) * (Slices + 1) + ix + 1);
+                    }
+            }
+        }*/
+
+
+
     }
 }
