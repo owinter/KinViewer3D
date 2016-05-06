@@ -18,7 +18,7 @@ namespace KinematicViewer
         public Sphere(Point3D center , double radius, MeshGeometry3D mesh)
         {
             this.center = center;
-            this.radius = radius;
+            this.radius = radius /2;
             buildSphere(mesh);
             
         }

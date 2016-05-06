@@ -9,7 +9,7 @@ namespace KinematicViewer
 {
     public class Tailgate
     {
-        private Model3DGroup group;
+        private Model3DGroup groupModelVisual;
         private GeometryModel3D cuboidGeometry,
                                 cylinderGeometry,
                                 sphereGeometry;
@@ -25,15 +25,15 @@ namespace KinematicViewer
         private List<Point3D> coordsMidTail;
 
         private double tailWidth = 1000.0;
-        private double tailDepth = 200.0;
+        private double tailDepth = 250.0;
         private double modelThickness;
 
 
-        public Tailgate(List<Point3D> axisPoints, Model3DGroup group, double modelThickness)
+        public Tailgate(List<Point3D> axisPoints, Model3DGroup groupModelVisual, double modelThickness)
         {
             this.axisPoint = axisPoints[0];
             this.handPoint = axisPoints[1];
-            this.group = group;
+            this.groupModelVisual = groupModelVisual;
             this.modelThickness = modelThickness;
 
             coordsUpTail = makeCoordsUpTail();
@@ -130,6 +130,13 @@ namespace KinematicViewer
             return points;
         }
 
+        private void buildTail()
+        {
+            buildUpTail();
+            buildMidTail();
+            buildDownTail();
+        }
+
         private void buildUpTail()
         {
             for(int i=1; i<=coordsUpTail.Count-2; i++)
@@ -170,12 +177,6 @@ namespace KinematicViewer
             }
         }
 
-        private void buildTail()
-        {
-            buildUpTail();
-            buildMidTail();
-            buildDownTail();
-        }
 
         private void generateSphere(Point3D point, double modelThickness)
         {
@@ -184,7 +185,7 @@ namespace KinematicViewer
            
             sphereGeometry = new GeometryModel3D(mesh_Sphere, new DiffuseMaterial(Brushes.Cyan));
             sphereGeometry.Transform = new Transform3DGroup();  
-            group.Children.Add(sphereGeometry);
+            groupModelVisual.Children.Add(sphereGeometry);
         }
 
         private void generateCuboid(Point3D point1, Point3D point2, double modelThickness)
@@ -194,7 +195,7 @@ namespace KinematicViewer
 
             cuboidGeometry = new GeometryModel3D(mesh_Cuboid, new DiffuseMaterial(Brushes.Cyan));
             cuboidGeometry.Transform = new Transform3DGroup();
-            group.Children.Add(cuboidGeometry);
+            groupModelVisual.Children.Add(cuboidGeometry);
         }
 
         private void generateCylinder(Point3D point1, Point3D point2)
@@ -204,14 +205,15 @@ namespace KinematicViewer
 
             cylinderGeometry = new GeometryModel3D(mesh_Cylinder, new DiffuseMaterial(Brushes.Cyan));
             cylinderGeometry.Transform = new Transform3DGroup();
-            group.Children.Add(cylinderGeometry);
+            groupModelVisual.Children.Add(cylinderGeometry);
         }
 
         public void clearModel()
         {
-            group.Children.Remove(cuboidGeometry);
-            group.Children.Remove(cylinderGeometry);
-            group.Children.Remove(sphereGeometry);
+            groupModelVisual.Children.Clear();
+            //group2.Children.Remove(cuboidGeometry);
+            //group2.Children.Remove(cylinderGeometry);
+            //group2.Children.Remove(sphereGeometry);
         }
     }
 }

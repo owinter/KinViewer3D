@@ -74,7 +74,7 @@ namespace KinematicViewer
             
             cylinderGeometry = new GeometryModel3D(mesh_Cylinder, new DiffuseMaterial(Brushes.Cyan));
             cylinderGeometry.Transform = new Transform3DGroup();
-            group.Children.Add(cylinderGeometry);*/
+            groupModelVisual.Children.Add(cylinderGeometry);*/
         }
 
         private void generateCuboid()
@@ -87,7 +87,7 @@ namespace KinematicViewer
             }
             cuboidGeometry = new GeometryModel3D(mesh_Cuboid, new DiffuseMaterial(Brushes.Cyan));
             cuboidGeometry.Transform = new Transform3DGroup();
-            group.Children.Add(cuboidGeometry);*/
+            groupModelVisual.Children.Add(cuboidGeometry);*/
         }
 
         private void generateSphere()
@@ -98,17 +98,13 @@ namespace KinematicViewer
 
             sphereGeometry = new GeometryModel3D(mesh_Sphere, new DiffuseMaterial(Brushes.Cyan));
             sphereGeometry.Transform = new Transform3DGroup();
-            group.Children.Add(sphereGeometry);*/
+            groupModelVisual.Children.Add(sphereGeometry);*/
         }
 
         private void generateModel()
         {
-            
 
-            tail = new Tailgate(AxisPoints, group, modelThickness);
-            //generateCylinder();
-            //generateCuboid();
-            //generateSphere();
+            tail = new Tailgate(AxisPoints, groupModelVisual, modelThickness);
 
             ////Kamera für Main Viewport updaten
             viewportCam.updatePositionCamera();

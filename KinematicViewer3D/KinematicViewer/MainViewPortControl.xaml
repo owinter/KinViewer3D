@@ -33,22 +33,30 @@
             <!-- Static Resource for Grid lines in different Colors-->
             <Viewport3D.Resources>
                 <MeshGeometry3D x:Key="line_v"
-                                Positions="-0.9, -500, -1000
-                                           -0.9, -500,  1000
-                                            0.9, -500,  1000
-                                            0.9, -500, -1000"        
+                                Positions="-2, -500, -1000
+                                           -2, -500,  1000
+                                            2, -500,  1000
+                                            2, -500, -1000"        
                                 TriangleIndices="0,1,2,2,3,0" />        
 
                 <MeshGeometry3D x:Key="line_h"
-                                Positions="-1000,  -500, -0.9
-                                           -1000,  -500,  0.9
-                                            1000,  -500,  0.9
-                                            1000,  -500, -0.9"                   
+                                Positions="-1000,  -500, -2
+                                           -1000,  -500,  2
+                                            1000,  -500,  2
+                                            1000,  -500, -2"                   
+                                TriangleIndices="0,1,2,2,3,0" />
+                
+                <MeshGeometry3D x:Key="ground"
+                                Positions="-1000, -500.5, -1000 
+                                           -1000, -500.5,  1000 
+                                            1000, -500.5,  1000 
+                                            1000, -500.5, -1000"
                                 TriangleIndices="0,1,2,2,3,0" />
 
                 <DiffuseMaterial x:Key="line_mat" Brush="LightGray" Color="White" />
                 <DiffuseMaterial x:Key="line_matRed" Brush="Red" />
                 <DiffuseMaterial x:Key="line_matBlue" Brush="Blue" />
+                <SolidColorBrush x:Key="groundSolid" Color="#D4D4D4" Opacity="0.1" />
             </Viewport3D.Resources>
 
 
@@ -81,206 +89,198 @@
         				                  >
                         </OrthographicCamera>  
             </Viewport3D.Camera> -->
-
-
-            <ModelVisual3D x:Name="model">
+            
+            <!-- ModelGroup for created visual Objects-->
+            <ModelVisual3D x:Name="modelVisual">
                 <ModelVisual3D.Content>
-                    <Model3DGroup x:Name="group">
+                    <Model3DGroup x:Name="groupModelVisual">
+                        
+                    </Model3DGroup>
+                </ModelVisual3D.Content>
+            </ModelVisual3D>
+            
+            <!-- ModelGroup for Lights and GroundMesh in Scene-->
+            <ModelVisual3D x:Name="modelLightsAndGround">
+                <ModelVisual3D.Content>
+                    <Model3DGroup x:Name="groupLightsAndGround">
                         <AmbientLight Color="#404040" />
                         <DirectionalLight Color="#C0C0C0" Direction="-5000, -5000, -10000" />
-                        <!-- <AmbientLight Color="LightGray" />
-                                <DirectionalLight Color="OrangeRed" Direction="-5,-5,-10" />-->
+
+                        
                         <!--GROUND GRAY -->
-                        <GeometryModel3D>
-                            <GeometryModel3D.Geometry>
-                                <MeshGeometry3D
-                                                Positions="-1000, -500.5, -1000 
-                                                           -1000, -500.5,  1000 
-                                                            1000, -500.5,  1000 
-                                                            1000, -500.5, -1000"
-                                                TriangleIndices="0,1,2,2,3,0" />
-                            </GeometryModel3D.Geometry>
+
+                        <GeometryModel3D Geometry="{StaticResource ground}">
                             <GeometryModel3D.Material>
-                                <DiffuseMaterial>
-                                    <DiffuseMaterial.Brush>
-                                        <SolidColorBrush Color="#D4D4D4" Opacity="0.1" />
-                                    </DiffuseMaterial.Brush>
-                                </DiffuseMaterial>
+                                <DiffuseMaterial Brush="{StaticResource groundSolid}" />
                             </GeometryModel3D.Material>
-
-                            <!--<GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial>
-                                            <DiffuseMaterial.Brush>
-                                                <SolidColorBrush Color="#D4D4D4" Opacity="0.3" />
-                                            </DiffuseMaterial.Brush>
-                                        </DiffuseMaterial>
-                                    </GeometryModel3D.BackMaterial>-->
+                          <!--  <GeometryModel3D.BackMaterial>
+                                <DiffuseMaterial Brush="{StaticResource groundSolid}" />
+                            </GeometryModel3D.BackMaterial> -->
                         </GeometryModel3D>
-
 
                         <!--GRID on Horizontal Plane-->
 
                         <!-- Vertical Lines-->
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_matBlue}" 
-                                                 BackMaterial="{StaticResource line_matBlue}">
+                                         Material="{StaticResource line_matBlue}" 
+                                         BackMaterial="{StaticResource line_matBlue}">
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="100" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="200" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="300" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="400" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="500" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="600" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="700" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="800" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="900" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="1000" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="-100" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="-200" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="-300" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="-400" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="-500" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="-600" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="-700" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="-800" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="-900" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetX="-1000" />
                             </GeometryModel3D.Transform>
@@ -289,635 +289,169 @@
 
                         <!-- Horizontal Lines-->
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_matRed}"
-                                                 BackMaterial="{StaticResource line_matRed}"/>
+                                         Material="{StaticResource line_matRed}"
+                                         BackMaterial="{StaticResource line_matRed}"/>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="100" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="200" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="300" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="400" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="500" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="600" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="700" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="800" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="900" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="1000" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="-100" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="-200" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="-300" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="-400" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="-500" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="-600" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="-700" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="-800" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="-900" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
-                                                 Material="{StaticResource line_mat}"
-                                                 BackMaterial="{StaticResource line_mat}">
+                                         Material="{StaticResource line_mat}"
+                                         BackMaterial="{StaticResource line_mat}">
                             <GeometryModel3D.Transform>
                                 <TranslateTransform3D OffsetZ="-1000" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
-
-                        <!--
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions="-5.0, -0.08, -5.0 
-                                                           -5.0, -0.08, -4.9 
-                                                            5.0, -0.08, -4.9 
-                                                            5.0, -0.08, -5.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions="-5.0, -0.08, -4.0 
-                                                           -5.0, -0.08, -3.9 
-                                                            5.0, -0.08, -3.9 
-                                                            5.0, -0.08, -4.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions="-5.0, -0.08, -3.0 
-                                                           -5.0, -0.08, -2.9 
-                                                            5.0, -0.08, -2.9 
-                                                            5.0, -0.08, -3.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions="-5.0, -0.08, -2.0 
-                                                           -5.0, -0.08, -1.9 
-                                                            5.0, -0.08, -1.9 
-                                                            5.0, -0.08, -2.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions="-5.0, -0.08, -1.0 
-                                                           -5.0, -0.08, -0.9 
-                                                            5.0, -0.08, -0.9 
-                                                            5.0, -0.08, -1.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions="-5.0, -0.08,  0.0 
-                                                           -5.0, -0.08,  0.1 
-                                                            5.0, -0.08,  0.1 
-                                                            5.0, -0.08,  0.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions="-5.0, -0.08,  1.0 
-                                                           -5.0, -0.08,  1.1 
-                                                            5.0, -0.08,  1.1 
-                                                            5.0, -0.08,  1.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions="-5.0, -0.08,  2.0 
-                                                           -5.0, -0.08,  2.1 
-                                                            5.0, -0.08,  2.1 
-                                                            5.0, -0.08,  2.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions="-5.0, -0.08,  3.0 
-                                                           -5.0, -0.08,  3.1 
-                                                            5.0, -0.08,  3.1 
-                                                            5.0, -0.08,  3.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions="-5.0, -0.08,  4.0 
-                                                           -5.0, -0.08,  4.1 
-                                                            5.0, -0.08,  4.1 
-                                                            5.0, -0.08,  4.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions="-5.0, -0.08,  5.0 
-                                                           -5.0, -0.08,  5.1 
-                                                            5.0, -0.08,  5.1 
-                                                            5.0, -0.08,  5.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                -->
-                        <!--GRID Vertical-->
-                        <!--
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions="-5.0, -0.08, -5.0 
-                                                           -5.0, -0.08,  5.0 
-                                                           -4.9, -0.08,  5.0 
-                                                           -4.9, -0.08, -5.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions="-4.0, -0.08, -5.0 
-                                                           -4.0, -0.08,  5.0 
-                                                           -3.9, -0.08,  5.0 
-                                                           -3.9, -0.08, -5.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions="-3.0, -0.08, -5.0 
-                                                           -3.0, -0.08,  5.0 
-                                                           -2.9, -0.08,  5.0 
-                                                           -2.9, -0.08, -5.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions="-2.0, -0.08, -5.0 
-                                                           -2.0, -0.08,  5.0 
-                                                           -1.9, -0.08,  5.0 
-                                                           -1.9, -0.08, -5.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions="-1.0, -0.08, -5.0 
-                                                           -1.0, -0.08,  5.0 
-                                                           -0.9, -0.08,  5.0 
-                                                           -0.9, -0.08, -5.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions=" 0.0, -0.08, -5.0 
-                                                            0.0, -0.08,  5.0 
-                                                            0.1, -0.08,  5.0 
-                                                            0.1, -0.08, -5.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions=" 1.0, -0.08, -5.0 
-                                                            1.0, -0.08,  5.0 
-                                                            1.1, -0.08,  5.0 
-                                                            1.1, -0.08, -5.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions=" 2.0, -0.08, -5.0 
-                                                            2.0, -0.08,  5.0 
-                                                            2.1, -0.08,  5.0 
-                                                            2.1, -0.08, -5.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions=" 3.0, -0.08, -5.0 
-                                                            3.0, -0.08,  5.0 
-                                                            3.1, -0.08,  5.0 
-                                                            3.1, -0.08, -5.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions=" 4.0, -0.08, -5.0 
-                                                            4.0, -0.08,  5.0 
-                                                            4.1, -0.08,  5.0 
-                                                            4.1, -0.08, -5.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>
-                                <GeometryModel3D>
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D
-                                                Positions=" 5.0, -0.08, -5.0 
-                                                            5.0, -0.08,  5.1 
-                                                            5.1, -0.08,  5.1 
-                                                            5.1, -0.08, -5.0"
-                                                   Normals="0,0,1 
-                                                            0,0,1 
-                                                            0,0,1 
-                                                            0,0,1"
-                                                TriangleIndices="0,1,2,2,3,0"
-                                                />
-                                    </GeometryModel3D.Geometry>
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.Material>
-                                    <GeometryModel3D.BackMaterial>
-                                        <DiffuseMaterial Brush="Black" />
-                                    </GeometryModel3D.BackMaterial>
-                                </GeometryModel3D>-->
+                        
                     </Model3DGroup>
                 </ModelVisual3D.Content>
             </ModelVisual3D>
