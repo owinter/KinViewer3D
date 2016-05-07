@@ -215,5 +215,12 @@ namespace KinematicViewer
             //group2.Children.Remove(cylinderGeometry);
             //group2.Children.Remove(sphereGeometry);
         }
+
+        public Model3DGroup GroupModelVisual
+        {
+            get { return groupModelVisual; }
+            set { groupModelVisual = value; }
+        }
+
     }
 }

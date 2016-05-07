@@ -269,6 +269,13 @@ namespace KinematicViewer
             mPoint = new Point3D(x, y, z);
         }
 
+        public void sliderRotate(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Model3DGroup rotationGroup = tail.GroupModelVisual;
+            RotateTransform3D rotate = new RotateTransform3D();
+            AxisAngleRotation3D axis = new AxisAngleRotation3D();
+        }
+
 
 
         //Öffentliche Getter & Setter Methoden

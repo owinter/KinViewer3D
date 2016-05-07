@@ -209,7 +209,7 @@ namespace KinematicViewer
                     break;
                     
             }
-
+            
             //c_SystemSmall.updateC_System(trans);
             // Set mouse position back to the center of the viewport in screen coordinates
             MouseUtilities.SetPosition(centerOfViewport);

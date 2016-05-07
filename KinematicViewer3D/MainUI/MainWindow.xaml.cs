@@ -132,7 +132,7 @@ namespace MainUI
         //Ändert den Öffnungswinkel des Objektes anhand des Sliders
         private void change_open_ObjectAngle(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-
+            mvpControl.sliderRotate(sender, e);
         }
 
 
