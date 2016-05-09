@@ -112,6 +112,7 @@ namespace MainUI
             mvpControl.AxisPoints = axisPoints;
             mvpControl.ModelThickness = modelThickness;
             mvpControl.createModel();
+            slider_open_ObjectAngle.Value = 0.0;
         }
 
         //Button Listener für das Löschen der ListBox
