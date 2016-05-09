@@ -32,7 +32,7 @@ namespace KinematicViewer
 
         public void Zoom(ProjectionCamera camera, double amount)
         {
-            // For zooming we simply change the Z-position of the camera
+            // Änderung der Kameraposition über dessen Position auf der Z- Achse
             camera.Position = new Point3D(camera.Position.X, camera.Position.Y, camera.Position.Z - amount);
         }
 
@@ -41,12 +41,11 @@ namespace KinematicViewer
             double theta = yaw / 3;
             double phi = pitch / 3;
 
-            // Clamp phi (pitch) between -90 and 90 to avoid 'going upside down'
-            // Just remove this if you want to make loopings :)
+            //Bereich in dem rotiert wird
             if (phi < -90) phi = -90;
             if (phi > 90) phi = 90;
 
-            // Here the rotation magic happens. Ask jemidiah for details, I've no clue :P
+            
             Vector3D thetaAxis = new Vector3D(0, 1, 0);
             Vector3D phiAxis = new Vector3D(-1, 0, 0);
 

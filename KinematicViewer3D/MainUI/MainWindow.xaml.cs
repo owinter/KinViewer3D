@@ -135,6 +135,11 @@ namespace MainUI
             mvpControl.sliderRotate(sender, e);
         }
 
+        //Objekttransformation zurücksetzen
+        private void reset_Model_Transformation_Button_Click(object sender, RoutedEventArgs e)
+        {
+            mvpControl.resetModelTransformation(sender, e);
+        }
 
         //Koordinateneingabe in 3D Punkte umwandeln
         private void convertUserInput()
@@ -181,7 +186,7 @@ namespace MainUI
             checkBox1.Content = "Objekt: " + "\n"
                                 + "P1(" + value_X1.Text + ", "
                                         + value_Y1.Text + ", "
-                                        + value_Z1.Text + ")  "
+                                        + value_Z1.Text + ")  \n"
                                 + "P2(" + value_X2.Text + ", "
                                         + value_Y2.Text + ", "
                                         + value_Z2.Text + ") \n"

@@ -300,7 +300,7 @@
 							    HorizontalAlignment="Left"
 							    VerticalAlignment="Center"
 							    TickPlacement="BottomRight" 
-							    TickFrequency="1" 
+							    TickFrequency="5" 
 							    IsSnapToTickEnabled="True"
 							    Focusable="True"
 							    ValueChanged="change_open_ObjectAngle" />
@@ -308,8 +308,8 @@
                     <StackPanel Margin="45,0,0,0">
                         <Label FontSize="11" Content="Objekttransformation zurücksetzen"/>
                         <Button x:Name="reset_button" 
-							    Content="reset"  
-							    Click="reset_Button_Click"
+							    Content="zurücksetzen"  
+							    Click="reset_Model_Transformation_Button_Click"
 							    Height="22"
 							    Width="160"
 							    Focusable="False"/>
