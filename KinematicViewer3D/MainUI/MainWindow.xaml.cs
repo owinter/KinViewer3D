@@ -139,6 +139,7 @@ namespace MainUI
         private void reset_Model_Transformation_Button_Click(object sender, RoutedEventArgs e)
         {
             mvpControl.resetModelTransformation(sender, e);
+            slider_open_ObjectAngle.Value = 0.0;
         }
 
         //Koordinateneingabe in 3D Punkte umwandeln

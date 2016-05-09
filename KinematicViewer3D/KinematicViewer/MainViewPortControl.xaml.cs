@@ -271,24 +271,33 @@ namespace KinematicViewer
 
         public void sliderRotate(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            try
+            {
+                double axisAngle = e.NewValue;
 
-            double axisAngle = e.NewValue;
+                Point3D axisPoint = AxisPoints[0];
+                Vector3D axisOfRotation = new Vector3D(0, 0, axisAngle);
 
-            Point3D axisPoint = AxisPoints[0];
-            Vector3D axisOfRotation = new Vector3D(0, 0, axisAngle);
+                AxisAngleRotation3D aARot = new AxisAngleRotation3D(axisOfRotation, axisAngle);
+                RotateTransform3D rotation = new RotateTransform3D(aARot, axisPoint);
+                groupModelVisual.Transform = rotation;
 
-            AxisAngleRotation3D aARot = new AxisAngleRotation3D(axisOfRotation, axisAngle);
-            RotateTransform3D rotation = new RotateTransform3D(aARot, axisPoint);
-            groupModelVisual.Transform = rotation;
+                /*
+                double rotationValue = 0.01 * Math.Sqrt(Math.Pow(axisAngle, 2));
 
-            /*
-            double rotationValue = 0.01 * Math.Sqrt(Math.Pow(axisAngle, 2));
+                Transform3DGroup transformGroup = tail.GroupModelVisual.Transform as Transform3DGroup;
+                QuaternionRotation3D qr = new QuaternionRotation3D(new Quaternion(axisOfRotation, rotationValue * 180 / Math.PI));
+                transformGroup.Children.Add(new RotateTransform3D(qr,axisPoint));
 
-            Transform3DGroup transformGroup = tail.GroupModelVisual.Transform as Transform3DGroup;
-            QuaternionRotation3D qr = new QuaternionRotation3D(new Quaternion(axisOfRotation, rotationValue * 180 / Math.PI));
-            transformGroup.Children.Add(new RotateTransform3D(qr,axisPoint));
+                //tail.GroupModelVisual = groupModelVisual;*/
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Zuerst 3D Modell erstellen, dann erst Öfnungswinkel verändern. \n"
+                    + ex.Message, "Exception Sample", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
 
-            //tail.GroupModelVisual = groupModelVisual;*/
+
         }
 
         public void resetModelTransformation(object sender, RoutedEventArgs e)
