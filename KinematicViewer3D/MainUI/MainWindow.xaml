@@ -67,7 +67,7 @@
         </Border>
 
         <!--LEFT DOCK PANEL-->
-        <Border Width="200" 
+        <Border Width="250" 
 			    Background="LightGray" 
 			    BorderBrush="Black" 
 			    BorderThickness="0" 
@@ -76,67 +76,125 @@
             <StackPanel>
                 <Border Background="LightGray" 
 					    BorderBrush="Silver" 
-					    Width="170" 
+					    Width="240" 
 					    BorderThickness="2" 
 					    CornerRadius="10,10,10,10"
 					    Margin="0,5,0,0"
                         Focusable="False">
                     <StackPanel x:Name="coordinateInput">
-                        <StackPanel>
-                            <Label FontSize="11" FontWeight="Bold" Content="Achsenpunkt"/>
+                        <StackPanel Orientation="Horizontal" >
+                            <StackPanel Orientation="Vertical" > 
+                                <StackPanel>
+                                    <Label FontSize="11" FontWeight="Bold" Content="Achsenpunkt"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Margin="10,0,0,0" FontSize="11" Content="X"/>
+                                    <TextBox x:Name="value_X1" 
+								             Width="50"
+								             Height="20"
+								             Margin="3,0,0,0" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Margin="10,0,0,0" FontSize="11" Content="Y"/>
+                                    <TextBox x:Name="value_Y1" 
+								             Width="50" 
+								             Height="20"
+								             Margin="3,0,0,0" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Margin="10,0,0,0" FontSize="11" Content="Z"/>
+                                    <TextBox x:Name="value_Z1" 
+								             Width="50" 
+								             Height="20"
+								             Margin="3,0,0,0" />
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Margin="50,0,0,0" Orientation="Vertical" >
+                                <Label Margin="10,0,0,0" FontSize="11" FontWeight="Bold" Content="Att. Punkt Body" />
+                                <StackPanel Orientation="Horizontal" >
+                                    <Label Margin="10,0,0,0" FontSize="11" Content="X"/>
+                                    <TextBox x:Name="value_X3" 
+								         Width="50"
+								         Height="20"
+								         Margin="3,0,0,0" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Margin="10,0,0,0" FontSize="11" Content="Y"/>
+                                    <TextBox x:Name="value_Y3" 
+								         Width="50" 
+								         Height="20"
+								         Margin="3,0,0,0" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Margin="10,0,0,0" FontSize="11" Content="Z"/>
+                                    <TextBox x:Name="value_Z3" 
+								         Width="50" 
+								         Height="20"
+								         Margin="3,0,0,0" />
+                                </StackPanel>
+                            </StackPanel>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Margin="10,0,0,0" FontSize="11" Content="X"/>
-                            <TextBox x:Name="value_X1" 
-								     Width="50"
-								     Height="20"
-								     Margin="3,0,0,0" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Margin="10,0,0,0" FontSize="11" Content="Y"/>
-                            <TextBox x:Name="value_Y1" 
+                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal" >
+                            <StackPanel Orientation="Vertical" >
+                                <StackPanel>
+                                    <Label FontSize="11" FontWeight="Bold" Content="Handangriffspunkt"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Margin="10,0,0,0" FontSize="11" Content="X"/>
+                                    <TextBox x:Name="value_X2" 
+								         Width="50" 
+								         Height="20"
+								         Margin="3,0,0,0" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Margin="10,0,0,0" FontSize="11" Content="Y"/>
+                                    <TextBox x:Name="value_Y2" 
+								         Width="50" 
+								         Height="20"
+								         Margin="3,0,0,0" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Margin="10,0,0,0" FontSize="11" Content="Z"/>
+                                    <TextBox x:Name="value_Z2" 
+								         Width="50" 
+								         Height="20"
+								         Margin="3,0,0,0" />
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Margin="20,0,0,0" Orientation="Vertical">
+                                <StackPanel>
+                                    <Label FontSize="11" FontWeight="Bold" Content="Att. Punkt Door"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Margin="10,0,0,0" FontSize="11" Content="X"/>
+                                    <TextBox x:Name="value_X4" 
 								     Width="50" 
 								     Height="20"
 								     Margin="3,0,0,0" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Margin="10,0,0,0" FontSize="11" Content="Z"/>
-                            <TextBox x:Name="value_Z1" 
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Margin="10,0,0,0" FontSize="11" Content="Y"/>
+                                    <TextBox x:Name="value_Y4" 
 								     Width="50" 
 								     Height="20"
 								     Margin="3,0,0,0" />
-                        </StackPanel>
-                        <StackPanel Margin="0,5,0,0">
-                            <Label FontSize="11" FontWeight="Bold" Content="Handangriffspunkt"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Margin="10,0,0,0" FontSize="11" Content="X"/>
-                            <TextBox x:Name="value_X2" 
-								     Width="50" 
-								     Height="20"
-								     Margin="3,0,0,0" /> 
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Margin="10,0,0,0" FontSize="11" Content="Y"/>
-                            <TextBox x:Name="value_Y2" 
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Margin="10,0,0,0" FontSize="11" Content="Z"/>
+                                    <TextBox x:Name="value_Z4" 
 								     Width="50" 
 								     Height="20"
 								     Margin="3,0,0,0" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Margin="10,0,0,0" FontSize="11" Content="Z"/>
-                            <TextBox x:Name="value_Z2" 
-								     Width="50" 
-								     Height="20"
-								     Margin="3,0,0,0" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Margin="0,5,0,0"
-                                   FontSize="11"
+                                </StackPanel>
+                            </StackPanel>
+                            
+                    </StackPanel>
+                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                            <Label FontSize="11"
                                    FontWeight="Bold"
-                                   Content="Elementbreite in mm:"/>
+                                   Content="Elementbreite in [mm]:"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <StackPanel  Margin="0,0,0,5" Orientation="Horizontal">
                             <Slider x:Name="slider_Model_Thickness"
 								    Width="120"
 								    Minimum="10"

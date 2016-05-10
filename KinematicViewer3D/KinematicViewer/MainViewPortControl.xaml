@@ -33,24 +33,24 @@
             <!-- Static Resource for Grid lines in different Colors-->
             <Viewport3D.Resources>
                 <MeshGeometry3D x:Key="line_v"
-                                Positions="-2, -500, -1000
-                                           -2, -500,  1000
-                                            2, -500,  1000
-                                            2, -500, -1000"        
+                                Positions="-2, -1000, -1000
+                                           -2, -1000,  1000
+                                            2, -1000,  1000
+                                            2, -1000, -1000"        
                                 TriangleIndices="0,1,2,2,3,0" />        
 
                 <MeshGeometry3D x:Key="line_h"
-                                Positions="-1000,  -500, -2
-                                           -1000,  -500,  2
-                                            1000,  -500,  2
-                                            1000,  -500, -2"                   
+                                Positions="-1000,  -1000, -2
+                                           -1000,  -1000,  2
+                                            1000,  -1000,  2
+                                            1000,  -1000, -2"                   
                                 TriangleIndices="0,1,2,2,3,0" />
                 
                 <MeshGeometry3D x:Key="ground"
-                                Positions="-1000, -500.5, -1000 
-                                           -1000, -500.5,  1000 
-                                            1000, -500.5,  1000 
-                                            1000, -500.5, -1000"
+                                Positions="-1000, -1000.5, -1000 
+                                           -1000, -1000.5,  1000 
+                                            1000, -1000.5,  1000 
+                                            1000, -1000.5, -1000"
                                 TriangleIndices="0,1,2,2,3,0" />
 
                 <DiffuseMaterial x:Key="line_mat" Brush="LightGray" Color="White" />
@@ -90,12 +90,18 @@
                         </OrthographicCamera>  
             </Viewport3D.Camera> -->
             
-            <!-- ModelGroup for created visual Objects-->
+            <!-- Model Visuals for all created visual Objects-->
+            <!-- Visual Model Group for Tailgates & Doors-->
             <ModelVisual3D x:Name="modelVisual">
                 <ModelVisual3D.Content>
-                    <Model3DGroup x:Name="groupModelVisual">
-                        
-                    </Model3DGroup>
+                    <Model3DGroup x:Name="groupModelVisual" />
+                </ModelVisual3D.Content>
+            </ModelVisual3D>
+            
+            <!-- Visual Model Group for Drives-->
+            <ModelVisual3D x:Name="driveVisual">
+                <ModelVisual3D.Content>
+                    <Model3DGroup x:Name="groupDriveVisual" />
                 </ModelVisual3D.Content>
             </ModelVisual3D>
             

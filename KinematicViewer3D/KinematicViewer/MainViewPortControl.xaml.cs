@@ -61,6 +61,7 @@ namespace KinematicViewer
 
             viewportCam.startPerspectiveCamera();
             viewportCam.MyCam = Cam.Perspective;
+            viewportCam.resetCam();
 
 
             //viewportCam.resetCam();
@@ -104,8 +105,9 @@ namespace KinematicViewer
         private void generateModel()
         {
 
-            tail = new Tailgate(AxisPoints, groupModelVisual, modelThickness);
+            tail = new Tailgate(AxisPoints, groupModelVisual, groupDriveVisual, modelThickness);
             trans.resetModelTransformation(groupModelVisual);
+            trans.resetModelTransformation(groupDriveVisual);
             
 
             ////Kamera für Main Viewport updaten

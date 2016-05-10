@@ -27,7 +27,7 @@ namespace KinematicViewer
         public OrthographicCamera o_Camera;
 
         //Kamerabreite für orthographische Kamera
-        private double o_Width = 1300;
+        private double o_Width = 3000;
 
         private double zoomFactor = 100;
 
@@ -57,11 +57,11 @@ namespace KinematicViewer
         public void startPerspectiveCamera()
         {
             p_Camera = new PerspectiveCamera();
-            p_Camera.Position = new Point3D(0, 100, 2000);
-            p_Camera.LookDirection = new Vector3D(0, -100, -2000);
+            p_Camera.Position = new Point3D(0, 100, 3500);
+            p_Camera.LookDirection = new Vector3D(0, -100, -3500);
             p_Camera.UpDirection = new Vector3D(0, 1, 0);
             p_Camera.FieldOfView = 45;
-            p_Camera.FarPlaneDistance = 15000;
+            p_Camera.FarPlaneDistance = 25000;
             p_Camera.NearPlaneDistance = 0.125;
             trans.Reset(p_Camera);
             viewport.Camera = p_Camera;
@@ -71,10 +71,10 @@ namespace KinematicViewer
         public void startOrthographicCamera()
         {
             o_Camera = new OrthographicCamera();
-            o_Camera.Position = new Point3D(0, 100, 2000);
-            o_Camera.LookDirection = new Vector3D(0, -100, -2000);
+            o_Camera.Position = new Point3D(0, 100, 3500);
+            o_Camera.LookDirection = new Vector3D(0, -100, -3500);
             o_Camera.UpDirection = new Vector3D(0, 1, 0);
-            o_Camera.FarPlaneDistance = 15000;
+            o_Camera.FarPlaneDistance = 25000;
             o_Camera.NearPlaneDistance = 0.125;
             o_Camera.Width = o_Width;
             trans.Reset(o_Camera);
@@ -87,27 +87,6 @@ namespace KinematicViewer
         {
             switch (MyCam)
             {
-                case Cam.Orthographic:
-                    {
-                        /*double y = cameraR * Math.Sin(cameraPhi);
-                        double hyp = cameraR * Math.Cos(cameraPhi);
-                        double x = hyp * Math.Cos(cameraTheta);
-                        double z = hyp * Math.Sin(cameraTheta);
-                        //Neue Koordinate für die orthographische Kamera
-                        o_Camera.Position = new Point3D(x, y, z);
-                        //Lookdirection zum Ursprung
-                        o_Camera.LookDirection = new Vector3D(-x, -y, -z);
-                        //Der Kamera sagen, wo oben ist --> Y
-                        o_Camera.UpDirection = new Vector3D(0, 1, 0);
-                        //updaten der Kamerabreite
-                        o_Camera.Width = o_Cam_Width;*/
-                        ya = trans.getYaw();
-                        pit = trans.getPitch();
-                        o_Camera.Width = o_Width;
-
-                    }
-                    break;
-
                 case Cam.Perspective:
                     {
                         /* double y = cameraR * Math.Sin(cameraPhi);
@@ -127,6 +106,26 @@ namespace KinematicViewer
                     }
                     break;
 
+                case Cam.Orthographic:
+                    {
+                        /*double y = cameraR * Math.Sin(cameraPhi);
+                        double hyp = cameraR * Math.Cos(cameraPhi);
+                        double x = hyp * Math.Cos(cameraTheta);
+                        double z = hyp * Math.Sin(cameraTheta);
+                        //Neue Koordinate für die orthographische Kamera
+                        o_Camera.Position = new Point3D(x, y, z);
+                        //Lookdirection zum Ursprung
+                        o_Camera.LookDirection = new Vector3D(-x, -y, -z);
+                        //Der Kamera sagen, wo oben ist --> Y
+                        o_Camera.UpDirection = new Vector3D(0, 1, 0);
+                        //updaten der Kamerabreite
+                        o_Camera.Width = o_Cam_Width;*/
+                        ya = trans.getYaw();
+                        pit = trans.getPitch();
+                        o_Camera.Width = o_Width;
+                    }
+                    break;
+
                 default:
                     throw new Exception("unidentified Cam");
             }
@@ -140,8 +139,8 @@ namespace KinematicViewer
                 case Cam.Perspective:
                     {
                         // Kamera Postion für Main Viewer reloaden
-                        p_Camera.Position = new Point3D(0, 100, 200);
-                        p_Camera.LookDirection = new Vector3D(0, -100, -2000);
+                        p_Camera.Position = new Point3D(0, 100, 3500);
+                        p_Camera.LookDirection = new Vector3D(0, -100, -3500);
                         p_Camera.UpDirection = new Vector3D(0, 1, 0);
                     }
                     break;
@@ -149,8 +148,8 @@ namespace KinematicViewer
                 case Cam.Orthographic:
                     {
                         // Kamera Postion für Main Viewer reloaden
-                        o_Camera.Position = new Point3D(0, 100, 2000);
-                        o_Camera.LookDirection = new Vector3D(0, -100, -2000);
+                        o_Camera.Position = new Point3D(0, 100, 3500);
+                        o_Camera.LookDirection = new Vector3D(0, -100, -3500);
                         o_Camera.UpDirection = new Vector3D(0, 1, 0);
                     }
                     break;
@@ -162,7 +161,7 @@ namespace KinematicViewer
              cameraR = 13;*/
 
             //orthographische Kamerabreite zurücksetzen
-            o_Width = 1300;
+            o_Width = 3000;
 
             //Kamera des Koordinatensystems reloaden
             c_SystemSmall.reloadCoordinateSystem();
@@ -181,13 +180,13 @@ namespace KinematicViewer
 
         public void rotateCam()
         {
-            // Get mouse position relative to viewport and transform it to the center
-            // Literally, actualRelativePos contains the X and Y amounts that the mouse is away from the center of the viewport
+            //Liefert die Mausposition relativ zum Viewport3D und transformiert sie zum Center
+            //actualRelativePos beinhaltet die X und Y Entfernung vom Center des Viewports
             Point relativePos = Mouse.GetPosition(viewport);
             Point actualRelativePos = new Point(relativePos.X - viewport.ActualWidth / 2, viewport.ActualHeight / 2 - relativePos.Y);
 
-            // dx and dy are the amounts  by which the mouse moved this move event. Since we keep resetting the mouse to the
-            // center, this is just the new position of the mouse, relative to the center: actualRelativePos.
+            //dx und dy sind die Beträge, um jene die Maus dieses Maus Move Events bewegt.
+            //Beim Rücksetzen der Maus zum Center, ist dies einfach die neue Position der Maus , relativ zum Center 
             double dx = actualRelativePos.X;
             double dy = actualRelativePos.Y;
 
@@ -211,7 +210,7 @@ namespace KinematicViewer
             }
             
             //c_SystemSmall.updateC_System(trans);
-            // Set mouse position back to the center of the viewport in screen coordinates
+            //Rücksetzen der MausPosition zum Center vom Viewport in Bildschirm Koordinaten
             MouseUtilities.SetPosition(centerOfViewport);
         }
 
@@ -219,10 +218,10 @@ namespace KinematicViewer
 
         public void setMouseToCenter()
         {
-            // Calculate the center of the viewport in screen coordinates
+            // Berechnen vom Center des Viewports in Bildschirmkoordinaten
             centerOfViewport = viewport.PointToScreen(new Point(viewport.ActualWidth / 2, viewport.ActualHeight / 2));
 
-            // Set the mouse cursor to that position
+            // Rücksetzen der Maus auf diese Position (Mitte des Viewports)
             MouseUtilities.SetPosition(centerOfViewport);
         }
 
@@ -232,7 +231,8 @@ namespace KinematicViewer
             {
                 case Cam.Perspective:
                     {
-                        p_Camera.Position = new Point3D(p_Camera.Position.X, p_Camera.Position.Y, 2000);
+                        p_Camera.Position = new Point3D(p_Camera.Position.X, p_Camera.Position.Y, 3500);
+                        p_Camera.LookDirection = new Vector3D(-p_Camera.Position.X, -p_Camera.Position.Y, -3500);
                         p_Camera.Transform = new Transform3DGroup();
                         trans.setYaw(0);
                         trans.setPitch(0);
@@ -241,15 +241,18 @@ namespace KinematicViewer
 
                 case Cam.Orthographic:
                     {
-                        o_Camera.Position = new Point3D(o_Camera.Position.X, o_Camera.Position.Y, 2000);
+                        o_Camera.Position = new Point3D(o_Camera.Position.X, o_Camera.Position.Y, 3500);
+                        o_Camera.LookDirection = new Vector3D(-o_Camera.Position.X, -o_Camera.Position.Y, -3500);
+                        o_Width = 3000;
+                        o_Camera.Width = o_Width;
                         o_Camera.Transform = new Transform3DGroup();
                         trans.setYaw(0);
-                        trans.setPitch(0);
-                        //o_Width = 1300;
+                        trans.setPitch(0);  
                     }
                     break;
             }
-            o_Width = 1300;
+            
+            
         }
         //Listener für die Tastatureingabe 
         public void viewport_KeyDown( object sender, KeyEventArgs e)
@@ -360,7 +363,10 @@ namespace KinematicViewer
             updatePositionCamera();
         }
 
-        //Toolbox Funktionen
+        /// <summary>
+        /// TOOLBOX Funktionen
+        /// </summary>
+
         public void viewFront()
         {
             resetCam();

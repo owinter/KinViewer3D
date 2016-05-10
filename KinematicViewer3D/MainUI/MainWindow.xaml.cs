@@ -152,6 +152,12 @@ namespace MainUI
 
             //Punkt für Haltegriff ( Handangriffspunkt)
             double x2, y2, z2;
+
+            //Fester Punkt für Antrieb an Karrosserie
+            double x3, y3, z3;
+
+            //Punkt für Antrieb an Heckklappe
+            double x4, y4, z4;
             try
             {
                 // Koordinaten der Drehachse
@@ -164,11 +170,25 @@ namespace MainUI
                 y2 = Convert.ToDouble(value_Y2.Text);
                 z2 = Convert.ToDouble(value_Z2.Text);
 
+                //Koordinaten für Antrieb an Karrosserie
+                x3 = Convert.ToDouble(value_X3.Text);
+                y3 = Convert.ToDouble(value_Y3.Text);
+                z3 = Convert.ToDouble(value_Z3.Text);
+
+                //Koordinaten für Antrieb an Heckklappe
+                x4 = Convert.ToDouble(value_X4.Text);
+                y4 = Convert.ToDouble(value_Y4.Text);
+                z4 = Convert.ToDouble(value_Z4.Text);
+
                 Point3D p1 = new Point3D(x1, y1, z1);
                 Point3D p2 = new Point3D(x2, y2, z2);
+                Point3D p3 = new Point3D(x3, y3, z3);
+                Point3D p4 = new Point3D(x4, y4, z4);
 
                 axisPoints.Add(p1);
                 axisPoints.Add(p2);
+                axisPoints.Add(p3);
+                axisPoints.Add(p4);
             }
             catch (Exception ex)
             {
@@ -192,6 +212,15 @@ namespace MainUI
                                 + "P2(" + value_X2.Text + ", "
                                         + value_Y2.Text + ", "
                                         + value_Z2.Text + ") \n"
+                                +"\n"
+                                +"Antrieb: " +"\n"
+                                + "P3(" + value_X3.Text + ", "
+                                        + value_Y3.Text + ", "
+                                        + value_Z3.Text + ") \n"
+                                + "P4(" + value_X4.Text + ", "
+                                        + value_Y4.Text + ", "
+                                        + value_Z4.Text + ") \n"
+
                                         + "Elementbreite in mm: " + modelThickness + "\n";
             listBox1.Items.Add(checkBox1);
 
