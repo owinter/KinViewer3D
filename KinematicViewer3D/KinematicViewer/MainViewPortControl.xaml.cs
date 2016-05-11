@@ -333,8 +333,8 @@ namespace KinematicViewer
 
             Random rand = new Random();
             mat.Brush = new SolidColorBrush(Color.FromRgb((byte)rand.Next(256),
-                                                           (byte)rand.Next(256),
-                                                           (byte)rand.Next(256)));
+                                                          (byte)rand.Next(256),
+                                                          (byte)rand.Next(256)));
         }
 
 

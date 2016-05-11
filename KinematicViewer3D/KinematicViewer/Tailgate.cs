@@ -287,5 +287,11 @@ namespace KinematicViewer
             set { groupDriveVisual = value; }
         }
 
+        public Point3D getPosition()
+        {
+            Point3D point = sphere.getPosition();
+            return point;
+        }
+
     }
 }

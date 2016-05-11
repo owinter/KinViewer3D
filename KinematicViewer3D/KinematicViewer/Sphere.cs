@@ -22,6 +22,10 @@ namespace KinematicViewer
             buildSphere(mesh);
             
         }
+        public Point3D getPosition()
+        {
+            return center;
+        }
 
         public int Slices
         {
