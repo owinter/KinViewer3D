@@ -88,11 +88,11 @@ namespace KinematicViewer
         {
             List<Point3D> points = new List<Point3D>();
 
-            Point3D pM = new Point3D(handPoint.X + 50, handPoint.Y, handPoint.Z);
+            Point3D pM  = new Point3D(handPoint.X + 50, handPoint.Y, handPoint.Z);
             Point3D pML = new Point3D(pM.X, pM.Y, pM.Z + tailWidth / 2);
-            Point3D pFL = new Point3D(pML.X, pML.Y - tailDepth/2, pML.Z);
+            Point3D pFL = new Point3D(pML.X, pML.Y - tailDepth, pML.Z);
             Point3D pFR = new Point3D(pFL.X, pFL.Y, pFL.Z - tailWidth);
-            Point3D pMR = new Point3D(pFR.X, pFR.Y + tailDepth/2, pFR.Z);
+            Point3D pMR = new Point3D(pFR.X, pFR.Y + tailDepth, pFR.Z);
             Point3D pBR = new Point3D(pMR.X, pMR.Y + tailDepth/2, pMR.Z);
             Point3D pBL = new Point3D(pBR.X, pBR.Y, pBR.Z + tailWidth);
 

@@ -396,7 +396,9 @@
                                              Background="#eee9e9"
                                              IsLocked="False"
                                              >
-                                    <ToolBar Width="Auto"
+                                    <ToolBar Width="{Binding ActualWidth, 
+                                                             RelativeSource={RelativeSource FindAncestor, 
+                                                                                            AncestorType={x:Type ToolBarTray}}}" 
                                              BorderThickness="1,1,1,0" 
                                              ClipToBounds="True"
                                              UseLayoutRounding="True" 
@@ -456,6 +458,8 @@
                                                 Click="toolBox_Bottom_Button_Click">
                                             <Image Source="Image\Icons\16x16\bottom_side.png" />
                                         </Button>
+
+                                        <Separator Margin="5,0,0,0" />
                                     </ToolBar>
                                 </ToolBarTray>
 
