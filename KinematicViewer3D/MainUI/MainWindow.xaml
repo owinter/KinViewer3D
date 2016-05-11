@@ -353,20 +353,20 @@
                          <StackPanel Orientation="Horizontal">
                               <Label FontSize="11"
                                      FontWeight="Bold"
-                                     Content="Öffnungswinkel:"/>
+                                     Content="Öffnungswinkel in [%]: "/>
                               <TextBox Text="{Binding Value, ElementName=slider_open_ObjectAngle, UpdateSourceTrigger=PropertyChanged}" 
 								       TextAlignment="Right" 
 								       Width="40" 
                                        Focusable="True" />
                           </StackPanel>    
                         <Slider x:Name = "slider_open_ObjectAngle" 
-							    Width = "360"  
+							    Width = "510"  
 							    Minimum="0"
 							    Maximum = "100"
 							    HorizontalAlignment="Left"
 							    VerticalAlignment="Center"
 							    TickPlacement="BottomRight" 
-							    TickFrequency="5" 
+							    TickFrequency="1" 
 							    IsSnapToTickEnabled="True"
                                 AutoToolTipPlacement="TopLeft"
 							    Focusable="True"
@@ -394,15 +394,15 @@
                             <DockPanel>
                                 <ToolBarTray DockPanel.Dock="Top"
                                              Background="#eee9e9"
-                                             IsLocked="False"
-                                             >
-                                    <ToolBar Width="{Binding ActualWidth, 
-                                                             RelativeSource={RelativeSource FindAncestor, 
-                                                                                            AncestorType={x:Type ToolBarTray}}}" 
-                                             BorderThickness="1,1,1,0" 
+                                             IsLocked="False" >
+                                    <ToolBar BorderThickness="1,1,1,0" 
                                              ClipToBounds="True"
                                              UseLayoutRounding="True" 
-                                             Background="White" >
+                                             Background="White" 
+                                             Width="{Binding ActualWidth, 
+                                                             RelativeSource={RelativeSource FindAncestor, 
+                                                                           AncestorType={x:Type ToolBarTray}}}">
+                                        
                                         
                                         <Button x:Name="toolBox_Reset_Button"
                                                 Margin="5,0,0,0"

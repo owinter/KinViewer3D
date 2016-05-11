@@ -30,7 +30,7 @@ namespace KinematicViewer
         private List<Point3D> coordsMidTail;
         private List<Point3D> coordsDrive;
 
-        private double tailWidth = 1150.0;
+        private double tailWidth = 1250.0;
         private double tailDepth = 200.0;
         private double modelThickness;
 

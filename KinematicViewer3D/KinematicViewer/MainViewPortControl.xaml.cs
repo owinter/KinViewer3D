@@ -48,6 +48,9 @@ namespace KinematicViewer
         //Breite bzw Dicke des jeweiligen Models
         private double modelThickness;
 
+        //maximaler Öffnungswinkel
+        double maxOpen = 62.5;
+
 
         public MainViewPortControl()
         {
@@ -165,12 +168,46 @@ namespace KinematicViewer
         private void MainGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             mouseDownLeft = true;
+            CanMoveCamera = false;
             viewport_MouseDown(sender, e);
+
+            //Testverfahren für mögliches Hittesting
+            Point pt = e.GetPosition(viewport);
+            VisualTreeHelper.HitTest(viewport, null, HitTestDown, new PointHitTestParameters(pt));
+        }
+
+        //HitTest Verhalten wenn auf einen Antrieb oder ein visuelles Model geklickt wird
+        HitTestResultBehavior HitTestDown(HitTestResult result)
+        {
+            RayMeshGeometry3DHitTestResult resultMesh = result as RayMeshGeometry3DHitTestResult;
+
+            if (resultMesh == null)
+                return HitTestResultBehavior.Continue;
+
+            ModelVisual3D vis = resultMesh.VisualHit as ModelVisual3D;
+
+            if (vis == null)
+                return HitTestResultBehavior.Continue;
+
+            if(vis == (viewport.FindName("driveVisual") as ModelVisual3D))
+            {
+                changeModelColorRandom(resultMesh);
+                return HitTestResultBehavior.Stop;
+            }
+
+            if(vis == (viewport.FindName("modelVisual") as ModelVisual3D))
+            {
+                changeModelColorRandom(resultMesh);
+                return HitTestResultBehavior.Stop;
+            }
+            return HitTestResultBehavior.Continue;
+            
         }
 
         private void MainGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             mouseDownLeft = false;
+            CanMoveCamera = true;
         }
 
         //TASTATURSTEUERUNG für KEY Down
@@ -275,14 +312,29 @@ namespace KinematicViewer
 
         public void sliderRotate(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            double axisAngle = e.NewValue;
+            double axisAngle = e.NewValue *maxOpen / 100;
             trans.rotateModel(axisAngle, axisPoints, groupModelVisual);
+            trans.rotateDrive(axisAngle, axisPoints, groupDriveVisual);
         }
 
         public void resetModelTransformation(object sender, RoutedEventArgs e)
         {
             trans.resetModelTransformation(groupModelVisual);
             e.Handled = true;
+        }
+
+
+
+
+        private void changeModelColorRandom(RayMeshGeometry3DHitTestResult resultMesh)
+        {
+            GeometryModel3D model = resultMesh.ModelHit as GeometryModel3D;
+            DiffuseMaterial mat = model.Material as DiffuseMaterial;
+
+            Random rand = new Random();
+            mat.Brush = new SolidColorBrush(Color.FromRgb((byte)rand.Next(256),
+                                                           (byte)rand.Next(256),
+                                                           (byte)rand.Next(256)));
         }
 
 

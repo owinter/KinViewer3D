@@ -203,26 +203,27 @@ namespace MainUI
         //Erstellen des TextBox Inhaltes
         private void fill_TextBox()
         {
-            CheckBox checkBox1 = new CheckBox();
-            checkBox1.Focusable = true;
-            checkBox1.Content = "Objekt: " + "\n"
+            //CheckBox checkBox1 = new CheckBox();
+            //checkBox1.Focusable = true;
+            //checkBox1.Content
+             
+            listBox1.Items.Add( "Objekt: " + "\n"
                                 + "P1(" + value_X1.Text + ", "
                                         + value_Y1.Text + ", "
                                         + value_Z1.Text + ")  \n"
                                 + "P2(" + value_X2.Text + ", "
                                         + value_Y2.Text + ", "
                                         + value_Z2.Text + ") \n"
-                                +"\n"
+                                + "Elementbreite in mm: " + modelThickness + "\n"
+                                + "\n"
                                 +"Antrieb: " +"\n"
                                 + "P3(" + value_X3.Text + ", "
                                         + value_Y3.Text + ", "
                                         + value_Z3.Text + ") \n"
                                 + "P4(" + value_X4.Text + ", "
                                         + value_Y4.Text + ", "
-                                        + value_Z4.Text + ") \n"
-
-                                        + "Elementbreite in mm: " + modelThickness + "\n";
-            listBox1.Items.Add(checkBox1);
+                                        + value_Z4.Text + ") \n");
+            //listBox1.Items.Add(checkBox1);
 
         }
 
