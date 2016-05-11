@@ -460,6 +460,11 @@
                                         </Button>
 
                                         <Separator Margin="5,0,0,0" />
+                                        <TextBlock x:Name="statusPane"
+                                                   Margin="10,0,0,0"
+                                                   Width="200"
+                                                   Background="WhiteSmoke"
+                                                   />
                                     </ToolBar>
                                 </ToolBarTray>
 

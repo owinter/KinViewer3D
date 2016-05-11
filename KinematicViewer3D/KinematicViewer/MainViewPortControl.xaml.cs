@@ -51,11 +51,13 @@ namespace KinematicViewer
         //maximaler Öffnungswinkel
         double maxOpen = 62.5;
 
+        private string s_coords;
+        private TextBlock statusPane;
 
         public MainViewPortControl()
         {
-            
 
+            
             InitializeComponent();
             //axisPoints = new List<Point3D>();
             trans = new Transformation();
@@ -142,6 +144,13 @@ namespace KinematicViewer
 
                 viewportCam.rotateCam();
             }
+
+            if (!this.CanMoveCamera)
+            {
+                if (!mouseDownLeft) return;
+
+                showScreenCoords(sender, e);
+            }
         }
 
         private void MainGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -169,6 +178,8 @@ namespace KinematicViewer
         {
             mouseDownLeft = true;
             CanMoveCamera = false;
+
+            //dem Viewport den Focus übergeben, sodass die Tasteneingabe funktioniert
             viewport_MouseDown(sender, e);
 
             //Testverfahren für mögliches Hittesting
@@ -337,6 +348,13 @@ namespace KinematicViewer
                                                           (byte)rand.Next(256)));
         }
 
+        private void showScreenCoords(object sender, MouseEventArgs e)
+        {
+            Point p = e.GetPosition(viewport);
+            s_coords = string.Format("Bild-Koordinaten: ({0:d}, {1:d})", (int)p.X, (int)p.Y);
+            this.statusPane.Text = s_coords;
+        }
+
 
 
         //Öffentliche Getter & Setter Methoden
@@ -354,6 +372,17 @@ namespace KinematicViewer
             set { axisPoints = value; }
         }
 
+        public string S_Coords
+        {
+            get { return s_coords; }
+            set { s_coords = value; }
+        }
+
+        //Übergeben eines TextBlockObjectes an das ViewportControl
+        public void setTextBlock(TextBlock statusPane)
+        {
+            this.statusPane = statusPane;
+        }
 
     }
 }

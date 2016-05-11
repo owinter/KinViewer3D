@@ -35,12 +35,15 @@ namespace MainUI
             InitializeComponent();
             axisPoints = new List<Point3D>();
             mvpControl = new MainViewPortControl();
+            mvpControl.setTextBlock(statusPane);
             MainUIViewport3D.Content = mvpControl;
             cssControl = new CoordSystemSmall(); 
             MainUICoordSystemSmall.Content = cssControl; 
 
             create_Button.IsEnabled = false;
+            
         }
+
 
         //MENUBAR Elemente
         //Start einer perspektivischen Kamera
@@ -275,5 +278,6 @@ namespace MainUI
         {
             mvpControl.viewBottomSide();
         }
+
     }
 }
