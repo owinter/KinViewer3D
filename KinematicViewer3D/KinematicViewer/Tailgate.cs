@@ -20,6 +20,8 @@ namespace KinematicViewer
         private Cylinder cylinder;
         private Sphere sphere;
 
+        private List<Point3D> axisPoints;
+
         private Point3D axisPoint;
         private Point3D handPoint;
         private Point3D attPointBody;
@@ -37,10 +39,12 @@ namespace KinematicViewer
 
         public Tailgate(List<Point3D> axisPoints, Model3DGroup groupModelVisual, Model3DGroup groupDriveVisual, double modelThickness)
         {
+            this.axisPoints = axisPoints;
             this.axisPoint = axisPoints[0];
             this.handPoint = axisPoints[1];
             this.attPointBody = axisPoints[2];
             this.attPointDoor = axisPoints[3];
+
             this.groupModelVisual = groupModelVisual;
             this.groupDriveVisual = groupDriveVisual;
             this.modelThickness = modelThickness;
@@ -49,6 +53,8 @@ namespace KinematicViewer
             coordsDownTail = makeCoordsDownTail();
             coordsMidTail = makeCoordsMidTail();
             coordsDrive = makeCoordsDrive();
+
+            addSecondDriveToList(axisPoints);
 
             clearModel();
 
@@ -64,7 +70,7 @@ namespace KinematicViewer
         {
             List<Point3D> points = new List<Point3D>();
 
-            Point3D pM  = new Point3D(axisPoint.X, axisPoint.Y + 50, axisPoint.Z);
+            Point3D pM  = new Point3D(axisPoint.X, axisPoint.Y + 100, axisPoint.Z);
             Point3D pML = new Point3D(pM.X, pM.Y, pM.Z + tailWidth/2);
             Point3D pFL = new Point3D(pML.X + tailDepth/2, pML.Y, pML.Z);
             Point3D pFR = new Point3D(pFL.X, pFL.Y, pFL.Z - tailWidth);
@@ -88,7 +94,7 @@ namespace KinematicViewer
         {
             List<Point3D> points = new List<Point3D>();
 
-            Point3D pM  = new Point3D(handPoint.X + 50, handPoint.Y, handPoint.Z);
+            Point3D pM  = new Point3D(handPoint.X + 100, handPoint.Y, handPoint.Z);
             Point3D pML = new Point3D(pM.X, pM.Y, pM.Z + tailWidth / 2);
             Point3D pFL = new Point3D(pML.X, pML.Y - tailDepth, pML.Z);
             Point3D pFR = new Point3D(pFL.X, pFL.Y, pFL.Z - tailWidth);
@@ -159,8 +165,10 @@ namespace KinematicViewer
             Point3D pL1 = attPointDoor;
             //Vector3D vDL = pL1 - pL0;
 
-            Point3D pR0 = new Point3D(pL0.X, pL0.Y, pL0.Z - tailWidth);
-            Point3D pR1 = new Point3D(pL1.X, pL1.Y, pL1.Z - tailWidth);
+            //Point3D pR0 = new Point3D(pL0.X, pL0.Y, pL0.Z - tailWidth);
+            //Point3D pR1 = new Point3D(pL1.X, pL1.Y, pL1.Z - tailWidth);
+            Point3D pR0 = new Point3D(pL0.X, pL0.Y, -pL0.Z);
+            Point3D pR1 = new Point3D(pL1.X, pL1.Y, -pL1.Z);
 
             points.Add(pL0);
             points.Add(pL1);
@@ -285,6 +293,14 @@ namespace KinematicViewer
         {
             get { return groupDriveVisual; }
             set { groupDriveVisual = value; }
+        }
+
+        private void addSecondDriveToList(List<Point3D> axisPoints)
+        {
+            Point3D p2 = new Point3D(axisPoints[2].X, axisPoints[2].Y, -axisPoints[2].Z);
+            Point3D p3 = new Point3D(axisPoints[3].X, axisPoints[3].Y, -axisPoints[3].Z);
+            axisPoints.Add(p2);
+            axisPoints.Add(p3);
         }
 
         public Point3D getPosition()

@@ -30,6 +30,19 @@ namespace MainUI
         private MainViewPortControl mvpControl;
         private CoordSystemSmall cssControl;
 
+
+        //Benutzereingaben der Koordinaten zwischen denen eine 3D Linie erzeugt wird
+        //Punkt Drehachse
+        double x1, y1, z1;
+
+        //Punkt für Haltegriff ( Handangriffspunkt)
+        double x2, y2, z2;
+
+        //Fester Punkt für Antrieb an Karrosserie
+        double x3, y3, z3;
+
+        //Punkt für Antrieb an Heckklappe
+        double x4, y4, z4;
         public MainWindow()
         {
             InitializeComponent();
@@ -149,6 +162,7 @@ namespace MainUI
         //Koordinateneingabe in 3D Punkte umwandeln
         private void convertUserInput()
         {
+            /*
             //Benutzereingaben der Koordinaten zwischen denen eine 3D Linie erzeugt wird
             //Punkt Drehachse
             double x1, y1, z1;
@@ -161,8 +175,11 @@ namespace MainUI
 
             //Punkt für Antrieb an Heckklappe
             double x4, y4, z4;
+            */
+
             try
             {
+                /*
                 // Koordinaten der Drehachse
                 x1 = Convert.ToDouble(value_X1.Text);
                 y1 = Convert.ToDouble(value_Y1.Text);
@@ -181,7 +198,24 @@ namespace MainUI
                 //Koordinaten für Antrieb an Heckklappe
                 x4 = Convert.ToDouble(value_X4.Text);
                 y4 = Convert.ToDouble(value_Y4.Text);
-                z4 = Convert.ToDouble(value_Z4.Text);
+                z4 = Convert.ToDouble(value_Z4.Text);*/
+
+                x1 = 0;
+                y1 = 0;
+                z1 = 0;
+
+                x2 = 500;
+                y2 = -850;
+                z2 = 0;
+
+                x3 = 44.69;
+                y3 = -129.16;
+                z3 = 550.57;
+
+                x4 = 393.56;
+                y4 = -448.26;
+                z4 = 626.20;
+
 
                 Point3D p1 = new Point3D(x1, y1, z1);
                 Point3D p2 = new Point3D(x2, y2, z2);
@@ -209,7 +243,7 @@ namespace MainUI
             //CheckBox checkBox1 = new CheckBox();
             //checkBox1.Focusable = true;
             //checkBox1.Content
-             
+            /* 
             listBox1.Items.Add( "Objekt: " + "\n"
                                 + "P1(" + value_X1.Text + ", "
                                         + value_Y1.Text + ", "
@@ -225,8 +259,24 @@ namespace MainUI
                                         + value_Z3.Text + ") \n"
                                 + "P4(" + value_X4.Text + ", "
                                         + value_Y4.Text + ", "
-                                        + value_Z4.Text + ") \n");
+                                        + value_Z4.Text + ") \n");*/
             //listBox1.Items.Add(checkBox1);
+            listBox1.Items.Add("Objekt: " + "\n"
+                                + "P1(" + x1 + ", "
+                                        + y1 + ", "
+                                        + z1 + ")  \n"
+                                + "P2(" + x2 + ", "
+                                        + y2 + ", "
+                                        + z2 + ") \n"
+                                + "Elementbreite in mm: " + modelThickness + "\n"
+                                + "\n"
+                                + "Antrieb: " + "\n"
+                                + "P3(" + x3 + ", "
+                                        + y3 + ", "
+                                        + z3 + ") \n"
+                                + "P4(" + x4 + ", "
+                                        + y4 + ", "
+                                        + z4 + ") \n");
 
         }
 

@@ -51,6 +51,8 @@ namespace KinematicViewer
         //maximaler Öffnungswinkel
         double maxOpen = 62.5;
 
+        private Vector3D axisOfRotation;
+
         private string s_coords;
         private TextBlock statusPane;
 
@@ -324,8 +326,12 @@ namespace KinematicViewer
         public void sliderRotate(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             double axisAngle = e.NewValue *maxOpen / 100;
-            trans.rotateModel(axisAngle, axisPoints, groupModelVisual);
-            trans.rotateDrive(axisAngle, axisPoints, groupDriveVisual);
+
+            axisOfRotation = setAxisOfRotation(0, 0, 0);
+            trans.rotateModel(axisAngle, axisOfRotation, axisPoints, groupModelVisual);
+
+            axisOfRotation = setAxisOfRotation(0, 0, 0);
+            trans.rotateDrive(axisAngle, axisOfRotation, axisPoints, groupDriveVisual);
         }
 
         public void resetModelTransformation(object sender, RoutedEventArgs e)
@@ -376,6 +382,12 @@ namespace KinematicViewer
         {
             get { return s_coords; }
             set { s_coords = value; }
+        }
+
+        public Vector3D setAxisOfRotation(double x, double y, double z)
+        {
+            Vector3D v = new Vector3D(x, y, z);
+            return v;
         }
 
         //Übergeben eines TextBlockObjectes an das ViewportControl

@@ -205,8 +205,7 @@ namespace KinematicViewer
                     {
                         trans.Rotate(o_Camera);
                     }
-                    break;
-                    
+                    break;       
             }
             
             //c_SystemSmall.updateC_System(trans);
@@ -364,7 +363,7 @@ namespace KinematicViewer
         }
 
         /// <summary>
-        /// TOOLBOX Funktionen
+        /// TOOLBAR Funktionen
         /// </summary>
 
         public void viewFront()

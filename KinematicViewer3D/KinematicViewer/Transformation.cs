@@ -73,12 +73,12 @@ namespace KinematicViewer
             pitch = 0;
         }
 
-        public void rotateModel(double axisAngle, List<Point3D> AxisPoints, Model3DGroup groupModelVisual)
+        public void rotateModel(double axisAngle, Vector3D axisOfRotation, List<Point3D> AxisPoints, Model3DGroup groupModelVisual)
         {
             try
             {
                 Point3D axisPoint = AxisPoints[0];
-                Vector3D axisOfRotation = new Vector3D(0, 0, axisAngle);
+                axisOfRotation = new Vector3D(axisOfRotation.X, axisOfRotation.Y, axisOfRotation.Z + axisAngle);
 
                 AxisAngleRotation3D aARot = new AxisAngleRotation3D(axisOfRotation, axisAngle);
                 RotateTransform3D rotation = new RotateTransform3D(aARot, axisPoint);
@@ -100,12 +100,13 @@ namespace KinematicViewer
             }
         }
 
-        public void rotateDrive(double axisAngle, List<Point3D> AxisPoints, Model3DGroup groupDriveVisual)
+        public void rotateDrive(double axisAngle, Vector3D axisOfRotation, List<Point3D> AxisPoints, Model3DGroup groupDriveVisual)
         {
             try
-            {
-                Point3D axisPoint = AxisPoints[2];
-                Vector3D axisOfRotation = new Vector3D(0, 0, axisAngle);
+            {   //Mitte der Beiden AttachmentPoints am Body
+                Point3D axisPoint = (0.5 * (AxisPoints[4] - AxisPoints[2])) + AxisPoints[2] ;
+
+                axisOfRotation = new Vector3D(axisOfRotation.X, axisOfRotation.Y, axisOfRotation.Z + axisAngle);
 
                 AxisAngleRotation3D aARot = new AxisAngleRotation3D(axisOfRotation, axisAngle);
                 RotateTransform3D rotation = new RotateTransform3D(aARot, axisPoint);
