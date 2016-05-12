@@ -15,6 +15,11 @@ namespace KinematicViewer
         private Cylinder cylinder;
         private Sphere sphere;
 
+        private double retractedLength;
+        private double extractedLength = 648.8;
+
+        private Vector3D vDrive;
+
         private Int32 rBody = 15;
         private Int32 rDoor = 25;
 
@@ -23,12 +28,14 @@ namespace KinematicViewer
             this.point1 = point1;
             this.point2 = point2;
             this.groupDriveVisual = groupDriveVisual;
+
+            vDrive = point2 - point1;
+            retractedLength = vDrive.Length;
             makeDrive();
         }
 
         private void makeDrive()
         {
-            Vector3D vDrive = point2 - point1;
             generateCylinder(point1, point2 -0.25* vDrive, rBody);
             generateSphere(point1, rBody, new DiffuseMaterial(Brushes.Gray));
             generateCylinder(point1 + 0.25 * vDrive, point2, rDoor);
@@ -53,6 +60,23 @@ namespace KinematicViewer
             sphereGeometry = new GeometryModel3D(mesh_Sphere, mat);
             sphereGeometry.Transform = new Transform3DGroup();
             groupDriveVisual.Children.Add(sphereGeometry);
+        }
+
+        public void updateDrive()
+        {
+
+        }
+
+        public double RetractedLenght
+        {
+            get { return retractedLength; }
+            set { retractedLength = value; }
+        }
+
+        public double ExtractedLength
+        {
+            get { return extractedLength; }
+            set { extractedLength = value; }
         }
     }
 }

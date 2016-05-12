@@ -70,6 +70,8 @@ namespace KinematicViewer
             viewportCam.MyCam = Cam.Perspective;
             viewportCam.resetCam();
 
+            setAxisOfRotation(0, 0, 1);
+
 
             //viewportCam.resetCam();
             this.CanMoveCamera = true;
@@ -112,7 +114,7 @@ namespace KinematicViewer
         private void generateModel()
         {
 
-            tail = new Tailgate(AxisPoints, groupModelVisual, groupDriveVisual, modelThickness);
+            tail = new Tailgate(AxisPoints, axisOfRotation, groupModelVisual, groupDriveVisual, modelThickness);
             trans.resetModelTransformation(groupModelVisual);
             trans.resetModelTransformation(groupDriveVisual);
             
@@ -327,10 +329,7 @@ namespace KinematicViewer
         {
             double axisAngle = e.NewValue *maxOpen / 100;
 
-            axisOfRotation = setAxisOfRotation(0, 0, 0);
             trans.rotateModel(axisAngle, axisOfRotation, axisPoints, groupModelVisual);
-
-            axisOfRotation = setAxisOfRotation(0, 0, 0);
             trans.rotateDrive(axisAngle, axisOfRotation, axisPoints, groupDriveVisual);
         }
 

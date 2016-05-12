@@ -22,10 +22,15 @@ namespace KinematicViewer
 
         private List<Point3D> axisPoints;
 
+        private Vector3D axisOfRotation;
+
         private Point3D axisPoint;
         private Point3D handPoint;
-        private Point3D attPointBody;
-        private Point3D attPointDoor;
+        private Point3D attPointBodyL;
+        private Point3D attPointDoorL;
+        private Point3D attPointBodyR;
+        private Point3D attPointDoorR;
+
 
         private List<Point3D> coordsUpTail;
         private List<Point3D> coordsDownTail;
@@ -37,13 +42,20 @@ namespace KinematicViewer
         private double modelThickness;
 
 
-        public Tailgate(List<Point3D> axisPoints, Model3DGroup groupModelVisual, Model3DGroup groupDriveVisual, double modelThickness)
+        public Tailgate(List<Point3D> axisPoints, Vector3D axisOfRotation, Model3DGroup groupModelVisual, Model3DGroup groupDriveVisual, double modelThickness)
         {
             this.axisPoints = axisPoints;
             this.axisPoint = axisPoints[0];
             this.handPoint = axisPoints[1];
-            this.attPointBody = axisPoints[2];
-            this.attPointDoor = axisPoints[3];
+            this.attPointBodyL = axisPoints[2];
+            this.attPointDoorL = axisPoints[3];
+            addSecondDriveToList(axisPoints);
+            this.attPointBodyR = axisPoints[4];
+            this.attPointDoorR = axisPoints[5];
+
+            this.axisOfRotation = axisOfRotation;
+
+
 
             this.groupModelVisual = groupModelVisual;
             this.groupDriveVisual = groupDriveVisual;
@@ -54,12 +66,12 @@ namespace KinematicViewer
             coordsMidTail = makeCoordsMidTail();
             coordsDrive = makeCoordsDrive();
 
-            addSecondDriveToList(axisPoints);
+            
 
             clearModel();
 
             buildTail();
-            buildDrive();
+            //buildDrive();
     
         }
 
@@ -118,6 +130,29 @@ namespace KinematicViewer
         {
             List<Point3D> points = new List<Point3D>();
 
+            Vector3D v1 = handPoint - axisPoint;
+            Vector3D v2 = attPointDoorR - attPointDoorL;
+            double height = v1.Length;
+            double width = v2.Length;
+
+            Point3D pAttL = attPointDoorL;
+            Point3D pDownL = pAttL - v1 * (1/3);
+            Point3D pDownR = pDownL + v2;
+            Point3D pAttR = attPointDoorR;
+            Point3D pUpR = pAttR - v1 * (2/3);
+            Point3D pUpL = pUpR - v2;
+
+            points.Add(pAttL);
+            points.Add(pDownL);
+            points.Add(pDownR);
+            points.Add(pAttR);
+            points.Add(pUpR);
+            points.Add(pUpL);
+            
+             
+
+            /*List<Point3D> points = new List<Point3D>();
+
             Vector3D vL = (coordsDownTail[6] - coordsUpTail[2]) /4;
             Vector3D vR = (coordsDownTail[5] - coordsUpTail[3]) /4;
 
@@ -152,7 +187,7 @@ namespace KinematicViewer
             points.Add(pR7);
             points.Add(pR71);
             points.Add(pR8);
-            points.Add(pR9);
+            points.Add(pR9);*/
 
             return points;
         }
@@ -161,8 +196,8 @@ namespace KinematicViewer
         {
             List<Point3D> points = new List<Point3D>();
 
-            Point3D pL0 = attPointBody;
-            Point3D pL1 = attPointDoor;
+            Point3D pL0 = attPointBodyL;
+            Point3D pL1 = attPointDoorL;
             //Vector3D vDL = pL1 - pL0;
 
             //Point3D pR0 = new Point3D(pL0.X, pL0.Y, pL0.Z - tailWidth);
@@ -192,9 +227,9 @@ namespace KinematicViewer
 
         private void buildTail()
         {
-            buildUpTail();
+            //buildUpTail();
             buildMidTail();
-            buildDownTail();
+            //buildDownTail();
         }
 
         private void buildUpTail()
@@ -230,7 +265,12 @@ namespace KinematicViewer
 
         private void buildMidTail()
         {
-            for(int i=0; i<=coordsMidTail.Count-9; i++)
+            for (int i = 0; i <= coordsMidTail.Count - 2; i++)
+            {
+                generateSphere(coordsMidTail[i], modelThickness, new DiffuseMaterial(Brushes.Cyan));
+                //generateCuboid(coordsMidTail[i], coordsMidTail[i + 1], modelThickness);
+            } 
+            /*for(int i=0; i<=coordsMidTail.Count-9; i++)
             {
                 generateSphere(coordsMidTail[i], modelThickness, new DiffuseMaterial(Brushes.Cyan));
                 generateCuboid(coordsMidTail[i], coordsMidTail[i + 1], modelThickness);
@@ -240,7 +280,7 @@ namespace KinematicViewer
             {
                 generateSphere(coordsMidTail[i], modelThickness, new DiffuseMaterial(Brushes.Cyan));
                 generateCuboid(coordsMidTail[i], coordsMidTail[i + 1], modelThickness);
-            }
+            }*/
         }
 
 
