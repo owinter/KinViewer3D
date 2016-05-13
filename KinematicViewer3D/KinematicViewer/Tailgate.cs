@@ -37,8 +37,8 @@ namespace KinematicViewer
         private List<Point3D> coordsMidTail;
         private List<Point3D> coordsDrive;
 
-        private double tailWidth = 1250.0;
-        private double tailDepth = 200.0;
+        private const double tailWidth = 1250.0;
+        private const double tailDepth = 200.0;
         private double modelThickness;
 
 
@@ -71,7 +71,7 @@ namespace KinematicViewer
             clearModel();
 
             buildTail();
-            //buildDrive();
+            buildDrive();
     
         }
 
@@ -129,26 +129,10 @@ namespace KinematicViewer
         private List<Point3D> makeCoordsMidTail()
         {
             List<Point3D> points = new List<Point3D>();
-
-            Vector3D v1 = handPoint - axisPoint;
-            Vector3D v2 = attPointDoorR - attPointDoorL;
-            double height = v1.Length;
-            double width = v2.Length;
-
-            Point3D pAttL = attPointDoorL;
-            Point3D pDownL = pAttL - v1 * (1/3);
-            Point3D pDownR = pDownL + v2;
-            Point3D pAttR = attPointDoorR;
-            Point3D pUpR = pAttR - v1 * (2/3);
-            Point3D pUpL = pUpR - v2;
-
-            points.Add(pAttL);
-            points.Add(pDownL);
-            points.Add(pDownR);
-            points.Add(pAttR);
-            points.Add(pUpR);
-            points.Add(pUpL);
-            
+            //Vector3D v1 = Vector3D.CrossProduct()
+           // Point3D pUpL = handPoint + 
+ 
+       
              
 
             /*List<Point3D> points = new List<Point3D>();
@@ -337,10 +321,12 @@ namespace KinematicViewer
 
         private void addSecondDriveToList(List<Point3D> axisPoints)
         {
-            Point3D p2 = new Point3D(axisPoints[2].X, axisPoints[2].Y, -axisPoints[2].Z);
-            Point3D p3 = new Point3D(axisPoints[3].X, axisPoints[3].Y, -axisPoints[3].Z);
+            Point3D p1 = new Point3D();
+            Point3D p2 = new Point3D();
+            p2 = attPointDoorL + tailWidth * axisOfRotation;
+            p1 = p2 + (attPointBodyL - attPointDoorL);
+            axisPoints.Add(p1);
             axisPoints.Add(p2);
-            axisPoints.Add(p3);
         }
 
         public Point3D getPosition()

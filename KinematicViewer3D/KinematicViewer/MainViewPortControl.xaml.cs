@@ -327,8 +327,9 @@ namespace KinematicViewer
 
         public void sliderRotate(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            double axisAngle = e.NewValue *maxOpen / 100;
 
+            double axisAngle = (e.NewValue *maxOpen / 100);
+            
             trans.rotateModel(axisAngle, axisOfRotation, axisPoints, groupModelVisual);
             trans.rotateDrive(axisAngle, axisOfRotation, axisPoints, groupDriveVisual);
         }
@@ -383,10 +384,10 @@ namespace KinematicViewer
             set { s_coords = value; }
         }
 
-        public Vector3D setAxisOfRotation(double x, double y, double z)
+        
+        public void setAxisOfRotation(double x, double y, double z)
         {
-            Vector3D v = new Vector3D(x, y, z);
-            return v;
+            this.axisOfRotation = new Vector3D(x, y, z);
         }
 
         //Übergeben eines TextBlockObjectes an das ViewportControl

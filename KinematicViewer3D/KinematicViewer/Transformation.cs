@@ -78,20 +78,9 @@ namespace KinematicViewer
             try
             {
                 Point3D axisPoint = AxisPoints[0];
-                axisOfRotation = new Vector3D(axisOfRotation.X, axisOfRotation.Y, axisOfRotation.Z + axisAngle);
-
                 AxisAngleRotation3D aARot = new AxisAngleRotation3D(axisOfRotation, axisAngle);
                 RotateTransform3D rotation = new RotateTransform3D(aARot, axisPoint);
                 groupModelVisual.Transform = rotation;
-
-                /*
-                double rotationValue = 0.01 * Math.Sqrt(Math.Pow(axisAngle, 2));
-
-                Transform3DGroup transformGroup = tail.GroupModelVisual.Transform as Transform3DGroup;
-                QuaternionRotation3D qr = new QuaternionRotation3D(new Quaternion(axisOfRotation, rotationValue * 180 / Math.PI));
-                transformGroup.Children.Add(new RotateTransform3D(qr,axisPoint));
-
-                //tail.GroupModelVisual = groupModelVisual;*/
             }
             catch (Exception ex)
             {
@@ -103,11 +92,9 @@ namespace KinematicViewer
         public void rotateDrive(double axisAngle, Vector3D axisOfRotation, List<Point3D> AxisPoints, Model3DGroup groupDriveVisual)
         {
             try
-            {   //Mitte der Beiden AttachmentPoints am Body
+            {
+                 //Mitte der Beiden AttachmentPoints am Body
                 Point3D axisPoint = (0.5 * (AxisPoints[4] - AxisPoints[2])) + AxisPoints[2] ;
-
-                axisOfRotation = new Vector3D(axisOfRotation.X, axisOfRotation.Y, axisOfRotation.Z + axisAngle);
-
                 AxisAngleRotation3D aARot = new AxisAngleRotation3D(axisOfRotation, axisAngle);
                 RotateTransform3D rotation = new RotateTransform3D(aARot, axisPoint);
                 groupDriveVisual.Transform = rotation;
