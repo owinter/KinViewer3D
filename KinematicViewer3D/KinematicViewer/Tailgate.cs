@@ -39,11 +39,14 @@ namespace KinematicViewer
 
         private const double tailWidth = 1250.0;
         private const double tailDepth = 200.0;
+        private const double offset = 50.0;
         private double modelThickness;
 
 
         public Tailgate(List<Point3D> axisPoints, Vector3D axisOfRotation, Model3DGroup groupModelVisual, Model3DGroup groupDriveVisual, double modelThickness)
         {
+            this.axisOfRotation = axisOfRotation;
+
             this.axisPoints = axisPoints;
             this.axisPoint = axisPoints[0];
             this.handPoint = axisPoints[1];
@@ -53,7 +56,7 @@ namespace KinematicViewer
             this.attPointBodyR = axisPoints[4];
             this.attPointDoorR = axisPoints[5];
 
-            this.axisOfRotation = axisOfRotation;
+            
 
 
 
@@ -129,8 +132,25 @@ namespace KinematicViewer
         private List<Point3D> makeCoordsMidTail()
         {
             List<Point3D> points = new List<Point3D>();
-            //Vector3D v1 = Vector3D.CrossProduct()
-           // Point3D pUpL = handPoint + 
+            Vector3D vAxisToHand = handPoint - axisPoint;
+            Vector3D v1 = Vector3D.CrossProduct(vAxisToHand, axisOfRotation);
+            
+            Vector3D v2 = Vector3D.CrossProduct(-vAxisToHand, axisOfRotation);
+             
+
+            Point3D pUpL = axisPoint + v1 + axisOfRotation * 0.5 * tailWidth;
+            Point3D pAttDL = attPointDoorL;
+            Point3D pDownL = handPoint + v2 + axisOfRotation * 0.5 * tailWidth;
+            Point3D pDownR = handPoint + v2 - axisOfRotation * 0.5 * tailWidth;
+            Point3D pAttDR = attPointDoorR;
+            Point3D pUpR = axisPoint + v1 - axisOfRotation * 0.5 * tailWidth;
+
+            points.Add(pUpL);
+            points.Add(pAttDL);
+            points.Add(pDownL);
+            points.Add(pDownR);
+            points.Add(pAttDR);
+            points.Add(pUpR);
  
        
              
@@ -184,10 +204,10 @@ namespace KinematicViewer
             Point3D pL1 = attPointDoorL;
             //Vector3D vDL = pL1 - pL0;
 
-            //Point3D pR0 = new Point3D(pL0.X, pL0.Y, pL0.Z - tailWidth);
-            //Point3D pR1 = new Point3D(pL1.X, pL1.Y, pL1.Z - tailWidth);
-            Point3D pR0 = new Point3D(pL0.X, pL0.Y, -pL0.Z);
-            Point3D pR1 = new Point3D(pL1.X, pL1.Y, -pL1.Z);
+
+            Point3D pR0 = attPointBodyR;
+            Point3D pR1 = attPointDoorR;
+            
 
             points.Add(pL0);
             points.Add(pL1);
@@ -199,6 +219,7 @@ namespace KinematicViewer
 
         private void buildDrive()
         {
+            /*
             for(int i=0; i<= coordsDrive.Count-4; i++)
             {
                 drive = new Drive(coordsDrive[i], coordsDrive[i + 1], groupDriveVisual);
@@ -206,7 +227,10 @@ namespace KinematicViewer
             for(int i=2; i<= coordsDrive.Count-2; i++)
             {
                 drive = new Drive(coordsDrive[i], coordsDrive[i + 1], groupDriveVisual);
-            }
+            }*/
+
+            drive = new Drive(coordsDrive[0], coordsDrive[1], groupDriveVisual);
+            drive = new Drive(coordsDrive[2], coordsDrive[3], groupDriveVisual);
         }
 
         private void buildTail()
@@ -252,8 +276,12 @@ namespace KinematicViewer
             for (int i = 0; i <= coordsMidTail.Count - 2; i++)
             {
                 generateSphere(coordsMidTail[i], modelThickness, new DiffuseMaterial(Brushes.Cyan));
-                //generateCuboid(coordsMidTail[i], coordsMidTail[i + 1], modelThickness);
-            } 
+                generateCuboid(coordsMidTail[i], coordsMidTail[i + 1], modelThickness);
+            }
+            generateCuboid(coordsMidTail[5], coordsMidTail[0], modelThickness);
+
+            generateSphere(axisPoint, modelThickness, new DiffuseMaterial(Brushes.Red));
+            generateSphere(handPoint, modelThickness, new DiffuseMaterial(Brushes.Red));
             /*for(int i=0; i<=coordsMidTail.Count-9; i++)
             {
                 generateSphere(coordsMidTail[i], modelThickness, new DiffuseMaterial(Brushes.Cyan));
@@ -323,8 +351,9 @@ namespace KinematicViewer
         {
             Point3D p1 = new Point3D();
             Point3D p2 = new Point3D();
-            p2 = attPointDoorL + tailWidth * axisOfRotation;
-            p1 = p2 + (attPointBodyL - attPointDoorL);
+            p2 = attPointDoorL - axisOfRotation * tailWidth;
+            p1 = p2 - (attPointDoorL - attPointBodyL);
+            
             axisPoints.Add(p1);
             axisPoints.Add(p2);
         }
