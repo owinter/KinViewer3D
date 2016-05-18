@@ -230,6 +230,7 @@ namespace KinematicViewer
         {
             Vector3D vR = new Vector3D(axisPoint.X, axisPoint.Y, axisPoint.Z);
             Vector3D vE2 = Vector3D.CrossProduct(vAxisToHandE1, vY);
+
             double d = Vector3D.DotProduct(vR, vE2);
 
             Point3D p1 = reflectPoint(attPointBodyL, vR, vE2, d);
@@ -247,6 +248,26 @@ namespace KinematicViewer
 
         private Point3D reflectPoint(Point3D p, Vector3D vR, Vector3D vE2, double d)
         {
+            /*
+             * Hessische Form : Px * N - d = 0   ==> d = Px * N
+             * 
+             * vR ist der Punkt auf der Drehachse in Vektorenform
+             * vE2 ist Richtungsvektor von Drehachste 90 ° zur Seite. Quasi die Breite der Heckklappe
+             * 
+             * Also:     
+             * d = vR * vE2
+             * 
+             * 
+             * 
+             *          d - attPoint * vE2
+             * lamda = --------------------   // lambda ist der Abstand vom zum Spiegelnden Punkt des Drives zur Ebene,
+             *              vE2 * vE2         // die durch den Vektor von AxisPoint zu HandPoint und der Y- Achse aufgespannt wird
+             *              
+             *              
+             *              
+             * Punkt P = attPoint + 2 * lambda * vE2
+             * 
+             */
             double lambda = ((d - Vector3D.DotProduct(new Vector3D(p.X, p.Y, p.Z), vE2)) / (Vector3D.DotProduct(vE2, vE2)));
 
             Point3D point = p + 2 * lambda * vE2;
