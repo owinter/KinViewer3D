@@ -77,41 +77,7 @@ namespace KinematicViewer
             this.CanMoveCamera = true;
         }
 
-        private void generateCylinder()
-        {
-            /*MeshGeometry3D mesh_Cylinder = new MeshGeometry3D();
-            cylinder = new Cylinder(mesh_Cylinder, new Point3D(0, 100, 0), new Point3D(500,500,100), 25, 128);
-            
-            cylinderGeometry = new GeometryModel3D(mesh_Cylinder, new DiffuseMaterial(Brushes.Cyan));
-            cylinderGeometry.Transform = new Transform3DGroup();
-            groupModelVisual.Children.Add(cylinderGeometry);*/
-        }
-
-        private void generateCuboid()
-        {
-           /* MeshGeometry3D mesh_Cuboid = new MeshGeometry3D();
-            cube = new Cuboid();
-            for (int i = 0; i <= axisPoints.Count - 2; i += 2)
-            {
-                cube.buildCuboid(axisPoints[i], axisPoints[i + 1], mesh_Cuboid, modelThickness);
-            }
-            cuboidGeometry = new GeometryModel3D(mesh_Cuboid, new DiffuseMaterial(Brushes.Cyan));
-            cuboidGeometry.Transform = new Transform3DGroup();
-            groupModelVisual.Children.Add(cuboidGeometry);*/
-        }
-
-        private void generateSphere()
-        {
-            /*MeshGeometry3D mesh_Sphere = new MeshGeometry3D();
-            sphere = new Sphere(axisPoints[0], modelThickness);
-            mesh_Sphere = sphere.SphereGeometry;
-
-            sphereGeometry = new GeometryModel3D(mesh_Sphere, new DiffuseMaterial(Brushes.Cyan));
-            sphereGeometry.Transform = new Transform3DGroup();
-            groupModelVisual.Children.Add(sphereGeometry);*/
-        }
-
-        private void generateModel()
+        private void generateVisualModel()
         {
 
             tail = new Tailgate(AxisPoints, axisOfRotation, groupModelVisual, groupDriveVisual, modelThickness);
@@ -267,7 +233,7 @@ namespace KinematicViewer
 
         public void createModel()
         {
-            generateModel();   
+            generateVisualModel();   
         }
 
         public void viewFrontSide()
@@ -331,7 +297,11 @@ namespace KinematicViewer
             double axisAngle = (e.NewValue *maxOpen / 100);
             
             trans.rotateModel(axisAngle, axisOfRotation, axisPoints, groupModelVisual);
-            trans.rotateDrive(axisAngle, axisOfRotation, axisPoints, groupDriveVisual);
+            //trans.rotateDrive(axisAngle, axisOfRotation, axisPoints, groupDriveVisual);
+            tail.updateDrives();
+            
+            Point3D pipi = tail.getTestPoint();
+            Point3D po = pipi;
         }
 
         public void resetModelTransformation(object sender, RoutedEventArgs e)

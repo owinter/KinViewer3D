@@ -36,18 +36,18 @@ namespace KinematicViewer
 
         private void makeDrive()
         {
-            generateCylinder(point1, point2 -0.25* vDrive, rBody);
+            generateCylinder(point1, point2 - 0.25 * vDrive, rBody, new DiffuseMaterial(Brushes.Green));
             generateSphere(point1, rBody, new DiffuseMaterial(Brushes.Gray));
-            generateCylinder(point1 + 0.25 * vDrive, point2, rDoor);
+            generateCylinder(point1 + 0.25 * vDrive, point2, rDoor, new DiffuseMaterial(Brushes.Green));
             generateSphere(point2, rDoor, new DiffuseMaterial(Brushes.Gray));
         }
 
-        private void generateCylinder(Point3D point1, Point3D point2, Int32 radius)
+        private void generateCylinder(Point3D point1, Point3D point2, Int32 radius, DiffuseMaterial mat)
         {
             MeshGeometry3D mesh_Cylinder = new MeshGeometry3D();
             cylinder = new Cylinder(mesh_Cylinder, point1, point2, radius, 128);
 
-            cylinderGeometry = new GeometryModel3D(mesh_Cylinder, new DiffuseMaterial(Brushes.Red));
+            cylinderGeometry = new GeometryModel3D(mesh_Cylinder, new DiffuseMaterial(Brushes.Green));
             cylinderGeometry.Transform = new Transform3DGroup();
             groupDriveVisual.Children.Add(cylinderGeometry);
         }
@@ -62,9 +62,24 @@ namespace KinematicViewer
             groupDriveVisual.Children.Add(sphereGeometry);
         }
 
-        public void updateDrive()
+        public void updateDrive(Point3D point1, Point3D point2)
         {
-
+            vDrive = point2 - point1;
+            if(vDrive.Length <= extractedLength)
+            {
+                generateCylinder(point1, point2 - 0.25 * vDrive, rBody, new DiffuseMaterial(Brushes.Green));
+                generateSphere(point1, rBody, new DiffuseMaterial(Brushes.Gray));
+                generateCylinder(point1 + 0.25 * vDrive, point2, rDoor, new DiffuseMaterial(Brushes.Green));
+                generateSphere(point2, rDoor, new DiffuseMaterial(Brushes.Gray));
+            }
+            else if(vDrive.Length > extractedLength)
+            {
+                generateCylinder(point1, point2 - 0.25 * vDrive, rBody, new DiffuseMaterial(Brushes.Red));
+                generateSphere(point1, rBody, new DiffuseMaterial(Brushes.Gray));
+                generateCylinder(point1 + 0.25 * vDrive, point2, rDoor, new DiffuseMaterial(Brushes.Red));
+                generateSphere(point2, rDoor, new DiffuseMaterial(Brushes.Gray));
+            }
+            
         }
 
         public double RetractedLenght

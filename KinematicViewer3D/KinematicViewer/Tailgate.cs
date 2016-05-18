@@ -143,12 +143,19 @@ namespace KinematicViewer
             List<Point3D> points = new List<Point3D>();
 
             Point3D pL0 = attPointBodyL;
+            Point3D pL1 = coordsMidTail[4];
+
+            Point3D pR0 = attPointBodyR;
+            Point3D pR1 = coordsMidTail[5];
+
+
+            /*Point3D pL0 = attPointBodyL;
             Point3D pL1 = attPointDoorL;
             //Vector3D vDL = pL1 - pL0;
 
 
             Point3D pR0 = attPointBodyR;
-            Point3D pR1 = attPointDoorR;
+            Point3D pR1 = attPointDoorR;*/
             
             points.Add(pL0);
             points.Add(pL1);
@@ -275,7 +282,17 @@ namespace KinematicViewer
             return point;
         }
 
+        public void updateDrives()
+        {
+            groupDriveVisual.Children.Clear();
+            drive.updateDrive(attPointBodyL, coordsMidTail[4]);
+            drive.updateDrive(attPointBodyR, coordsMidTail[5]);
+        }
 
+        public Point3D getTestPoint()
+        {
+            return coordsMidTail[4];
+        }
 
     }
 }
