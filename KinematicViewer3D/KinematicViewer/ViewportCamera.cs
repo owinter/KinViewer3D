@@ -27,7 +27,7 @@ namespace KinematicViewer
         public OrthographicCamera o_Camera;
 
         //Kamerabreite für orthographische Kamera
-        private double o_Width = 3000;
+        private double o_Width = 3200;
 
         private double zoomFactor = 100;
 
@@ -57,8 +57,8 @@ namespace KinematicViewer
         public void startPerspectiveCamera()
         {
             p_Camera = new PerspectiveCamera();
-            p_Camera.Position = new Point3D(0, 100, 3500);
-            p_Camera.LookDirection = new Vector3D(0, -100, -3500);
+            p_Camera.Position = new Point3D(0, 0, 4000);
+            p_Camera.LookDirection = new Vector3D(0, 0, -4000);
             p_Camera.UpDirection = new Vector3D(0, 1, 0);
             p_Camera.FieldOfView = 45;
             p_Camera.FarPlaneDistance = 25000;
@@ -71,8 +71,8 @@ namespace KinematicViewer
         public void startOrthographicCamera()
         {
             o_Camera = new OrthographicCamera();
-            o_Camera.Position = new Point3D(0, 100, 3500);
-            o_Camera.LookDirection = new Vector3D(0, -100, -3500);
+            o_Camera.Position = new Point3D(0, 0, 4000);
+            o_Camera.LookDirection = new Vector3D(0, 0, -4000);
             o_Camera.UpDirection = new Vector3D(0, 1, 0);
             o_Camera.FarPlaneDistance = 25000;
             o_Camera.NearPlaneDistance = 0.125;
@@ -139,8 +139,8 @@ namespace KinematicViewer
                 case Cam.Perspective:
                     {
                         // Kamera Postion für Main Viewer reloaden
-                        p_Camera.Position = new Point3D(0, 100, 3500);
-                        p_Camera.LookDirection = new Vector3D(0, -100, -3500);
+                        p_Camera.Position = new Point3D(0, 0, 4000);
+                        p_Camera.LookDirection = new Vector3D(0, 0, -4000);
                         p_Camera.UpDirection = new Vector3D(0, 1, 0);
                     }
                     break;
@@ -148,8 +148,8 @@ namespace KinematicViewer
                 case Cam.Orthographic:
                     {
                         // Kamera Postion für Main Viewer reloaden
-                        o_Camera.Position = new Point3D(0, 100, 3500);
-                        o_Camera.LookDirection = new Vector3D(0, -100, -3500);
+                        o_Camera.Position = new Point3D(0, 0, 4000);
+                        o_Camera.LookDirection = new Vector3D(0, 0, -4000);
                         o_Camera.UpDirection = new Vector3D(0, 1, 0);
                     }
                     break;
@@ -230,8 +230,8 @@ namespace KinematicViewer
             {
                 case Cam.Perspective:
                     {
-                        p_Camera.Position = new Point3D(p_Camera.Position.X, p_Camera.Position.Y, 3500);
-                        p_Camera.LookDirection = new Vector3D(-p_Camera.Position.X, -p_Camera.Position.Y, -3500);
+                        p_Camera.Position = new Point3D(p_Camera.Position.X, p_Camera.Position.Y, 4000);
+                        p_Camera.LookDirection = new Vector3D(-p_Camera.Position.X, -p_Camera.Position.Y, -4000);
                         p_Camera.Transform = new Transform3DGroup();
                         trans.setYaw(0);
                         trans.setPitch(0);
@@ -240,8 +240,8 @@ namespace KinematicViewer
 
                 case Cam.Orthographic:
                     {
-                        o_Camera.Position = new Point3D(o_Camera.Position.X, o_Camera.Position.Y, 3500);
-                        o_Camera.LookDirection = new Vector3D(-o_Camera.Position.X, -o_Camera.Position.Y, -3500);
+                        o_Camera.Position = new Point3D(o_Camera.Position.X, o_Camera.Position.Y, 4000);
+                        o_Camera.LookDirection = new Vector3D(-o_Camera.Position.X, -o_Camera.Position.Y, -4000);
                         o_Width = 3000;
                         o_Camera.Width = o_Width;
                         o_Camera.Transform = new Transform3DGroup();
