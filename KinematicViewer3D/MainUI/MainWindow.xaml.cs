@@ -96,13 +96,11 @@ namespace MainUI
         //Menubar Anleitung
         private void Manual_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy" 
-                         + "eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua." 
-                         +"At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,"
-                         +"no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, "
-                         +"consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore"
-                         +"magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum."
-                         +"Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+            MessageBox.Show("*  Rechte Maustaste gedrückt halten um die Kamera zu rotieren \n" 
+                         + "*  Mausrad für Hinein und HinausZoomen der Kamera \n"
+                         + "*  <- -> Pfeiltasten für links und rechts gieren um Y - Achse herum \n" 
+                         + "*  oben und unten Pfeiltasten für neigen um die X - Achse herum \n"
+                         +"*  + und - Pfeiltasten für Hinein- und HinausZoomen der Kamera \n");
         }
 
         //STEUERUNG Elemente

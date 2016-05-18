@@ -228,18 +228,12 @@ namespace KinematicViewer
 
         private void addSecondDriveToList(List<Point3D> axisPoints)
         {
-            
-            Point3D p2 = new Point3D();
-            p2 = attPointDoorL - axisOfRotation * tailWidth;
+            Vector3D vR = new Vector3D(axisPoint.X, axisPoint.Y, axisPoint.Z);
+            Vector3D vE2 = Vector3D.CrossProduct(vAxisToHandE1, vY);
+            double d = Vector3D.DotProduct(vR, vE2);
 
-            Vector3D vAxisToHand = handPoint - axisPoint;
-
-            Point3D p1 = rotateNewPoint(vAxisToHand, 180, attPointBodyL);
-
-
-
-
-            //p1 = p2 - (attPointDoorL - attPointBodyL);
+            Point3D p1 = reflectPoint(attPointBodyL, vR, vE2, d);
+            Point3D p2 = reflectPoint(attPointDoorL, vR, vE2, d);
             
             axisPoints.Add(p1);
             axisPoints.Add(p2);
@@ -248,6 +242,15 @@ namespace KinematicViewer
         public Point3D getPosition()
         {
             Point3D point = sphere.getPosition();
+            return point;
+        }
+
+        private Point3D reflectPoint(Point3D p, Vector3D vR, Vector3D vE2, double d)
+        {
+            double lambda = ((d - Vector3D.DotProduct(new Vector3D(p.X, p.Y, p.Z), vE2)) / (Vector3D.DotProduct(vE2, vE2)));
+
+            Point3D point = p + 2 * lambda * vE2;
+
             return point;
         }
 
