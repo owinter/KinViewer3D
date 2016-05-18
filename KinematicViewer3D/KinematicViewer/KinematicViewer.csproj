@@ -54,10 +54,12 @@
     <Compile Include="Cylinder.cs" />
     <Compile Include="Drive.cs" />
     <Compile Include="MouseUtilities.cs" />
+    <Compile Include="SideDoor.cs" />
     <Compile Include="Sphere.cs" />
     <Compile Include="Tailgate.cs" />
     <Compile Include="Transformation.cs" />
     <Compile Include="ViewportCamera.cs" />
+    <Compile Include="VisualObject.cs" />
     <Page Include="CoordSystemSmall.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
