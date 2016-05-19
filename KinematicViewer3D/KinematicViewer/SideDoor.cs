@@ -82,13 +82,13 @@ namespace KinematicViewer
 
         private void buildAttachmentToDrive()
         {
-            generateSphere(coordsMidDoor[4], 40, new DiffuseMaterial(Brushes.Cyan));
+            generateSphere(coordsMidDoor[4], 40, groupModelVisual, new DiffuseMaterial(Brushes.Cyan));
         }
 
         private void buildAxisAndHandPoint()
         {
-            generateSphere(axisPoint, 50, new DiffuseMaterial(Brushes.Red));
-            generateSphere(handPoint, 50, new DiffuseMaterial(Brushes.Red));
+            generateSphere(axisPoint, 50, groupModelVisual, new DiffuseMaterial(Brushes.Red));
+            generateSphere(handPoint, 50, groupModelVisual, new DiffuseMaterial(Brushes.Red));
         }
 
         private void buildMidPart()

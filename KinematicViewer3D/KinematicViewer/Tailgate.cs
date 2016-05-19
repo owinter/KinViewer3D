@@ -69,7 +69,9 @@ namespace KinematicViewer
 
             clearModel();
 
+            buildVisualAxisOfRotation();
             buildTail();
+            
             buildDrive();
     
         }
@@ -184,8 +186,8 @@ namespace KinematicViewer
         {
             for(int i=0; i<=coordsUpTail.Count-2; i++)
             {
-                generateSphere(coordsUpTail[i], modelThickness, new DiffuseMaterial(Brushes.Cyan));
-                generateCuboid(coordsUpTail[i], coordsUpTail[i + 1], modelThickness);
+                generateSphere(coordsUpTail[i], modelThickness, groupModelVisual, new DiffuseMaterial(Brushes.Cyan));
+                generateCuboid(coordsUpTail[i], coordsUpTail[i + 1], modelThickness, groupModelVisual);
             }
         }
 
@@ -193,8 +195,8 @@ namespace KinematicViewer
         {
             for (int i = 0; i <= coordsDownTail.Count-2; i++)
             {
-                generateSphere(coordsDownTail[i], modelThickness, new DiffuseMaterial(Brushes.Cyan));
-                generateCuboid(coordsDownTail[i], coordsDownTail[i + 1], modelThickness);
+                generateSphere(coordsDownTail[i], modelThickness, groupModelVisual, new DiffuseMaterial(Brushes.Cyan));
+                generateCuboid(coordsDownTail[i], coordsDownTail[i + 1], modelThickness, groupModelVisual);
             }
         }
 
@@ -202,23 +204,30 @@ namespace KinematicViewer
         {
             for (int i = 0; i <= coordsMidTail.Count - 4; i++)
             {
-                generateSphere(coordsMidTail[i], modelThickness, new DiffuseMaterial(Brushes.Cyan));
-                generateCuboid(coordsMidTail[i], coordsMidTail[i + 1], modelThickness);
+                generateSphere(coordsMidTail[i], modelThickness, groupModelVisual, new DiffuseMaterial(Brushes.Cyan));
+                generateCuboid(coordsMidTail[i], coordsMidTail[i + 1], modelThickness, groupModelVisual);
             }
-            generateSphere(coordsMidTail[3], modelThickness, new DiffuseMaterial(Brushes.Cyan));
-            generateCuboid(coordsMidTail[3], coordsMidTail[0], modelThickness);
+            generateSphere(coordsMidTail[3], modelThickness, groupModelVisual, new DiffuseMaterial(Brushes.Cyan));
+            generateCuboid(coordsMidTail[3], coordsMidTail[0], modelThickness, groupModelVisual);
         }
 
         private void buildAttachmentToDrive()
         {
-            generateSphere(coordsMidTail[4], 40, new DiffuseMaterial(Brushes.Cyan));
-            generateSphere(coordsMidTail[5], 40, new DiffuseMaterial(Brushes.Cyan));
+            generateSphere(coordsMidTail[4], 40, groupModelVisual, new DiffuseMaterial(Brushes.Cyan));
+            generateSphere(coordsMidTail[5], 40, groupModelVisual, new DiffuseMaterial(Brushes.Cyan));
         }
 
         private void buildAxisAndHandPoint()
         {
-            generateSphere(axisPoint, 50, new DiffuseMaterial(Brushes.Red));
-            generateSphere(handPoint, 50, new DiffuseMaterial(Brushes.Red));
+            generateSphere(axisPoint, 50, groupModelVisual, new DiffuseMaterial(Brushes.Red));
+            generateSphere(handPoint, 50, groupModelVisual, new DiffuseMaterial(Brushes.Red));
+        }
+
+        private void buildVisualAxisOfRotation()
+        {
+            Point3D p1 = axisPoint + axisOfRotation * tailWidth * 1/2;
+            Point3D p2 = axisPoint - axisOfRotation * tailWidth * 1/2;
+            generateVisualAxisOfRotation(p1, p2, 10, groupModelVisual, new DiffuseMaterial(Brushes.Red));
         }
 
 

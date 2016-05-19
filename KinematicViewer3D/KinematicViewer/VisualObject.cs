@@ -18,17 +18,17 @@ namespace KinematicViewer
         protected Cylinder cylinder;
         protected Sphere sphere;
 
-        protected void generateSphere(Point3D point, double modelThickness, DiffuseMaterial mat)
+        protected void generateSphere(Point3D point, double modelThickness, Model3DGroup vgroup, DiffuseMaterial mat)
         {
             MeshGeometry3D mesh_Sphere = new MeshGeometry3D();
             sphere = new Sphere(point, modelThickness, mesh_Sphere);
 
             sphereGeometry = new GeometryModel3D(mesh_Sphere, mat);
             sphereGeometry.Transform = new Transform3DGroup();
-            groupModelVisual.Children.Add(sphereGeometry);
+            vgroup.Children.Add(sphereGeometry);
         }
 
-        protected void generateCuboid(Point3D point1, Point3D point2, double modelThickness)
+        protected void generateCuboid(Point3D point1, Point3D point2, double modelThickness, Model3DGroup vgroup)
         {
             MeshGeometry3D mesh_Cuboid = new MeshGeometry3D();
             cube = new Cuboid(point1, point2, mesh_Cuboid, modelThickness);
@@ -36,17 +36,27 @@ namespace KinematicViewer
 
             cuboidGeometry = new GeometryModel3D(mesh_Cuboid, new DiffuseMaterial(Brushes.Cyan));
             cuboidGeometry.Transform = new Transform3DGroup();
-            groupModelVisual.Children.Add(cuboidGeometry);
+            vgroup.Children.Add(cuboidGeometry);
         }
 
-        protected void generateCylinder(Point3D point1, Point3D point2)
+        protected void generateCylinder(Point3D point1, Point3D point2, int radius, Model3DGroup vgroup, DiffuseMaterial mat)
         {
             MeshGeometry3D mesh_Cylinder = new MeshGeometry3D();
-            cylinder = new Cylinder(mesh_Cylinder, point1, point2, 25, 128);
+            cylinder = new Cylinder(mesh_Cylinder, point1, point2, radius, 128);
 
-            cylinderGeometry = new GeometryModel3D(mesh_Cylinder, new DiffuseMaterial(Brushes.Red));
+            cylinderGeometry = new GeometryModel3D(mesh_Cylinder, mat);
             cylinderGeometry.Transform = new Transform3DGroup();
-            groupModelVisual.Children.Add(cylinderGeometry);
+            vgroup.Children.Add(cylinderGeometry);
+        }
+
+        protected void generateVisualAxisOfRotation(Point3D point1, Point3D point2, int radius, Model3DGroup vgroup, DiffuseMaterial mat)
+        {
+            MeshGeometry3D mesh_VisualAxisOfRotaion = new MeshGeometry3D();
+            cylinder = new Cylinder(mesh_VisualAxisOfRotaion, point1, point2, radius, 128);
+
+            cylinderGeometry = new GeometryModel3D(mesh_VisualAxisOfRotaion, mat);
+            cylinderGeometry.Transform = new Transform3DGroup();
+            vgroup.Children.Add(cylinderGeometry);
         }
 
         //Skaliere einen Vektor mit einem offset Wert
