@@ -89,7 +89,7 @@ namespace KinematicViewer
             }
         }
 
-        /*public void rotateDrive(double axisAngle, Vector3D axisOfRotation, List<Point3D> AxisPoints, Model3DGroup groupDriveVisual)
+        public void rotateDrive(double axisAngle, Vector3D axisOfRotation, List<Point3D> AxisPoints, Model3DGroup groupDriveVisual)
         {
             try
             {
@@ -104,7 +104,28 @@ namespace KinematicViewer
                 MessageBox.Show("Zuerst Antrieb erstellen, dann erst Öfnungswinkel verändern. \n"
                     + ex.Message, "Exception Sample", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-        }*/
+        }
+
+        public Point3D rotateDrivePoint(double axisAngle, Vector3D axisOfRotation, List<Point3D> AxisPoints, Point3D inputPoint)
+        {
+            Point3D outputPoint = new Point3D();
+            try
+            {
+                Point3D axisPoint = AxisPoints[0];
+                AxisAngleRotation3D aARot = new AxisAngleRotation3D(axisOfRotation, axisAngle);
+                RotateTransform3D rotation = new RotateTransform3D(aARot, axisPoint);
+                outputPoint = rotation.Transform(inputPoint);
+
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Zuerst 3D Modell erstellen, dann erst Öfnungswinkel verändern. \n"
+                    + ex.Message, "Exception Sample", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
+            return outputPoint;
+        }
 
         public void resetModelTransformation(Model3DGroup groupModelVisual)
         {

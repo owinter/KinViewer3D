@@ -36,9 +36,9 @@ namespace KinematicViewer
 
         private void makeDrive()
         {
-            generateCylinder(point1, point2 - 0.25 * vDrive, rBody, new DiffuseMaterial(Brushes.Green));
+            generateCylinder(point1, point2 - 0.25 * vDrive, rBody, new DiffuseMaterial(Brushes.Gray));
             generateSphere(point1, rBody, new DiffuseMaterial(Brushes.Gray));
-            generateCylinder(point1 + 0.25 * vDrive, point2, rDoor, new DiffuseMaterial(Brushes.Green));
+            generateCylinder(point1 + 0.25 * vDrive, point2, rDoor, new DiffuseMaterial(Brushes.YellowGreen));
             generateSphere(point2, rDoor, new DiffuseMaterial(Brushes.Gray));
         }
 
@@ -47,7 +47,7 @@ namespace KinematicViewer
             MeshGeometry3D mesh_Cylinder = new MeshGeometry3D();
             cylinder = new Cylinder(mesh_Cylinder, point1, point2, radius, 128);
 
-            cylinderGeometry = new GeometryModel3D(mesh_Cylinder, new DiffuseMaterial(Brushes.Green));
+            cylinderGeometry = new GeometryModel3D(mesh_Cylinder, mat);
             cylinderGeometry.Transform = new Transform3DGroup();
             groupDriveVisual.Children.Add(cylinderGeometry);
         }
@@ -65,18 +65,27 @@ namespace KinematicViewer
         public void updateDrive(Point3D point1, Point3D point2)
         {
             vDrive = point2 - point1;
-            if(vDrive.Length <= extractedLength)
+            double vLength = vDrive.Length; 
+            if(vLength <= extractedLength - 2 * 56)
             {
-                generateCylinder(point1, point2 - 0.25 * vDrive, rBody, new DiffuseMaterial(Brushes.Green));
+                generateCylinder(point1, point2 - 0.25 * vDrive, rBody, new DiffuseMaterial(Brushes.Gray));
                 generateSphere(point1, rBody, new DiffuseMaterial(Brushes.Gray));
-                generateCylinder(point1 + 0.25 * vDrive, point2, rDoor, new DiffuseMaterial(Brushes.Green));
+                generateCylinder(point1 + 0.25 * vDrive, point2, rDoor, new DiffuseMaterial(Brushes.YellowGreen));
                 generateSphere(point2, rDoor, new DiffuseMaterial(Brushes.Gray));
             }
-            else if(vDrive.Length > extractedLength)
+            
+            else if ( (vLength > extractedLength - 2* 56) && !(vLength <= extractedLength - 2* 56) )
             {
-                generateCylinder(point1, point2 - 0.25 * vDrive, rBody, new DiffuseMaterial(Brushes.Red));
+                generateCylinder(point1, point2 - 0.25 * vDrive, rBody, new DiffuseMaterial(Brushes.Gray));
                 generateSphere(point1, rBody, new DiffuseMaterial(Brushes.Gray));
-                generateCylinder(point1 + 0.25 * vDrive, point2, rDoor, new DiffuseMaterial(Brushes.Red));
+                generateCylinder(point1 + 0.25 * vDrive, point2, rDoor, new DiffuseMaterial(Brushes.Orange));
+                generateSphere(point2, rDoor, new DiffuseMaterial(Brushes.Gray));
+            }
+            else if( (vLength > extractedLength - 56) && !(vLength <= extractedLength - 2 * 56) )
+            {
+                generateCylinder(point1, point2 - 0.25 * vDrive, rBody, new DiffuseMaterial(Brushes.Gray));
+                generateSphere(point1, rBody, new DiffuseMaterial(Brushes.Gray));
+                generateCylinder(point1 + 0.25 * vDrive, point2, rDoor, new DiffuseMaterial(Brushes.OrangeRed));
                 generateSphere(point2, rDoor, new DiffuseMaterial(Brushes.Gray));
             }
             

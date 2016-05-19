@@ -282,16 +282,25 @@ namespace KinematicViewer
             return point;
         }
 
-        public void updateDrives()
+        public void updateDrives(Point3D attPointDoorL, Point3D attPointDoorR)
         {
             groupDriveVisual.Children.Clear();
-            drive.updateDrive(attPointBodyL, coordsMidTail[4]);
-            drive.updateDrive(attPointBodyR, coordsMidTail[5]);
+            //drive.updateDrive(attPointBodyL, coordsMidTail[4]);
+            //drive.updateDrive(attPointBodyR, coordsMidTail[5]);
+            drive.updateDrive(attPointBodyL, attPointDoorL);
+            drive.updateDrive(attPointBodyR, attPointDoorR);
         }
 
-        public Point3D getTestPoint()
+        public Point3D AttachmentPointDoorLeft
         {
-            return coordsMidTail[4];
+            get { return attPointDoorL; }
+            set { attPointDoorL = value; }
+        }
+
+        public Point3D AttachmentPointDoorRight
+        {
+            get { return attPointDoorR; }
+            set { attPointDoorR = value; }
         }
 
     }

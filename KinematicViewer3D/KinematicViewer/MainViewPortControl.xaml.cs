@@ -298,10 +298,11 @@ namespace KinematicViewer
             
             trans.rotateModel(axisAngle, axisOfRotation, axisPoints, groupModelVisual);
             //trans.rotateDrive(axisAngle, axisOfRotation, axisPoints, groupDriveVisual);
-            tail.updateDrives();
+
+            Point3D attPDLeft = trans.rotateDrivePoint(axisAngle, axisOfRotation, axisPoints, tail.AttachmentPointDoorLeft);
+            Point3D attPDRight = trans.rotateDrivePoint(axisAngle, axisOfRotation, axisPoints, tail.AttachmentPointDoorRight);
+            tail.updateDrives(attPDLeft, attPDRight);
             
-            Point3D pipi = tail.getTestPoint();
-            Point3D po = pipi;
         }
 
         public void resetModelTransformation(object sender, RoutedEventArgs e)
