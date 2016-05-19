@@ -42,21 +42,21 @@ namespace KinematicViewer
             this.axisOfRotation = axisOfRotation;
 
             this.axisPoints = axisPoints;
-            this.axisPoint = axisPoints[0];
-            this.handPoint = axisPoints[1];
+            axisPoint = axisPoints[0];
+            handPoint = axisPoints[1];
 
-            this.vAxisToHandE1 = handPoint - axisPoint;
+            vAxisToHandE1 = handPoint - axisPoint;
             vAxisQuerE2 = Vector3D.CrossProduct(vAxisToHandE1, vY);
             vAxisQuerE2.Normalize();
 
             vN = Vector3D.CrossProduct(vAxisQuerE2, vAxisToHandE1);
             vN.Normalize();
 
-            this.attPointBodyL = axisPoints[2];
-            this.attPointDoorL = axisPoints[3];
+            attPointBodyL = axisPoints[2];
+            attPointDoorL = axisPoints[3];
             addSecondDriveToList(axisPoints);
-            this.attPointBodyR = axisPoints[4];
-            this.attPointDoorR = axisPoints[5];
+            attPointBodyR = axisPoints[4];
+            attPointDoorR = axisPoints[5];
 
             this.groupModelVisual = groupModelVisual;
             this.groupDriveVisual = groupDriveVisual;

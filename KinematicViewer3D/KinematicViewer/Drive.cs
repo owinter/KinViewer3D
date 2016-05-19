@@ -31,8 +31,8 @@ namespace KinematicViewer
             this.groupDriveVisual = groupDriveVisual;
 
             vDrive = point2 - point1;
-            this.retractedLength = vDrive.Length;
-            this.stroke = extractedLength - retractedLength;
+            retractedLength = vDrive.Length;
+            stroke = extractedLength - retractedLength;
             makeDrive();
         }
 

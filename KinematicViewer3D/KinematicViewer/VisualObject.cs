@@ -14,6 +14,7 @@ namespace KinematicViewer
 
         protected Drive drive;
         protected Cuboid cube;
+        protected Cuboid2 cube2;
         protected Cylinder cylinder;
         protected Sphere sphere;
 
@@ -31,6 +32,7 @@ namespace KinematicViewer
         {
             MeshGeometry3D mesh_Cuboid = new MeshGeometry3D();
             cube = new Cuboid(point1, point2, mesh_Cuboid, modelThickness);
+            //cube2 = new Cuboid2(point1, point2, mesh_Cuboid, modelThickness);
 
             cuboidGeometry = new GeometryModel3D(mesh_Cuboid, new DiffuseMaterial(Brushes.Cyan));
             cuboidGeometry.Transform = new Transform3DGroup();

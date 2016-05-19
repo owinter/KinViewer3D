@@ -21,7 +21,7 @@ namespace KinematicViewer
             //Umgebungspunkte berechnen
             Point3D[] p_around = makeVertices(point1, point2, modelThickness);
 
-            //Berechnung aller 6 Seiten eines Rechtecks mit jeweiligen Normalenvektoren für alle Faces / Seiten
+            //Berechnung aller 6 Seiten eines Rechtecks (mit bestimmten Normalenvektoren für alle Faces / Seiten)
             //Rechte Seite
             buildRectangle(mesh, p_around[0], p_around[1], p_around[5], p_around[4]); //, new Vector3D(1, 0, 0)
 
@@ -46,17 +46,6 @@ namespace KinematicViewer
         //Erstellen der Nachbarpuntke aus Benutzereingabe
         private Point3D[] makeVertices(Point3D point1, Point3D point2, double modelThickness)
         {
-
-            /* //Punkte durch Benutzereingabe
-             Point3D point1 = new Point3D(x1, y1, z1);
-             Point3D point2 = new Point3D(x2, y2, z2);*/
-
-            /*//Mittelpunkt des Models berechnen
-            mPoint = new Point3D((point1.X + point2.X) / 2,
-                                 (point1.Y + point2.Y) / 2,
-                                 (point1.Z + point2.Z) / 2);*/
-
-
             // Vektor zwischen Ursprung und Segment-Endpunkt berechnen
             Vector3D v = point2 - point1;
 
@@ -89,18 +78,6 @@ namespace KinematicViewer
             points.Add(p2mp);
             points.Add(p2pm);
             points.Add(p2mm);
-
-
-            /*   points.Add(new Point3D(x1 + modelThickness / 2, y1, z1 + modelThickness / 2));
-               points.Add(new Point3D(x1 + modelThickness / 2, y1, z1 - modelThickness / 2));
-               points.Add(new Point3D(x1 - modelThickness / 2, y1, z1 - modelThickness / 2));
-               points.Add(new Point3D(x1 - modelThickness / 2, y1, z1 + modelThickness / 2));
-               points.Add(new Point3D(x2 + modelThickness / 2, y2, z2 + modelThickness / 2));
-               points.Add(new Point3D(x2 + modelThickness / 2, y2, z2 - modelThickness / 2));
-               points.Add(new Point3D(x2 - modelThickness / 2, y2, z2 - modelThickness / 2));
-               points.Add(new Point3D(x2 - modelThickness / 2, y2, z2 + modelThickness / 2));*/
-
-            //VerifyEdgeLengths(2, points.ToArray());
 
             return points.ToArray();
         }

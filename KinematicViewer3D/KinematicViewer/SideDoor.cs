@@ -24,30 +24,29 @@ namespace KinematicViewer
         private List<Point3D> coordsMidDoor;
         private List<Point3D> coordsDrive;
 
-        private const double tailWidth = 1250.0;
-        private const double tailDepth = 200.0;
+        private const double doorWidth = 1200.0;
+        private const double doorHeight = 200.0;
         private const double offset = 130.0;
         private double modelThickness;
 
         public SideDoor(List<Point3D> axisPoints, Vector3D axisOfRotation, Model3DGroup groupModelVisual, Model3DGroup groupDriveVisual, double modelThickness)
         {
             this.axisPoints = axisPoints;
-            this.axisPoint = axisPoints[0];
-            this.handPoint = axisPoints[1];
+            axisPoint = axisPoints[0];
+            handPoint = axisPoints[1];
             this.axisOfRotation = axisOfRotation;
 
             this.groupModelVisual = groupModelVisual;
             this.groupDriveVisual = groupDriveVisual;
             this.modelThickness = modelThickness;
 
-            this.coordsMidDoor = makeCoordsMidDoor();
-            this.coordsUpDoor = makeCoordsUpDoor();
-            this.coordsDrive = makeCoordsDrive();
+            coordsMidDoor = makeCoordsMidDoor();
+            coordsUpDoor = makeCoordsUpDoor();
+            coordsDrive = makeCoordsDrive();
 
             clearModel();
             buildSideDoor();
             buildDrive();
-
         }
 
         private List<Point3D> makeCoordsMidDoor()

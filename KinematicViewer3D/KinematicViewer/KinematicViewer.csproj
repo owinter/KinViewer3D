@@ -51,6 +51,7 @@
       <DependentUpon>CoordSystemSmall.xaml</DependentUpon>
     </Compile>
     <Compile Include="Cuboid.cs" />
+    <Compile Include="Cuboid2.cs" />
     <Compile Include="Cylinder.cs" />
     <Compile Include="Drive.cs" />
     <Compile Include="MouseUtilities.cs" />

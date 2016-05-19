@@ -15,20 +15,20 @@ namespace KinematicViewer
 
         public Transformation()
         {
-            this.yaw = 0.0;
-            this.pitch = 0.0;
+            yaw = 0.0;
+            pitch = 0.0;
         }
 
         public void doPitch(ProjectionCamera camera, double amount)
         {
             pitch += amount;
-            this.Rotate(camera);
+            Rotate(camera);
         }
 
         public void doYaw(ProjectionCamera camera, double amount)
         {
             yaw += amount;
-            this.Rotate(camera);
+            Rotate(camera);
         }
 
         public void Zoom(ProjectionCamera camera, double amount)
@@ -149,12 +149,12 @@ namespace KinematicViewer
 
         public void setYaw(double value)
         {
-            this.yaw = value;
+            yaw = value;
         }
 
         public void setPitch(double value)
         {
-            this.pitch = value;
+            pitch = value;
         }
 
         public void setRotationPoint(Point3D rotationPoint)
@@ -163,3 +163,49 @@ namespace KinematicViewer
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+/*
+ * 
+ * Beispielhafte Rotation um eine achse mit Quaternionen
+ * 
+ * */
+ /*
+void OnRendering(object sender, EventArgs args)
+{
+    // Detach collection from MeshGeometry3D.
+    Point3DCollection points = mesh.Positions;
+    mesh.Positions = null;
+    points.Clear();
+
+    // Calculation rotation quaternion.
+    double angle = 360.0 * (stopwatch.Elapsed.TotalSeconds %
+                                    secondsPerCycle) / secondsPerCycle;
+    Quaternion qRotate = new Quaternion(axis, angle);
+    Quaternion qConjugate = qRotate;
+    qConjugate.Conjugate();
+
+    // Apply rotation to each point.
+    foreach (Point3D point in pointsCuboid)
+    {
+        Quaternion qPoint = new Quaternion(point.X, point.Y, point.Z, 0);
+        qPoint -= qCenter;
+        Quaternion qRotatedPoint = qRotate * qPoint * qConjugate;
+        qRotatedPoint += qCenter;
+        points.Add(new Point3D(qRotatedPoint.X, qRotatedPoint.Y,
+                                                qRotatedPoint.Z));
+    }
+
+    // Re-attach collections to MeshGeometry3D.
+    mesh.Positions = points;
+}
+*/

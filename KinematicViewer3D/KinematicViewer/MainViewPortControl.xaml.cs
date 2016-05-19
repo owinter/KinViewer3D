@@ -35,6 +35,7 @@ namespace KinematicViewer
         private Transformation trans;
 
         public Cuboid cube;
+        public Cuboid2 cube2;
         public Sphere sphere;
         public Cylinder cylinder;
         public Tailgate tail;
@@ -74,7 +75,7 @@ namespace KinematicViewer
 
 
             //viewportCam.resetCam();
-            this.CanMoveCamera = true;
+            CanMoveCamera = true;
         }
 
         private void generateVisualModel()
@@ -99,7 +100,7 @@ namespace KinematicViewer
         //MAUSSTEUERUNG im MainGrid
         private void MainGrid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (this.CanMoveCamera)
+            if (CanMoveCamera)
             {
                 viewportCam.viewport_Grid_MouseWheel(sender, e);
             }
@@ -107,7 +108,7 @@ namespace KinematicViewer
 
         private void MainGrid_MouseMove(object sender, MouseEventArgs e)
         {
-            if (this.CanMoveCamera)
+            if (CanMoveCamera)
             {
                 // Wenn Rechte Maustaste "nicht" gedrückt dann passiert auch nichts
                 if (!mouseDownRight) return;
@@ -115,7 +116,7 @@ namespace KinematicViewer
                 viewportCam.rotateCam();
             }
 
-            if (!this.CanMoveCamera)
+            if (!CanMoveCamera)
             {
                 if (!mouseDownLeft) return;
 
@@ -125,7 +126,7 @@ namespace KinematicViewer
 
         private void MainGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (this.CanMoveCamera)
+            if (CanMoveCamera)
             {
                 if (e.RightButton != MouseButtonState.Pressed) return;
 
@@ -141,7 +142,7 @@ namespace KinematicViewer
         {
             // Maustaste ist nicht länger gedrückt, also wird Curser wieder sichtbar
             mouseDownRight = false;
-            this.Cursor = Cursors.Arrow;
+            Cursor = Cursors.Arrow;
         }
 
         private void MainGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -358,7 +359,7 @@ namespace KinematicViewer
         
         public void setAxisOfRotation(double x, double y, double z)
         {
-            this.axisOfRotation = new Vector3D(x, y, z);
+            axisOfRotation = new Vector3D(x, y, z);
         }
 
         //Übergeben eines TextBlockObjectes an das ViewportControl
