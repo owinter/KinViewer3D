@@ -1,30 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
 namespace KinematicViewer
 {
-    public class Sphere
+    public class Sphere : GeometricalElement
     {
+        private Point3D _oCenter;
+        private double _dRadius = 100;
+
         private int slices = 32;
         private int stacks = 16;
-        private Point3D center = new Point3D(); // Mittelpunkt 
-        private double radius = 100; // in Millimeter
 
-        public Sphere(Point3D center , double radius, MeshGeometry3D mesh)
+        public Sphere(Point3D center, double diameter, System.Windows.Media.Brush mat = null)
+            :base(mat)
         {
-            this.center = center;
-            this.radius = radius /2;
-            buildSphere(mesh);
-            
+            Center = center;
+            Radius = diameter / 2;
         }
-        public Point3D getPosition()
+
+        /// <summary>
+        /// Mittelpunkt
+        /// </summary>
+        public Point3D Center
         {
-            return center;
+            get { return _oCenter; }
+            set { _oCenter = value; }
+        }
+
+        public double Radius
+        {
+            get { return _dRadius; }
+            set { _dRadius = value; }
         }
 
         public int Slices
@@ -32,48 +40,31 @@ namespace KinematicViewer
             get { return slices; }
             set { slices = value; }
         }
-
         public int Stacks
         {
             get { return stacks; }
             set { stacks = value; }
         }
 
-        public Point3D Center
+        public override GeometryModel3D[] GetGeometryModel()
         {
-            get { return center; }
-            set { center = value; }
-        }
+            MeshGeometry3D mesh = new MeshGeometry3D();
 
-        public double Radius
-        {
-            get { return radius; }
-            set { radius = value; }
-        }
-
-       /* public MeshGeometry3D SphereGeometry
-        {
-            get { return CalculateMesh(); }
-        }*/
-        
-
-        private void buildSphere(MeshGeometry3D mesh)
-        {
             for (int stack = 0; stack <= Stacks; stack++)
             {
-                double phi = Math.PI / 2 - stack * Math.PI / Stacks; 
-                double y = radius * Math.Sin(phi); 
-                double scale = -radius * Math.Cos(phi);
+                double phi = Math.PI / 2 - stack * Math.PI / Stacks;
+                double y = _dRadius * Math.Sin(phi);
+                double scale = -_dRadius * Math.Cos(phi);
 
                 for (int slice = 0; slice <= Slices; slice++)
                 {
-                    double theta = slice * 2 * Math.PI / Slices; 
-                    double x = scale * Math.Sin(theta); 
-                    double z = scale * Math.Cos(theta); 
+                    double theta = slice * 2 * Math.PI / Slices;
+                    double x = scale * Math.Sin(theta);
+                    double z = scale * Math.Cos(theta);
 
-                    Vector3D normal = new Vector3D(x, y, z); 
+                    Vector3D normal = new Vector3D(x, y, z);
                     mesh.Normals.Add(normal);
-                    mesh.Positions.Add(normal + Center);      
+                    mesh.Positions.Add(normal + Center);
                     mesh.TextureCoordinates.Add(new Point((double)slice / Slices, (double)stack / Stacks));
                 }
             }
@@ -100,7 +91,16 @@ namespace KinematicViewer
                     }
                 }
             }
-           // return mesh;
+
+            GeometryModel3D model = new GeometryModel3D(mesh, Material);
+            model.Transform = new Transform3DGroup();
+
+            return new GeometryModel3D[] { model };
+        }
+
+        public Point3D getPosition()
+        {
+            return Center;
         }
     }
 }

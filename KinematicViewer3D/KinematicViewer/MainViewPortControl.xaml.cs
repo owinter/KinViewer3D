@@ -34,14 +34,20 @@ namespace KinematicViewer
         //Klasse für Transformationen aller Art
         private Transformation trans;
 
-        public Cuboid cube;
-        public Cuboid2 cube2;
-        public Sphere sphere;
-        public Cylinder cylinder;
-        public Tailgate tail;
+        //public Cuboid cube;
+        //public Cuboid2 cube2;
+        //public Sphere sphere;
+        //public Cylinder cylinder;
+        //public Tailgate tail;
+
+       
+        private IGuide Guide;
+
+        public List<GeometricalElement> ElementsStatic;
+        public List<GeometricalElement> ElementsMoving;
 
         //Achsenpunkte der Benutzereingabe
-        private List<Point3D> axisPoints;
+        //private List<Point3D> axisPoints;
 
         //Mittelpunkt des Objektes
         private Point3D mPoint;
@@ -56,6 +62,16 @@ namespace KinematicViewer
 
         private string s_coords;
         private TextBlock statusPane;
+
+        public void AddMovingElement(GeometricalElement elem)
+        {
+            ElementsMoving.Add(elem);
+        }
+
+        public void addStaticElement(GeometricalElement elem)
+        {
+            ElementsStatic.Add(elem);
+        }
 
         public MainViewPortControl()
         {
@@ -80,11 +96,14 @@ namespace KinematicViewer
 
         private void generateVisualModel()
         {
+            //tail = new Tailgate(AxisPoints, axisOfRotation, modelThickness);
 
-            tail = new Tailgate(AxisPoints, axisOfRotation, groupModelVisual, groupDriveVisual, modelThickness);
+            foreach (GeometricalElement e in ElementsMoving)
+                foreach (Model3D m in e.GetGeometryModel())
+                    groupModelVisual.Children.Add(m);
+
             trans.resetModelTransformation(groupModelVisual);
             trans.resetModelTransformation(groupDriveVisual);
-            
 
             ////Kamera für Main Viewport updaten
             viewportCam.updatePositionCamera();
@@ -229,7 +248,8 @@ namespace KinematicViewer
 
         public void clearModel()
         {
-            tail.clearModel(); 
+            groupModelVisual.Children.Clear();
+            groupDriveVisual.Children.Clear();
         }
 
         public void createModel()
@@ -296,13 +316,15 @@ namespace KinematicViewer
         {
 
             double axisAngle = (e.NewValue *maxOpen / 100);
-            
-            trans.rotateModel(axisAngle, axisOfRotation, axisPoints, groupModelVisual);
-            //trans.rotateDrive(axisAngle, axisOfRotation, axisPoints, groupDriveVisual);
 
-            Point3D attPDLeft = trans.rotateDrivePoint(axisAngle, axisOfRotation, axisPoints, tail.AttachmentPointDoorLeft);
-            Point3D attPDRight = trans.rotateDrivePoint(axisAngle, axisOfRotation, axisPoints, tail.AttachmentPointDoorRight);
-            tail.updateDrives(attPDLeft, attPDRight);
+            Guide.Move(e.NewValue, ElementsMoving);
+
+            //trans.rotateModel(axisAngle, axisOfRotation, axisPoints, groupModelVisual);
+            ////trans.rotateDrive(axisAngle, axisOfRotation, axisPoints, groupDriveVisual);
+
+            //Point3D attPDLeft = trans.rotateDrivePoint(axisAngle, axisOfRotation, axisPoints, tail.AttachmentPointDoorLeft);
+            //Point3D attPDRight = trans.rotateDrivePoint(axisAngle, axisOfRotation, axisPoints, tail.AttachmentPointDoorRight);
+            //tail.updateDrives(attPDLeft, attPDRight);
             
         }
 

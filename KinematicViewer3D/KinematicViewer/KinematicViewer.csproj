@@ -54,13 +54,15 @@
     <Compile Include="Cuboid2.cs" />
     <Compile Include="Cylinder.cs" />
     <Compile Include="Drive.cs" />
+    <Compile Include="GeometricalElement.cs" />
+    <Compile Include="IGuide.cs" />
     <Compile Include="MouseUtilities.cs" />
     <Compile Include="SideDoor.cs" />
     <Compile Include="Sphere.cs" />
     <Compile Include="Tailgate.cs" />
     <Compile Include="Transformation.cs" />
     <Compile Include="ViewportCamera.cs" />
-    <Compile Include="VisualObject.cs" />
+    <Compile Include="Renderer.cs" />
     <Page Include="CoordSystemSmall.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -92,6 +94,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -1,22 +1,87 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Media.Media3D;
 
 namespace KinematicViewer
 {
-    public class Cylinder
+    public class Cylinder : GeometricalElement
     {
-        public Cylinder(MeshGeometry3D mesh, Point3D end_point, Point3D start_point, double radius, int num_sides)
+        public const int STANDARD_NUM_SIDES = 128;
+
+        private double _dRadius;
+
+        private int _iSides;
+
+        private Point3D
+            _oPointStart,
+            _oPointEnd;
+
+        public Cylinder(Point3D end_point, Point3D start_point, double radius, System.Windows.Media.Brush mat = null)
+            : base(mat)
         {
-            Vector3D axis = start_point - end_point;
-            AddCylinder(mesh, end_point, axis, radius, num_sides);
+            PointStart = start_point;
+            PointEnd = end_point;
+            Radius = radius;
+            Sides = STANDARD_NUM_SIDES;
+        }
+
+        public Point3D PointEnd
+        {
+            get
+            {
+                return _oPointEnd;
+            }
+
+            set
+            {
+                _oPointEnd = value;
+            }
+        }
+
+        public Point3D PointStart
+        {
+            get
+            {
+                return _oPointStart;
+            }
+
+            set
+            {
+                _oPointStart = value;
+            }
+        }
+
+        public double Radius
+        {
+            get
+            {
+                return _dRadius;
+            }
+
+            set
+            {
+                _dRadius = value;
+            }
+        }
+
+        public int Sides
+        {
+            get
+            {
+                return _iSides;
+            }
+
+            set
+            {
+                _iSides = value;
+            }
         }
 
         // Add a cylinder.
-        private void AddCylinder(MeshGeometry3D mesh, Point3D end_point, Vector3D axis, double radius, int num_sides)
+        public override GeometryModel3D[] GetGeometryModel()
         {
+            Vector3D axis = PointStart - PointEnd;
+            MeshGeometry3D mesh = new MeshGeometry3D();
+
             // Berechnung von zwei senkrechten Vektoren
             Vector3D v1;
             if ((axis.Z < -0.01) || (axis.Z > 0.01))
@@ -26,39 +91,39 @@ namespace KinematicViewer
 
             Vector3D v2 = Vector3D.CrossProduct(v1, axis);
 
-            // Make the vectors have length radius.
-            v1 *= (radius / v1.Length);
-            v2 *= (radius / v2.Length);
+            // Make the vectors have length Radius.
+            v1 *= (Radius / v1.Length);
+            v2 *= (Radius / v2.Length);
 
             // Top Seite erstellen
             double theta = 0;
-            double dtheta = 2 * Math.PI / num_sides;
-            for (int i = 0; i < num_sides; i++)
+            double dtheta = 2 * Math.PI / Sides;
+            for (int i = 0; i < Sides; i++)
             {
-                Point3D p1 = end_point + Math.Cos(theta) * v1 + Math.Sin(theta) * v2;
+                Point3D p1 = PointEnd + Math.Cos(theta) * v1 + Math.Sin(theta) * v2;
                 theta += dtheta;
-                Point3D p2 = end_point + Math.Cos(theta) * v1 + Math.Sin(theta) * v2;
-                AddTriangle(mesh, end_point, p1, p2);
+                Point3D p2 = PointEnd + Math.Cos(theta) * v1 + Math.Sin(theta) * v2;
+                AddTriangle(mesh, PointEnd, p1, p2);
             }
 
             // Bottom Seite erstellen
-            Point3D end_point2 = end_point + axis;
+            Point3D PointEnd2 = PointEnd + axis;
             theta = 0;
-            for (int i = 0; i < num_sides; i++)
+            for (int i = 0; i < Sides; i++)
             {
-                Point3D p1 = end_point2 + Math.Cos(theta) * v1 + Math.Sin(theta) * v2;
+                Point3D p1 = PointEnd2 + Math.Cos(theta) * v1 + Math.Sin(theta) * v2;
                 theta += dtheta;
-                Point3D p2 = end_point2 + Math.Cos(theta) * v1 + Math.Sin(theta) * v2;
-                AddTriangle(mesh, end_point2, p2, p1);
+                Point3D p2 = PointEnd2 + Math.Cos(theta) * v1 + Math.Sin(theta) * v2;
+                AddTriangle(mesh, PointEnd2, p2, p1);
             }
 
             // Seiten erstellen
             theta = 0;
-            for (int i = 0; i < num_sides; i++)
+            for (int i = 0; i < Sides; i++)
             {
-                Point3D p1 = end_point + Math.Cos(theta) * v1 + Math.Sin(theta) * v2;
+                Point3D p1 = PointEnd + Math.Cos(theta) * v1 + Math.Sin(theta) * v2;
                 theta += dtheta;
-                Point3D p2 = end_point + Math.Cos(theta) * v1 + Math.Sin(theta) * v2;
+                Point3D p2 = PointEnd + Math.Cos(theta) * v1 + Math.Sin(theta) * v2;
 
                 Point3D p3 = p1 + axis;
                 Point3D p4 = p2 + axis;
@@ -66,6 +131,12 @@ namespace KinematicViewer
                 AddTriangle(mesh, p1, p3, p2);
                 AddTriangle(mesh, p2, p3, p4);
             }
+
+
+            GeometryModel3D model = new GeometryModel3D(mesh, Material);
+            model.Transform = new Transform3DGroup();
+
+            return new GeometryModel3D[] { model };
         }
 
         private void AddTriangle(MeshGeometry3D mesh, Point3D point1, Point3D point2, Point3D point3)
