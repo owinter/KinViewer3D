@@ -39,6 +39,7 @@ namespace KinematicViewer
         //public Sphere sphere;
         //public Cylinder cylinder;
         public Tailgate tail;
+        public Drive drive;
 
        
         private IGuide Guide;
@@ -97,7 +98,18 @@ namespace KinematicViewer
         private void generateVisualModel()
         {
             tail = new Tailgate(AxisPoints, axisOfRotation, modelThickness);
+            drive = new Drive(axisPoints[2], tail.AttachmentPointDoorLeft);
+            GeometryModel3D[] tailgate = tail.GetGeometryModel();
+            GeometryModel3D[] drives = drive.GetGeometryModel(); 
 
+            foreach (GeometryModel3D i in tailgate)
+                groupModelVisual.Children.Add(i);
+            foreach (GeometryModel3D j in drives)
+                groupDriveVisual.Children.Add(j);
+          
+
+           
+            /*
             foreach (GeometricalElement e in ElementsMoving)
                 foreach (Model3D m in e.GetGeometryModel())
                     groupModelVisual.Children.Add(m);
@@ -105,9 +117,9 @@ namespace KinematicViewer
             foreach (GeometricalElement e in ElementsStatic)
                 foreach (Model3D m in e.GetGeometryModel())
                     groupDriveVisual.Children.Add(m);
-
+                    */
             trans.resetModelTransformation(groupModelVisual);
-            trans.resetModelTransformation(groupDriveVisual);
+           // trans.resetModelTransformation(groupDriveVisual);
 
             ////Kamera für Main Viewport updaten
             viewportCam.updatePositionCamera();
