@@ -61,8 +61,8 @@ namespace KinematicViewer
             attPointBodyL = axisPoints[2];
             attPointDoorL = axisPoints[3];
             //addSecondDriveToList(axisPoints);
-            attPointBodyR = axisPoints[4];
-            attPointDoorR = axisPoints[5];
+            //attPointBodyR = axisPoints[4];
+            //attPointDoorR = axisPoints[5];
 
             this.modelThickness = modelThickness;
 
@@ -174,18 +174,21 @@ namespace KinematicViewer
             List<GeometryModel3D> Res = new List<GeometryModel3D>();
 
             //Klappe
+            //Oberer Part
             for (int i = 0; i <= coordsUpTail.Count - 2; i++)
             {
                 Res.AddRange(new Sphere(coordsUpTail[i], modelThickness, Brushes.Cyan).GetGeometryModel());
                 Res.AddRange(new Cuboid(coordsUpTail[i], coordsUpTail[i + 1], modelThickness).GetGeometryModel());
             }
 
+            //Unterer Part
             for (int i = 0; i <= coordsDownTail.Count - 2; i++)
             {
                 Res.AddRange(new Sphere(coordsDownTail[i], modelThickness, Brushes.Cyan).GetGeometryModel());
                 Res.AddRange(new Cuboid(coordsDownTail[i], coordsDownTail[i + 1], modelThickness).GetGeometryModel());
             }
 
+            //Mittlerer Part
             for (int i = 0; i <= coordsMidTail.Count - 4; i++)
             {
                 Res.AddRange(new Sphere(coordsMidTail[i], modelThickness, Brushes.Cyan).GetGeometryModel());
@@ -198,6 +201,7 @@ namespace KinematicViewer
             Res.AddRange(new Sphere(coordsMidTail[4], 40, Brushes.Cyan).GetGeometryModel());
             Res.AddRange(new Sphere(coordsMidTail[5], 40, Brushes.Cyan).GetGeometryModel());
 
+
             //Handle
             Res.AddRange(new Sphere(handPoint, 50, Brushes.Red).GetGeometryModel());
 
@@ -209,7 +213,12 @@ namespace KinematicViewer
             Res.AddRange(new Cylinder(p1, p2, 10, Brushes.Red).GetGeometryModel());
 
             return Res.ToArray();
-        }        
+        }
+
+        public void Move(double newValue, List<GeometricalElement> elementsMoving)
+        {
+            throw new NotImplementedException();
+        }
 
         //private void addSecondDriveToList(List<Point3D> axisPoints)
         //{
@@ -220,7 +229,7 @@ namespace KinematicViewer
 
         //    Point3D p1 = Renderer.reflectPoint(attPointBodyL, vR, vE2, d);
         //    Point3D p2 = Renderer.reflectPoint(attPointDoorL, vR, vE2, d);
-            
+
         //    axisPoints.Add(p1);
         //    axisPoints.Add(p2);
         //}

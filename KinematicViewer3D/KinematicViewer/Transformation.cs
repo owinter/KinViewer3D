@@ -9,25 +9,44 @@ namespace KinematicViewer
 {
     public class Transformation
     {
-        private double yaw; // Gieren bzw Schlingern rechts links um y- Achse (Vertikalachse)
-        private double pitch; // Neigen um die Querachse x- Achse
-        private Point3D rotationPoint;
+        private double _dYaw; // Gieren bzw Schlingern rechts links um y- Achse (Vertikalachse)
+        private double _dPitch; // Neigen um die Querachse x- Achse
+        private Point3D _oRotationPoint;
+       
 
         public Transformation()
         {
-            yaw = 0.0;
-            pitch = 0.0;
+            Yaw = 0.0;
+            Pitch = 0.0;
+        }
+
+        public double Yaw
+        {
+            get { return _dYaw; }
+            set { _dYaw = value; }
+        }
+
+        public double Pitch
+        {
+            get { return _dPitch; }
+            set { _dPitch = value; }
+        }
+
+        public Point3D RotationPoint
+        {
+            get { return _oRotationPoint; }
+            set { _oRotationPoint = value; }
         }
 
         public void doPitch(ProjectionCamera camera, double amount)
         {
-            pitch += amount;
+            Pitch += amount;
             Rotate(camera);
         }
 
         public void doYaw(ProjectionCamera camera, double amount)
         {
-            yaw += amount;
+            Yaw += amount;
             Rotate(camera);
         }
 
@@ -39,8 +58,8 @@ namespace KinematicViewer
 
         public void Rotate(ProjectionCamera camera)
         {
-            double theta = yaw / 3;
-            double phi = pitch / 3;
+            double theta = Yaw / 3;
+            double phi = Pitch / 3;
 
             //Bereich in dem rotiert wird
             if (phi < -90) phi = -90;
@@ -69,8 +88,8 @@ namespace KinematicViewer
         {
             camera.Position = new Point3D(camera.Position.X, camera.Position.Y, 2000);
             camera.Transform = new Transform3DGroup();
-            yaw = 0;
-            pitch = 0;
+            Yaw = 0;
+            Pitch = 0;
         }
 
         public void rotateModel(double axisAngle, Vector3D axisOfRotation, List<Point3D> AxisPoints, Model3DGroup groupModelVisual)
@@ -130,36 +149,6 @@ namespace KinematicViewer
         public void resetModelTransformation(Model3DGroup groupModelVisual)
         {
             groupModelVisual.Transform = new Transform3DGroup();
-        }
-
-        public double getYaw()
-        {
-            return yaw;
-        }
-
-        public double getPitch()
-        {
-            return pitch;
-        }
-
-        public Point3D getRotationPoint()
-        {
-            return rotationPoint;
-        }
-
-        public void setYaw(double value)
-        {
-            yaw = value;
-        }
-
-        public void setPitch(double value)
-        {
-            pitch = value;
-        }
-
-        public void setRotationPoint(Point3D rotationPoint)
-        {
-            this.rotationPoint = rotationPoint;
         }
     }
 }

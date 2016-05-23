@@ -9,35 +9,82 @@ namespace KinematicViewer
 {
     public class Drive: GeometricalElement
     {
-        private Point3D point1, point2;
-
-        private double retractedLength;
-        private double extractedLength = 648.8;
-        private double stroke;
-
+        private Point3D _oStartPoint;
+        private Point3D _oEndPoint;
         private Vector3D vDrive;
 
-        private Int32 rBody = 15;
-        private Int32 rDoor = 25;
+        private double _dRetractedLength;
+        private double _dExtractedLength;
+        private double _dStroke;
+        private int _iRadiusBody;
+        private int _iRadiusDoor;
 
         public Drive(Point3D point1, Point3D point2)
         {
-            this.point1 = point1;
-            this.point2 = point2;
+            StartPoint = point1;
+            EndPoint = point2;
 
-            vDrive = point2 - point1;
-            retractedLength = vDrive.Length;
-            stroke = extractedLength - retractedLength;
+            RadiusBody = 15;
+            RadiusDoor = 25;
+            
+
+            vDrive = EndPoint - StartPoint;
+            _dRetractedLength = vDrive.Length;
+            ExtractedLength = 648.8;
+            Stroke = _dExtractedLength - _dRetractedLength;
         }
+
+        public double RetractedLenght
+        {
+            get { return _dRetractedLength; }
+            set { _dRetractedLength = value; }
+        }
+
+        public double ExtractedLength
+        {
+            get { return _dExtractedLength; }
+            set { _dExtractedLength = value; }
+        }
+
+        public Point3D StartPoint
+        {
+            get { return _oStartPoint; }
+            set { _oStartPoint = value; }
+        }
+
+        public Point3D EndPoint
+        {
+            get { return _oEndPoint; }
+            set { _oEndPoint = value; }
+        }
+
+        public double Stroke
+        {
+            get { return _dStroke; }
+            set { _dStroke = value; }
+        }
+
+        public int RadiusBody
+        {
+            get { return _iRadiusBody; }
+            set { _iRadiusBody = value; }
+        }
+
+        public int RadiusDoor
+        {
+            get { return _iRadiusDoor; }
+            set { _iRadiusDoor = value; }
+        }
+
 
         public override GeometryModel3D[] GetGeometryModel()
         {
             List<GeometryModel3D> Res = new List<GeometryModel3D>();
 
-            Res.AddRange(new Cylinder(point1, point2 - 0.25 * vDrive, rBody, Brushes.Gray).GetGeometryModel());
-            Res.AddRange(new Sphere(point1, rBody, Brushes.Gray).GetGeometryModel());
-            Res.AddRange(new Cylinder(point1 + 0.25 * vDrive, point2, rDoor, Brushes.YellowGreen).GetGeometryModel());
-            Res.AddRange(new Sphere(point2, rDoor, Brushes.Gray).GetGeometryModel());
+            Res.AddRange(new Cylinder(StartPoint, EndPoint - 0.25 * vDrive, RadiusBody, Brushes.Gray).GetGeometryModel());
+            Res.AddRange(new Sphere(StartPoint, RadiusBody, Brushes.Gray).GetGeometryModel());
+            Res.AddRange(new Cylinder(StartPoint + 0.25 * vDrive, EndPoint, RadiusDoor, Brushes.YellowGreen).GetGeometryModel());
+            Res.AddRange(new Sphere(EndPoint, RadiusDoor, Brushes.Gray).GetGeometryModel());
 
             return Res.ToArray();
         }
@@ -71,16 +118,6 @@ namespace KinematicViewer
             
         //}
 
-        public double RetractedLenght
-        {
-            get { return retractedLength; }
-            set { retractedLength = value; }
-        }
-
-        public double ExtractedLength
-        {
-            get { return extractedLength; }
-            set { extractedLength = value; }
-        }
+       
     }
 }

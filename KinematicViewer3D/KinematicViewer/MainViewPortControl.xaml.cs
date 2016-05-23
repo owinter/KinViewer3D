@@ -38,7 +38,7 @@ namespace KinematicViewer
         //public Cuboid2 cube2;
         //public Sphere sphere;
         //public Cylinder cylinder;
-        //public Tailgate tail;
+        public Tailgate tail;
 
        
         private IGuide Guide;
@@ -47,7 +47,7 @@ namespace KinematicViewer
         public List<GeometricalElement> ElementsMoving;
 
         //Achsenpunkte der Benutzereingabe
-        //private List<Point3D> axisPoints;
+        private List<Point3D> axisPoints;
 
         //Mittelpunkt des Objektes
         private Point3D mPoint;
@@ -96,11 +96,15 @@ namespace KinematicViewer
 
         private void generateVisualModel()
         {
-            //tail = new Tailgate(AxisPoints, axisOfRotation, modelThickness);
+            tail = new Tailgate(AxisPoints, axisOfRotation, modelThickness);
 
             foreach (GeometricalElement e in ElementsMoving)
                 foreach (Model3D m in e.GetGeometryModel())
                     groupModelVisual.Children.Add(m);
+
+            foreach (GeometricalElement e in ElementsStatic)
+                foreach (Model3D m in e.GetGeometryModel())
+                    groupDriveVisual.Children.Add(m);
 
             trans.resetModelTransformation(groupModelVisual);
             trans.resetModelTransformation(groupDriveVisual);

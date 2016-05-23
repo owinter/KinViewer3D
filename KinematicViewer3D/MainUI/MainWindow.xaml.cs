@@ -54,7 +54,6 @@ namespace MainUI
             MainUICoordSystemSmall.Content = cssControl; 
 
             create_Button.IsEnabled = false;
-            
         }
 
 

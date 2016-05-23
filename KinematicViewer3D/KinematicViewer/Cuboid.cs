@@ -1,19 +1,42 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
 namespace KinematicViewer
 {
     public class Cuboid : GeometricalElement
     {
-        private Point3D P1, P2;
-        private double Thickness;
+        private Point3D _oPointStart;
+        private Point3D _oPointEnd;
+        private double _dThickness;
 
-        public Cuboid(Point3D point1, Point3D point2, double modelThickness, System.Windows.Media.Brush mat = null)
+       
+
+        public Cuboid(Point3D startPointP1, Point3D endPointP2, double modelThickness, System.Windows.Media.Brush mat = null)
             : base(mat)
         {
-            P1 = point1;
-            P2 = point2;
+            StartPointP1 = startPointP1;
+            EndPointP2 = endPointP2;
             Thickness = modelThickness;
+        }
+
+        public Point3D StartPointP1
+        {
+            get { return _oPointStart; }
+            set { _oPointStart = value; }
+
+        }
+
+        public Point3D EndPointP2
+        {
+            get { return _oPointEnd; }
+            set { _oPointEnd = value; }
+        }
+
+        public double Thickness
+        {
+            get { return _dThickness; }
+            set { _dThickness = value; }
         }
 
         public override GeometryModel3D[] GetGeometryModel()
@@ -77,7 +100,7 @@ namespace KinematicViewer
         private Point3D[] makeVertices()
         {
             // Vektor zwischen Ursprung und Segment-Endpunkt berechnen
-            Vector3D v = P2 - P1;
+            Vector3D v = EndPointP2 - StartPointP1;
 
             // Breite des Segmentes entsprechend Skalieren
             Vector3D n1 = scaleVector(new Vector3D(-v.Z, -v.Z, v.X + v.Y), Thickness / 2.0);
@@ -90,14 +113,14 @@ namespace KinematicViewer
             // p1pm bedeutet P1 PLUS n1 MINUS n2.
             List<Point3D> points = new List<Point3D>();
 
-            Point3D p1pp = P1 + n1 + n2;
-            Point3D p1mp = P1 - n1 + n2;
-            Point3D p1pm = P1 + n1 - n2;
-            Point3D p1mm = P1 - n1 - n2;
-            Point3D p2pp = P2 + n1 + n2;
-            Point3D p2mp = P2 - n1 + n2;
-            Point3D p2pm = P2 + n1 - n2;
-            Point3D p2mm = P2 - n1 - n2;
+            Point3D p1pp = StartPointP1 + n1 + n2;
+            Point3D p1mp = StartPointP1 - n1 + n2;
+            Point3D p1pm = StartPointP1 + n1 - n2;
+            Point3D p1mm = StartPointP1 - n1 - n2;
+            Point3D p2pp = EndPointP2 + n1 + n2;
+            Point3D p2mp = EndPointP2 - n1 + n2;
+            Point3D p2pm = EndPointP2 + n1 - n2;
+            Point3D p2mm = EndPointP2 - n1 - n2;
 
             //Punkte der Point3D List / Array hinzufügen
             points.Add(p1pp);

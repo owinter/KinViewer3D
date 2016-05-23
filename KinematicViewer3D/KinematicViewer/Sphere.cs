@@ -7,17 +7,20 @@ namespace KinematicViewer
 {
     public class Sphere : GeometricalElement
     {
-        private Point3D _oCenter;
-        private double _dRadius = 100;
+        private Point3D _oPointCenter;
 
-        private int slices = 32;
-        private int stacks = 16;
+        private double _dRadius;
+
+        private int _iSlices;
+        private int _iStacks;
 
         public Sphere(Point3D center, double diameter, System.Windows.Media.Brush mat = null)
             :base(mat)
         {
             Center = center;
             Radius = diameter / 2;
+            Slices = 32;
+            Stacks = 16;
         }
 
         /// <summary>
@@ -25,8 +28,8 @@ namespace KinematicViewer
         /// </summary>
         public Point3D Center
         {
-            get { return _oCenter; }
-            set { _oCenter = value; }
+            get { return _oPointCenter; }
+            set { _oPointCenter = value; }
         }
 
         public double Radius
@@ -37,13 +40,18 @@ namespace KinematicViewer
 
         public int Slices
         {
-            get { return slices; }
-            set { slices = value; }
+            get { return _iSlices; }
+            set { _iSlices = value; }
         }
         public int Stacks
         {
-            get { return stacks; }
-            set { stacks = value; }
+            get { return _iStacks; }
+            set { _iStacks = value; }
+        }
+
+        public Point3D getPosition()
+        {
+            return Center;
         }
 
         public override GeometryModel3D[] GetGeometryModel()
@@ -92,15 +100,11 @@ namespace KinematicViewer
                 }
             }
 
+            //Geometrie erzeugen 
             GeometryModel3D model = new GeometryModel3D(mesh, Material);
             model.Transform = new Transform3DGroup();
 
             return new GeometryModel3D[] { model };
-        }
-
-        public Point3D getPosition()
-        {
-            return Center;
         }
     }
 }
