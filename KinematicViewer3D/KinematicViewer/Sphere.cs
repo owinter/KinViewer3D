@@ -54,7 +54,7 @@ namespace KinematicViewer
             return Center;
         }
 
-        public override GeometryModel3D[] GetGeometryModel()
+        public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
             MeshGeometry3D mesh = new MeshGeometry3D();
 

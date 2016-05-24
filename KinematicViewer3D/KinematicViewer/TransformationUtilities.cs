@@ -7,7 +7,7 @@ using System.Windows.Media.Media3D;
 
 namespace KinematicViewer
 {
-    public static class Renderer
+    public static class TransformationUtilities
     {
         //Skaliere einen Vektor mit einem offset Wert
         public static Vector3D scaleToOffset(Vector3D vScale, double value)

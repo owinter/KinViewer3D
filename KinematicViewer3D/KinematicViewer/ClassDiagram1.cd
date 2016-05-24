@@ -8,11 +8,11 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="KinematicViewer.Renderer">
+  <Class Name="KinematicViewer.TransformationUtilities">
     <Position X="4.75" Y="1.75" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAQAAAAAAAAAAAAABAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Renderer.cs</FileName>
+      <FileName>TransformationUtilities.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="KinematicViewer.Drive">

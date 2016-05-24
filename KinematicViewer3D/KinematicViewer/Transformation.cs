@@ -92,11 +92,11 @@ namespace KinematicViewer
             Pitch = 0;
         }
 
-        public void rotateModel(double axisAngle, Vector3D axisOfRotation, List<Point3D> AxisPoints, Model3DGroup groupModelVisual)
+        public void rotateModel(double axisAngle, Vector3D axisOfRotation, Point3D AxisPoint, Model3DGroup groupModelVisual)
         {
             try
             {
-                Point3D axisPoint = AxisPoints[0];
+                Point3D axisPoint = AxisPoint;
                 AxisAngleRotation3D aARot = new AxisAngleRotation3D(axisOfRotation, axisAngle);
                 RotateTransform3D rotation = new RotateTransform3D(aARot, axisPoint);
                 groupModelVisual.Transform = rotation;
@@ -146,9 +146,9 @@ namespace KinematicViewer
             return outputPoint;
         }
 
-        public void resetModelTransformation(Model3DGroup groupModelVisual)
+        public void resetModelTransformation(Model3DGroup groupActive)
         {
-            groupModelVisual.Transform = new Transform3DGroup();
+            groupActive.Transform = new Transform3DGroup();
         }
     }
 }

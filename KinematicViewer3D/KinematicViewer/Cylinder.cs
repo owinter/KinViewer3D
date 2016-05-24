@@ -50,7 +50,7 @@ namespace KinematicViewer
         }
 
         // Cyliner erzeugen.
-        public override GeometryModel3D[] GetGeometryModel()
+        public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
             Vector3D vAxis = EndPoint - StartPoint;
             MeshGeometry3D mesh = new MeshGeometry3D();

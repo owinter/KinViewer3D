@@ -94,14 +94,14 @@
             <!-- Visual Model Group for Tailgates & Doors-->
             <ModelVisual3D x:Name="modelVisual">
                 <ModelVisual3D.Content>
-                    <Model3DGroup x:Name="groupModelVisual" />
+                    <Model3DGroup x:Name="groupActive" />
                 </ModelVisual3D.Content>
             </ModelVisual3D>
             
             <!-- Visual Model Group for Drives-->
             <ModelVisual3D x:Name="driveVisual">
                 <ModelVisual3D.Content>
-                    <Model3DGroup x:Name="groupDriveVisual" />
+                    <Model3DGroup x:Name="groupPassive" />
                 </ModelVisual3D.Content>
             </ModelVisual3D>
             

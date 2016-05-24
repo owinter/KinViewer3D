@@ -39,7 +39,7 @@ namespace KinematicViewer
             set { _dThickness = value; }
         }
 
-        public override GeometryModel3D[] GetGeometryModel()
+        public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
             MeshGeometry3D mesh = new MeshGeometry3D();
             Point3D[] p_around = makeVertices();

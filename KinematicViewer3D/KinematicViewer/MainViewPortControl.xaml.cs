@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using System.Windows.Markup;
 using System.Diagnostics;
 
+
+
 namespace KinematicViewer
 {
     /// <summary>
@@ -22,57 +24,33 @@ namespace KinematicViewer
     /// </summary>
     public partial class MainViewPortControl : UserControl
     {
-        private bool mouseDownRight;
-        private bool mouseDownLeft;
+        private bool _bMouseDownRight;
+        private bool _bMouseDownLeft;
 
         //Klasse für Kameraeinstellungen und deren Positionen
-        private ViewportCamera viewportCam;
+        private ViewportCamera _oViewportCam;
 
         //Koordinatensystem für rechten Dock Panel erstellen
-        private CoordSystemSmall c_SystemSmall;
+        private CoordSystemSmall _oC_SystemSmall;
 
         //Klasse für Transformationen aller Art
         private Transformation trans;
-
-        //public Cuboid cube;
-        //public Cuboid2 cube2;
-        //public Sphere sphere;
-        //public Cylinder cylinder;
-        public Tailgate tail;
-        public Drive drive;
-
        
-        private IGuide Guide;
+        private IGuide _oGuide;
 
-        public List<GeometricalElement> ElementsStatic;
-        public List<GeometricalElement> ElementsMoving;
+        public List<GeometricalElement> ElementsPassive;
+        public List<GeometricalElement> ElementsActive;
 
-        //Achsenpunkte der Benutzereingabe
-        private List<Point3D> axisPoints;
 
         //Mittelpunkt des Objektes
-        private Point3D mPoint;
+        private Point3D _oMPoint;
 
         //Breite bzw Dicke des jeweiligen Models
-        private double modelThickness;
-
-        //maximaler Öffnungswinkel
-        double maxOpen = 62.5;
-
-        private Vector3D axisOfRotation;
+        private double _dModelThickness;
 
         private string s_coords;
         private TextBlock statusPane;
 
-        public void AddMovingElement(GeometricalElement elem)
-        {
-            ElementsMoving.Add(elem);
-        }
-
-        public void addStaticElement(GeometricalElement elem)
-        {
-            ElementsStatic.Add(elem);
-        }
 
         public MainViewPortControl()
         {
@@ -81,54 +59,49 @@ namespace KinematicViewer
             InitializeComponent();
             //axisPoints = new List<Point3D>();
             trans = new Transformation();
-            c_SystemSmall = new CoordSystemSmall();
-            viewportCam = new ViewportCamera(MainGrid, viewport, c_SystemSmall, trans);
+            _oC_SystemSmall = new CoordSystemSmall();
+            ViewportCam = new ViewportCamera(MainGrid, viewport, _oC_SystemSmall, trans);
 
-            viewportCam.startPerspectiveCamera();
-            viewportCam.MyCam = Cam.Perspective;
-            viewportCam.resetCam();
+            ViewportCam.startPerspectiveCamera();
+            ViewportCam.MyCam = Cam.Perspective;
+            ViewportCam.resetCam();
 
-            setAxisOfRotation(0, 0, 1);
+            ElementsActive = new List<GeometricalElement>();
+            ElementsPassive = new List<GeometricalElement>();
 
 
             //viewportCam.resetCam();
             CanMoveCamera = true;
         }
 
-        private void generateVisualModel()
+        public void AddActiveElement(GeometricalElement elem)
         {
-            tail = new Tailgate(AxisPoints, axisOfRotation, modelThickness);
-            drive = new Drive(axisPoints[2], tail.AttachmentPointDoorLeft);
-            GeometryModel3D[] tailgate = tail.GetGeometryModel();
-            GeometryModel3D[] drives = drive.GetGeometryModel(); 
+            ElementsActive.Add(elem);
+            UpdateActiveElements();
+        }
 
-            foreach (GeometryModel3D i in tailgate)
-                groupModelVisual.Children.Add(i);
-            foreach (GeometryModel3D j in drives)
-                groupDriveVisual.Children.Add(j);
-          
+        public void AddPassiveElement(GeometricalElement elem)
+        {
+            ElementsPassive.Add(elem);
+            UpdatePassiveElements();
+        }
 
-           
-            /*
-            foreach (GeometricalElement e in ElementsMoving)
-                foreach (Model3D m in e.GetGeometryModel())
-                    groupModelVisual.Children.Add(m);
+        private void UpdateActiveElements()
+        {
+            trans.resetModelTransformation(groupActive);
 
-            foreach (GeometricalElement e in ElementsStatic)
-                foreach (Model3D m in e.GetGeometryModel())
-                    groupDriveVisual.Children.Add(m);
-                    */
-            trans.resetModelTransformation(groupModelVisual);
-           // trans.resetModelTransformation(groupDriveVisual);
+            foreach (GeometricalElement e in ElementsActive)
+                foreach (Model3D m in e.GetGeometryModel(Guide))
+                    groupActive.Children.Add(m);
+        }
 
-            ////Kamera für Main Viewport updaten
-            viewportCam.updatePositionCamera();
+        private void UpdatePassiveElements()
+        {
+            groupPassive.Children.Clear();
 
-            //Kamera im Fenster des Koordinatensystems ändern
-            //c_SystemSmall.updatePositionCamera_CoordinateSystem(viewportCam.CameraR, viewportCam.CameraPhi, viewportCam.CameraTheta);
-
-            //Mittelpunkt des Modells berechnen
-            calculateMPoint();
+            foreach (GeometricalElement e in ElementsPassive)
+                foreach (Model3D m in e.GetGeometryModel(Guide))
+                    groupPassive.Children.Add(m);
         }
 
 
@@ -137,7 +110,7 @@ namespace KinematicViewer
         {
             if (CanMoveCamera)
             {
-                viewportCam.viewport_Grid_MouseWheel(sender, e);
+                ViewportCam.viewport_Grid_MouseWheel(sender, e);
             }
         }
 
@@ -146,14 +119,14 @@ namespace KinematicViewer
             if (CanMoveCamera)
             {
                 // Wenn Rechte Maustaste "nicht" gedrückt dann passiert auch nichts
-                if (!mouseDownRight) return;
+                if (!_bMouseDownRight) return;
 
-                viewportCam.rotateCam();
+                ViewportCam.rotateCam();
             }
 
             if (!CanMoveCamera)
             {
-                if (!mouseDownLeft) return;
+                if (!_bMouseDownLeft) return;
 
                 showScreenCoords(sender, e);
             }
@@ -165,8 +138,8 @@ namespace KinematicViewer
             {
                 if (e.RightButton != MouseButtonState.Pressed) return;
 
-                mouseDownRight = true;
-                viewportCam.setMouseToCenter();
+                _bMouseDownRight = true;
+                ViewportCam.setMouseToCenter();
 
                 // Curser unsichtbar machen
                 this.Cursor = Cursors.None;
@@ -176,13 +149,13 @@ namespace KinematicViewer
         private void MainGrid_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             // Maustaste ist nicht länger gedrückt, also wird Curser wieder sichtbar
-            mouseDownRight = false;
+            _bMouseDownRight = false;
             Cursor = Cursors.Arrow;
         }
 
         private void MainGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            mouseDownLeft = true;
+            _bMouseDownLeft = true;
             CanMoveCamera = false;
 
             //dem Viewport den Focus übergeben, sodass die Tasteneingabe funktioniert
@@ -223,14 +196,14 @@ namespace KinematicViewer
 
         private void MainGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            mouseDownLeft = false;
+            _bMouseDownLeft = false;
             CanMoveCamera = true;
         }
 
         //TASTATURSTEUERUNG für KEY Down
         private void MainGrid_KeyDown(object sender, KeyEventArgs e)
         {
-            viewportCam.viewport_KeyDown(sender, e);
+            ViewportCam.viewport_KeyDown(sender, e);
         }
 
         //Dem Viewport bzw. dem MainGrid den Focus übergeben
@@ -242,112 +215,117 @@ namespace KinematicViewer
 
         public void switchToPerspective()
         {
-            viewportCam.startPerspectiveCamera();
-            viewportCam.MyCam = Cam.Perspective;
+            ViewportCam.startPerspectiveCamera();
+            ViewportCam.MyCam = Cam.Perspective;
         }
 
         public void switchToOrthographic()
         {
-            viewportCam.startOrthographicCamera();
-            viewportCam.MyCam = Cam.Orthographic;
+            ViewportCam.startOrthographicCamera();
+            ViewportCam.MyCam = Cam.Orthographic;
         }
 
         public void resetCam()
         {
-            viewportCam.resetCam();
+            ViewportCam.resetCam();
         }
 
         public void reloadCameraPositionDefault()
         {
-            viewportCam.reloadCameraPositionDefault();
+            ViewportCam.reloadCameraPositionDefault();
         }
 
         public void clearModel()
         {
-            groupModelVisual.Children.Clear();
-            groupDriveVisual.Children.Clear();
-        }
-
-        public void createModel()
-        {
-            generateVisualModel();   
+            groupActive.Children.Clear();
+            groupPassive.Children.Clear();
         }
 
         public void viewFrontSide()
         {
-            viewportCam.viewFront();
+            ViewportCam.viewFront();
         }
 
         public void viewBackSide()
         {
-            viewportCam.viewBack();
+            ViewportCam.viewBack();
         }
 
         public void viewRightSide()
         {
-            viewportCam.viewRight();
+            ViewportCam.viewRight();
         }
 
         public void viewLeftSide()
         {
-            viewportCam.viewLeft();
+            ViewportCam.viewLeft();
         }
 
         public void viewTopSide()
         {
-            viewportCam.viewTop();
+            ViewportCam.viewTop();
         }
 
         public void viewBottomSide()
         {
-            viewportCam.viewBottom();
+            ViewportCam.viewBottom();
         }
 
         public void zoomIn()
         {
-            viewportCam.zoomIn();
+            ViewportCam.zoomIn();
         }
 
         public void zoomOut()
         {
-            viewportCam.zoomOut();
+            ViewportCam.zoomOut();
         }
 
-        private void calculateMPoint()
-        {
-            double count = axisPoints.Count;
-            double x = 0;
-            double y = 0;
-            double z = 0;
-            for (int i = 0; i < count; i++)
-            {
-                x += axisPoints[i].X / count;
-                y += axisPoints[i].Y / count;
-                z += axisPoints[i].Z / count;
-            }
-            mPoint = new Point3D(x, y, z);
+        //private void calculateMPoint()
+        //{
+        //    double count = AxisPoints.Count;
+        //    double x = 0;
+        //    double y = 0;
+        //    double z = 0;
+        //    for (int i = 0; i < count; i++)
+        //    {
+        //        x += AxisPoints[i].X / count;
+        //        y += AxisPoints[i].Y / count;
+        //        z += AxisPoints[i].Z / count;
+        //    }
+        //    _oMPoint = new Point3D(x, y, z);
+        //}
+
+        //public delegate void ViewPortEventHandler(object sender, ProgressEventArgs e);
+        //public event ViewPortEventHandler ViewUpdated;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="per">Anteil der Bewegung in % [0-100]</param>
+        public void Move(double per)
+        {           
+
+            Guide.InitiateMove(per);
+
+            Tailgate tail = ElementsActive[0] as Tailgate;
+            trans.rotateModel(tail.CurValue, tail.AxisOfRotation,tail.AxisPoint, groupActive);
+
+            ////trans.rotateDrive(axisAngle, _oVAxisOfRotation, axisPoints, groupDriveVisual);
+
+            /*Point3D attPDLeft = trans.rotateDrivePoint(axisAngle, _oVAxisOfRotation, _oLAxisPoints, tail.AttachmentPointDoorLeft);
+            Point3D attPDRight = trans.rotateDrivePoint(axisAngle, _oVAxisOfRotation, _oLAxisPoints, tail.AttachmentPointDoorRight);
+            updateDrive(_oLAxisPoints[2], attPDLeft);*/
+
+            //if (ViewUpdated != null)
+            //    ViewUpdated(this, new ProgressEventArgs());    
+
+            UpdatePassiveElements();      
         }
 
-        public void sliderRotate(object sender, RoutedPropertyChangedEventArgs<double> e)
+        public void resetModelTransformation()
         {
-
-            double axisAngle = (e.NewValue *maxOpen / 100);
-
-            Guide.Move(e.NewValue, ElementsMoving);
-
-            //trans.rotateModel(axisAngle, axisOfRotation, axisPoints, groupModelVisual);
-            ////trans.rotateDrive(axisAngle, axisOfRotation, axisPoints, groupDriveVisual);
-
-            //Point3D attPDLeft = trans.rotateDrivePoint(axisAngle, axisOfRotation, axisPoints, tail.AttachmentPointDoorLeft);
-            //Point3D attPDRight = trans.rotateDrivePoint(axisAngle, axisOfRotation, axisPoints, tail.AttachmentPointDoorRight);
-            //tail.updateDrives(attPDLeft, attPDRight);
-            
-        }
-
-        public void resetModelTransformation(object sender, RoutedEventArgs e)
-        {
-            trans.resetModelTransformation(groupModelVisual);
-            e.Handled = true;
+            trans.resetModelTransformation(groupActive);  
         }
 
 
@@ -370,7 +348,7 @@ namespace KinematicViewer
             s_coords = string.Format("Bild-Koordinaten: ({0:d}, {1:d})", (int)p.X, (int)p.Y);
             this.statusPane.Text = s_coords;
         }
-
+       
 
 
         //Öffentliche Getter & Setter Methoden
@@ -378,14 +356,8 @@ namespace KinematicViewer
 
         public double ModelThickness
         {
-            get { return modelThickness; }
-            set { modelThickness = value; }
-        }
-
-        public List<Point3D> AxisPoints
-        {
-            get { return axisPoints; }
-            set { axisPoints = value; }
+            get { return _dModelThickness; }
+            set { _dModelThickness = value; }
         }
 
         public string S_Coords
@@ -394,10 +366,30 @@ namespace KinematicViewer
             set { s_coords = value; }
         }
 
-        
-        public void setAxisOfRotation(double x, double y, double z)
+        public ViewportCamera ViewportCam
         {
-            axisOfRotation = new Vector3D(x, y, z);
+            get
+            {
+                return _oViewportCam;
+            }
+
+            set
+            {
+                _oViewportCam = value;
+            }
+        }
+
+        public IGuide Guide
+        {
+            get
+            {
+                return _oGuide;
+            }
+
+            set
+            {
+                _oGuide = value;
+            }
         }
 
         //Übergeben eines TextBlockObjectes an das ViewportControl

@@ -23,6 +23,6 @@ namespace KinematicViewer
             set { _oMaterial = value; }
         }
 
-        public abstract GeometryModel3D[] GetGeometryModel();
+        public abstract GeometryModel3D[] GetGeometryModel(IGuide guide);
     }
 }

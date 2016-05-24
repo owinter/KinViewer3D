@@ -22,13 +22,13 @@ namespace MainUI
     public partial class MainWindow : Window
     {
         //Koordinatenpunkte der Benutzereingabe
-        private List<Point3D> axisPoints;
+        private List<Point3D> _oListAxisPoints;
 
         //Model- Dicke (Durchmesser der Linien)
-        private double modelThickness;
+        private double _dModelThickness;
 
-        private MainViewPortControl mvpControl;
-        private CoordSystemSmall cssControl;
+        private MainViewPortControl _oMvpControl;
+        private CoordSystemSmall _oCssControl;
 
 
         //Benutzereingaben der Koordinaten zwischen denen eine 3D Linie erzeugt wird
@@ -46,14 +46,42 @@ namespace MainUI
         public MainWindow()
         {
             InitializeComponent();
-            axisPoints = new List<Point3D>();
-            mvpControl = new MainViewPortControl();
-            mvpControl.setTextBlock(statusPane);
-            MainUIViewport3D.Content = mvpControl;
-            cssControl = new CoordSystemSmall(); 
-            MainUICoordSystemSmall.Content = cssControl; 
+            AxisPoints = new List<Point3D>();
+
+            MvpControl = new MainViewPortControl();
+            MvpControl.setTextBlock(statusPane);
+            MainUIViewport3D.Content = MvpControl;
+
+            CssControl = new CoordSystemSmall(); 
+            MainUICoordSystemSmall.Content = CssControl; 
 
             create_Button.IsEnabled = false;
+        }
+
+        
+
+        public List<Point3D> AxisPoints
+        {
+            get { return _oListAxisPoints; }
+            set { _oListAxisPoints = value; }
+        }
+
+        public double ModelThickness
+        {
+            get { return _dModelThickness; }
+            set { _dModelThickness = value; }
+        }
+
+        public MainViewPortControl MvpControl
+        {
+            get { return _oMvpControl; }
+            private set  { _oMvpControl = value; }
+        }
+
+        public CoordSystemSmall CssControl
+        {
+            get { return _oCssControl; }
+            private set { _oCssControl = value; }
         }
 
 
@@ -63,7 +91,7 @@ namespace MainUI
         {
             miOrthographic.IsChecked = false;
             miPerspective.IsChecked = true;
-            mvpControl.switchToPerspective();
+            MvpControl.switchToPerspective();
         }
 
         //Start einer orthographischen Kamera
@@ -71,19 +99,19 @@ namespace MainUI
         {
             miPerspective.IsChecked = false;
             miOrthographic.IsChecked = true;
-            mvpControl.switchToOrthographic();
+            MvpControl.switchToOrthographic();
         }
 
         //Objekt und Kamera neu laden
         private void reload_Button_Click(object sender, RoutedEventArgs e)
         {
-            mvpControl.reloadCameraPositionDefault();
+            MvpControl.reloadCameraPositionDefault();
         }
 
         //Menubar Reset Transformation
         private void reset_Button_Click(object sender, RoutedEventArgs e)
         {
-            mvpControl.resetCam();
+            MvpControl.resetCam();
         }
 
         //Menubar Session Beenden & schließen
@@ -105,54 +133,82 @@ namespace MainUI
         //STEUERUNG Elemente
         private void setSliderModelThickness(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            this.modelThickness = slider_Model_Thickness.Value;
+            ModelThickness = slider_Model_Thickness.Value;
         }
 
         //Fügt 3D Koordinaten der Liste coordPoints und der TextBox hinzu
         private void add_Button_Click(object sender, RoutedEventArgs e)
         {
             convertUserInput();
+            generateReflectedDrive();
             fill_TextBox();
             create_Button.IsEnabled = true;
+
+            
         }
 
-        //Schreibt die beiden Punkte und die "Thickness" in die Listbox
+
         private void create_Button_Click(object sender, RoutedEventArgs e)
         {
             //Dem MainGrid den focus übergeben
             //MainGrid.Focus();
             //mvpControl.createCube();
-            mvpControl.AxisPoints = axisPoints;
-            mvpControl.ModelThickness = modelThickness;
-            mvpControl.createModel();
             slider_open_ObjectAngle.Value = 0.0;
+            MvpControl.resetModelTransformation();
+            MvpControl.clearModel();
+
+            
+            
+            
+            MvpControl.ModelThickness = ModelThickness;
+
+            Tailgate tail = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value);
+            Drive driveLeft = new Drive(AxisPoints[2], AxisPoints[3]);
+            Drive driveRight = new Drive(AxisPoints[4], AxisPoints[5]);
+
+            MvpControl.Guide = tail;
+
+            MvpControl.AddPassiveElement(driveLeft);
+            MvpControl.AddPassiveElement(driveRight);
+            MvpControl.AddActiveElement(tail);
+
+
+            // trans.resetModelTransformation(groupDriveVisual);
+
+            ////Kamera für Main Viewport updaten
+            MvpControl.ViewportCam.updatePositionCamera();
+
+            //Kamera im Fenster des Koordinatensystems ändern
+            //c_SystemSmall.updatePositionCamera_CoordinateSystem(viewportCam.CameraR, viewportCam.CameraPhi, viewportCam.CameraTheta);    
         }
 
         //Button Listener für das Löschen der ListBox
         private void clear_listBox1_Button_Click(object sender, RoutedEventArgs e)
         {
             listBox1.Items.Clear();
-            axisPoints.Clear();
+            AxisPoints.Clear();
             create_Button.IsEnabled = false;
         }
 
         //Löscht das 3D Model 
         private void clear_Button_Click(object sender, RoutedEventArgs e)
         {
-            mvpControl.clearModel();
+            MvpControl.resetModelTransformation();
+            MvpControl.clearModel();
+            slider_open_ObjectAngle.Value = 0.0;
         }
 
         //Listener für Öffnungswinkel SLIDER
         //Ändert den Öffnungswinkel des Objektes anhand des Sliders
         private void change_open_ObjectAngle(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            mvpControl.sliderRotate(sender, e);
+            MvpControl.Move(e.NewValue/100);
         }
 
         //Objekttransformation zurücksetzen
         private void reset_Model_Transformation_Button_Click(object sender, RoutedEventArgs e)
         {
-            mvpControl.resetModelTransformation(sender, e);
+            MvpControl.resetModelTransformation();
             slider_open_ObjectAngle.Value = 0.0;
         }
 
@@ -219,10 +275,10 @@ namespace MainUI
                 Point3D p3 = new Point3D(x3, y3, z3);
                 Point3D p4 = new Point3D(x4, y4, z4);
 
-                axisPoints.Add(p1);
-                axisPoints.Add(p2);
-                axisPoints.Add(p3);
-                axisPoints.Add(p4);
+                AxisPoints.Add(p1);
+                AxisPoints.Add(p2);
+                AxisPoints.Add(p3);
+                AxisPoints.Add(p4);
             }
             catch (Exception ex)
             {
@@ -265,15 +321,22 @@ namespace MainUI
                                 + "P2(" + x2 + ", "
                                         + y2 + ", "
                                         + z2 + ") \n"
-                                + "Elementbreite in mm: " + modelThickness + "\n"
+                                + "Elementbreite in mm: " + ModelThickness + "\n"
                                 + "\n"
-                                + "Antrieb: " + "\n"
+                                + "Antrieb1: " + "\n"
                                 + "P3(" + x3 + ", "
                                         + y3 + ", "
                                         + z3 + ") \n"
                                 + "P4(" + x4 + ", "
                                         + y4 + ", "
-                                        + z4 + ") \n");
+                                        + z4 + ") \n"
+                                + "Antrieb2: " + "\n"
+                                + "P5(" + AxisPoints[4].X.ToString() + ", " 
+                                        + AxisPoints[4].Y.ToString() + ", "
+                                        + AxisPoints[4].Z.ToString() + ") \n"
+                                + "P6(" + AxisPoints[5].X.ToString() + ", "
+                                        + AxisPoints[5].Y.ToString() + ", "
+                                        + AxisPoints[5].Z.ToString() + ") \n");
 
         }
 
@@ -281,49 +344,64 @@ namespace MainUI
         //ToolBar Buttons
         private void toolBox_Reset_Button_Click(object sender, RoutedEventArgs e)
         {
-            mvpControl.resetCam();
+            MvpControl.resetCam();
         }
 
         private void toolBox_ZoomIn_Button_Click(object sender, RoutedEventArgs e)
         {
-            mvpControl.zoomIn();
+            MvpControl.zoomIn();
             
         }
 
         private void toolBox_ZoomOut_Button_Click(object sender, RoutedEventArgs e)
         {
-            mvpControl.zoomOut();
+            MvpControl.zoomOut();
            
         }
 
         private void toolBox_Front_Button_Click(object sender, RoutedEventArgs e)
         {
-            mvpControl.viewFrontSide();
+            MvpControl.viewFrontSide();
         }
 
         private void toolBox_Back_Button_Click(object sender, RoutedEventArgs e)
         {
-            mvpControl.viewBackSide();
+            MvpControl.viewBackSide();
         }
 
         private void toolBox_Right_Button_Click(object sender, RoutedEventArgs e)
         {
-            mvpControl.viewRightSide();
+            MvpControl.viewRightSide();
         }
 
         private void toolBox_Left_Button_Click(object sender, RoutedEventArgs e)
         {
-            mvpControl.viewLeftSide();
+            MvpControl.viewLeftSide();
         }
 
         private void toolBox_Top_Button_Click(object sender, RoutedEventArgs e)
         {
-            mvpControl.viewTopSide();
+            MvpControl.viewTopSide();
         }
 
         private void toolBox_Bottom_Button_Click(object sender, RoutedEventArgs e)
         {
-            mvpControl.viewBottomSide();
+            MvpControl.viewBottomSide();
+        }
+
+        private void generateReflectedDrive()
+        {
+            Vector3D vR = new Vector3D(AxisPoints[0].X, AxisPoints[0].Y, AxisPoints[0].Z);
+            Vector3D vAxisToHandE1 = AxisPoints[1] - AxisPoints[0];
+            Vector3D vE2 = Vector3D.CrossProduct(vAxisToHandE1, new Vector3D(0,1,0));
+
+            double d = Vector3D.DotProduct(vR, vE2);
+
+            Point3D p1 = TransformationUtilities.reflectPoint(AxisPoints[2], vR, vE2, d);
+            Point3D p2 = TransformationUtilities.reflectPoint(AxisPoints[3], vR, vE2, d);
+
+            AxisPoints.Add(p1);
+            AxisPoints.Add(p2);
         }
 
     }

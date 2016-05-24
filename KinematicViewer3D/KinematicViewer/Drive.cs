@@ -19,6 +19,8 @@ namespace KinematicViewer
         private int _iRadiusBody;
         private int _iRadiusDoor;
 
+        //private MainViewPortControl mainViewPortControl;
+
         public Drive(Point3D point1, Point3D point2)
         {
             StartPoint = point1;
@@ -32,6 +34,11 @@ namespace KinematicViewer
             _dRetractedLength = vDrive.Length;
             ExtractedLength = 648.8;
             Stroke = _dExtractedLength - _dRetractedLength;
+        }
+
+        private void OnViewUpdated(object sender, ProgressEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public double RetractedLenght
@@ -77,14 +84,21 @@ namespace KinematicViewer
         }
 
 
-        public override GeometryModel3D[] GetGeometryModel()
+        public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
             List<GeometryModel3D> Res = new List<GeometryModel3D>();
 
-            Res.AddRange(new Cylinder(StartPoint, EndPoint - 0.25 * vDrive, RadiusBody, Brushes.Gray).GetGeometryModel());
-            Res.AddRange(new Sphere(StartPoint, RadiusBody, Brushes.Gray).GetGeometryModel());
-            Res.AddRange(new Cylinder(StartPoint + 0.25 * vDrive, EndPoint, RadiusDoor, Brushes.YellowGreen).GetGeometryModel());
-            Res.AddRange(new Sphere(EndPoint, RadiusDoor, Brushes.Gray).GetGeometryModel());
+            Point3D attPointDoor = guide.MovePoint(EndPoint);
+
+            Vector3D vDriveUpdated = attPointDoor - StartPoint;
+
+            Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(StartPoint, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
+            Res.AddRange(new Cylinder(StartPoint + 0.25 * vDriveUpdated, attPointDoor, RadiusDoor, Brushes.YellowGreen).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(attPointDoor, RadiusDoor, Brushes.Gray).GetGeometryModel(guide));
+
+            Res.AddRange(new Sphere(attPointDoor, 40, Brushes.Cyan).GetGeometryModel(guide));
+            
 
             return Res.ToArray();
         }
@@ -121,3 +135,5 @@ namespace KinematicViewer
        
     }
 }
+
+    
