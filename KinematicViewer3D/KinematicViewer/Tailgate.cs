@@ -11,16 +11,20 @@ namespace KinematicViewer
         private const double OFFSET = 130.0;
         private const double TAILDEPTH = 200.0;
         private const double TAILWIDTH = 1250.0;
+
         private double _dCurVal;
+
+        //maximaler Öffnungswinkel
         private double _dMaxOpen = 62.5;
+
         private Vector3D _oAxisOfRotation;
         private Point3D _oAxisPoint;
         private Point3D _oPointLatch;
+
         private List<Point3D> coordsDownTail;
         private List<Point3D> coordsMidTail;
         private List<Point3D> coordsUpTail;
 
-        //maximaler Öffnungswinkel
         private double modelThickness;
 
         private Vector3D vAxisQuerE2;
@@ -34,88 +38,41 @@ namespace KinematicViewer
             AxisPoint = axisPoint;
             PointLatch = latch;
 
-            //attPointBodyL = points[2];
-            //attPointDoorL = points[3];
-            //addSecondDriveToList(axisPoints);
-            //attPointBodyR = axisPoints[4];
-            //attPointDoorR = axisPoints[5];
-
             this.modelThickness = modelThickness;
 
             coordsMidTail = makeCoordsMidTail();
             coordsUpTail = makeCoordsUpTail();
             coordsDownTail = makeCoordsDownTail();
-            //coordsDrive = makeCoordsDrive();
         }
 
         public Vector3D AxisOfRotation
         {
-            get
-            {
-                return _oAxisOfRotation;
-            }
-
-            private set
-            {
-                _oAxisOfRotation = value;
-            }
+            get { return _oAxisOfRotation; }
+            private set { _oAxisOfRotation = value; }
         }
 
         public Point3D AxisPoint
         {
-            get
-            {
-                return _oAxisPoint;
-            }
-
-            private set
-            {
-                _oAxisPoint = value;
-            }
+            get { return _oAxisPoint; }
+            private set { _oAxisPoint = value; }
         }
 
         public double CurValue
         {
-            get
-            {
-                return _dCurVal;
-            }
-
-            set
-            {
-                _dCurVal = value;
-            }
+            get { return _dCurVal; }
+            set { _dCurVal = value; }
         }
 
         public double MaxValue
         {
-            get
-            {
-                return _dMaxOpen;
-            }
-
-            set
-            {
-                _dMaxOpen = value;
-            }
+            get { return _dMaxOpen; }
+            set { _dMaxOpen = value; }
         }
 
-        //public Point3D AttachmentPointDoorRight
-        //{
-        //    get { return attPointDoorR; }
-        //    set { attPointDoorR = value; }
-        //}
         public Point3D PointLatch
         {
-            get
-            {
-                return _oPointLatch;
-            }
-
-            private set
-            {
-                _oPointLatch = value;
-            }
+            get { return _oPointLatch; }
+            private set { _oPointLatch = value; }
         }
 
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)
@@ -227,13 +184,10 @@ namespace KinematicViewer
             return points;
         }
 
-
-
         public void InitiateMove(double per)
         {
             CurValue = per * MaxValue;
         }
-
 
         public Point3D MovePoint(Point3D endPoint)
         {
@@ -253,50 +207,5 @@ namespace KinematicViewer
 
             return outputPoint;
         }
-
-
-        //private List<Point3D> makeCoordsDrive()
-        //{
-        //    List<Point3D> points = new List<Point3D>();
-
-        //    Point3D pL0 = attPointBodyL;
-        //    Point3D pL1 = coordsMidTail[4];
-
-        //    Point3D pR0 = attPointBodyR;
-        //    Point3D pR1 = coordsMidTail[5];
-
-        //    /*Point3D pL0 = attPointBodyL;
-        //    Point3D pL1 = attPointDoorL;
-        //    //Vector3D vDL = pL1 - pL0;
-
-        //    Point3D pR0 = attPointBodyR;
-        //    Point3D pR1 = attPointDoorR;*/
-
-        //    points.Add(pL0);
-        //    points.Add(pL1);
-        //    points.Add(pR0);
-        //    points.Add(pR1);
-
-        //    return points;
-        //}
-        //private void addSecondDriveToList(List<Point3D> AxisPoints)
-        //{
-        //    Vector3D vR = new Vector3D(AxisPoint.X, AxisPoint.Y, AxisPoint.Z);
-        //    Vector3D vE2 = Vector3D.CrossProduct(vAxisToHandE1, vY);
-
-        //    double d = Vector3D.DotProduct(vR, vE2);
-
-        //    Point3D p1 = TransformationUtilities.reflectPoint(attPointBodyL, vR, vE2, d);
-        //    Point3D p2 = TransformationUtilities.reflectPoint(attPointDoorL, vR, vE2, d);
-
-        //    AxisPoints.Add(p1);
-        //    AxisPoints.Add(p2);
-        //}
-
-        //public Point3D AttachmentPointDoorLeft
-        //{
-        //    get { return attPointDoorL; }
-        //    set { attPointDoorL = value; }
-        //}
     }
 }

@@ -19,8 +19,6 @@ namespace KinematicViewer
         private int _iRadiusBody;
         private int _iRadiusDoor;
 
-        //private MainViewPortControl mainViewPortControl;
-
         public Drive(Point3D point1, Point3D point2)
         {
             StartPoint = point1;
@@ -38,13 +36,13 @@ namespace KinematicViewer
         public double RetractedLenght
         {
             get { return _dRetractedLength; }
-            set { _dRetractedLength = value; }
+            private set { _dRetractedLength = value; }
         }
 
         public double ExtractedLength
         {
             get { return _dExtractedLength; }
-            set { _dExtractedLength = value; }
+            private set { _dExtractedLength = value; }
         }
 
         public Point3D StartPoint
@@ -62,19 +60,19 @@ namespace KinematicViewer
         public double Stroke
         {
             get { return _dStroke; }
-            set { _dStroke = value; }
+            private set { _dStroke = value; }
         }
 
         public int RadiusBody
         {
             get { return _iRadiusBody; }
-            set { _iRadiusBody = value; }
+            private set { _iRadiusBody = value; }
         }
 
         public int RadiusDoor
         {
             get { return _iRadiusDoor; }
-            set { _iRadiusDoor = value; }
+            private set { _iRadiusDoor = value; }
         }
 
 
@@ -85,48 +83,37 @@ namespace KinematicViewer
             Point3D attPointDoor = guide.MovePoint(EndPoint);
 
             Vector3D vDriveUpdated = attPointDoor - StartPoint;
+            double vLength = vDriveUpdated.Length;
 
-            Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
-            Res.AddRange(new Sphere(StartPoint, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
-            Res.AddRange(new Cylinder(StartPoint + 0.25 * vDriveUpdated, attPointDoor, RadiusDoor, Brushes.YellowGreen).GetGeometryModel(guide));
-            Res.AddRange(new Sphere(attPointDoor, RadiusDoor, Brushes.Gray).GetGeometryModel(guide));
+            if (vLength <= ExtractedLength - Stroke * 2 / 3)
+            {
+                Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(StartPoint, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
+                Res.AddRange(new Cylinder(StartPoint + 0.25 * vDriveUpdated, attPointDoor, RadiusDoor, Brushes.YellowGreen).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(attPointDoor, RadiusDoor, Brushes.Gray).GetGeometryModel(guide));
+            }
 
+            else if ((vLength > ExtractedLength - Stroke * 2 / 3) && !(vLength <= ExtractedLength - Stroke * 2 / 3))
+            {
+                Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(StartPoint, RadiusBody,  Brushes.Gray).GetGeometryModel(guide));
+                Res.AddRange(new Cylinder(StartPoint + 0.25 * vDriveUpdated, attPointDoor, RadiusDoor, Brushes.Orange).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(attPointDoor, RadiusDoor, Brushes.Gray).GetGeometryModel(guide));
+            }
+
+            else if ((vLength > ExtractedLength - Stroke * 1 / 3) && !(vLength <= ExtractedLength - Stroke * 2 / 3))
+            {
+                Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(StartPoint, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
+                Res.AddRange(new Cylinder(StartPoint + 0.25 * vDriveUpdated, attPointDoor, RadiusDoor, Brushes.OrangeRed).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(attPointDoor, RadiusDoor, Brushes.Gray).GetGeometryModel(guide));
+            }
+
+            //Farblicher Anbindungspunkt an die Heckklappe in Cyan
             Res.AddRange(new Sphere(attPointDoor, 40, Brushes.Cyan).GetGeometryModel(guide));
             
-
             return Res.ToArray();
         }
-
-        //public void updateDrive(Point3D point1, Point3D point2)
-        //{
-        //    vDrive = point2 - point1;
-        //    double vLength = vDrive.Length; 
-        //    if(vLength <= extractedLength - stroke * 2/3)
-        //    {
-        //        generateCylinder(point1, point2 - 0.25 * vDrive, rBody, groupDriveVisual, new DiffuseMaterial(Brushes.Gray));
-        //        generateSphere(point1, rBody, groupDriveVisual, new DiffuseMaterial(Brushes.Gray));
-        //        generateCylinder(point1 + 0.25 * vDrive, point2, rDoor, groupDriveVisual, new DiffuseMaterial(Brushes.YellowGreen));
-        //        generateSphere(point2, rDoor, groupDriveVisual, new DiffuseMaterial(Brushes.Gray));
-        //    }
-            
-        //    else if ( (vLength > extractedLength - stroke * 2/3) && !(vLength <= extractedLength - stroke * 2/3) )
-        //    {
-        //        generateCylinder(point1, point2 - 0.25 * vDrive, rBody, groupDriveVisual, new DiffuseMaterial(Brushes.Gray));
-        //        generateSphere(point1, rBody, groupDriveVisual, new DiffuseMaterial(Brushes.Gray));
-        //        generateCylinder(point1 + 0.25 * vDrive, point2, rDoor, groupDriveVisual, new DiffuseMaterial(Brushes.Orange));
-        //        generateSphere(point2, rDoor, groupDriveVisual, new DiffuseMaterial(Brushes.Gray));
-        //    }
-        //    else if( (vLength > extractedLength - stroke * 1/3) && !(vLength <= extractedLength - stroke * 2/3) )
-        //    {
-        //        generateCylinder(point1, point2 - 0.25 * vDrive, rBody, groupDriveVisual, new DiffuseMaterial(Brushes.Gray));
-        //        generateSphere(point1, rBody, groupDriveVisual, new DiffuseMaterial(Brushes.Gray));
-        //        generateCylinder(point1 + 0.25 * vDrive, point2, rDoor, groupDriveVisual, new DiffuseMaterial(Brushes.OrangeRed));
-        //        generateSphere(point2, rDoor, groupDriveVisual, new DiffuseMaterial(Brushes.Gray));
-        //    }
-            
-        //}
-
-       
     }
 }
 
