@@ -57,7 +57,6 @@
     <Compile Include="GeometricalElement.cs" />
     <Compile Include="IGuide.cs" />
     <Compile Include="MouseUtilities.cs" />
-    <Compile Include="ProgressEventArgs.cs" />
     <Compile Include="SideDoor.cs" />
     <Compile Include="Sphere.cs" />
     <Compile Include="Tailgate.cs" />

@@ -29,16 +29,10 @@ namespace KinematicViewer
             RadiusBody = 15;
             RadiusDoor = 25;
             
-
             vDrive = EndPoint - StartPoint;
             _dRetractedLength = vDrive.Length;
             ExtractedLength = 648.8;
             Stroke = _dExtractedLength - _dRetractedLength;
-        }
-
-        private void OnViewUpdated(object sender, ProgressEventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         public double RetractedLenght
