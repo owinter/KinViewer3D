@@ -14,5 +14,6 @@ namespace KinematicViewer
         Point3D MovePoint(Point3D endPoint);
 
         void InitiateMove(double per);
+        void Move(Model3DGroup groupActive, double per = 0);
     }
 }

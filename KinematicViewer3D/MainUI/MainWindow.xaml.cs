@@ -200,6 +200,8 @@ namespace MainUI
         {
             MvpControl.resetModelTransformation();
             MvpControl.clearModel();
+            
+
             slider_open_ObjectAngle.Value = 0.0;
         }
 

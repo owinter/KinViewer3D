@@ -235,5 +235,11 @@ namespace KinematicViewer
 
             return outputPoint;
         }
+
+        public void Move(Model3DGroup groupActive, double per = 0)
+        {
+            InitiateMove(per);
+            Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupActive);
+        }
     }
 }

@@ -61,25 +61,37 @@ namespace KinematicViewer
         public void AddActiveElement(GeometricalElement elem)
         {
             ElementsActive.Add(elem);
-            UpdateActiveElements();
+            UpdateActiveGroup();
         }
 
         public void AddPassiveElement(GeometricalElement elem)
         {
             ElementsPassive.Add(elem);
-            UpdatePassiveElements();
+            UpdatePassiveGroup();
         }
 
-        private void UpdateActiveElements()
+        public void RemoveActiveElement(GeometricalElement elem)
         {
-            trans.resetModelTransformation(groupActive);
+            ElementsActive.Remove(elem);
+            UpdateActiveGroup();
+        }
+
+        public void RemovePassiveElement(GeometricalElement elem)
+        {
+            ElementsPassive.Remove(elem);
+            UpdatePassiveGroup();
+        }
+
+        private void UpdateActiveGroup()
+        {
+            groupActive.Children.Clear();
 
             foreach (GeometricalElement e in ElementsActive)
                 foreach (Model3D m in e.GetGeometryModel(Guide))
                     groupActive.Children.Add(m);
         }
 
-        private void UpdatePassiveElements()
+        private void UpdatePassiveGroup()
         {
             groupPassive.Children.Clear();
 
@@ -219,8 +231,13 @@ namespace KinematicViewer
 
         public void clearModel()
         {
-            groupActive.Children.Clear();
-            groupPassive.Children.Clear();
+            ElementsActive.Clear();
+            UpdateActiveGroup();
+
+            ElementsPassive.Clear();
+            UpdatePassiveGroup();
+
+            Guide = null;
         }
 
         public void viewFrontSide()
@@ -287,21 +304,11 @@ namespace KinematicViewer
         /// <param name="per">Anteil der Bewegung in % [0-100]</param>
         public void Move(double per)
         {
-            Guide.InitiateMove(per);
+            if (Guide == null)
+                return;
 
-            Tailgate tail = ElementsActive[0] as Tailgate;
-            trans.rotateModel(tail.CurValue, tail.AxisOfRotation, tail.AxisPoint, groupActive);
-
-            ////trans.rotateDrive(axisAngle, _oVAxisOfRotation, axisPoints, groupDriveVisual);
-
-            /*Point3D attPDLeft = trans.rotateDrivePoint(axisAngle, _oVAxisOfRotation, _oLAxisPoints, tail.AttachmentPointDoorLeft);
-            Point3D attPDRight = trans.rotateDrivePoint(axisAngle, _oVAxisOfRotation, _oLAxisPoints, tail.AttachmentPointDoorRight);
-            updateDrive(_oLAxisPoints[2], attPDLeft);*/
-
-            //if (ViewUpdated != null)
-            //    ViewUpdated(this, new ProgressEventArgs());
-
-            UpdatePassiveElements();
+            Guide.Move(groupActive, per);
+            UpdatePassiveGroup();
         }
 
         public void resetModelTransformation()

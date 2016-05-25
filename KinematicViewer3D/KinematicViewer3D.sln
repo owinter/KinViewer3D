@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinematicViewer", "KinematicViewer\KinematicViewer.csproj", "{F4BAFE66-D661-469C-A2E7-B309B483FFA1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainUI", "MainUI\MainUI.csproj", "{AEEF3CA6-5068-4BFE-AB31-DD51DECDF033}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F4BAFE66-D661-469C-A2E7-B309B483FFA1} = {F4BAFE66-D661-469C-A2E7-B309B483FFA1}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

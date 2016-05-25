@@ -92,7 +92,7 @@ namespace KinematicViewer
             Pitch = 0;
         }
 
-        public void rotateModel(double axisAngle, Vector3D axisOfRotation, Point3D AxisPoint, Model3DGroup groupModelVisual)
+        public static void rotateModel(double axisAngle, Vector3D axisOfRotation, Point3D AxisPoint, Model3DGroup groupModelVisual)
         {
             try
             {
