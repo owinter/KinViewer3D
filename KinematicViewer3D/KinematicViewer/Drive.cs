@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
 namespace KinematicViewer
 {
-    public class Drive: GeometricalElement
+    public class Drive : GeometricalElement
     {
-        private Point3D _oStartPoint;
-        private Point3D _oEndPoint;
-        private Vector3D vDrive;
-
-        private double _dRetractedLength;
         private double _dExtractedLength;
+        private double _dOffsetSecondCylinder;
+        private double _dRetractedLength;
         private double _dStroke;
         private int _iRadiusBody;
         private int _iRadiusDoor;
+
+        private Point3D _oEndPoint;
+        private Point3D _oStartPoint;
+        private Vector3D _oVDrive;
 
         public Drive(Point3D point1, Point3D point2)
         {
@@ -26,29 +24,12 @@ namespace KinematicViewer
 
             RadiusBody = 15;
             RadiusDoor = 25;
-            
-            vDrive = EndPoint - StartPoint;
-            _dRetractedLength = vDrive.Length;
+
+            VDrive = EndPoint - StartPoint;
+            RetractedLenght = VDrive.Length;
             ExtractedLength = 648.8;
             Stroke = _dExtractedLength - _dRetractedLength;
-        }
-
-        public double RetractedLenght
-        {
-            get { return _dRetractedLength; }
-            private set { _dRetractedLength = value; }
-        }
-
-        public double ExtractedLength
-        {
-            get { return _dExtractedLength; }
-            private set { _dExtractedLength = value; }
-        }
-
-        public Point3D StartPoint
-        {
-            get { return _oStartPoint; }
-            set { _oStartPoint = value; }
+            OffsetSecondCylinder = (0.25 * VDrive).Length;
         }
 
         public Point3D EndPoint
@@ -57,10 +38,16 @@ namespace KinematicViewer
             set { _oEndPoint = value; }
         }
 
-        public double Stroke
+        public double ExtractedLength
         {
-            get { return _dStroke; }
-            private set { _dStroke = value; }
+            get { return _dExtractedLength; }
+            private set { _dExtractedLength = value; }
+        }
+
+        public double OffsetSecondCylinder
+        {
+            get { return _dOffsetSecondCylinder; }
+            private set { _dOffsetSecondCylinder = value; }
         }
 
         public int RadiusBody
@@ -75,6 +62,29 @@ namespace KinematicViewer
             private set { _iRadiusDoor = value; }
         }
 
+        public double RetractedLenght
+        {
+            get { return _dRetractedLength; }
+            private set { _dRetractedLength = value; }
+        }
+
+        public Point3D StartPoint
+        {
+            get { return _oStartPoint; }
+            set { _oStartPoint = value; }
+        }
+
+        public double Stroke
+        {
+            get { return _dStroke; }
+            private set { _dStroke = value; }
+        }
+
+        public Vector3D VDrive
+        {
+            get { return _oVDrive; }
+            set { _oVDrive = value; }
+        }
 
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
@@ -84,37 +94,42 @@ namespace KinematicViewer
 
             Vector3D vDriveUpdated = attPointDoor - StartPoint;
             double vLength = vDriveUpdated.Length;
+            vDriveUpdated.Normalize();
 
+            //Offset um welchen der zweite Cylinder verschoben wird
+            Vector3D vOffset = (OffsetSecondCylinder + (vLength - VDrive.Length)) * vDriveUpdated;
+
+            //grüner Bereich
             if (vLength <= ExtractedLength - Stroke * 2 / 3)
             {
                 Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
                 Res.AddRange(new Sphere(StartPoint, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
-                Res.AddRange(new Cylinder(StartPoint + 0.25 * vDriveUpdated, attPointDoor, RadiusDoor, Brushes.YellowGreen).GetGeometryModel(guide));
+                Res.AddRange(new Cylinder(StartPoint + vOffset, attPointDoor, RadiusDoor, Brushes.YellowGreen).GetGeometryModel(guide));
                 Res.AddRange(new Sphere(attPointDoor, RadiusDoor, Brushes.Gray).GetGeometryModel(guide));
             }
 
+            //Gelber Bereich
             else if ((vLength > ExtractedLength - Stroke * 2 / 3) && !(vLength <= ExtractedLength - Stroke * 2 / 3))
             {
                 Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
-                Res.AddRange(new Sphere(StartPoint, RadiusBody,  Brushes.Gray).GetGeometryModel(guide));
-                Res.AddRange(new Cylinder(StartPoint + 0.25 * vDriveUpdated, attPointDoor, RadiusDoor, Brushes.Orange).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(StartPoint, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
+                Res.AddRange(new Cylinder(StartPoint + vOffset, attPointDoor, RadiusDoor, Brushes.Orange).GetGeometryModel(guide));
                 Res.AddRange(new Sphere(attPointDoor, RadiusDoor, Brushes.Gray).GetGeometryModel(guide));
             }
 
+            //Roter Bereich
             else if ((vLength > ExtractedLength - Stroke * 1 / 3) && !(vLength <= ExtractedLength - Stroke * 2 / 3))
             {
                 Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
                 Res.AddRange(new Sphere(StartPoint, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
-                Res.AddRange(new Cylinder(StartPoint + 0.25 * vDriveUpdated, attPointDoor, RadiusDoor, Brushes.OrangeRed).GetGeometryModel(guide));
+                Res.AddRange(new Cylinder(StartPoint + vOffset, attPointDoor, RadiusDoor, Brushes.OrangeRed).GetGeometryModel(guide));
                 Res.AddRange(new Sphere(attPointDoor, RadiusDoor, Brushes.Gray).GetGeometryModel(guide));
             }
 
             //Farblicher Anbindungspunkt an die Heckklappe in Cyan
             Res.AddRange(new Sphere(attPointDoor, 40, Brushes.Cyan).GetGeometryModel(guide));
-            
+
             return Res.ToArray();
         }
     }
 }
-
-    

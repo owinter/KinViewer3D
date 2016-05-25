@@ -67,9 +67,7 @@ namespace KinematicViewer
             // V1 und V2 auf die Länge des Radius skalieren.
             v1 *= (Radius / v1.Length);
             v2 *= (Radius / v2.Length);
-            
-            
-            
+
             // Top Seite erstellen
             double theta = 0;
             double dtheta = 2 * Math.PI / Sides;
@@ -107,7 +105,7 @@ namespace KinematicViewer
                 AddTriangle(mesh, p2, p3, p4);
             }
 
-            //Geometry aus Mesh erzeugen 
+            //Geometry aus Mesh erzeugen
             GeometryModel3D model = new GeometryModel3D(mesh, Material);
             model.Transform = new Transform3DGroup();
 

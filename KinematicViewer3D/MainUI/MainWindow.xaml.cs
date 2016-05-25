@@ -24,6 +24,11 @@ namespace MainUI
         //Koordinatenpunkte der Benutzereingabe
         private List<Point3D> _oListAxisPoints;
 
+        //Visuals im Viewport
+        private Tailgate _oTail;
+        private Drive _oDriveLeft;
+        private Drive _oDriveRight;
+
         //Model- Dicke (Durchmesser der Linien)
         private double _dModelThickness;
 
@@ -162,15 +167,15 @@ namespace MainUI
             
             MvpControl.ModelThickness = ModelThickness;
 
-            Tailgate tail = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value);
-            Drive driveLeft = new Drive(AxisPoints[2], AxisPoints[3]);
-            Drive driveRight = new Drive(AxisPoints[4], AxisPoints[5]);
+            _oTail = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value);
+            _oDriveLeft = new Drive(AxisPoints[2], AxisPoints[3]);
+            _oDriveRight = new Drive(AxisPoints[4], AxisPoints[5]);
 
-            MvpControl.Guide = tail;
+            MvpControl.Guide = _oTail;
 
-            MvpControl.AddPassiveElement(driveLeft);
-            MvpControl.AddPassiveElement(driveRight);
-            MvpControl.AddActiveElement(tail);
+            MvpControl.AddPassiveElement(_oDriveLeft);
+            MvpControl.AddPassiveElement(_oDriveRight);
+            MvpControl.AddActiveElement(_oTail);
 
 
             // trans.resetModelTransformation(groupDriveVisual);
@@ -203,6 +208,9 @@ namespace MainUI
         private void change_open_ObjectAngle(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             MvpControl.Move(e.NewValue/100);
+
+            //Anzeige des Öffnungswinkel in TextBlock in [°]
+            OpenAngleDegree.Text = Math.Round(_oTail.CurValue, 2).ToString();
         }
 
         //Objekttransformation zurücksetzen

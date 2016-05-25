@@ -1,16 +1,15 @@
 ﻿<UserControl x:Class="KinematicViewer.MainViewPortControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:KinematicViewer"
-             mc:Ignorable="d" 
-             >
-            <!--d:DesignHeight="300" d:DesignWidth="300"-->
-    <Grid Name="MainGrid" 
-          Background="#eee9e9"  
+             mc:Ignorable="d">
+    <!--d:DesignHeight="300" d:DesignWidth="300"-->
+    <Grid Name="MainGrid"
+          Background="#eee9e9"
           MouseWheel="MainGrid_MouseWheel"
-		  MouseMove="MainGrid_MouseMove"
+          MouseMove="MainGrid_MouseMove"
           MouseRightButtonDown="MainGrid_MouseRightButtonDown"
           MouseRightButtonUp="MainGrid_MouseRightButtonUp"
           MouseLeftButtonDown="MainGrid_MouseLeftButtonDown"
@@ -24,7 +23,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Viewport3D Name="viewport" 
+        <Viewport3D Name="viewport"
                     Height="Auto"
                     Width="Auto"
                     ClipToBounds="True"
@@ -36,20 +35,20 @@
                                 Positions="-2, -1000, -1000
                                            -2, -1000,  1000
                                             2, -1000,  1000
-                                            2, -1000, -1000"        
-                                TriangleIndices="0,1,2,2,3,0" />        
+                                            2, -1000, -1000"
+                                TriangleIndices="0,1,2,2,3,0" />
 
                 <MeshGeometry3D x:Key="line_h"
                                 Positions="-1000,  -1000, -2
                                            -1000,  -1000,  2
                                             1000,  -1000,  2
-                                            1000,  -1000, -2"                   
+                                            1000,  -1000, -2"
                                 TriangleIndices="0,1,2,2,3,0" />
-                
+
                 <MeshGeometry3D x:Key="ground"
-                                Positions="-1000, -1000.5, -1000 
-                                           -1000, -1000.5,  1000 
-                                            1000, -1000.5,  1000 
+                                Positions="-1000, -1000.5, -1000
+                                           -1000, -1000.5,  1000
+                                            1000, -1000.5,  1000
                                             1000, -1000.5, -1000"
                                 TriangleIndices="0,1,2,2,3,0" />
 
@@ -59,37 +58,34 @@
                 <SolidColorBrush x:Key="groundSolid" Color="#D4D4D4" Opacity="0.1" />
             </Viewport3D.Resources>
 
-
             <!--  <OrthographicCamera
-                            x:Name="orthographic_Camera" 
-                                           FarPlaneDistance="100" 
+                            x:Name="orthographic_Camera"
+                                           FarPlaneDistance="100"
                                            Position="5,5,10"
                                            LookDirection="-5,-5,-10"
-        				                   UpDirection="0,1,0" 
-                                           NearPlaneDistance="0.125" 
-        				                  >
-                        </OrthographicCamera>   
+                                           UpDirection="0,1,0"
+                                           NearPlaneDistance="0.125">
+                        </OrthographicCamera>
             <Viewport3D.Camera>
-                <PerspectiveCamera x:Name="perspective_Camera" 
-                                           FarPlaneDistance="15000" 
+                <PerspectiveCamera x:Name="perspective_Camera"
+                                           FarPlaneDistance="15000"
                                            Position="0,100,2000"
                                            LookDirection="0,-100,-2000"
-        				                   UpDirection="0,1,0" 
-                                           NearPlaneDistance="0.125" 
-        				                   FieldOfView="45" >
-                </PerspectiveCamera> 
+                                           UpDirection="0,1,0"
+                                           NearPlaneDistance="0.125"
+                                           FieldOfView="45">
+                </PerspectiveCamera>
             <OrthographicCamera
-                            x:Name="orthographic_Camera" 
-                                           FarPlaneDistance="15000" 
+                            x:Name="orthographic_Camera"
+                                           FarPlaneDistance="15000"
                                            Position="   0,100,2000"
                                            LookDirection="0,-100,-2000"
-        				                   UpDirection="0,1,0" 
+                                           UpDirection="0,1,0"
                                            NearPlaneDistance="0.125"
-                                           Width="1300"
-        				                  >
-                        </OrthographicCamera>  
+                                           Width="1300">
+                        </OrthographicCamera>
             </Viewport3D.Camera> -->
-            
+
             <!-- Model Visuals for all created visual Objects-->
             <!-- Visual Model Group for Tailgates & Doors-->
             <ModelVisual3D x:Name="modelVisual">
@@ -97,14 +93,14 @@
                     <Model3DGroup x:Name="groupActive" />
                 </ModelVisual3D.Content>
             </ModelVisual3D>
-            
+
             <!-- Visual Model Group for Drives-->
             <ModelVisual3D x:Name="driveVisual">
                 <ModelVisual3D.Content>
                     <Model3DGroup x:Name="groupPassive" />
                 </ModelVisual3D.Content>
             </ModelVisual3D>
-            
+
             <!-- ModelGroup for Lights and GroundMesh in Scene-->
             <ModelVisual3D x:Name="modelLightsAndGround">
                 <ModelVisual3D.Content>
@@ -112,14 +108,13 @@
                         <AmbientLight Color="#404040" />
                         <DirectionalLight Color="#C0C0C0" Direction="-5000, -5000, -10000" />
 
-                        
                         <!--GROUND GRAY -->
 
                         <GeometryModel3D Geometry="{StaticResource ground}">
                             <GeometryModel3D.Material>
                                 <DiffuseMaterial Brush="{StaticResource groundSolid}" />
                             </GeometryModel3D.Material>
-                          <!--  <GeometryModel3D.BackMaterial>
+                            <!--  <GeometryModel3D.BackMaterial>
                                 <DiffuseMaterial Brush="{StaticResource groundSolid}" />
                             </GeometryModel3D.BackMaterial> -->
                         </GeometryModel3D>
@@ -128,7 +123,7 @@
 
                         <!-- Vertical Lines-->
                         <GeometryModel3D Geometry="{StaticResource line_v}"
-                                         Material="{StaticResource line_matBlue}" 
+                                         Material="{StaticResource line_matBlue}"
                                          BackMaterial="{StaticResource line_matBlue}">
                         </GeometryModel3D>
 
@@ -292,11 +287,10 @@
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
 
-
                         <!-- Horizontal Lines-->
                         <GeometryModel3D Geometry="{StaticResource line_h}"
                                          Material="{StaticResource line_matRed}"
-                                         BackMaterial="{StaticResource line_matRed}"/>
+                                         BackMaterial="{StaticResource line_matRed}" />
 
                         <GeometryModel3D Geometry="{StaticResource line_h}"
                                          Material="{StaticResource line_mat}"
@@ -457,7 +451,6 @@
                                 <TranslateTransform3D OffsetZ="-1000" />
                             </GeometryModel3D.Transform>
                         </GeometryModel3D>
-                        
                     </Model3DGroup>
                 </ModelVisual3D.Content>
             </ModelVisual3D>

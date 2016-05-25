@@ -15,21 +15,19 @@ namespace KinematicViewer
         private double _dCurVal;
 
         //maximaler Öffnungswinkel
-        private double _dMaxOpen = 62.5;
+        private double _dMaxOpen;
 
         private Vector3D _oAxisOfRotation;
         private Point3D _oAxisPoint;
         private Point3D _oPointLatch;
 
-        private List<Point3D> coordsDownTail;
-        private List<Point3D> coordsMidTail;
-        private List<Point3D> coordsUpTail;
+        private List<Point3D> _oLCoordsDownTail;
+        private List<Point3D> _oLCoordsMidTail;
+        private List<Point3D> _oLCoordsUpTail;
 
-        private double modelThickness;
+        private double _dModelThickness;
 
-        private Vector3D vAxisQuerE2;
-        private Vector3D vAxisToHandE1;
-        private Vector3D vN;
+        private Vector3D _oVAxisToHandE1;
 
         public Tailgate(Point3D axisPoint, Point3D latch, double modelThickness)
         {
@@ -37,12 +35,15 @@ namespace KinematicViewer
 
             AxisPoint = axisPoint;
             PointLatch = latch;
+            MaxValue = 62.5;
 
-            this.modelThickness = modelThickness;
+            ModelThickness = modelThickness;
 
-            coordsMidTail = makeCoordsMidTail();
-            coordsUpTail = makeCoordsUpTail();
-            coordsDownTail = makeCoordsDownTail();
+            VAxisToHandE1 = PointLatch - AxisPoint;
+
+            CoordsMidTail = makeCoordsMidTail();
+            CoordsUpTail = makeCoordsUpTail();
+            CoordsDownTail = makeCoordsDownTail();
         }
 
         public Vector3D AxisOfRotation
@@ -75,34 +76,64 @@ namespace KinematicViewer
             private set { _oPointLatch = value; }
         }
 
+        public double ModelThickness
+        {
+            get { return _dModelThickness; }
+            private set { _dModelThickness = value; }
+        }
+
+        public List<Point3D> CoordsDownTail
+        {
+            get { return _oLCoordsDownTail; }
+            private set { _oLCoordsDownTail = value; }
+        }
+
+        public List<Point3D> CoordsMidTail
+        {
+            get { return _oLCoordsMidTail; }
+            private set { _oLCoordsMidTail = value; }
+        }
+
+        public List<Point3D> CoordsUpTail
+        {
+            get { return _oLCoordsUpTail; }
+            private set { _oLCoordsUpTail = value; }
+        }
+
+        public Vector3D VAxisToHandE1
+        {
+            get { return _oVAxisToHandE1; }
+            set { _oVAxisToHandE1 = value; }
+        }
+
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
             List<GeometryModel3D> Res = new List<GeometryModel3D>();
 
             //Klappe
             //Oberer Part
-            for (int i = 0; i <= coordsUpTail.Count - 2; i++)
+            for (int i = 0; i <= CoordsUpTail.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(coordsUpTail[i], modelThickness, Brushes.Cyan).GetGeometryModel(guide));
-                Res.AddRange(new Cuboid(coordsUpTail[i], coordsUpTail[i + 1], modelThickness).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsUpTail[i], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
+                Res.AddRange(new Cuboid(CoordsUpTail[i], CoordsUpTail[i + 1], ModelThickness).GetGeometryModel(guide));
             }
 
             //Unterer Part
-            for (int i = 0; i <= coordsDownTail.Count - 2; i++)
+            for (int i = 0; i <= CoordsDownTail.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(coordsDownTail[i], modelThickness, Brushes.Cyan).GetGeometryModel(guide));
-                Res.AddRange(new Cuboid(coordsDownTail[i], coordsDownTail[i + 1], modelThickness).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsDownTail[i], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
+                Res.AddRange(new Cuboid(CoordsDownTail[i], CoordsDownTail[i + 1], ModelThickness).GetGeometryModel(guide));
             }
 
             //Mittlerer Part
-            for (int i = 0; i <= coordsMidTail.Count - 2; i++)
+            for (int i = 0; i <= CoordsMidTail.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(coordsMidTail[i], modelThickness, Brushes.Cyan).GetGeometryModel(guide));
-                Res.AddRange(new Cuboid(coordsMidTail[i], coordsMidTail[i + 1], modelThickness).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsMidTail[i], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
+                Res.AddRange(new Cuboid(CoordsMidTail[i], CoordsMidTail[i + 1], ModelThickness).GetGeometryModel(guide));
             }
 
-            Res.AddRange(new Sphere(coordsMidTail[3], modelThickness, Brushes.Cyan).GetGeometryModel(guide));
-            Res.AddRange(new Cuboid(coordsMidTail[3], coordsMidTail[0], modelThickness).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(CoordsMidTail[3], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
+            Res.AddRange(new Cuboid(CoordsMidTail[3], CoordsMidTail[0], ModelThickness).GetGeometryModel(guide));
 
             //Handle
             Res.AddRange(new Sphere(PointLatch, 50, Brushes.Red).GetGeometryModel(guide));
@@ -117,8 +148,6 @@ namespace KinematicViewer
             return Res.ToArray();
         }
 
-        
-
         //Erstelle Koordinaten für den unteren Teil der Heckklappe
         private List<Point3D> makeCoordsDownTail()
         {
@@ -126,8 +155,8 @@ namespace KinematicViewer
 
             Vector3D v1 = TransformationUtilities.scaleToOffset(new Vector3D(0, 1, 0), TAILDEPTH * 2);
 
-            Point3D pUpL = coordsMidTail[1];
-            Point3D pUpR = coordsMidTail[2];
+            Point3D pUpL = CoordsMidTail[1];
+            Point3D pUpR = CoordsMidTail[2];
             Point3D pDownL = pUpL - v1;
             Point3D pDownR = pUpR - v1;
 
@@ -144,11 +173,10 @@ namespace KinematicViewer
         {
             List<Point3D> points = new List<Point3D>();
 
-            vAxisToHandE1 = PointLatch - AxisPoint;
-            vAxisQuerE2 = Vector3D.CrossProduct(vAxisToHandE1, new Vector3D(0, 1, 0));
+            Vector3D vAxisQuerE2 = Vector3D.CrossProduct(VAxisToHandE1, new Vector3D(0, 1, 0));
             vAxisQuerE2.Normalize();
 
-            vN = Vector3D.CrossProduct(vAxisQuerE2, vAxisToHandE1);
+            Vector3D vN = Vector3D.CrossProduct(vAxisQuerE2, VAxisToHandE1);
             vN.Normalize();
 
             Point3D pUpL = AxisPoint + (vN * OFFSET) + (vAxisQuerE2 * TAILWIDTH / 2);
@@ -168,11 +196,11 @@ namespace KinematicViewer
         private List<Point3D> makeCoordsUpTail()
         {
             List<Point3D> points = new List<Point3D>();
-            Vector3D v1 = new Vector3D(vAxisToHandE1.X, 0, vAxisToHandE1.Z);
+            Vector3D v1 = new Vector3D(VAxisToHandE1.X, 0, VAxisToHandE1.Z);
             v1 = TransformationUtilities.scaleToOffset(v1, TAILDEPTH);
 
-            Point3D pDownL = coordsMidTail[0];
-            Point3D pDownR = coordsMidTail[3];
+            Point3D pDownL = CoordsMidTail[0];
+            Point3D pDownR = CoordsMidTail[3];
             Point3D pUpL = pDownL - v1;
             Point3D pUpR = pDownR - v1;
 

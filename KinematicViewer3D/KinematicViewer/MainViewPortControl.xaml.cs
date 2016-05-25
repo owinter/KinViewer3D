@@ -1,21 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Markup;
-using System.Diagnostics;
-
-
 
 namespace KinematicViewer
 {
@@ -35,12 +24,11 @@ namespace KinematicViewer
 
         //Klasse für Transformationen aller Art
         private Transformation trans;
-       
+
         private IGuide _oGuide;
 
         public List<GeometricalElement> ElementsPassive;
         public List<GeometricalElement> ElementsActive;
-
 
         //Mittelpunkt des Objektes
         private Point3D _oMPoint;
@@ -51,11 +39,8 @@ namespace KinematicViewer
         private string s_coords;
         private TextBlock statusPane;
 
-
         public MainViewPortControl()
         {
-
-            
             InitializeComponent();
             //axisPoints = new List<Point3D>();
             trans = new Transformation();
@@ -68,7 +53,6 @@ namespace KinematicViewer
 
             ElementsActive = new List<GeometricalElement>();
             ElementsPassive = new List<GeometricalElement>();
-
 
             //viewportCam.resetCam();
             CanMoveCamera = true;
@@ -103,7 +87,6 @@ namespace KinematicViewer
                 foreach (Model3D m in e.GetGeometryModel(Guide))
                     groupPassive.Children.Add(m);
         }
-
 
         //MAUSSTEUERUNG im MainGrid
         private void MainGrid_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -167,7 +150,7 @@ namespace KinematicViewer
         }
 
         //HitTest Verhalten wenn auf einen Antrieb oder ein visuelles Model geklickt wird
-        HitTestResultBehavior HitTestDown(HitTestResult result)
+        private HitTestResultBehavior HitTestDown(HitTestResult result)
         {
             RayMeshGeometry3DHitTestResult resultMesh = result as RayMeshGeometry3DHitTestResult;
 
@@ -179,19 +162,18 @@ namespace KinematicViewer
             if (vis == null)
                 return HitTestResultBehavior.Continue;
 
-            if(vis == (viewport.FindName("driveVisual") as ModelVisual3D))
+            if (vis == (viewport.FindName("driveVisual") as ModelVisual3D))
             {
                 changeModelColorRandom(resultMesh);
                 return HitTestResultBehavior.Stop;
             }
 
-            if(vis == (viewport.FindName("modelVisual") as ModelVisual3D))
+            if (vis == (viewport.FindName("modelVisual") as ModelVisual3D))
             {
                 changeModelColorRandom(resultMesh);
                 return HitTestResultBehavior.Stop;
             }
             return HitTestResultBehavior.Continue;
-            
         }
 
         private void MainGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -300,16 +282,15 @@ namespace KinematicViewer
         //public event ViewPortEventHandler ViewUpdated;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="per">Anteil der Bewegung in % [0-100]</param>
         public void Move(double per)
-        {           
-
+        {
             Guide.InitiateMove(per);
 
             Tailgate tail = ElementsActive[0] as Tailgate;
-            trans.rotateModel(tail.CurValue, tail.AxisOfRotation,tail.AxisPoint, groupActive);
+            trans.rotateModel(tail.CurValue, tail.AxisOfRotation, tail.AxisPoint, groupActive);
 
             ////trans.rotateDrive(axisAngle, _oVAxisOfRotation, axisPoints, groupDriveVisual);
 
@@ -318,18 +299,15 @@ namespace KinematicViewer
             updateDrive(_oLAxisPoints[2], attPDLeft);*/
 
             //if (ViewUpdated != null)
-            //    ViewUpdated(this, new ProgressEventArgs());    
+            //    ViewUpdated(this, new ProgressEventArgs());
 
-            UpdatePassiveElements();      
+            UpdatePassiveElements();
         }
 
         public void resetModelTransformation()
         {
-            trans.resetModelTransformation(groupActive);  
+            trans.resetModelTransformation(groupActive);
         }
-
-
-
 
         private void changeModelColorRandom(RayMeshGeometry3DHitTestResult resultMesh)
         {
@@ -348,8 +326,6 @@ namespace KinematicViewer
             s_coords = string.Format("Bild-Koordinaten: ({0:d}, {1:d})", (int)p.X, (int)p.Y);
             this.statusPane.Text = s_coords;
         }
-       
-
 
         //Öffentliche Getter & Setter Methoden
         public bool CanMoveCamera { get; set; }
@@ -368,28 +344,14 @@ namespace KinematicViewer
 
         public ViewportCamera ViewportCam
         {
-            get
-            {
-                return _oViewportCam;
-            }
-
-            set
-            {
-                _oViewportCam = value;
-            }
+            get { return _oViewportCam; }
+            set { _oViewportCam = value; }
         }
 
         public IGuide Guide
         {
-            get
-            {
-                return _oGuide;
-            }
-
-            set
-            {
-                _oGuide = value;
-            }
+            get { return _oGuide; }
+            set { _oGuide = value; }
         }
 
         //Übergeben eines TextBlockObjectes an das ViewportControl
@@ -397,6 +359,5 @@ namespace KinematicViewer
         {
             this.statusPane = statusPane;
         }
-
     }
 }
