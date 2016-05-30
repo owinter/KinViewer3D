@@ -52,13 +52,14 @@ namespace MainUI
         {
             InitializeComponent();
             AxisPoints = new List<Point3D>();
+            CssControl = new CoordSystemSmall();
+            MainUICoordSystemSmall.Content = CssControl;
 
             MvpControl = new MainViewPortControl();
             MvpControl.setTextBlock(statusPane);
             MainUIViewport3D.Content = MvpControl;
 
-            CssControl = new CoordSystemSmall(); 
-            MainUICoordSystemSmall.Content = CssControl; 
+            
 
             create_Button.IsEnabled = false;
         }

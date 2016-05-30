@@ -54,7 +54,6 @@ namespace KinematicViewer
             ElementsActive = new List<GeometricalElement>();
             ElementsPassive = new List<GeometricalElement>();
 
-            //viewportCam.resetCam();
             CanMoveCamera = true;
         }
 

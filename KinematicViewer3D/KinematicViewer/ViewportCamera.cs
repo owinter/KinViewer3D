@@ -23,6 +23,8 @@ namespace KinematicViewer
         //perspektivische Camera
         public PerspectiveCamera oP_Camera;
 
+        public PerspectiveCamera oP_Camera_CoordSystemSmall;
+
         //orthografische Camera
         public OrthographicCamera oO_Camera;
 
@@ -43,6 +45,13 @@ namespace KinematicViewer
         private CoordSystemSmall c_SystemSmall;
         private Transformation trans;
 
+
+
+        private Transformation trans_CSS;
+
+        private double cssYaw;
+        private double cssPitch;
+
         //Konstruktor
         public ViewportCamera(Grid mainGrid, Viewport3D viewport, CoordSystemSmall c_SystemSmall, Transformation trans)
         {
@@ -50,6 +59,13 @@ namespace KinematicViewer
             this.viewport = viewport;
             this.c_SystemSmall = c_SystemSmall;
             this.trans = trans;
+
+            trans_CSS = new Transformation();
+            oP_Camera_CoordSystemSmall = c_SystemSmall.Camera_CoordSystem;
+            
+            
+            //trans_CSS.Reset(c_SystemSmall.Camera_CoordSystem);
+           
 
             OrthoWidth = 3200;
             ZoomFactor = 100;
@@ -92,40 +108,24 @@ namespace KinematicViewer
             {
                 case Cam.Perspective:
                     {
-                        /* double y = cameraR * Math.Sin(cameraPhi);
-                         double hyp = cameraR * Math.Cos(cameraPhi);
-                         double x = hyp * Math.Cos(cameraTheta);
-                         double z = hyp * Math.Sin(cameraTheta);
-                         //Neue Koordinate für die perspektivische Kamera
-                         p_Camera.Position = new Point3D(x, y, z);
-                         //Lookdirection zum Ursprung
-                         p_Camera.LookDirection = new Vector3D(-x, -y, -z);
-                         //Der Kamera sagen, wo oben ist --> Y
-                         p_Camera.UpDirection = new Vector3D(0, 1, 0);*/
                         Yaw = trans.Yaw;
                         Pit = trans.Pitch;
 
-
+                        //Werte für CSS updaten
+                        cssYaw = trans_CSS.Yaw;
+                        cssPitch = trans_CSS.Pitch;
                     }
                     break;
 
                 case Cam.Orthographic:
                     {
-                        /*double y = cameraR * Math.Sin(cameraPhi);
-                        double hyp = cameraR * Math.Cos(cameraPhi);
-                        double x = hyp * Math.Cos(cameraTheta);
-                        double z = hyp * Math.Sin(cameraTheta);
-                        //Neue Koordinate für die orthographische Kamera
-                        o_Camera.Position = new Point3D(x, y, z);
-                        //Lookdirection zum Ursprung
-                        o_Camera.LookDirection = new Vector3D(-x, -y, -z);
-                        //Der Kamera sagen, wo oben ist --> Y
-                        o_Camera.UpDirection = new Vector3D(0, 1, 0);
-                        //updaten der Kamerabreite
-                        o_Camera.Width = o_Cam_Width;*/
                         Yaw = trans.Yaw;
                         Pit = trans.Pitch;
                         oO_Camera.Width = OrthoWidth;
+
+                        //Werte für CSS updaten
+                        cssYaw = trans_CSS.Yaw;
+                        cssPitch = trans_CSS.Pitch;
                     }
                     break;
 
@@ -158,11 +158,6 @@ namespace KinematicViewer
                     break;
             }
 
-            //Winkel der Kamera zurücksetzen auf default Werte
-            /* cameraPhi = Math.PI / 6.0 - 1 * cameraDPhi;
-             cameraTheta = Math.PI / 6.0 + 5 * cameraDTheta;
-             cameraR = 13;*/
-
             //orthographische Kamerabreite zurücksetzen
             OrthoWidth = 3000;
 
@@ -175,7 +170,7 @@ namespace KinematicViewer
         {
             zoomCam(e.Delta);
             
-            //c_SystemSmall.updateC_System(trans);
+            //c_SystemSmall.updateC_SystemSmall(trans);
 
             //Kamera im Fenster des Koordinatensystems ändern
             ////c_SystemSmall.updatePositionCamera_CoordinateSystem(cameraR, cameraPhi, cameraTheta);
@@ -196,6 +191,9 @@ namespace KinematicViewer
             trans.Yaw = trans.Yaw + dx;
             trans.Pitch = trans.Pitch + dy;
 
+            trans_CSS.Yaw = trans_CSS.Yaw + dx;
+            trans_CSS.Pitch = trans_CSS.Pitch + dy;
+
             switch (MyCam)
             {
                 case Cam.Perspective:
@@ -210,8 +208,11 @@ namespace KinematicViewer
                     }
                     break;       
             }
+            //c_SystemSmall.updateC_SystemSmall(trans_CSS);
+            trans_CSS.Rotate(c_SystemSmall.Camera_CoordSystem);
+            c_SystemSmall.updateC_SystemSmall();
+
             
-            //c_SystemSmall.updateC_System(trans);
             //Rücksetzen der MausPosition zum Center vom Viewport in Bildschirm Koordinaten
             MouseUtilities.SetPosition(_oCenterOfViewport);
         }
@@ -253,8 +254,14 @@ namespace KinematicViewer
                     }
                     break;
             }
-            
-            
+            c_SystemSmall.Camera_CoordSystem.Position = new Point3D(oP_Camera_CoordSystemSmall.Position.X, oP_Camera_CoordSystemSmall.Position.Y, 4000);
+            c_SystemSmall.Camera_CoordSystem.LookDirection = new Vector3D(-oP_Camera_CoordSystemSmall.Position.X, -oP_Camera_CoordSystemSmall.Position.Y, -4000);
+            c_SystemSmall.Camera_CoordSystem.Transform = new Transform3DGroup();
+            trans_CSS.Yaw = 0;
+            trans_CSS.Pitch = 0;
+           
+
+
         }
         //Listener für die Tastatureingabe 
         public void viewport_KeyDown( object sender, KeyEventArgs e)
@@ -272,6 +279,7 @@ namespace KinematicViewer
                         if(MyCam == Cam.Orthographic)
                             trans.doPitch(oO_Camera, -value);
                     }
+                    c_SystemSmall.updatePositionCamera_CoordinateSystem(1000, 500, 4000);
                     e.Handled = true;
                     break;
 
@@ -362,6 +370,7 @@ namespace KinematicViewer
                     break;
 
             }
+            trans_CSS.Zoom(c_SystemSmall.Camera_CoordSystem, value / 1);
             updatePositionCamera();
         }
 
