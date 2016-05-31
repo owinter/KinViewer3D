@@ -23,7 +23,7 @@ namespace KinematicViewer
         //perspektivische Camera
         public PerspectiveCamera oP_Camera;
 
-        public PerspectiveCamera oP_Camera_CoordSystemSmall;
+        public PerspectiveCamera oP_Camera_CoordSystem;
 
         //orthografische Camera
         public OrthographicCamera oO_Camera;
@@ -41,8 +41,9 @@ namespace KinematicViewer
 
         //benutzbare Instanzen
         private Viewport3D viewport;
+        private Viewport3D viewportCoordSystem;
         private Grid mainGrid;
-        private CoordSystemSmall c_SystemSmall;
+        private CoordSystem coordSystem;
         private Transformation trans;
 
 
@@ -53,15 +54,17 @@ namespace KinematicViewer
         private double cssPitch;
 
         //Konstruktor
-        public ViewportCamera(Grid mainGrid, Viewport3D viewport, CoordSystemSmall c_SystemSmall, Transformation trans)
+        public ViewportCamera(Grid mainGrid, Viewport3D viewport, Viewport3D viewportCoordSystem, CoordSystem coordSystem, Transformation trans)
         {
             this.mainGrid = mainGrid;
             this.viewport = viewport;
-            this.c_SystemSmall = c_SystemSmall;
+            this.coordSystem = coordSystem;
+            this.viewportCoordSystem = viewportCoordSystem;
             this.trans = trans;
+            
 
             trans_CSS = new Transformation();
-            oP_Camera_CoordSystemSmall = c_SystemSmall.Camera_CoordSystem;
+            oP_Camera_CoordSystem = coordSystem.Camera_CoordSystem;
             
             
             //trans_CSS.Reset(c_SystemSmall.Camera_CoordSystem);
@@ -99,6 +102,21 @@ namespace KinematicViewer
             trans.Reset(oO_Camera);
             viewport.Camera = oO_Camera;
             
+        }
+
+        public void makeCoordSystemCamera()
+        {
+            oP_Camera_CoordSystem = new PerspectiveCamera();
+            oP_Camera_CoordSystem.Position = new Point3D(0, 100, 2000);
+            oP_Camera_CoordSystem.LookDirection = new Vector3D(0, -100, -2000);
+            oP_Camera_CoordSystem.UpDirection = new Vector3D(0, 1, 0);
+            oP_Camera_CoordSystem.FieldOfView = 60;
+            oP_Camera_CoordSystem.FarPlaneDistance = 15000;
+            oP_Camera_CoordSystem.NearPlaneDistance = 0.125;
+            trans_CSS.Reset(oP_Camera_CoordSystem);
+            viewportCoordSystem.Camera = oP_Camera_CoordSystem;
+
+            // updatePositionCamera_CoordinateSystem(coord_CameraR, coord_CameraPhi, coord_CameraTheta);
         }
 
         //Position der Camera updaten
@@ -162,7 +180,7 @@ namespace KinematicViewer
             OrthoWidth = 3000;
 
             //Kamera des Koordinatensystems reloaden
-            c_SystemSmall.reloadCoordinateSystem();
+            coordSystem.reloadCoordinateSystem();
         }
 
         //Listener für das Mausrad --> ZOOM Funtkion
@@ -209,8 +227,8 @@ namespace KinematicViewer
                     break;       
             }
             //c_SystemSmall.updateC_SystemSmall(trans_CSS);
-            trans_CSS.Rotate(c_SystemSmall.Camera_CoordSystem);
-            c_SystemSmall.updateC_SystemSmall();
+            trans_CSS.Rotate(oP_Camera_CoordSystem);
+            //coordSystem.updateC_SystemSmall();
 
             
             //Rücksetzen der MausPosition zum Center vom Viewport in Bildschirm Koordinaten
@@ -254,9 +272,9 @@ namespace KinematicViewer
                     }
                     break;
             }
-            c_SystemSmall.Camera_CoordSystem.Position = new Point3D(oP_Camera_CoordSystemSmall.Position.X, oP_Camera_CoordSystemSmall.Position.Y, 4000);
-            c_SystemSmall.Camera_CoordSystem.LookDirection = new Vector3D(-oP_Camera_CoordSystemSmall.Position.X, -oP_Camera_CoordSystemSmall.Position.Y, -4000);
-            c_SystemSmall.Camera_CoordSystem.Transform = new Transform3DGroup();
+            oP_Camera_CoordSystem.Position = new Point3D(oP_Camera_CoordSystem.Position.X, oP_Camera_CoordSystem.Position.Y, 2000);
+            oP_Camera_CoordSystem.LookDirection = new Vector3D(-oP_Camera_CoordSystem.Position.X, -oP_Camera_CoordSystem.Position.Y, -2000);
+            oP_Camera_CoordSystem.Transform = new Transform3DGroup();
             trans_CSS.Yaw = 0;
             trans_CSS.Pitch = 0;
            
@@ -279,7 +297,7 @@ namespace KinematicViewer
                         if(MyCam == Cam.Orthographic)
                             trans.doPitch(oO_Camera, -value);
                     }
-                    c_SystemSmall.updatePositionCamera_CoordinateSystem(1000, 500, 4000);
+                    trans_CSS.doPitch(oP_Camera_CoordSystem, -value);
                     e.Handled = true;
                     break;
 
@@ -291,6 +309,7 @@ namespace KinematicViewer
                         if (MyCam == Cam.Orthographic)
                             trans.doPitch(oO_Camera, value);
                     }
+                    trans_CSS.doPitch(oP_Camera_CoordSystem, value);
                     e.Handled = true;
                     break;
 
@@ -302,6 +321,7 @@ namespace KinematicViewer
                         if (MyCam == Cam.Orthographic)
                             trans.doYaw(oO_Camera, value);
                     }
+                    trans.doYaw(oP_Camera_CoordSystem, value);
                     e.Handled = true;
                     break;
 
@@ -313,6 +333,7 @@ namespace KinematicViewer
                         if (MyCam == Cam.Orthographic)
                             trans.doYaw(oO_Camera, -value);
                     }
+                    trans_CSS.doYaw(oP_Camera_CoordSystem, -value);
                     e.Handled = true;
                     break;
 
@@ -328,6 +349,7 @@ namespace KinematicViewer
                             updatePositionCamera();
                         }    
                     }
+                    trans_CSS.Zoom(oP_Camera_CoordSystem, zoomFactor);
                     e.Handled = true;
                     break;
 
@@ -343,6 +365,7 @@ namespace KinematicViewer
                             updatePositionCamera();
                         }   
                     }
+                    trans_CSS.Zoom(oP_Camera_CoordSystem, -zoomFactor);
                     e.Handled = true;
                     break;
             }
@@ -370,7 +393,7 @@ namespace KinematicViewer
                     break;
 
             }
-            trans_CSS.Zoom(c_SystemSmall.Camera_CoordSystem, value / 1);
+            trans_CSS.Zoom(oP_Camera_CoordSystem, value / 1);
             updatePositionCamera();
         }
 
@@ -391,6 +414,9 @@ namespace KinematicViewer
                 trans.doYaw(oP_Camera, 540);
             if (MyCam == Cam.Orthographic)
                 trans.doYaw(oO_Camera, 540);
+
+            //Koordinatensystem aktualisieren
+            trans_CSS.doYaw(oP_Camera_CoordSystem, 540);
         }
 
         public void viewRight()
@@ -401,6 +427,9 @@ namespace KinematicViewer
                 trans.doYaw(oP_Camera, -270); 
             if (MyCam == Cam.Orthographic)
                 trans.doYaw(oO_Camera, -270);
+
+            //Koordinatensystem aktualisieren
+            trans_CSS.doYaw(oP_Camera_CoordSystem, -270);
         }
 
         public void viewLeft()
@@ -411,6 +440,9 @@ namespace KinematicViewer
                 trans.doYaw(oP_Camera, 270);
             if (MyCam == Cam.Orthographic)
                 trans.doYaw(oO_Camera, 270);
+
+            //Koordinatensystem aktualisieren
+            trans_CSS.doYaw(oP_Camera_CoordSystem, 270);
         }
 
         public void viewTop()
@@ -421,6 +453,9 @@ namespace KinematicViewer
                 trans.doPitch(oP_Camera, -270);
             if (MyCam == Cam.Orthographic)
                 trans.doPitch(oO_Camera, -270);
+
+            //Koordinatensystem aktualisieren
+            trans_CSS.doPitch(oP_Camera_CoordSystem, -270);
         }
 
         public void viewBottom()
@@ -431,6 +466,9 @@ namespace KinematicViewer
                 trans.doPitch(oP_Camera, 270);
             if (MyCam == Cam.Orthographic)
                 trans.doPitch(oO_Camera, 270);
+
+            //Koordinatensystem aktualisieren
+            trans_CSS.doPitch(oP_Camera_CoordSystem, 270);
         }
 
         public void zoomIn()

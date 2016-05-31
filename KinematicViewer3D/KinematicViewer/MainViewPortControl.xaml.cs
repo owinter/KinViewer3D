@@ -19,8 +19,11 @@ namespace KinematicViewer
         //Klasse für Kameraeinstellungen und deren Positionen
         private ViewportCamera _oViewportCam;
 
-        //Koordinatensystem für rechten Dock Panel erstellen
-        private CoordSystemSmall _oC_SystemSmall;
+        ////Koordinatensystem für rechten Dock Panel erstellen
+        //private CoordSystemSmall _oC_SystemSmall;
+
+        // Koordinatensystem im eigenen viewport
+        private CoordSystem _oCS;
 
         //Klasse für Transformationen aller Art
         private Transformation trans;
@@ -44,9 +47,11 @@ namespace KinematicViewer
             InitializeComponent();
             //axisPoints = new List<Point3D>();
             trans = new Transformation();
-            _oC_SystemSmall = new CoordSystemSmall();
-            ViewportCam = new ViewportCamera(MainGrid, viewport, _oC_SystemSmall, trans);
+            _oCS = new CoordSystem(viewportCoordSystem);
+            ViewportCam = new ViewportCamera(MainGrid, viewport, viewportCoordSystem, _oCS, trans);
 
+            //_oCS.makeCoordSystemCamera();
+            ViewportCam.makeCoordSystemCamera();
             ViewportCam.startPerspectiveCamera();
             ViewportCam.MyCam = Cam.Perspective;
             ViewportCam.resetCam();

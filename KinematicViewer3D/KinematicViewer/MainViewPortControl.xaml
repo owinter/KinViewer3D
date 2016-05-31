@@ -455,5 +455,25 @@
                 </ModelVisual3D.Content>
             </ModelVisual3D>
         </Viewport3D>
+        
+        <Grid Background="#eee9e9"
+              Height="160" 
+              Width=" 160"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Top">
+            <Border Background="#eee9e9"
+                        BorderBrush="Silver"
+                        Width="160"
+                        Height="160"
+                        BorderThickness="2" >
+
+            <Viewport3D Name="viewportCoordSystem"
+                    Height="Auto"
+                    Width="Auto"
+                    ClipToBounds="True"
+                    Focusable="True" />
+            </Border>
+        </Grid>
+        
     </Grid>
 </UserControl>

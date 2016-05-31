@@ -52,8 +52,8 @@ namespace MainUI
         {
             InitializeComponent();
             AxisPoints = new List<Point3D>();
-            CssControl = new CoordSystemSmall();
-            MainUICoordSystemSmall.Content = CssControl;
+            //CssControl = new CoordSystemSmall();
+            //MainUICoordSystemSmall.Content = CssControl;
 
             MvpControl = new MainViewPortControl();
             MvpControl.setTextBlock(statusPane);

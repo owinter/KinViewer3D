@@ -2,68 +2,45 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace KinematicViewer
 {
-    /// <summary>
-    /// Interaction logic for CoordSystemSmall.xaml
-    /// </summary>
-    public partial class CoordSystemSmall : UserControl
+    public class CoordSystem
     {
         private ModelVisual3D _oCoordSystem_Visual;
-
+        
         //ModelGroup für das Koordinatensystem
         private Model3DGroup _oCoordSystem_ModelGroup;
-        
+
         //3D KoordinatenSystem Model der jeweiligen farbigen Achsen
         private GeometryModel3D _oAxes_Model_X;
         private GeometryModel3D _oAxes_Model_Y;
         private GeometryModel3D _oAxes_Model_Z;
+        private GeometryModel3D _oCube_Model;
 
         //Perspektiviesche Kamera des Koordinatensystem
         private PerspectiveCamera _oPCamera_CoordSystem;
-        /*
-                //Änderung der Kamera bei Tastatureingabe up and down Pfeiltaste
-                private const double coord_CameraDPhi = 0.06;
-
-                //Änderung der Kamera bei Tastatureingabe left and right Preiltaste
-                private const double coord_CameraDTheta = 0.06;
-
-                //Änderung der Kamera bei Tastatureingabe von + und -
-                private const double coord_CameraDR = 0.3;
-
-                //Aktuelle Camera Positionen
-                private double coord_CameraPhi = Math.PI / 6.0 - 1 * coord_CameraDPhi;
-                private double coord_CameraTheta = Math.PI / 6.0 + 5 * coord_CameraDTheta;
-                private double coord_CameraR = 13.0;
-        */
 
         // Lichter für das Koordinatensystem.
         private List<Light> _oLLights;
 
+        private Viewport3D viewportCoordSystem;
+
         //Transformationen für das Koordinatensystem
         private Transformation _oTransCoordSystem;
 
-      
-        public CoordSystemSmall()
+
+        public CoordSystem(Viewport3D viewportCoordSystem)
         {
-            InitializeComponent();
+            this.viewportCoordSystem = viewportCoordSystem;
             _oCoordSystem_ModelGroup = new Model3DGroup();
             _oCoordSystem_Visual = new ModelVisual3D();
             _oTransCoordSystem = new Transformation();
 
             Lights = new List<Light>();
-            makeCamera();
             DefineLights();
             buildCoordinateSystem();
         }
@@ -81,71 +58,62 @@ namespace KinematicViewer
             set { _oPCamera_CoordSystem = value; }
         }
 
-        //KOORDINATENSYSTEM im rechten DOCK PANEL
-        //Viewport Rechts unten im Bild für Koordinatensystem --> Testweise
-        //Definiert ein Geometry Model für das farbige Koordinatensystem
-
-        //Erstellt das visuelle Model eines farbigen Koordinatensystem im rechten DOCK Panel Viewport
-
-        public void makeCamera()
-        {
-            Camera_CoordSystem = new PerspectiveCamera();
-            Camera_CoordSystem.Position = new Point3D(0, 100, 2000);
-            Camera_CoordSystem.LookDirection = new Vector3D(0, -100, -2000);
-            Camera_CoordSystem.UpDirection = new Vector3D(0, 1, 0);
-            Camera_CoordSystem.FieldOfView = 60;
-            Camera_CoordSystem.FarPlaneDistance = 15000;
-            Camera_CoordSystem.NearPlaneDistance = 0.125;
-            viewportCoordSystemSmall.Camera = Camera_CoordSystem;
-
-           // updatePositionCamera_CoordinateSystem(coord_CameraR, coord_CameraPhi, coord_CameraTheta);
-        }
+     
         public void buildCoordinateSystem()
         {
-            DefineCoordinateSystem(out _oAxes_Model_X, out _oAxes_Model_Y, out _oAxes_Model_Z);
+            DefineCoordinateSystem(out _oAxes_Model_X, out _oAxes_Model_Y, out _oAxes_Model_Z, out _oCube_Model);
             _oCoordSystem_ModelGroup.Children.Add(_oAxes_Model_X);
             _oCoordSystem_ModelGroup.Children.Add(_oAxes_Model_Y);
             _oCoordSystem_ModelGroup.Children.Add(_oAxes_Model_Z);
+            _oCoordSystem_ModelGroup.Children.Add(_oCube_Model);
 
-            
             _oCoordSystem_Visual.Content = _oCoordSystem_ModelGroup;
 
-            viewportCoordSystemSmall.Children.Add(_oCoordSystem_Visual);
+            viewportCoordSystem.Children.Add(_oCoordSystem_Visual);
         }
 
         //Definiert die 3 Achsen mit jeweiligen Materialien und Farben 
-        private void DefineCoordinateSystem(out GeometryModel3D axes_Model_x, out GeometryModel3D axes_Model_y, out GeometryModel3D axes_Model_z)
+        private void DefineCoordinateSystem(out GeometryModel3D axes_Model_x, out GeometryModel3D axes_Model_y, out GeometryModel3D axes_Model_z, out GeometryModel3D cube_Model)
         {
             // 3 Achsen erstellen.
             MeshGeometry3D axes_mesh_x = new MeshGeometry3D();
             MeshGeometry3D axes_mesh_y = new MeshGeometry3D();
             MeshGeometry3D axes_mesh_z = new MeshGeometry3D();
+            MeshGeometry3D cube_mesh = new MeshGeometry3D();
 
             Point3D origin = new Point3D(0, 0, 0);
+            Point3D cubeStart = new Point3D(125, 0, 125);
+            Point3D cubeEnd = new Point3D(125, 250, 125);
             Point3D xmax = new Point3D(1000, 0, 0);
             Point3D ymax = new Point3D(0, 1000, 0);
             Point3D zmax = new Point3D(0, 0, 1000);
-            AddSegment(axes_mesh_x, origin, xmax, new Vector3D(0, 1, 0));         //RED Achse     X Achse
-            AddSegment(axes_mesh_z, origin, zmax, new Vector3D(0, 1, 0));         //BLUE Achse    Z Achse
-            AddSegment(axes_mesh_y, origin, ymax, new Vector3D(1, 0, 0));         //GREEN Achse   Y Achse
+
+            AddSegment(axes_mesh_x, origin, xmax, new Vector3D(0, 1, 0), 50);         //RED Achse     X Achse
+            AddSegment(axes_mesh_z, origin, zmax, new Vector3D(0, 1, 0), 50);         //BLUE Achse    Z Achse
+            AddSegment(axes_mesh_y, origin, ymax, new Vector3D(1, 0, 0), 50);         //GREEN Achse   Y Achse
+            AddSegment(cube_mesh, cubeStart, cubeEnd, new Vector3D(1, 0, 0), 200);     //YELLOW CUBE   CUBE Model
 
             SolidColorBrush axes_brush_x = Brushes.Red;
             SolidColorBrush axes_brush_z = Brushes.Blue;
             SolidColorBrush axes_brush_y = Brushes.Green;
+            SolidColorBrush cube_brush = Brushes.Yellow;
+
             DiffuseMaterial axes_material_x = new DiffuseMaterial(axes_brush_x);
             DiffuseMaterial axes_material_z = new DiffuseMaterial(axes_brush_z);
             DiffuseMaterial axes_material_y = new DiffuseMaterial(axes_brush_y);
+            DiffuseMaterial cube_material = new DiffuseMaterial(cube_brush);
+
             axes_Model_x = new GeometryModel3D(axes_mesh_x, axes_material_x);
             axes_Model_y = new GeometryModel3D(axes_mesh_y, axes_material_y);
             axes_Model_z = new GeometryModel3D(axes_mesh_z, axes_material_z);
+            cube_Model = new GeometryModel3D(cube_mesh, cube_material);
         }
 
 
         //Erstelle ein dünnes Rechteck zwischen zwei Punkten
-        private void AddSegment(MeshGeometry3D mesh, Point3D point1, Point3D point2, Vector3D up)
+        private void AddSegment(MeshGeometry3D mesh, Point3D point1, Point3D point2, Vector3D up, double thickness)
         {
-            //Dicke des  Koordinatensystems
-            const double thickness = 50;
+            
 
             // Vektor zwischen Ursprung und Segment-Endpunkt berechnen
             Vector3D v = point2 - point1;
@@ -227,24 +195,6 @@ namespace KinematicViewer
             return new Vector3D(vector.X * scale, vector.Y * scale, vector.Z * scale);
         }
 
-        // Position der Camera für das Koordinatensystem.
-        public void updatePositionCamera_CoordinateSystem(double coord_CameraR, double coord_CameraPhi, double coord_CameraTheta)
-        {
-
-            // Berechnung der aktuellen Kamera Position.
-            double y = coord_CameraR * Math.Sin(coord_CameraPhi);
-            double hyp = coord_CameraR * Math.Cos(coord_CameraPhi);
-            double x = hyp * Math.Cos(coord_CameraTheta);
-            double z = hyp * Math.Sin(coord_CameraTheta);
-            Camera_CoordSystem.Position = new Point3D(x, y, z);
-
-            // Blickrichtung auf KoordinatenUrsprung gerichtet.
-            Camera_CoordSystem.LookDirection = new Vector3D(-x, -y, -z);
-
-            // UP Direction der Kamera bestimmen.
-            Camera_CoordSystem.UpDirection = new Vector3D(0, 1, 0);
-        }
-
 
         // Beleuchtung für das Koordinatensystem
         private void DefineLights()
@@ -270,17 +220,6 @@ namespace KinematicViewer
             _oAxes_Model_X.Transform = new Transform3DGroup();
             _oAxes_Model_Y.Transform = new Transform3DGroup();
             _oAxes_Model_Z.Transform = new Transform3DGroup();
-
-            /*
-            //Winkel der Kamera zurücksetzen auf default Werte
-            coord_CameraPhi = Math.PI / 6.0 - 1 * coord_CameraDPhi;
-            coord_CameraTheta = Math.PI / 6.0 + 5 * coord_CameraDTheta;
-            coord_CameraR = 13;*/
-        }
-
-        public void updateC_SystemSmall()
-        {
-            _oTransCoordSystem.Rotate(Camera_CoordSystem);
         }
     }
 }

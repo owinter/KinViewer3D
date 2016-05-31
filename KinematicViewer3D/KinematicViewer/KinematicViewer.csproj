@@ -47,6 +47,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoordSystem.cs" />
     <Compile Include="CoordSystemSmall.xaml.cs">
       <DependentUpon>CoordSystemSmall.xaml</DependentUpon>
     </Compile>
