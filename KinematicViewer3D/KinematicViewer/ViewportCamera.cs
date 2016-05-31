@@ -180,7 +180,10 @@ namespace KinematicViewer
             OrthoWidth = 3000;
 
             //Kamera des Koordinatensystems reloaden
-            coordSystem.reloadCoordinateSystem();
+            oP_Camera_CoordSystem.Position = new Point3D(0, 0, 4000);
+            oP_Camera_CoordSystem.LookDirection = new Vector3D(0, 0, -4000);
+            oP_Camera_CoordSystem.UpDirection = new Vector3D(0, 1, 0);
+
         }
 
         //Listener für das Mausrad --> ZOOM Funtkion

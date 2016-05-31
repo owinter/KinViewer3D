@@ -205,6 +205,9 @@ namespace KinematicViewer
             Lights.Add(new DirectionalLight(color128, new Vector3D(-1.0, -2.0, -3.0)));
             Lights.Add(new DirectionalLight(color128, new Vector3D(1.0, 2.0, 3.0)));
 
+            Lights.Add(new DirectionalLight(color128, new Vector3D(-5000, -5000, -10000)));
+            Lights.Add(new DirectionalLight(color128, new Vector3D(5000, 5000, 10000)));
+
             //füge jedem Visual ein Licht hinzu
             foreach (Light light in Lights)
             {
@@ -214,12 +217,10 @@ namespace KinematicViewer
 
         public void reloadCoordinateSystem()
         {
-            //Kamera Position für Koordinatensystem Viewer reloaden
-            Camera_CoordSystem.Position = new Point3D(0, 0, 2000);
-            Camera_CoordSystem.LookDirection = new Vector3D(0, 0, -2000);
             _oAxes_Model_X.Transform = new Transform3DGroup();
             _oAxes_Model_Y.Transform = new Transform3DGroup();
             _oAxes_Model_Z.Transform = new Transform3DGroup();
+            _oCube_Model.Transform = new Transform3DGroup();
         }
     }
 }
