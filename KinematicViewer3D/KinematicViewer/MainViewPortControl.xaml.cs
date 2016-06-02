@@ -15,6 +15,7 @@ namespace KinematicViewer
     {
         private bool _bMouseDownRight;
         private bool _bMouseDownLeft;
+        private bool _bMouseDownMiddle;
 
         //Klasse für Kameraeinstellungen und deren Positionen
         private ViewportCamera _oViewportCam;
@@ -118,16 +119,28 @@ namespace KinematicViewer
             if (CanMoveCamera)
             {
                 // Wenn Rechte Maustaste "nicht" gedrückt dann passiert auch nichts
-                if (!_bMouseDownRight) return;
+                if (_bMouseDownRight)
+                    ViewportCam.orbitCam();
 
-                ViewportCam.rotateCam();
+                if (_bMouseDownMiddle)
+                    ViewportCam.dragCam();
             }
+        }
 
-            if (!CanMoveCamera)
+        private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Middle)
             {
-                if (!_bMouseDownLeft) return;
+                _bMouseDownMiddle = true;
+            }
+        }
 
-                showScreenCoords(sender, e);
+        private void MainGrid_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Middle)
+            {
+                _bMouseDownMiddle = false;
+
             }
         }
 
@@ -135,8 +148,6 @@ namespace KinematicViewer
         {
             if (CanMoveCamera)
             {
-                if (e.RightButton != MouseButtonState.Pressed) return;
-
                 _bMouseDownRight = true;
                 ViewportCam.setMouseToCenter();
 
@@ -154,15 +165,28 @@ namespace KinematicViewer
 
         private void MainGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            _bMouseDownLeft = true;
             CanMoveCamera = false;
-
-            //dem Viewport den Focus übergeben, sodass die Tasteneingabe funktioniert
-            viewport_MouseDown(sender, e);
+            _bMouseDownLeft = true;
 
             //Testverfahren für mögliches Hittesting
             Point pt = e.GetPosition(viewport);
             VisualTreeHelper.HitTest(viewport, null, HitTestDown, new PointHitTestParameters(pt));
+
+            //dem Viewport den Focus übergeben, sodass die Tasteneingabe funktioniert
+            viewport_MouseDown(sender, e);
+
+        }
+
+        private void MainGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!CanMoveCamera)
+            {
+                if (!_bMouseDownLeft) return;
+
+                showScreenCoords(sender, e);
+            }
+            _bMouseDownLeft = false;
+            CanMoveCamera = true;
         }
 
         //HitTest Verhalten wenn auf einen Antrieb oder ein visuelles Model geklickt wird
@@ -178,24 +202,18 @@ namespace KinematicViewer
             if (vis == null)
                 return HitTestResultBehavior.Continue;
 
-            if (vis == (viewport.FindName("driveVisual") as ModelVisual3D))
+            if (vis == (viewport.FindName("passiveVisual") as ModelVisual3D))
             {
                 changeModelColorRandom(resultMesh);
                 return HitTestResultBehavior.Stop;
             }
 
-            if (vis == (viewport.FindName("modelVisual") as ModelVisual3D))
+            if (vis == (viewport.FindName("activeVisual") as ModelVisual3D))
             {
                 changeModelColorRandom(resultMesh);
                 return HitTestResultBehavior.Stop;
             }
             return HitTestResultBehavior.Continue;
-        }
-
-        private void MainGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            _bMouseDownLeft = false;
-            CanMoveCamera = true;
         }
 
         //TASTATURSTEUERUNG für KEY Down

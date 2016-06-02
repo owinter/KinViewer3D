@@ -280,7 +280,7 @@ namespace KinematicViewer
 
         public void updateC_SystemSmall()
         {
-            _oTransCoordSystem.Rotate(Camera_CoordSystem);
+            _oTransCoordSystem.Orbit(Camera_CoordSystem);
         }
     }
 }

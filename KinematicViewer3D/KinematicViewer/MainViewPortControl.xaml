@@ -10,6 +10,8 @@
           Background="#eee9e9"
           MouseWheel="MainGrid_MouseWheel"
           MouseMove="MainGrid_MouseMove"
+          MouseDown="MainGrid_MouseDown"
+          MouseUp="MainGrid_MouseUp"
           MouseRightButtonDown="MainGrid_MouseRightButtonDown"
           MouseRightButtonUp="MainGrid_MouseRightButtonUp"
           MouseLeftButtonDown="MainGrid_MouseLeftButtonDown"

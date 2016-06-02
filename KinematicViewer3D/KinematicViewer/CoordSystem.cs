@@ -27,7 +27,7 @@ namespace KinematicViewer
         // Lichter für das Koordinatensystem.
         private List<Light> _oLLights;
 
-        private Viewport3D viewportCoordSystem;
+        private Viewport3D _oViewportCoordSystem;
 
         //Transformationen für das Koordinatensystem
         private Transformation _oTransCoordSystem;
@@ -35,21 +35,22 @@ namespace KinematicViewer
 
         public CoordSystem(Viewport3D viewportCoordSystem)
         {
-            this.viewportCoordSystem = viewportCoordSystem;
+            _oViewportCoordSystem = viewportCoordSystem;
+
             _oCoordSystem_ModelGroup = new Model3DGroup();
             _oCoordSystem_Visual = new ModelVisual3D();
             _oTransCoordSystem = new Transformation();
-
             Lights = new List<Light>();
+
             DefineLights();
             buildCoordinateSystem();
         }
 
 
-        public List<Light> Lights
+        private List<Light> Lights
         {
             get { return _oLLights; }
-            private set { _oLLights = value; }
+            set { _oLLights = value; }
         }
 
         public PerspectiveCamera Camera_CoordSystem
@@ -59,7 +60,7 @@ namespace KinematicViewer
         }
 
      
-        public void buildCoordinateSystem()
+        private void buildCoordinateSystem()
         {
             DefineCoordinateSystem(out _oAxes_Model_X, out _oAxes_Model_Y, out _oAxes_Model_Z, out _oCube_Model);
             _oCoordSystem_ModelGroup.Children.Add(_oAxes_Model_X);
@@ -69,7 +70,7 @@ namespace KinematicViewer
 
             _oCoordSystem_Visual.Content = _oCoordSystem_ModelGroup;
 
-            viewportCoordSystem.Children.Add(_oCoordSystem_Visual);
+            _oViewportCoordSystem.Children.Add(_oCoordSystem_Visual);
         }
 
         //Definiert die 3 Achsen mit jeweiligen Materialien und Farben 
@@ -88,9 +89,9 @@ namespace KinematicViewer
             Point3D ymax = new Point3D(0, 1000, 0);
             Point3D zmax = new Point3D(0, 0, 1000);
 
-            AddSegment(axes_mesh_x, origin, xmax, new Vector3D(0, 1, 0), 50);         //RED Achse     X Achse
-            AddSegment(axes_mesh_z, origin, zmax, new Vector3D(0, 1, 0), 50);         //BLUE Achse    Z Achse
-            AddSegment(axes_mesh_y, origin, ymax, new Vector3D(1, 0, 0), 50);         //GREEN Achse   Y Achse
+            AddSegment(axes_mesh_x, origin, xmax, new Vector3D(0, 1, 0), 75);         //RED Achse     X Achse
+            AddSegment(axes_mesh_z, origin, zmax, new Vector3D(0, 1, 0), 75);         //BLUE Achse    Z Achse
+            AddSegment(axes_mesh_y, origin, ymax, new Vector3D(1, 0, 0), 75);         //GREEN Achse   Y Achse
             AddSegment(cube_mesh, cubeStart, cubeEnd, new Vector3D(1, 0, 0), 200);     //YELLOW CUBE   CUBE Model
 
             SolidColorBrush axes_brush_x = Brushes.Red;
@@ -171,7 +172,6 @@ namespace KinematicViewer
         }
 
 
-        // Do not reuse points so triangles don't share normals.
         //Fügt die Seiten an das Mesh vom Koordinatensystem
         private void AddTriangle(MeshGeometry3D mesh, Point3D point1, Point3D point2, Point3D point3)
         {

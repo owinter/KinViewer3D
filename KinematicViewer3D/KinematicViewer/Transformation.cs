@@ -41,13 +41,13 @@ namespace KinematicViewer
         public void doPitch(ProjectionCamera camera, double amount)
         {
             Pitch += amount;
-            Rotate(camera);
+            Orbit(camera);
         }
 
         public void doYaw(ProjectionCamera camera, double amount)
         {
             Yaw += amount;
-            Rotate(camera);
+            Orbit(camera);
         }
 
         public void Zoom(ProjectionCamera camera, double amount)
@@ -56,7 +56,7 @@ namespace KinematicViewer
             camera.Position = new Point3D(camera.Position.X, camera.Position.Y, camera.Position.Z - amount);
         }
 
-        public void Rotate(ProjectionCamera camera)
+        public void Orbit(ProjectionCamera camera)
         {
             double theta = Yaw / 3;
             double phi = Pitch / 3;
@@ -82,11 +82,24 @@ namespace KinematicViewer
             //Mit optionalem Parameter rotationPoint, kann man um den Mittelpunkt eines Objektes rotieren (new RotateTransform3D(r, rotationPoint));
             transformGroup.Children.Add(new RotateTransform3D(r));
         }
+
+        public void Drag(ProjectionCamera camera, double dx, double dy)
+        {
+            camera.Position = new Point3D(camera.Position.X + dx, camera.Position.Y + dy, camera.Position.Z);
+            camera.UpDirection = new Vector3D(0, 1, 0);
+        }
+
+        public void Pan(ProjectionCamera camera, double dx, double dy)
+        {
+            //camera.Position = new Point3D(camera.Position.X, camera.Position.Y, camera.Position.Z);
+            camera.LookDirection = new Vector3D(-(camera.Position.X + dx), -(camera.Position.Y + dy), -camera.Position.Z);
+           // camera.UpDirection = new Vector3D(0, 1, 0);
+        }
       
 
         public void Reset(ProjectionCamera camera)
         {
-            camera.Position = new Point3D(camera.Position.X, camera.Position.Y, 2000);
+            camera.Position = new Point3D(camera.Position.X, camera.Position.Y, 4000);
             camera.Transform = new Transform3DGroup();
             Yaw = 0;
             Pitch = 0;
