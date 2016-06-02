@@ -63,6 +63,39 @@ namespace KinematicViewer
             CanMoveCamera = true;
         }
 
+        //Öffentliche Getter & Setter Methoden
+        public bool CanMoveCamera { get; set; }
+
+        public double ModelThickness
+        {
+            get { return _dModelThickness; }
+            set { _dModelThickness = value; }
+        }
+
+        public string S_Coords
+        {
+            get { return s_coords; }
+            set { s_coords = value; }
+        }
+
+        public ViewportCamera ViewportCam
+        {
+            get { return _oViewportCam; }
+            set { _oViewportCam = value; }
+        }
+
+        public IGuide Guide
+        {
+            get { return _oGuide; }
+            set { _oGuide = value; }
+        }
+
+        //Übergeben eines TextBlockObjectes an das ViewportControl
+        public void setTextBlock(TextBlock statusPane)
+        {
+            this.statusPane = statusPane;
+        }
+
         public void AddActiveElement(GeometricalElement elem)
         {
             ElementsActive.Add(elem);
@@ -229,6 +262,12 @@ namespace KinematicViewer
             e.Handled = true;
         }
 
+        public void FocusToViewport(object sender, RoutedEventArgs e)
+        {
+            MainGrid.Focus();
+            e.Handled = true;
+        }
+
         public void switchToPerspective()
         {
             ViewportCam.startPerspectiveCamera();
@@ -356,37 +395,6 @@ namespace KinematicViewer
             this.statusPane.Text = s_coords;
         }
 
-        //Öffentliche Getter & Setter Methoden
-        public bool CanMoveCamera { get; set; }
-
-        public double ModelThickness
-        {
-            get { return _dModelThickness; }
-            set { _dModelThickness = value; }
-        }
-
-        public string S_Coords
-        {
-            get { return s_coords; }
-            set { s_coords = value; }
-        }
-
-        public ViewportCamera ViewportCam
-        {
-            get { return _oViewportCam; }
-            set { _oViewportCam = value; }
-        }
-
-        public IGuide Guide
-        {
-            get { return _oGuide; }
-            set { _oGuide = value; }
-        }
-
-        //Übergeben eines TextBlockObjectes an das ViewportControl
-        public void setTextBlock(TextBlock statusPane)
-        {
-            this.statusPane = statusPane;
-        }
+        
     }
 }

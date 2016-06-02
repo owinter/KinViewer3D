@@ -109,7 +109,7 @@ namespace KinematicViewer
             }
 
             //Gelber Bereich
-            else if ((vLength > ExtractedLength - Stroke * 2 / 3) && !(vLength <= ExtractedLength - Stroke * 2 / 3))
+            if ((vLength > ExtractedLength - Stroke * 2 / 3) && !(vLength <= ExtractedLength - Stroke * 2 / 3))
             {
                 Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
                 Res.AddRange(new Sphere(StartPoint, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
@@ -118,7 +118,7 @@ namespace KinematicViewer
             }
 
             //Roter Bereich
-            else if ((vLength > ExtractedLength - Stroke * 1 / 3) && !(vLength <= ExtractedLength - Stroke * 2 / 3))
+            if ((vLength > ExtractedLength - Stroke * 1 / 3) && (vLength > ExtractedLength - Stroke * 2 / 3) && !(vLength <= ExtractedLength - Stroke * 2 / 3)) 
             {
                 Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
                 Res.AddRange(new Sphere(StartPoint, RadiusBody, Brushes.Gray).GetGeometryModel(guide));

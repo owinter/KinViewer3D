@@ -25,6 +25,7 @@ namespace MainUI
         private List<Point3D> _oListAxisPoints;
 
         //Visuals im Viewport
+        private SideDoor _oDoor;
         private Tailgate _oTail;
         private Drive _oDriveLeft;
         private Drive _oDriveRight;
@@ -149,43 +150,40 @@ namespace MainUI
             generateReflectedDrive();
             fill_TextBox();
             create_Button.IsEnabled = true;
-
-            
         }
 
 
         private void create_Button_Click(object sender, RoutedEventArgs e)
         {
-            //Dem MainGrid den focus übergeben
-            //MainGrid.Focus();
-            //mvpControl.createCube();
+            
+            
             slider_open_ObjectAngle.Value = 0.0;
             MvpControl.resetModelTransformation();
             MvpControl.clearModel();
 
-            
-            
-            
             MvpControl.ModelThickness = ModelThickness;
 
-            _oTail = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value);
+            _oDoor = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), this.slider_Model_Thickness.Value);
+            //_oTail = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value);
             _oDriveLeft = new Drive(AxisPoints[2], AxisPoints[3]);
             _oDriveRight = new Drive(AxisPoints[4], AxisPoints[5]);
 
-            MvpControl.Guide = _oTail;
+            //MvpControl.Guide = _oTail;
+            MvpControl.Guide = _oDoor;
 
             MvpControl.AddPassiveElement(_oDriveLeft);
             MvpControl.AddPassiveElement(_oDriveRight);
-            MvpControl.AddActiveElement(_oTail);
+            //MvpControl.AddActiveElement(_oTail);
+            MvpControl.AddActiveElement(_oDoor);
 
 
             // trans.resetModelTransformation(groupDriveVisual);
 
-            ////Kamera für Main Viewport updaten
-            MvpControl.ViewportCam.updatePositionCamera();
+            //Dem MainGrid den focus übergeben
+            MvpControl.FocusToViewport(sender, e);
 
-            //Kamera im Fenster des Koordinatensystems ändern
-            //c_SystemSmall.updatePositionCamera_CoordinateSystem(viewportCam.CameraR, viewportCam.CameraPhi, viewportCam.CameraTheta);    
+            ////Kamera für Main Viewport updaten
+            MvpControl.ViewportCam.updatePositionCamera();   
         }
 
         //Button Listener für das Löschen der ListBox
@@ -202,7 +200,6 @@ namespace MainUI
             MvpControl.resetModelTransformation();
             MvpControl.clearModel();
             
-
             slider_open_ObjectAngle.Value = 0.0;
         }
 
@@ -213,7 +210,8 @@ namespace MainUI
             MvpControl.Move(e.NewValue/100);
 
             //Anzeige des Öffnungswinkel in TextBlock in [°]
-            OpenAngleDegree.Text = Math.Round(_oTail.CurValue, 2).ToString();
+           // OpenAngleDegree.Text = Math.Round(_oTail.CurValue, 2).ToString();
+            OpenAngleDegree.Text = Math.Round(_oDoor.CurValue, 2).ToString();
         }
 
         //Objekttransformation zurücksetzen

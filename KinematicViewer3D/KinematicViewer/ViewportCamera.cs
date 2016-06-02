@@ -410,7 +410,7 @@ namespace KinematicViewer
                         if (MyCam == Cam.Orthographic)
                             Trans.doYaw(oO_Camera, value);
                     }
-                    Trans.doYaw(oP_Camera_CoordSystem, value);
+                    Trans_CSS.doYaw(oP_Camera_CoordSystem, value);
                     e.Handled = true;
                     break;
 
