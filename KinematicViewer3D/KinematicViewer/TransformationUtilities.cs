@@ -17,6 +17,13 @@ namespace KinematicViewer
             return vScale;
         }
 
+        //Skalieren eines Vektors auf eine best. Länge
+        public static Vector3D ScaleVector(Vector3D vector, double length)
+        {
+            double scale = length / vector.Length;
+            return new Vector3D(vector.X * scale, vector.Y * scale, vector.Z * scale);
+        }
+
         //Rotiere einen neuen Punkt um einen bestehenden und eine Achse
         public static Point3D rotateNewPoint(Vector3D v, double angle, Point3D point)
         {

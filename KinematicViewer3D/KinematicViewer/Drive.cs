@@ -95,6 +95,7 @@ namespace KinematicViewer
             Vector3D vDriveUpdated = attPointDoor - StartPoint;
             double vLength = vDriveUpdated.Length;
             vDriveUpdated.Normalize();
+            //vDriveUpdated = TransformationUtilities.ScaleVector(vDriveUpdated, 1);
 
             //Offset um welchen der zweite Cylinder verschoben wird
             Vector3D vOffset = (OffsetSecondCylinder + (vLength - VDrive.Length)) * vDriveUpdated;

@@ -60,12 +60,9 @@ namespace MainUI
             MvpControl.setTextBlock(statusPane);
             MainUIViewport3D.Content = MvpControl;
 
-            
-
             create_Button.IsEnabled = false;
         }
 
-        
 
         public List<Point3D> AxisPoints
         {
@@ -166,13 +163,13 @@ namespace MainUI
             _oDoor = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), this.slider_Model_Thickness.Value);
             //_oTail = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value);
             _oDriveLeft = new Drive(AxisPoints[2], AxisPoints[3]);
-            _oDriveRight = new Drive(AxisPoints[4], AxisPoints[5]);
+            //_oDriveRight = new Drive(AxisPoints[4], AxisPoints[5]);
 
             //MvpControl.Guide = _oTail;
             MvpControl.Guide = _oDoor;
 
             MvpControl.AddPassiveElement(_oDriveLeft);
-            MvpControl.AddPassiveElement(_oDriveRight);
+            //MvpControl.AddPassiveElement(_oDriveRight);
             //MvpControl.AddActiveElement(_oTail);
             MvpControl.AddActiveElement(_oDoor);
 
@@ -210,8 +207,8 @@ namespace MainUI
             MvpControl.Move(e.NewValue/100);
 
             //Anzeige des Öffnungswinkel in TextBlock in [°]
-           // OpenAngleDegree.Text = Math.Round(_oTail.CurValue, 2).ToString();
-            OpenAngleDegree.Text = Math.Round(_oDoor.CurValue, 2).ToString();
+            //OpenAngleDegree.Text = Math.Round(_oTail.CurValue, 2).ToString();
+           OpenAngleDegree.Text = Math.Round(_oDoor.CurValue, 2).ToString();
         }
 
         //Objekttransformation zurücksetzen

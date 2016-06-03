@@ -154,6 +154,7 @@ namespace KinematicViewer
             List<Point3D> points = new List<Point3D>();
 
             Vector3D v1 = TransformationUtilities.scaleToOffset(new Vector3D(0, 1, 0), TAILDEPTH * 2);
+            //Vector3D v1 = TransformationUtilities.ScaleVector(new Vector3D(0, 1, 0), TAILDEPTH * 2 );
 
             Point3D pUpL = CoordsMidTail[1];
             Point3D pUpR = CoordsMidTail[2];
@@ -175,9 +176,11 @@ namespace KinematicViewer
 
             Vector3D vAxisQuerE2 = Vector3D.CrossProduct(VAxisToHandE1, new Vector3D(0, 1, 0));
             vAxisQuerE2.Normalize();
+            //vAxisQuerE2 = TransformationUtilities.ScaleVector(vAxisQuerE2, 1);
 
             Vector3D vN = Vector3D.CrossProduct(vAxisQuerE2, VAxisToHandE1);
             vN.Normalize();
+            //vN = TransformationUtilities.ScaleVector(vN, 1);
 
             Point3D pUpL = AxisPoint + (vN * OFFSET) + (vAxisQuerE2 * TAILWIDTH / 2);
             Point3D pUpR = AxisPoint + (vN * OFFSET) - (vAxisQuerE2 * TAILWIDTH / 2);
@@ -198,6 +201,7 @@ namespace KinematicViewer
             List<Point3D> points = new List<Point3D>();
             Vector3D v1 = new Vector3D(VAxisToHandE1.X, 0, VAxisToHandE1.Z);
             v1 = TransformationUtilities.scaleToOffset(v1, TAILDEPTH);
+            //v1 = TransformationUtilities.ScaleVector(v1, TAILDEPTH);
 
             Point3D pDownL = CoordsMidTail[0];
             Point3D pDownR = CoordsMidTail[3];

@@ -10,7 +10,11 @@ namespace KinematicViewer
     {
         private const double OFFSET = 130.0;
         private const double DOORDEPTH = 200.0;
-        private const double DOORWIDTH = 1250.0;
+        private const double DOORHEIGHTBODY = 750.0;
+        private const double DOORHEIGHTWINDOW = 450;
+        private const double DOORHEIGHT = 1200.0;
+
+        private const double DOORWIDTH = 1200;
 
         private double _dCurVal;
 
@@ -21,9 +25,9 @@ namespace KinematicViewer
         private Point3D _oAxisPoint;
         private Point3D _oPointLatch;
 
-        private List<Point3D> _oLCoordsDownTail;
-        private List<Point3D> _oLCoordsMidTail;
-        private List<Point3D> _oLCoordsUpTail;
+
+        private List<Point3D> _oLCoordsBodyPart;
+        private List<Point3D> _oLCoordsWindowPart;
 
         private double _dModelThickness;
 
@@ -31,20 +35,22 @@ namespace KinematicViewer
 
         public SideDoor(Point3D axisPoint, Point3D latch, Vector3D axisOfRotation, double modelThickness)
         {
-            AxisOfRotation = axisOfRotation;
+            //AxisOfRotation = axisOfRotation;
             //AxisOfRotation = new Vector3D(0, 0, 1);
+            AxisOfRotation = new Vector3D(13.94, 399.21, 20.94);
+            AxisOfRotation = TransformationUtilities.ScaleVector(AxisOfRotation, 1);
+            
 
             AxisPoint = axisPoint;
             PointLatch = latch;
-            MaxValue = 180.5;
+            MaxValue = 100.5;
 
             ModelThickness = modelThickness;
 
             VAxisToHandE1 = PointLatch - AxisPoint;
 
-            CoordsMidTail = makeCoordsMidTail();
-            CoordsUpTail = makeCoordsUpTail();
-            CoordsDownTail = makeCoordsDownTail();
+            CoordsBodyPart = makeCoordsBodyPart();
+            CoordsWindowPart = makeCoordsWindowPart();
         }
 
         public Vector3D AxisOfRotation
@@ -83,22 +89,17 @@ namespace KinematicViewer
             private set { _dModelThickness = value; }
         }
 
-        public List<Point3D> CoordsDownTail
+
+        public List<Point3D> CoordsBodyPart
         {
-            get { return _oLCoordsDownTail; }
-            private set { _oLCoordsDownTail = value; }
+            get { return _oLCoordsBodyPart; }
+            private set { _oLCoordsBodyPart = value; }
         }
 
-        public List<Point3D> CoordsMidTail
+        public List<Point3D> CoordsWindowPart
         {
-            get { return _oLCoordsMidTail; }
-            private set { _oLCoordsMidTail = value; }
-        }
-
-        public List<Point3D> CoordsUpTail
-        {
-            get { return _oLCoordsUpTail; }
-            private set { _oLCoordsUpTail = value; }
+            get { return _oLCoordsWindowPart; }
+            private set { _oLCoordsWindowPart = value; }
         }
 
         public Vector3D VAxisToHandE1
@@ -111,30 +112,24 @@ namespace KinematicViewer
         {
             List<GeometryModel3D> Res = new List<GeometryModel3D>();
 
-            //Klappe
+            //Seitentüre
             //Oberer Part
-            for (int i = 0; i <= CoordsUpTail.Count - 2; i++)
+            //for (int i = 0; i <= CoordsWindowPart.Count - 2; i++)
+            //{
+            //    Res.AddRange(new Sphere(CoordsWindowPart[i], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
+            //    Res.AddRange(new Cuboid(CoordsWindowPart[i], CoordsWindowPart[i + 1], ModelThickness).GetGeometryModel(guide));
+            //}
+
+
+            //Karossierie Part
+            for (int i = 0; i <= CoordsBodyPart.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(CoordsUpTail[i], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
-                Res.AddRange(new Cuboid(CoordsUpTail[i], CoordsUpTail[i + 1], ModelThickness).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsBodyPart[i], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
+                Res.AddRange(new Cuboid(CoordsBodyPart[i], CoordsBodyPart[i + 1], ModelThickness).GetGeometryModel(guide));
             }
 
-            //Unterer Part
-            for (int i = 0; i <= CoordsDownTail.Count - 2; i++)
-            {
-                Res.AddRange(new Sphere(CoordsDownTail[i], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
-                Res.AddRange(new Cuboid(CoordsDownTail[i], CoordsDownTail[i + 1], ModelThickness).GetGeometryModel(guide));
-            }
-
-            //Mittlerer Part
-            for (int i = 0; i <= CoordsMidTail.Count - 2; i++)
-            {
-                Res.AddRange(new Sphere(CoordsMidTail[i], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
-                Res.AddRange(new Cuboid(CoordsMidTail[i], CoordsMidTail[i + 1], ModelThickness).GetGeometryModel(guide));
-            }
-
-            Res.AddRange(new Sphere(CoordsMidTail[3], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
-            Res.AddRange(new Cuboid(CoordsMidTail[3], CoordsMidTail[0], ModelThickness).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(CoordsBodyPart[3], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
+            Res.AddRange(new Cuboid(CoordsBodyPart[3], CoordsBodyPart[0], ModelThickness).GetGeometryModel(guide));
 
             //Handle
             Res.AddRange(new Sphere(PointLatch, 50, Brushes.Red).GetGeometryModel(guide));
@@ -142,6 +137,8 @@ namespace KinematicViewer
             //Drehachse
             Point3D p1 = AxisPoint + AxisOfRotation * DOORWIDTH * 1 / 2;
             Point3D p2 = AxisPoint - AxisOfRotation * DOORWIDTH * 1 / 2;
+            //Point3D p1 = AxisPoint + TransformationUtilities.ScaleVector(AxisOfRotation, DOORHEIGHT * 0.5);
+            //Point3D p2 = AxisPoint - TransformationUtilities.ScaleVector(AxisOfRotation, DOORHEIGHT * 0.5);
 
             Res.AddRange(new Sphere(AxisPoint, 50, Brushes.Red).GetGeometryModel(guide));
             Res.AddRange(new Cylinder(p1, p2, 10, Brushes.Red).GetGeometryModel(guide));
@@ -149,66 +146,38 @@ namespace KinematicViewer
             return Res.ToArray();
         }
 
-        //Erstelle Koordinaten für den unteren Teil der Heckklappe
-        private List<Point3D> makeCoordsDownTail()
+
+        //Erstelle Koordinaten für den mittleren Karosserieteil der Seitentüre
+        private List<Point3D> makeCoordsBodyPart()
         {
             List<Point3D> points = new List<Point3D>();
 
-            Vector3D v1 = TransformationUtilities.scaleToOffset(new Vector3D(0, 1, 0), DOORDEPTH * 2);
+            Vector3D vAxisE2 = Vector3D.CrossProduct(VAxisToHandE1, new Vector3D(0, 0, 1));
+            //vAxisE2.Normalize();
 
-            Point3D pUpL = CoordsMidTail[1];
-            Point3D pUpR = CoordsMidTail[2];
-            Point3D pDownL = pUpL - v1;
-            Point3D pDownR = pUpR - v1;
+            Point3D p0 = AxisPoint + vAxisE2;
+            Point3D p1 = p0 + VAxisToHandE1;
+            Point3D p2 = p1 - vAxisE2;
+            Point3D p3 = p2 - VAxisToHandE1;
 
-            points.Add(pUpL);
-            points.Add(pDownL);
-            points.Add(pDownR);
-            points.Add(pUpR);
-
-            return points;
-        }
-
-        //Erstelle Koordinaten für den mittleren Teil der Heckklappe
-        private List<Point3D> makeCoordsMidTail()
-        {
-            List<Point3D> points = new List<Point3D>();
-
-            Vector3D vAxisQuerE2 = Vector3D.CrossProduct(VAxisToHandE1, new Vector3D(0, 1, 0));
-            vAxisQuerE2.Normalize();
-
-            Vector3D vN = Vector3D.CrossProduct(vAxisQuerE2, VAxisToHandE1);
+            Vector3D vN = Vector3D.CrossProduct(vAxisE2, VAxisToHandE1);
             vN.Normalize();
 
-            Point3D pUpL = AxisPoint + (vN * OFFSET) + (vAxisQuerE2 * DOORWIDTH / 2);
-            Point3D pUpR = AxisPoint + (vN * OFFSET) - (vAxisQuerE2 * DOORWIDTH / 2);
-            Point3D pDownL = PointLatch + (vN * OFFSET) + (vAxisQuerE2 * DOORWIDTH / 2);
-            Point3D pDownR = PointLatch + (vN * OFFSET) - (vAxisQuerE2 * DOORWIDTH / 2);
-
-            points.Add(pUpL);
-            points.Add(pDownL);
-            points.Add(pDownR);
-            points.Add(pUpR);
+            points.Add(p0);
+            points.Add(p1);
+            points.Add(p2);
+            points.Add(p3);
 
             return points;
         }
 
-        //Erstelle Koordinaten für den oberen Teil der Heckklappe
-        private List<Point3D> makeCoordsUpTail()
+        //Erstelle Koordinaten für den oberen Fenster Teil der Seitentüre
+        private List<Point3D> makeCoordsWindowPart()
         {
             List<Point3D> points = new List<Point3D>();
-            Vector3D v1 = new Vector3D(VAxisToHandE1.X, 0, VAxisToHandE1.Z);
-            v1 = TransformationUtilities.scaleToOffset(v1, DOORDEPTH);
+           
 
-            Point3D pDownL = CoordsMidTail[0];
-            Point3D pDownR = CoordsMidTail[3];
-            Point3D pUpL = pDownL - v1;
-            Point3D pUpR = pDownR - v1;
-
-            points.Add(pDownL);
-            points.Add(pUpL);
-            points.Add(pUpR);
-            points.Add(pDownR);
+         
 
             return points;
         }
