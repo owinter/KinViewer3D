@@ -245,5 +245,17 @@ namespace KinematicViewer
             InitiateMove(per);
             Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupActive);
         }
+
+        public void MoveMinAngle(Model3DGroup groupStaticMinAngle, double per = 0)
+        {
+            InitiateMove(per);
+            Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupStaticMinAngle);
+        }
+
+        public void MoveMaxAngle(Model3DGroup groupStaticMaxAngle, double per = 1)
+        {
+            InitiateMove(per);
+            Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupStaticMaxAngle);
+        }
     }
 }

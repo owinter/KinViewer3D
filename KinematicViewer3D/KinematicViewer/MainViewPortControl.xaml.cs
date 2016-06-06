@@ -33,6 +33,8 @@ namespace KinematicViewer
 
         public List<GeometricalElement> ElementsPassive;
         public List<GeometricalElement> ElementsActive;
+        public List<GeometricalElement> ElementsStaticMinAngle;
+        public List<GeometricalElement> ElementsStaticMaxAngle;
 
         //Mittelpunkt des Objektes
         private Point3D _oMPoint;
@@ -59,8 +61,12 @@ namespace KinematicViewer
 
             ElementsActive = new List<GeometricalElement>();
             ElementsPassive = new List<GeometricalElement>();
+            ElementsStaticMinAngle = new List<GeometricalElement>();
+            ElementsStaticMaxAngle = new List<GeometricalElement>();
+
 
             CanMoveCamera = true;
+
         }
 
         //Öffentliche Getter & Setter Methoden
@@ -108,6 +114,17 @@ namespace KinematicViewer
             UpdatePassiveGroup();
         }
 
+        public void AddStaticElementMinAngle(GeometricalElement elem)
+        {
+            ElementsStaticMinAngle.Add(elem);
+            UpdateStaticGroupMinAngle();
+        }
+        public void AddStaticElementMaxAngle(GeometricalElement elem)
+        {
+            ElementsStaticMaxAngle.Add(elem);
+            UpdateStaticGroupMaxAngle();
+        }
+
         public void RemoveActiveElement(GeometricalElement elem)
         {
             ElementsActive.Remove(elem);
@@ -118,6 +135,18 @@ namespace KinematicViewer
         {
             ElementsPassive.Remove(elem);
             UpdatePassiveGroup();
+        }
+
+        public void RemoveStaticElementsMinAngle(GeometricalElement elem)
+        {
+            ElementsStaticMinAngle.Remove(elem);
+            UpdateStaticGroupMinAngle();
+        }
+
+        public void RemoveStaticElementsMaxAngle(GeometricalElement elem)
+        {
+            ElementsStaticMaxAngle.Remove(elem);
+            UpdateStaticGroupMaxAngle();
         }
 
         private void UpdateActiveGroup()
@@ -138,6 +167,58 @@ namespace KinematicViewer
                     groupPassive.Children.Add(m);
         }
 
+        private void UpdateStaticGroupMinAngle()
+        {
+            groupStaticMinAngle.Children.Clear();
+
+            foreach (GeometricalElement e in ElementsStaticMinAngle)
+            {
+                foreach (Model3D m in e.GetGeometryModel(null))
+                {
+                    changeColorStaticElement(m, Brushes.LightCyan);
+                    groupStaticMinAngle.Children.Add(m);
+                }       
+            }       
+        }
+
+        private void UpdateStaticGroupMaxAngle()
+        {
+            groupStaticMaxAngle.Children.Clear();
+
+            foreach (GeometricalElement e in ElementsStaticMinAngle)
+            {
+                foreach (Model3D m in e.GetGeometryModel(null))
+                {
+                    changeColorStaticElement(m, Brushes.LightCyan);
+                    groupStaticMaxAngle.Children.Add(m);
+                }
+            }
+        }
+
+        public void ShowStaticElementMin()
+        {
+            Guide.Move(groupStaticMinAngle, 0);
+            UpdateStaticGroupMinAngle();      
+        }
+
+        public void ShowStaticElementMax()
+        {
+            Guide.Move(groupStaticMaxAngle, 1);
+            UpdateStaticGroupMaxAngle();
+        }
+
+        public void RemoveStaticElementMin()
+        {
+            ElementsStaticMinAngle.Clear();
+            UpdateStaticGroupMinAngle();
+        }
+
+       public void RemoveStaticElementMax()
+        {
+            ElementsStaticMaxAngle.Clear();
+            UpdateStaticGroupMaxAngle();
+        }
+     
         //MAUSSTEUERUNG im MainGrid
         private void MainGrid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -298,6 +379,12 @@ namespace KinematicViewer
             ElementsPassive.Clear();
             UpdatePassiveGroup();
 
+            ElementsStaticMinAngle.Clear();
+            UpdateStaticGroupMinAngle();
+
+            ElementsStaticMaxAngle.Clear();
+            UpdateStaticGroupMaxAngle();
+
             Guide = null;
         }
 
@@ -393,6 +480,18 @@ namespace KinematicViewer
             Point p = e.GetPosition(viewport);
             s_coords = string.Format("Bild-Koordinaten: ({0:d}, {1:d})", (int)p.X, (int)p.Y);
             this.statusPane.Text = s_coords;
+        }
+
+        private void changeColorStaticElement(Model3D m, Brush brush)
+        {
+            GeometryModel3D model = m as GeometryModel3D;
+            DiffuseMaterial mat = model.Material as DiffuseMaterial;
+
+            mat.Brush = brush;
+            //Random rand = new Random();
+            //mat.Brush = new SolidColorBrush(Color.FromRgb((byte)rand.Next(256),
+            //                                              (byte)rand.Next(256),
+            //                                              (byte)rand.Next(256)));
         }
 
         

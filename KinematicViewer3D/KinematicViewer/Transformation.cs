@@ -105,14 +105,14 @@ namespace KinematicViewer
             Pitch = 0;
         }
 
-        public static void rotateModel(double axisAngle, Vector3D axisOfRotation, Point3D AxisPoint, Model3DGroup groupModelVisual)
+        public static void rotateModel(double axisAngle, Vector3D axisOfRotation, Point3D AxisPoint, Model3DGroup groupActive)
         {
             try
             {
                 Point3D axisPoint = AxisPoint;
                 AxisAngleRotation3D aARot = new AxisAngleRotation3D(axisOfRotation, axisAngle);
                 RotateTransform3D rotation = new RotateTransform3D(aARot, axisPoint);
-                groupModelVisual.Transform = rotation;
+                groupActive.Transform = rotation;
             }
             catch (Exception ex)
             {

@@ -96,6 +96,19 @@
                 </ModelVisual3D.Content>
             </ModelVisual3D>
 
+            <!-- Visual Model Group for static Tailgates & Doors with min & max Open Angle-->
+            <ModelVisual3D x:Name="staticVisualMinAngle">
+                <ModelVisual3D.Content>
+                    <Model3DGroup x:Name="groupStaticMinAngle" />
+                </ModelVisual3D.Content>
+            </ModelVisual3D>
+
+            <ModelVisual3D x:Name="staticVisualMaxAngle">
+                <ModelVisual3D.Content>
+                    <Model3DGroup x:Name="groupStaticMaxAngle" />
+                </ModelVisual3D.Content>
+            </ModelVisual3D>
+
             <!-- Visual Model Group for Drives-->
             <ModelVisual3D x:Name="passiveVisual">
                 <ModelVisual3D.Content>

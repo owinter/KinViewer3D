@@ -289,6 +289,7 @@
                         BorderThickness="2"
                         CornerRadius="10,10,10,10"
                         Margin="0,5,0,0">
+
                     <StackPanel Orientation="Horizontal">
                         <Label Margin="0,0,0,250" Content="Weitere Steuerelemente" />
                     </StackPanel>
@@ -463,6 +464,17 @@
                                                    Margin="10,0,0,0"
                                                    Width="200"
                                                    Background="WhiteSmoke" />
+                                        <Separator Margin="5,0,0,0" />
+                                        <Button x:Name="toolBox_MinMaxOn"
+                                                Margin="5,0,0,0"
+                                        	    Content="MinMax On" 
+                                        	    Click="toolBox_MinMaxOn_Click">
+                                        </Button>
+                                        <Button x:Name="toolBox_MinMaxOff"
+                                                Margin="10,0,0,0"
+                                        	    Content="MinMax Off" 
+                                        	    Click="toolBox_MinMaxOff_Click">
+                                        </Button>
                                     </ToolBar>
                                 </ToolBarTray>
 

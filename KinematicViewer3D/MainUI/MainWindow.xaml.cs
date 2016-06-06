@@ -26,7 +26,13 @@ namespace MainUI
 
         //Visuals im Viewport
         private SideDoor _oDoor;
+        private SideDoor _oDoorMinAngle;
+        private SideDoor _oDoorMaxAngle;
+
         private Tailgate _oTail;
+        private Tailgate _oTailMinAngle;
+        private Tailgate _oTailMaxAngle;
+
         private Drive _oDriveLeft;
         private Drive _oDriveRight;
 
@@ -160,18 +166,26 @@ namespace MainUI
 
             MvpControl.ModelThickness = ModelThickness;
 
-            _oDoor = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), this.slider_Model_Thickness.Value);
-            //_oTail = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value);
+            //_oDoor = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), this.slider_Model_Thickness.Value);
+            _oTail = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value);
+            
+            
+            
             _oDriveLeft = new Drive(AxisPoints[2], AxisPoints[3]);
-            //_oDriveRight = new Drive(AxisPoints[4], AxisPoints[5]);
+            _oDriveRight = new Drive(AxisPoints[4], AxisPoints[5]);
 
-            //MvpControl.Guide = _oTail;
-            MvpControl.Guide = _oDoor;
+            MvpControl.Guide = _oTail;
+            //MvpControl.Guide = _oDoor;
 
             MvpControl.AddPassiveElement(_oDriveLeft);
-            //MvpControl.AddPassiveElement(_oDriveRight);
-            //MvpControl.AddActiveElement(_oTail);
-            MvpControl.AddActiveElement(_oDoor);
+            MvpControl.AddPassiveElement(_oDriveRight);
+            MvpControl.AddActiveElement(_oTail);
+
+            createStaticElementsTailgate();
+
+            //createStaticElementsSideDoor();
+            //MvpControl.AddActiveElement(_oDoor);
+
 
 
             // trans.resetModelTransformation(groupDriveVisual);
@@ -207,8 +221,8 @@ namespace MainUI
             MvpControl.Move(e.NewValue/100);
 
             //Anzeige des Öffnungswinkel in TextBlock in [°]
-            //OpenAngleDegree.Text = Math.Round(_oTail.CurValue, 2).ToString();
-           OpenAngleDegree.Text = Math.Round(_oDoor.CurValue, 2).ToString();
+            OpenAngleDegree.Text = Math.Round(_oTail.CurValue, 2).ToString();
+           //OpenAngleDegree.Text = Math.Round(_oDoor.CurValue, 2).ToString();
         }
 
         //Objekttransformation zurücksetzen
@@ -235,7 +249,7 @@ namespace MainUI
             //Punkt für Antrieb an Heckklappe
             double x4, y4, z4;
             */
-
+            
             try
             {
                 /*
@@ -356,7 +370,22 @@ namespace MainUI
         private void toolBox_ZoomIn_Button_Click(object sender, RoutedEventArgs e)
         {
             MvpControl.zoomIn();
-            
+        }
+
+
+        private void toolBox_MinMaxOn_Click(object sender, RoutedEventArgs e)
+        {
+            MvpControl.RemoveStaticElementMin();
+            MvpControl.RemoveStaticElementMax();
+            createStaticElementsTailgate();
+            MvpControl.ShowStaticElementMin();
+            MvpControl.ShowStaticElementMax();
+        }
+
+        private void toolBox_MinMaxOff_Click(object sender, RoutedEventArgs e)
+        {
+            MvpControl.RemoveStaticElementMin();
+            MvpControl.RemoveStaticElementMax();
         }
 
         private void toolBox_ZoomOut_Button_Click(object sender, RoutedEventArgs e)
@@ -408,6 +437,34 @@ namespace MainUI
 
             AxisPoints.Add(p1);
             AxisPoints.Add(p2);
+        }
+
+        private void createStaticElementsTailgate()
+        {
+            
+            _oTailMinAngle = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value);
+            _oTailMaxAngle = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value);
+
+            //_oTailMinAngle.Material = new DiffuseMaterial(Brushes.Beige);
+            //_oTailMaxAngle.Material = new DiffuseMaterial(Brushes.Beige);
+
+            MvpControl.AddStaticElementMinAngle(_oTailMinAngle);
+            MvpControl.AddStaticElementMaxAngle(_oTailMaxAngle);
+
+            MvpControl.ShowStaticElementMin();
+            MvpControl.ShowStaticElementMax();
+        }
+
+        private void createStaticElementsSideDoor()
+        {
+            _oDoorMinAngle = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), this.slider_Model_Thickness.Value);
+            _oDoorMaxAngle = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), this.slider_Model_Thickness.Value);
+
+            MvpControl.AddStaticElementMinAngle(_oDoorMinAngle);
+            MvpControl.AddStaticElementMaxAngle(_oDoorMaxAngle);
+
+            MvpControl.ShowStaticElementMin();
+            MvpControl.ShowStaticElementMax();
         }
 
     }
