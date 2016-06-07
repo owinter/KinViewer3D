@@ -57,6 +57,7 @@
     <Compile Include="Drive.cs" />
     <Compile Include="GeometricalElement.cs" />
     <Compile Include="IGuide.cs" />
+    <Compile Include="LineOfAction.cs" />
     <Compile Include="MouseUtilities.cs" />
     <Compile Include="SideDoor.cs" />
     <Compile Include="Sphere.cs" />

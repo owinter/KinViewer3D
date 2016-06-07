@@ -67,6 +67,8 @@ namespace MainUI
             MainUIViewport3D.Content = MvpControl;
 
             create_Button.IsEnabled = false;
+            slider_open_ObjectAngle.IsEnabled = false;
+            slider_open_ObjectAngle_TextBox.IsEnabled = false;
         }
 
 
@@ -153,6 +155,7 @@ namespace MainUI
             generateReflectedDrive();
             fill_TextBox();
             create_Button.IsEnabled = true;
+            
         }
 
 
@@ -194,7 +197,10 @@ namespace MainUI
             MvpControl.FocusToViewport(sender, e);
 
             ////Kamera für Main Viewport updaten
-            MvpControl.ViewportCam.updatePositionCamera();   
+            MvpControl.ViewportCam.updatePositionCamera();
+
+            slider_open_ObjectAngle.IsEnabled = true;
+            slider_open_ObjectAngle_TextBox.IsEnabled = true;
         }
 
         //Button Listener für das Löschen der ListBox
@@ -212,6 +218,8 @@ namespace MainUI
             MvpControl.clearModel();
             
             slider_open_ObjectAngle.Value = 0.0;
+            slider_open_ObjectAngle.IsEnabled = false;
+            slider_open_ObjectAngle_TextBox.IsEnabled = false;
         }
 
         //Listener für Öffnungswinkel SLIDER
