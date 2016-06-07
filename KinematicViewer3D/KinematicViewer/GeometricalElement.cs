@@ -9,15 +9,15 @@ namespace KinematicViewer
 {
     public abstract class GeometricalElement
     {
-        private DiffuseMaterial _oMaterial = new DiffuseMaterial(Brushes.Cyan);
+        private Material _oMaterial = new DiffuseMaterial(Brushes.Cyan);
 
-        public GeometricalElement(Brush brush = null)
+        public GeometricalElement(Material mat = null)
         {
-            if (brush != null)
-                Material = new DiffuseMaterial(brush);
+            if (mat != null)
+                Material = mat;
         }
 
-        public DiffuseMaterial Material
+        public Material Material
         {
             get { return _oMaterial; }
             set { _oMaterial = value; }

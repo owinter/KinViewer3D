@@ -12,7 +12,7 @@ namespace KinematicViewer
 
        
 
-        public Cuboid(Point3D startPointP1, Point3D endPointP2, double modelThickness, System.Windows.Media.Brush mat = null)
+        public Cuboid(Point3D startPointP1, Point3D endPointP2, double modelThickness, Material mat = null)
             : base(mat)
         {
             StartPointP1 = startPointP1;

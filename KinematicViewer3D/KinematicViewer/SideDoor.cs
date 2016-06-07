@@ -33,7 +33,10 @@ namespace KinematicViewer
 
         private Vector3D _oVAxisToHandE1;
 
-        public SideDoor(Point3D axisPoint, Point3D latch, Vector3D axisOfRotation, double modelThickness)
+        private Material _oAxisMaterial;
+
+        public SideDoor(Point3D axisPoint, Point3D latch, Vector3D axisOfRotation, double modelThickness, Material mat = null)
+            :base(mat)
         {
             //AxisOfRotation = axisOfRotation;
             //AxisOfRotation = new Vector3D(0, 0, 1);
@@ -51,6 +54,8 @@ namespace KinematicViewer
 
             CoordsBodyPart = makeCoordsBodyPart();
             CoordsWindowPart = makeCoordsWindowPart();
+
+            AxisMaterial = new DiffuseMaterial(Brushes.Red);
         }
 
         public Vector3D AxisOfRotation
@@ -108,6 +113,12 @@ namespace KinematicViewer
             set { _oVAxisToHandE1 = value; }
         }
 
+        public Material AxisMaterial
+        {
+            get { return _oAxisMaterial; }
+            set { _oAxisMaterial = value; }
+        }
+
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
             List<GeometryModel3D> Res = new List<GeometryModel3D>();
@@ -124,15 +135,15 @@ namespace KinematicViewer
             //Karossierie Part
             for (int i = 0; i <= CoordsBodyPart.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(CoordsBodyPart[i], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsBodyPart[i], ModelThickness, Material).GetGeometryModel(guide));
                 Res.AddRange(new Cuboid(CoordsBodyPart[i], CoordsBodyPart[i + 1], ModelThickness).GetGeometryModel(guide));
             }
 
-            Res.AddRange(new Sphere(CoordsBodyPart[3], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(CoordsBodyPart[3], ModelThickness, Material).GetGeometryModel(guide));
             Res.AddRange(new Cuboid(CoordsBodyPart[3], CoordsBodyPart[0], ModelThickness).GetGeometryModel(guide));
 
             //Handle
-            Res.AddRange(new Sphere(PointLatch, 50, Brushes.Red).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(PointLatch, 50, AxisMaterial).GetGeometryModel(guide));
 
             //Drehachse
             Point3D p1 = AxisPoint + AxisOfRotation * DOORWIDTH * 1 / 2;
@@ -140,8 +151,8 @@ namespace KinematicViewer
             //Point3D p1 = AxisPoint + TransformationUtilities.ScaleVector(AxisOfRotation, DOORHEIGHT * 0.5);
             //Point3D p2 = AxisPoint - TransformationUtilities.ScaleVector(AxisOfRotation, DOORHEIGHT * 0.5);
 
-            Res.AddRange(new Sphere(AxisPoint, 50, Brushes.Red).GetGeometryModel(guide));
-            Res.AddRange(new Cylinder(p1, p2, 10, Brushes.Red).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(AxisPoint, 50, AxisMaterial).GetGeometryModel(guide));
+            Res.AddRange(new Cylinder(p1, p2, 10, AxisMaterial).GetGeometryModel(guide));
 
             return Res.ToArray();
         }

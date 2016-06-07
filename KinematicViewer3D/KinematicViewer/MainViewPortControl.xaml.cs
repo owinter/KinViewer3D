@@ -172,13 +172,8 @@ namespace KinematicViewer
             groupStaticMinAngle.Children.Clear();
 
             foreach (GeometricalElement e in ElementsStaticMinAngle)
-            {
                 foreach (Model3D m in e.GetGeometryModel(null))
-                {
-                    changeColorStaticElement(m, Brushes.LightCyan);
-                    groupStaticMinAngle.Children.Add(m);
-                }       
-            }       
+                    groupStaticMinAngle.Children.Add(m);       
         }
 
         private void UpdateStaticGroupMaxAngle()
@@ -186,13 +181,8 @@ namespace KinematicViewer
             groupStaticMaxAngle.Children.Clear();
 
             foreach (GeometricalElement e in ElementsStaticMinAngle)
-            {
                 foreach (Model3D m in e.GetGeometryModel(null))
-                {
-                    changeColorStaticElement(m, Brushes.LightCyan);
-                    groupStaticMaxAngle.Children.Add(m);
-                }
-            }
+                    groupStaticMaxAngle.Children.Add(m); 
         }
 
         public void ShowStaticElementMin()
@@ -480,20 +470,6 @@ namespace KinematicViewer
             Point p = e.GetPosition(viewport);
             s_coords = string.Format("Bild-Koordinaten: ({0:d}, {1:d})", (int)p.X, (int)p.Y);
             this.statusPane.Text = s_coords;
-        }
-
-        private void changeColorStaticElement(Model3D m, Brush brush)
-        {
-            GeometryModel3D model = m as GeometryModel3D;
-            DiffuseMaterial mat = model.Material as DiffuseMaterial;
-
-            mat.Brush = brush;
-            //Random rand = new Random();
-            //mat.Brush = new SolidColorBrush(Color.FromRgb((byte)rand.Next(256),
-            //                                              (byte)rand.Next(256),
-            //                                              (byte)rand.Next(256)));
-        }
-
-        
+        }      
     }
 }

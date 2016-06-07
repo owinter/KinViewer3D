@@ -14,7 +14,7 @@ namespace KinematicViewer
         private int _iSlices;
         private int _iStacks;
 
-        public Sphere(Point3D center, double diameter, System.Windows.Media.Brush mat = null)
+        public Sphere(Point3D center, double diameter, Material mat = null)
             :base(mat)
         {
             Center = center;

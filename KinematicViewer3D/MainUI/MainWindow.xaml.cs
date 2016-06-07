@@ -442,8 +442,8 @@ namespace MainUI
         private void createStaticElementsTailgate()
         {
             
-            _oTailMinAngle = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value);
-            _oTailMaxAngle = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value);
+            _oTailMinAngle = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value, new DiffuseMaterial(Brushes.LightCyan));
+            _oTailMaxAngle = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value, new DiffuseMaterial(Brushes.LightCyan));
 
             //_oTailMinAngle.Material = new DiffuseMaterial(Brushes.Beige);
             //_oTailMaxAngle.Material = new DiffuseMaterial(Brushes.Beige);
@@ -459,6 +459,8 @@ namespace MainUI
         {
             _oDoorMinAngle = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), this.slider_Model_Thickness.Value);
             _oDoorMaxAngle = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), this.slider_Model_Thickness.Value);
+
+
 
             MvpControl.AddStaticElementMinAngle(_oDoorMinAngle);
             MvpControl.AddStaticElementMaxAngle(_oDoorMaxAngle);

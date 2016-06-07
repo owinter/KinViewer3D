@@ -29,7 +29,10 @@ namespace KinematicViewer
 
         private Vector3D _oVAxisToHandE1;
 
-        public Tailgate(Point3D axisPoint, Point3D latch, double modelThickness)
+        private Material _oAxisMaterial;
+
+        public Tailgate(Point3D axisPoint, Point3D latch, double modelThickness, Material mat = null)
+            :base(mat)
         {
             AxisOfRotation = new Vector3D(0, 0, 1);
 
@@ -44,6 +47,8 @@ namespace KinematicViewer
             CoordsMidTail = makeCoordsMidTail();
             CoordsUpTail = makeCoordsUpTail();
             CoordsDownTail = makeCoordsDownTail();
+
+            AxisMaterial = new DiffuseMaterial(Brushes.Red);
         }
 
         public Vector3D AxisOfRotation
@@ -106,44 +111,52 @@ namespace KinematicViewer
             set { _oVAxisToHandE1 = value; }
         }
 
+        public Material AxisMaterial
+        {
+            get { return _oAxisMaterial; }
+            set { _oAxisMaterial = value; }
+        }
+
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
             List<GeometryModel3D> Res = new List<GeometryModel3D>();
+
+
 
             //Klappe
             //Oberer Part
             for (int i = 0; i <= CoordsUpTail.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(CoordsUpTail[i], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
-                Res.AddRange(new Cuboid(CoordsUpTail[i], CoordsUpTail[i + 1], ModelThickness).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsUpTail[i], ModelThickness, Material).GetGeometryModel(guide));
+                Res.AddRange(new Cuboid(CoordsUpTail[i], CoordsUpTail[i + 1], ModelThickness, Material).GetGeometryModel(guide));
             }
 
             //Unterer Part
             for (int i = 0; i <= CoordsDownTail.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(CoordsDownTail[i], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
-                Res.AddRange(new Cuboid(CoordsDownTail[i], CoordsDownTail[i + 1], ModelThickness).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsDownTail[i], ModelThickness, Material).GetGeometryModel(guide));
+                Res.AddRange(new Cuboid(CoordsDownTail[i], CoordsDownTail[i + 1], ModelThickness, Material).GetGeometryModel(guide));
             }
 
             //Mittlerer Part
             for (int i = 0; i <= CoordsMidTail.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(CoordsMidTail[i], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
-                Res.AddRange(new Cuboid(CoordsMidTail[i], CoordsMidTail[i + 1], ModelThickness).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsMidTail[i], ModelThickness, Material).GetGeometryModel(guide));
+                Res.AddRange(new Cuboid(CoordsMidTail[i], CoordsMidTail[i + 1], ModelThickness, Material).GetGeometryModel(guide));
             }
 
-            Res.AddRange(new Sphere(CoordsMidTail[3], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
-            Res.AddRange(new Cuboid(CoordsMidTail[3], CoordsMidTail[0], ModelThickness).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(CoordsMidTail[3], ModelThickness, Material).GetGeometryModel(guide));
+            Res.AddRange(new Cuboid(CoordsMidTail[3], CoordsMidTail[0], ModelThickness, Material).GetGeometryModel(guide));
 
             //Handle
-            Res.AddRange(new Sphere(PointLatch, 50, Brushes.Red).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(PointLatch, 50, AxisMaterial).GetGeometryModel(guide));
 
             //Drehachse
             Point3D p1 = AxisPoint + AxisOfRotation * TAILWIDTH * 1 / 2;
             Point3D p2 = AxisPoint - AxisOfRotation * TAILWIDTH * 1 / 2;
 
-            Res.AddRange(new Sphere(AxisPoint, 50, Brushes.Red).GetGeometryModel(guide));
-            Res.AddRange(new Cylinder(p1, p2, 10, Brushes.Red).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(AxisPoint, 50, AxisMaterial).GetGeometryModel(guide));
+            Res.AddRange(new Cylinder(p1, p2, 10, AxisMaterial).GetGeometryModel(guide));
 
             return Res.ToArray();
         }

@@ -17,7 +17,18 @@ namespace KinematicViewer
         private Point3D _oStartPoint;
         private Vector3D _oVDrive;
 
-        public Drive(Point3D point1, Point3D point2)
+        private Material _oBodyPartMaterial;
+        private Material _oBodyPartMaterialStartPoint;
+
+        private Material _oDoorPartMaterialRetracted;
+        private Material _oDoorPartMaterialMiddle;
+        private Material _oDoorPartMaterialExtracted;
+        private Material _oDoorPartMaterialEndPoint;
+
+        
+
+        public Drive(Point3D point1, Point3D point2, Material mat = null)
+            :base(mat)
         {
             StartPoint = point1;
             EndPoint = point2;
@@ -30,6 +41,13 @@ namespace KinematicViewer
             ExtractedLength = 648.8;
             Stroke = _dExtractedLength - _dRetractedLength;
             OffsetSecondCylinder = (0.25 * VDrive).Length;
+
+            BodyPartMaterial = new DiffuseMaterial(Brushes.Gray);
+            BodyPartMaterialStartPoint = new DiffuseMaterial(Brushes.Gray);
+            DoorPartMaterialRetracted = new DiffuseMaterial(Brushes.YellowGreen);
+            DoorPartMaterialMiddle = new DiffuseMaterial(Brushes.Orange);
+            DoorPartMaterialExtracted = new DiffuseMaterial(Brushes.OrangeRed);
+            DoorPartMaterialEndPoint = new DiffuseMaterial(Brushes.Gray);
         }
 
         public Point3D EndPoint
@@ -86,6 +104,44 @@ namespace KinematicViewer
             set { _oVDrive = value; }
         }
 
+        public Material BodyPartMaterial
+        {
+            get { return _oBodyPartMaterial; }
+            set { _oBodyPartMaterial = value; }
+        }
+
+        public Material BodyPartMaterialStartPoint
+        {
+            get { return _oBodyPartMaterialStartPoint; }
+            set { _oBodyPartMaterialStartPoint = value; }
+        }
+
+        public Material DoorPartMaterialRetracted
+        {
+            get { return _oDoorPartMaterialRetracted; }
+            set { _oDoorPartMaterialRetracted = value; }
+        }
+
+        public Material DoorPartMaterialMiddle
+        {
+            get { return _oDoorPartMaterialMiddle; }
+            set { _oDoorPartMaterialMiddle = value; }
+        }
+
+        public Material DoorPartMaterialExtracted
+        {
+            get { return _oDoorPartMaterialExtracted; }
+            set { _oDoorPartMaterialExtracted = value; }
+        }
+
+        public Material DoorPartMaterialEndPoint
+        {
+            get {  return _oDoorPartMaterialEndPoint; }
+            set {  _oDoorPartMaterialEndPoint = value; }
+        }
+
+       
+
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
             List<GeometryModel3D> Res = new List<GeometryModel3D>();
@@ -103,32 +159,32 @@ namespace KinematicViewer
             //grüner Bereich
             if (vLength <= ExtractedLength - Stroke * 2 / 3)
             {
-                Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
-                Res.AddRange(new Sphere(StartPoint, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
-                Res.AddRange(new Cylinder(StartPoint + vOffset, attPointDoor, RadiusDoor, Brushes.YellowGreen).GetGeometryModel(guide));
-                Res.AddRange(new Sphere(attPointDoor, RadiusDoor, Brushes.Gray).GetGeometryModel(guide));
+                Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, BodyPartMaterial).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(StartPoint, RadiusBody, BodyPartMaterialStartPoint).GetGeometryModel(guide));
+                Res.AddRange(new Cylinder(StartPoint + vOffset, attPointDoor, RadiusDoor, DoorPartMaterialRetracted).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(attPointDoor, RadiusDoor, DoorPartMaterialEndPoint).GetGeometryModel(guide));
             }
 
             //Gelber Bereich
             if ((vLength > ExtractedLength - Stroke * 2 / 3) && !(vLength <= ExtractedLength - Stroke * 2 / 3))
             {
-                Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
-                Res.AddRange(new Sphere(StartPoint, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
-                Res.AddRange(new Cylinder(StartPoint + vOffset, attPointDoor, RadiusDoor, Brushes.Orange).GetGeometryModel(guide));
-                Res.AddRange(new Sphere(attPointDoor, RadiusDoor, Brushes.Gray).GetGeometryModel(guide));
+                Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, BodyPartMaterial).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(StartPoint, RadiusBody, BodyPartMaterialStartPoint).GetGeometryModel(guide));
+                Res.AddRange(new Cylinder(StartPoint + vOffset, attPointDoor, RadiusDoor, DoorPartMaterialMiddle).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(attPointDoor, RadiusDoor, DoorPartMaterialEndPoint).GetGeometryModel(guide));
             }
 
             //Roter Bereich
             if ((vLength > ExtractedLength - Stroke * 1 / 3) && (vLength > ExtractedLength - Stroke * 2 / 3) && !(vLength <= ExtractedLength - Stroke * 2 / 3)) 
             {
-                Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
-                Res.AddRange(new Sphere(StartPoint, RadiusBody, Brushes.Gray).GetGeometryModel(guide));
-                Res.AddRange(new Cylinder(StartPoint + vOffset, attPointDoor, RadiusDoor, Brushes.OrangeRed).GetGeometryModel(guide));
-                Res.AddRange(new Sphere(attPointDoor, RadiusDoor, Brushes.Gray).GetGeometryModel(guide));
+                Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, BodyPartMaterial).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(StartPoint, RadiusBody, BodyPartMaterialStartPoint).GetGeometryModel(guide));
+                Res.AddRange(new Cylinder(StartPoint + vOffset, attPointDoor, RadiusDoor, DoorPartMaterialExtracted).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(attPointDoor, RadiusDoor, DoorPartMaterialEndPoint).GetGeometryModel(guide));
             }
 
             //Farblicher Anbindungspunkt an die Heckklappe in Cyan
-            Res.AddRange(new Sphere(attPointDoor, 40, Brushes.Cyan).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(attPointDoor, 40, Material).GetGeometryModel(guide));
 
             return Res.ToArray();
         }

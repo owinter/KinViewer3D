@@ -16,7 +16,7 @@ namespace KinematicViewer
         private Point3D _oPointStart;
         private Point3D _oPointEnd;
 
-        public Cylinder(Point3D startPoint, Point3D endPoint, double radius, System.Windows.Media.Brush mat = null)
+        public Cylinder(Point3D startPoint, Point3D endPoint, double radius, Material mat = null)
             : base(mat)
         {
             EndPoint = endPoint;
