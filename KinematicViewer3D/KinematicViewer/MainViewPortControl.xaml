@@ -109,6 +109,13 @@
                 </ModelVisual3D.Content>
             </ModelVisual3D>
 
+            <!-- Visual Model Group for Line of Action-->
+            <ModelVisual3D x:Name="lineOfActionVisual">
+                <ModelVisual3D.Content>
+                    <Model3DGroup x:Name="groupLineOfAction" />
+                </ModelVisual3D.Content>
+            </ModelVisual3D>
+
             <!-- Visual Model Group for Drives-->
             <ModelVisual3D x:Name="passiveVisual">
                 <ModelVisual3D.Content>

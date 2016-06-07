@@ -10,8 +10,6 @@ namespace KinematicViewer
         private Point3D _oPointEnd;
         private double _dThickness;
 
-       
-
         public Cuboid(Point3D startPointP1, Point3D endPointP2, double modelThickness, Material mat = null)
             : base(mat)
         {
@@ -24,7 +22,6 @@ namespace KinematicViewer
         {
             get { return _oPointStart; }
             set { _oPointStart = value; }
-
         }
 
         public Point3D EndPointP2
@@ -62,7 +59,6 @@ namespace KinematicViewer
 
             //Bottom Seite
             buildRectangle(mesh, p_around[0], p_around[2], p_around[3], p_around[1]); //, new Vector3D(0, -1, 0)
-
 
             GeometryModel3D model = new GeometryModel3D(mesh, Material);
             model.Transform = new Transform3DGroup();

@@ -35,6 +35,7 @@ namespace KinematicViewer
         public List<GeometricalElement> ElementsActive;
         public List<GeometricalElement> ElementsStaticMinAngle;
         public List<GeometricalElement> ElementsStaticMaxAngle;
+        public List<GeometricalElement> ElementsLineOfAction;
 
         //Mittelpunkt des Objektes
         private Point3D _oMPoint;
@@ -63,6 +64,7 @@ namespace KinematicViewer
             ElementsPassive = new List<GeometricalElement>();
             ElementsStaticMinAngle = new List<GeometricalElement>();
             ElementsStaticMaxAngle = new List<GeometricalElement>();
+            ElementsLineOfAction = new List<GeometricalElement>();
 
 
             CanMoveCamera = true;
@@ -117,12 +119,18 @@ namespace KinematicViewer
         public void AddStaticElementMinAngle(GeometricalElement elem)
         {
             ElementsStaticMinAngle.Add(elem);
-            UpdateStaticGroupMinAngle();
+            UpdateStaticMinAngleGroup();
         }
         public void AddStaticElementMaxAngle(GeometricalElement elem)
         {
             ElementsStaticMaxAngle.Add(elem);
-            UpdateStaticGroupMaxAngle();
+            UpdateStaticMaxAngleGroup();
+        }
+
+        public void AddLineOfActionElement(GeometricalElement elem)
+        {
+            ElementsLineOfAction.Add(elem);
+            UpdateLineOfActionGroup();
         }
 
         public void RemoveActiveElement(GeometricalElement elem)
@@ -137,16 +145,22 @@ namespace KinematicViewer
             UpdatePassiveGroup();
         }
 
-        public void RemoveStaticElementsMinAngle(GeometricalElement elem)
+        public void RemoveStaticElementMinAngle(GeometricalElement elem)
         {
             ElementsStaticMinAngle.Remove(elem);
-            UpdateStaticGroupMinAngle();
+            UpdateStaticMinAngleGroup();
         }
 
-        public void RemoveStaticElementsMaxAngle(GeometricalElement elem)
+        public void RemoveStaticElementMaxAngle(GeometricalElement elem)
         {
             ElementsStaticMaxAngle.Remove(elem);
-            UpdateStaticGroupMaxAngle();
+            UpdateStaticMaxAngleGroup();
+        }
+
+        public void RemoveLineOfActionElement(GeometricalElement elem)
+        {
+            ElementsLineOfAction.Remove(elem);
+            UpdateLineOfActionGroup();
         }
 
         private void UpdateActiveGroup()
@@ -167,7 +181,7 @@ namespace KinematicViewer
                     groupPassive.Children.Add(m);
         }
 
-        private void UpdateStaticGroupMinAngle()
+        private void UpdateStaticMinAngleGroup()
         {
             groupStaticMinAngle.Children.Clear();
 
@@ -176,7 +190,7 @@ namespace KinematicViewer
                     groupStaticMinAngle.Children.Add(m);       
         }
 
-        private void UpdateStaticGroupMaxAngle()
+        private void UpdateStaticMaxAngleGroup()
         {
             groupStaticMaxAngle.Children.Clear();
 
@@ -185,28 +199,43 @@ namespace KinematicViewer
                     groupStaticMaxAngle.Children.Add(m); 
         }
 
+        private void UpdateLineOfActionGroup()
+        {
+            groupLineOfAction.Children.Clear();
+
+            foreach (GeometricalElement e in ElementsLineOfAction)
+                foreach (Model3D m in e.GetGeometryModel(Guide))
+                    groupLineOfAction.Children.Add(m);
+        }
+
         public void ShowStaticElementMin()
         {
             Guide.Move(groupStaticMinAngle, 0);
-            UpdateStaticGroupMinAngle();      
+            UpdateStaticMinAngleGroup();      
         }
 
         public void ShowStaticElementMax()
         {
             Guide.Move(groupStaticMaxAngle, 1);
-            UpdateStaticGroupMaxAngle();
+            UpdateStaticMaxAngleGroup();
         }
 
-        public void RemoveStaticElementMin()
+        public void RemoveAllStaticElementsMin()
         {
             ElementsStaticMinAngle.Clear();
-            UpdateStaticGroupMinAngle();
+            UpdateStaticMinAngleGroup();
         }
 
-       public void RemoveStaticElementMax()
+        public void RemoveAllStaticElementsMax()
         {
             ElementsStaticMaxAngle.Clear();
-            UpdateStaticGroupMaxAngle();
+            UpdateStaticMaxAngleGroup();
+        }
+
+        public void RemoveAllLineOfActionElements()
+        {
+            ElementsLineOfAction.Clear();
+            UpdateLineOfActionGroup();
         }
      
         //MAUSSTEUERUNG im MainGrid
@@ -370,10 +399,10 @@ namespace KinematicViewer
             UpdatePassiveGroup();
 
             ElementsStaticMinAngle.Clear();
-            UpdateStaticGroupMinAngle();
+            UpdateStaticMinAngleGroup();
 
             ElementsStaticMaxAngle.Clear();
-            UpdateStaticGroupMaxAngle();
+            UpdateStaticMaxAngleGroup();
 
             Guide = null;
         }
@@ -447,6 +476,7 @@ namespace KinematicViewer
 
             Guide.Move(groupActive, per);
             UpdatePassiveGroup();
+          
         }
 
         public void resetModelTransformation()

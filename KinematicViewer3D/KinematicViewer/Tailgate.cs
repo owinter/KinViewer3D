@@ -48,7 +48,10 @@ namespace KinematicViewer
             CoordsUpTail = makeCoordsUpTail();
             CoordsDownTail = makeCoordsDownTail();
 
-            AxisMaterial = new DiffuseMaterial(Brushes.Red);
+            if(mat == null)
+                AxisMaterial = new DiffuseMaterial(Brushes.Red);
+            if (mat != null)
+                AxisMaterial = mat;
         }
 
         public Vector3D AxisOfRotation

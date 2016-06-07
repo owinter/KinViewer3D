@@ -141,7 +141,7 @@ namespace MainUI
         //Menubar Session Beenden & schließen
         private void CommandBinding_Executed(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         //Menubar Anleitung
@@ -372,6 +372,7 @@ namespace MainUI
                                 + "P4(" + x4 + ", "
                                         + y4 + ", "
                                         + z4 + ") \n"
+                                + "\n"
                                 + "Antrieb2: " + "\n"
                                 + "P5(" + AxisPoints[4].X.ToString() + ", " 
                                         + AxisPoints[4].Y.ToString() + ", "
@@ -397,8 +398,8 @@ namespace MainUI
 
         private void toolBox_MinMaxOn_Click(object sender, RoutedEventArgs e)
         {
-            MvpControl.RemoveStaticElementMin();
-            MvpControl.RemoveStaticElementMax();
+            MvpControl.RemoveAllStaticElementsMin();
+            MvpControl.RemoveAllStaticElementsMax();
             createStaticElementsTailgate();
             MvpControl.ShowStaticElementMin();
             MvpControl.ShowStaticElementMax();
@@ -406,8 +407,8 @@ namespace MainUI
 
         private void toolBox_MinMaxOff_Click(object sender, RoutedEventArgs e)
         {
-            MvpControl.RemoveStaticElementMin();
-            MvpControl.RemoveStaticElementMax();
+            MvpControl.RemoveAllStaticElementsMin();
+            MvpControl.RemoveAllStaticElementsMax();
         }
 
         private void toolBox_ZoomOut_Button_Click(object sender, RoutedEventArgs e)
@@ -424,6 +425,16 @@ namespace MainUI
         private void toolBox_Back_Button_Click(object sender, RoutedEventArgs e)
         {
             MvpControl.viewBackSide();
+        }
+
+        private void toolBox_LineOn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void toolBox_LineOff_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void toolBox_Right_Button_Click(object sender, RoutedEventArgs e)
@@ -464,8 +475,8 @@ namespace MainUI
         private void createStaticElementsTailgate()
         {
             
-            _oTailMinAngle = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value, getTransparentMaterial());
-            _oTailMaxAngle = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value, getTransparentMaterial());
+            _oTailMinAngle = new Tailgate(AxisPoints[0], AxisPoints[1], slider_Model_Thickness.Value, getTransparentMaterial());
+            _oTailMaxAngle = new Tailgate(AxisPoints[0], AxisPoints[1], slider_Model_Thickness.Value, getTransparentMaterial());
 
             //_oTailMinAngle.Material = new DiffuseMaterial(getTransparentBrush());
             //_oTailMaxAngle.Material = new DiffuseMaterial(getTransparentBrush());
@@ -479,8 +490,8 @@ namespace MainUI
 
         private void createStaticElementsSideDoor()
         {
-            _oDoorMinAngle = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), this.slider_Model_Thickness.Value, getTransparentMaterial());
-            _oDoorMaxAngle = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), this.slider_Model_Thickness.Value, getTransparentMaterial());
+            _oDoorMinAngle = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), slider_Model_Thickness.Value, getTransparentMaterial());
+            _oDoorMaxAngle = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), slider_Model_Thickness.Value, getTransparentMaterial());
 
 
             MvpControl.AddStaticElementMinAngle(_oDoorMinAngle);
@@ -501,14 +512,20 @@ namespace MainUI
 
         //    return Res;
         //}
+
+
         private Material getTransparentMaterial()
         {
             Color c = new Color();
-            c.A = 64;
+            c.A = 255;
             c.R = Colors.LightCyan.R;
             c.G = Colors.LightCyan.G;
             c.B = Colors.LightCyan.B;
-            Material mat = new DiffuseMaterial(new SolidColorBrush(c));
+
+            SolidColorBrush scBrush = new SolidColorBrush(c);
+            scBrush.Opacity = 0.25;
+
+            Material mat = new DiffuseMaterial(scBrush);
 
             return mat;
         }

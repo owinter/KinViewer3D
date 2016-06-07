@@ -478,6 +478,16 @@
                                         	    Content="MinMax Off" 
                                         	    Click="toolBox_MinMaxOff_Click">
                                         </Button>
+                                        <Button x:Name="toolBox_LineOn"
+                                                Margin="10,0,0,0"
+                                                Content="Line On"
+                                                Click="toolBox_LineOn_Click">
+                                        </Button>
+                                        <Button x:Name="toolBox_LineOff"
+                                                Margin="10,0,0,0"
+                                                Content="Line Off"
+                                                Click="toolBox_LineOff_Click">
+                                        </Button>
                                     </ToolBar>
                                 </ToolBarTray>
 
