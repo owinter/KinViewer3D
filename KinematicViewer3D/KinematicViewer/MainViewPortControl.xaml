@@ -122,6 +122,7 @@
                     <Model3DGroup x:Name="groupLightsAndGround">
                         <AmbientLight Color="#404040" />
                         <DirectionalLight Color="#C0C0C0" Direction="-5000, -5000, -10000" />
+                        <DirectionalLight Color="#C0C0C0" Direction=" 5000,  5000,  10000" />
 
                         <!--GROUND GRAY -->
 

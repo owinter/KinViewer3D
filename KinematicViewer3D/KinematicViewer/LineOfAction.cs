@@ -11,17 +11,20 @@ namespace KinematicViewer
     {
         private Point3D _oAxisPoint;
         private Point3D _oAttachmentPointBody;
+        private Point3D _oAttachmentPointDoor;
+
         private Vector3D _oVAxisOfRotation;
         private Material _oLineOfActionMaterial;
 
         
 
-        public LineOfAction(Point3D axisPoint, Point3D attachmentPoint, Vector3D axisOfRotation , Material mat = null)
+        public LineOfAction(Point3D axisPoint, Point3D attachmentPointBody, Point3D attachmentPointDoor,  Vector3D axisOfRotation , Material mat = null)
             :base(mat)
         {
 
             AxisPoint = axisPoint;
-            AttachmentPointBody = attachmentPoint;
+            AttachmentPointBody = attachmentPointBody;
+            AttachmentPointDoor = attachmentPointDoor;
             //AxisOfRotation = axisOfRotation;
             AxisOfRotation = new Vector3D(0, 0, 1);
             LineOfActionMaterial = new DiffuseMaterial(Brushes.Red);
@@ -50,6 +53,12 @@ namespace KinematicViewer
         {
             get { return _oLineOfActionMaterial;}
             set { _oLineOfActionMaterial = value; }
+        }
+
+        public Point3D AttachmentPointDoor
+        {
+            get { return _oAttachmentPointDoor; }
+            set { _oAttachmentPointDoor = value; }
         }
 
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)

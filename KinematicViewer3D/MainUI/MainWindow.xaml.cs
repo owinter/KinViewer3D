@@ -36,6 +36,10 @@ namespace MainUI
         private Drive _oDriveLeft;
         private Drive _oDriveRight;
 
+        private LineOfAction _oLineOfAction;
+
+        private Vector3D _oVAxisOfRotation;
+
         //Model- Dicke (Durchmesser der Linien)
         private double _dModelThickness;
 
@@ -66,6 +70,8 @@ namespace MainUI
             MvpControl.setTextBlock(statusPane);
             MainUIViewport3D.Content = MvpControl;
 
+            AxisOfRotation = new Vector3D(0, 0, 1);
+
             create_Button.IsEnabled = false;
             slider_open_ObjectAngle.IsEnabled = false;
             slider_open_ObjectAngle_TextBox.IsEnabled = false;
@@ -94,6 +100,12 @@ namespace MainUI
         {
             get { return _oCssControl; }
             private set { _oCssControl = value; }
+        }
+
+        public Vector3D AxisOfRotation
+        {
+            get { return _oVAxisOfRotation; }
+            set { _oVAxisOfRotation = value; }
         }
 
 
@@ -177,6 +189,8 @@ namespace MainUI
             _oDriveLeft = new Drive(AxisPoints[2], AxisPoints[3]);
             _oDriveRight = new Drive(AxisPoints[4], AxisPoints[5]);
 
+            //_oLineOfAction = new LineOfAction(AxisPoints[0], AxisPoints[2], AxisPoints[3], axisOfRotation)
+
             MvpControl.Guide = _oTail;
             //MvpControl.Guide = _oDoor;
 
@@ -211,7 +225,7 @@ namespace MainUI
             create_Button.IsEnabled = false;
         }
 
-        //Löscht das 3D Model 
+        //Löscht alle visuellen 3D Modele 
         private void clear_Button_Click(object sender, RoutedEventArgs e)
         {
             MvpControl.resetModelTransformation();
