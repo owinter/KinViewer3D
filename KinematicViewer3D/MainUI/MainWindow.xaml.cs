@@ -464,11 +464,11 @@ namespace MainUI
         private void createStaticElementsTailgate()
         {
             
-            _oTailMinAngle = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value, new DiffuseMaterial(Brushes.LightCyan));
-            _oTailMaxAngle = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value, new DiffuseMaterial(Brushes.LightCyan));
+            _oTailMinAngle = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value, getTransparentMaterial());
+            _oTailMaxAngle = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value, getTransparentMaterial());
 
-            //_oTailMinAngle.Material = new DiffuseMaterial(Brushes.Beige);
-            //_oTailMaxAngle.Material = new DiffuseMaterial(Brushes.Beige);
+            //_oTailMinAngle.Material = new DiffuseMaterial(getTransparentBrush());
+            //_oTailMaxAngle.Material = new DiffuseMaterial(getTransparentBrush());
 
             MvpControl.AddStaticElementMinAngle(_oTailMinAngle);
             MvpControl.AddStaticElementMaxAngle(_oTailMaxAngle);
@@ -479,9 +479,8 @@ namespace MainUI
 
         private void createStaticElementsSideDoor()
         {
-            _oDoorMinAngle = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), this.slider_Model_Thickness.Value);
-            _oDoorMaxAngle = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), this.slider_Model_Thickness.Value);
-
+            _oDoorMinAngle = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), this.slider_Model_Thickness.Value, getTransparentMaterial());
+            _oDoorMaxAngle = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), this.slider_Model_Thickness.Value, getTransparentMaterial());
 
 
             MvpControl.AddStaticElementMinAngle(_oDoorMinAngle);
@@ -491,5 +490,27 @@ namespace MainUI
             MvpControl.ShowStaticElementMax();
         }
 
+        //private SolidColorBrush getTransparentBrush()
+        //{
+        //    Color c = new Color();
+        //    c.A = 16;
+        //    c.R = Colors.LightCyan.R;
+        //    c.G = Colors.LightCyan.G;
+        //    c.B = Colors.LightCyan.B;
+        //    SolidColorBrush Res = new SolidColorBrush(c);
+
+        //    return Res;
+        //}
+        private Material getTransparentMaterial()
+        {
+            Color c = new Color();
+            c.A = 64;
+            c.R = Colors.LightCyan.R;
+            c.G = Colors.LightCyan.G;
+            c.B = Colors.LightCyan.B;
+            Material mat = new DiffuseMaterial(new SolidColorBrush(c));
+
+            return mat;
+        }
     }
 }
