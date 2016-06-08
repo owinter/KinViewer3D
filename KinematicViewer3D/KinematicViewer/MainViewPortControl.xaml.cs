@@ -382,6 +382,7 @@ namespace KinematicViewer
 
         public void resetCam()
         {
+            ViewportCam.reloadCameraPositionDefault();
             ViewportCam.resetCam();
         }
 

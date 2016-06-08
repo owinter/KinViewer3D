@@ -52,16 +52,18 @@ namespace MainUI
 
         //Benutzereingaben der Koordinaten zwischen denen eine 3D Linie erzeugt wird
         //Punkt Drehachse
-        double x1, y1, z1;
+        private double _dX1, _dY1, _dZ1;
 
         //Punkt für Haltegriff ( Handangriffspunkt)
-        double x2, y2, z2;
+        private double _dX2, _dY2, _dZ2;
 
         //Fester Punkt für Antrieb an Karrosserie
-        double x3, y3, z3;
+        private double _dX3, _dY3, _dZ3;
 
         //Punkt für Antrieb an Heckklappe
-        double x4, y4, z4;
+        private double _dX4, _dY4, _dZ4;
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -77,7 +79,11 @@ namespace MainUI
             if (_bTailgate)
                 AxisOfRotation = new Vector3D(0, 0, 1);
             else
+            {
                 AxisOfRotation = new Vector3D(-13.94, -399.21, -20.94);
+                //AxisOfRotation = new Vector3D(13.94, 399.21, 20.94);
+            }
+                
 
             create_Button.IsEnabled = false;
             slider_open_ObjectAngle.IsEnabled = false;
@@ -113,6 +119,78 @@ namespace MainUI
         {
             get { return _oVAxisOfRotation; }
             set { _oVAxisOfRotation = value; }
+        }
+
+        public double X1
+        {
+            get { return _dX1; }
+            set { _dX1 = value; }
+        }
+
+        public double Y1
+        {
+            get { return _dY1; }
+            set { _dY1 = value; }
+        }
+
+        public double Z1
+        {
+            get { return _dZ1; }
+            set { _dZ1 = value; }
+        }
+
+        public double X2
+        {
+            get { return _dX2; }
+            set { _dX2 = value; }
+        }
+
+        public double Y2
+        {
+            get { return _dY2; }
+            set { _dY2 = value; }
+        }
+
+        public double Z2
+        {
+            get { return _dZ2; }
+            set { _dZ2 = value; }
+        }
+
+        public double X3
+        {
+            get { return _dX3; }
+            set { _dX3 = value; }
+        }
+
+        public double Y3
+        {
+            get { return _dY3; }
+            set { _dY3 = value; }
+        }
+
+        public double Z3
+        {
+            get { return _dZ3; }
+            set { _dZ3 = value; }
+        }
+
+        public double X4
+        {
+            get { return _dX4; }
+            set { _dX4 = value; }
+        }
+
+        public double Y4
+        {
+            get { return _dY4; }
+            set { _dY4 = value; }
+        }
+
+        public double Z4
+        {
+            get { return _dZ4; }
+            set { _dZ4 = value; }
         }
 
 
@@ -310,47 +388,47 @@ namespace MainUI
 
                 if(_bTailgate)
                 {
-                    x1 = 0;
-                    y1 = 0;
-                    z1 = 0;
+                    X1 = 0;
+                    Y1 = 0;
+                    Z1 = 0;
 
-                    x2 = 500;
-                    y2 = -850;
-                    z2 = 0;
+                    X2 = 500;
+                    Y2 = -850;
+                    Z2 = 0;
 
-                    x3 = 44.69;
-                    y3 = -129.16;
-                    z3 = 550.57;
+                    X3 = 44.69;
+                    Y3 = -129.16;
+                    Z3 = 550.57;
 
-                    x4 = 393.56;
-                    y4 = -448.26;
-                    z4 = 626.20;
+                    X4 = 393.56;
+                    Y4 = -448.26;
+                    Z4 = 626.20;
                 }
                 else
                 {
-                    x1 = 1460;
-                    y1 = 780;
-                    z1 = 930;
+                    X1 = 1460;
+                    Y1 = 780;
+                    Z1 = 930;
 
-                    x2 = 2565;
-                    y2 = 1125;
-                    z2 = 875;
+                    X2 = 2565;
+                    Y2 = 1125;
+                    Z2 = 875;
 
-                    x3 = 1515.0;
-                    y3 = 497.0;
-                    z3 = 910.0;
+                    X3 = 1515.0;
+                    Y3 = 497.0;
+                    Z3 = 910.0;
 
-                    x4 = 1920.0;
-                    y4 = 505.0;
-                    z4 = 875.0;
+                    X4 = 1920.0;
+                    Y4 = 505.0;
+                    Z4 = 875.0;
                 }
                 
 
 
-                Point3D p1 = new Point3D(x1, y1, z1);
-                Point3D p2 = new Point3D(x2, y2, z2);
-                Point3D p3 = new Point3D(x3, y3, z3);
-                Point3D p4 = new Point3D(x4, y4, z4);
+                Point3D p1 = new Point3D(X1, Y1, Z1);
+                Point3D p2 = new Point3D(X2, Y2, Z2);
+                Point3D p3 = new Point3D(X3, Y3, Z3);
+                Point3D p4 = new Point3D(X4, Y4, Z4);
 
                 AxisPoints.Add(p1);
                 AxisPoints.Add(p2);
@@ -394,21 +472,21 @@ namespace MainUI
             if(_bTailgate)
             {
                 listBox1.Items.Add("Objekt: " + "\n"
-                                + "P1(" + x1 + ", "
-                                        + y1 + ", "
-                                        + z1 + ")  \n"
-                                + "P2(" + x2 + ", "
-                                        + y2 + ", "
-                                        + z2 + ") \n"
+                                + "P1(" + X1 + ", "
+                                        + Y1 + ", "
+                                        + Z1 + ")  \n"
+                                + "P2(" + X2 + ", "
+                                        + Y2 + ", "
+                                        + Z2 + ") \n"
                                 + "Elementbreite in mm: " + ModelThickness + "\n"
                                 + "\n"
                                 + "Antrieb1: " + "\n"
-                                + "P3(" + x3 + ", "
-                                        + y3 + ", "
-                                        + z3 + ") \n"
-                                + "P4(" + x4 + ", "
-                                        + y4 + ", "
-                                        + z4 + ") \n"
+                                + "P3(" + X3 + ", "
+                                        + Y3 + ", "
+                                        + Z3 + ") \n"
+                                + "P4(" + X4 + ", "
+                                        + Y4 + ", "
+                                        + Z4 + ") \n"
                                 + "\n"
                                 + "Antrieb2: " + "\n"
                                 + "P5(" + AxisPoints[4].X.ToString() + ", "
@@ -422,21 +500,21 @@ namespace MainUI
             else
             {
                 listBox1.Items.Add("Objekt: " + "\n"
-                                + "P1(" + x1 + ", "
-                                        + y1 + ", "
-                                        + z1 + ")  \n"
-                                + "P2(" + x2 + ", "
-                                        + y2 + ", "
-                                        + z2 + ") \n"
+                                + "P1(" + X1 + ", "
+                                        + Y1 + ", "
+                                        + Z1 + ")  \n"
+                                + "P2(" + X2 + ", "
+                                        + Y2 + ", "
+                                        + Z2 + ") \n"
                                 + "Elementbreite in mm: " + ModelThickness + "\n"
                                 + "\n"
                                 + "Antrieb1: " + "\n"
-                                + "P3(" + x3 + ", "
-                                        + y3 + ", "
-                                        + z3 + ") \n"
-                                + "P4(" + x4 + ", "
-                                        + y4 + ", "
-                                        + z4 + ") \n"
+                                + "P3(" + X3 + ", "
+                                        + Y3 + ", "
+                                        + Z3 + ") \n"
+                                + "P4(" + X4 + ", "
+                                        + Y4 + ", "
+                                        + Z4 + ") \n"
                                 + "\n");
                                 
             }
@@ -601,6 +679,9 @@ namespace MainUI
             scBrush.Opacity = 0.25;
 
             Material mat = new DiffuseMaterial(scBrush);
+
+
+            //Material mat = new DiffuseMaterial((SolidColorBrush)(new BrushConverter().ConvertFrom("#8000FFFF")));
 
             return mat;
         }

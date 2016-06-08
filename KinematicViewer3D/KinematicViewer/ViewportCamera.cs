@@ -221,10 +221,16 @@ namespace KinematicViewer
             //orthographische Kamerabreite zurücksetzen
             OrthoWidth = 3200;
 
+            Trans.Yaw = 0.0;
+            Trans.Pitch = 0.0;
+
             //Kamera des Koordinatensystems reloaden
             oP_Camera_CoordSystem.Position = new Point3D(0, 0, 2000);
             oP_Camera_CoordSystem.LookDirection = new Vector3D(0, 0, -2000);
             oP_Camera_CoordSystem.UpDirection = new Vector3D(0, 1, 0);
+
+            Trans_CSS.Yaw = 0.0;
+            Trans_CSS.Pitch = 0.0;
 
         }
 
@@ -345,6 +351,7 @@ namespace KinematicViewer
                     {
                         oP_Camera.Position = new Point3D(oP_Camera.Position.X, oP_Camera.Position.Y, 4000);
                         oP_Camera.LookDirection = new Vector3D(-oP_Camera.Position.X, -oP_Camera.Position.Y, -4000);
+                        oP_Camera.UpDirection = new Vector3D(0, 1, 0);
                         oP_Camera.Transform = new Transform3DGroup();
                         Trans.Yaw = 0;
                         Trans.Pitch = 0;
@@ -355,6 +362,7 @@ namespace KinematicViewer
                     {
                         oO_Camera.Position = new Point3D(oO_Camera.Position.X, oO_Camera.Position.Y, 4000);
                         oO_Camera.LookDirection = new Vector3D(-oO_Camera.Position.X, -oO_Camera.Position.Y, -4000);
+                        oO_Camera.UpDirection = new Vector3D(0, 1, 0);
                         OrthoWidth = 3000;
                         oO_Camera.Width = OrthoWidth;
                         oO_Camera.Transform = new Transform3DGroup();
@@ -365,6 +373,7 @@ namespace KinematicViewer
             }
             oP_Camera_CoordSystem.Position = new Point3D(oP_Camera_CoordSystem.Position.X, oP_Camera_CoordSystem.Position.Y, 2000);
             oP_Camera_CoordSystem.LookDirection = new Vector3D(-oP_Camera_CoordSystem.Position.X, -oP_Camera_CoordSystem.Position.Y, -2000);
+            oP_Camera_CoordSystem.UpDirection = new Vector3D(0, 1, 0);
             oP_Camera_CoordSystem.Transform = new Transform3DGroup();
             Trans_CSS.Yaw = 0;
             Trans_CSS.Pitch = 0;
@@ -492,13 +501,13 @@ namespace KinematicViewer
 
         public void viewFront()
         {
+            reloadCameraPositionDefault();
             resetCam();
-            //reloadCameraPositionDefault();
         }
 
         public void viewBack()
         {
-            //reloadCameraPositionDefault();
+            reloadCameraPositionDefault();
             resetCam();
             //540 entspr. 180°
             if (MyCam == Cam.Perspective)
@@ -512,7 +521,7 @@ namespace KinematicViewer
 
         public void viewRight()
         {
-            //reloadCameraPositionDefault();
+            reloadCameraPositionDefault();
             resetCam();
             //270 entspr. 90°
             if (MyCam == Cam.Perspective)
@@ -526,7 +535,7 @@ namespace KinematicViewer
 
         public void viewLeft()
         {
-            //reloadCameraPositionDefault();
+            reloadCameraPositionDefault();
             resetCam();
             //270 entspr. 90°
             if (MyCam == Cam.Perspective)
@@ -540,7 +549,7 @@ namespace KinematicViewer
 
         public void viewTop()
         {
-            //reloadCameraPositionDefault();
+            reloadCameraPositionDefault();
             resetCam();
             //270 entspr. 90°
             if (MyCam == Cam.Perspective)
@@ -554,7 +563,7 @@ namespace KinematicViewer
 
         public void viewBottom()
         {
-            //reloadCameraPositionDefault();
+            reloadCameraPositionDefault();
             resetCam();
             //270 entspr. 90°
             if (MyCam == Cam.Perspective)
@@ -583,9 +592,9 @@ namespace KinematicViewer
             get { return _cCam; }
             set
             {
-                _cCam = value;
+                _cCam = value; 
+                reloadCameraPositionDefault();
                 resetCam();
-                //reloadCameraPositionDefault();
             }
         }
     }
