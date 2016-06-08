@@ -38,6 +38,7 @@ namespace MainUI
         private Drive _oDriveDoor;
 
         private LineOfAction _oLineOfAction;
+        private LineOfAction _oLineOfAction2;
 
         private Vector3D _oVAxisOfRotation;
 
@@ -277,6 +278,7 @@ namespace MainUI
                 MvpControl.AddPassiveElement(_oDriveLeft);
                 MvpControl.AddPassiveElement(_oDriveRight);
                 MvpControl.AddActiveElement(_oTail);
+                createLineOfAction();
 
                 createStaticElementsTailgate();
             }
@@ -289,11 +291,12 @@ namespace MainUI
 
                 MvpControl.AddPassiveElement(_oDriveDoor);
                 MvpControl.AddActiveElement(_oDoor);
+                createLineOfAction();
 
                 createStaticElementsSideDoor();
             }
 
-            createLineOfAction();
+            
 
             //Dem MainGrid den focus übergeben
             MvpControl.FocusToViewport(sender, e);
@@ -650,8 +653,18 @@ namespace MainUI
 
         private void createLineOfAction()
         {
-            _oLineOfAction = new LineOfAction(AxisPoints[0], AxisPoints[2], AxisPoints[3], AxisOfRotation);
-            MvpControl.AddLineOfActionElement(_oLineOfAction);
+            if(_bTailgate)
+            {
+                _oLineOfAction = new LineOfAction(AxisPoints[0], AxisPoints[2], AxisPoints[3], AxisOfRotation);
+                _oLineOfAction2 = new LineOfAction(AxisPoints[0], AxisPoints[4], AxisPoints[5], AxisOfRotation);
+                MvpControl.AddLineOfActionElement(_oLineOfAction);
+                MvpControl.AddLineOfActionElement(_oLineOfAction2);
+            }
+            else
+            {
+                _oLineOfAction = new LineOfAction(AxisPoints[0], AxisPoints[2], AxisPoints[3], AxisOfRotation);
+                MvpControl.AddLineOfActionElement(_oLineOfAction);
+            }
         }
 
         //private SolidColorBrush getTransparentBrush()

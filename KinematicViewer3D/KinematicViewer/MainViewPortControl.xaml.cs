@@ -405,6 +405,9 @@ namespace KinematicViewer
             ElementsStaticMaxAngle.Clear();
             UpdateStaticMaxAngleGroup();
 
+            ElementsLineOfAction.Clear();
+            UpdateLineOfActionGroup();
+
             Guide = null;
         }
 
@@ -476,7 +479,9 @@ namespace KinematicViewer
                 return;
 
             Guide.Move(groupActive, per);
+            Guide.Move(groupLineOfAction, per);
             UpdatePassiveGroup();
+            UpdateLineOfActionGroup();
           
         }
 
