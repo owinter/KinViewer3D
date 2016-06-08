@@ -35,6 +35,7 @@ namespace MainUI
 
         private Drive _oDriveLeft;
         private Drive _oDriveRight;
+        private Drive _oDriveDoor;
 
         private LineOfAction _oLineOfAction;
 
@@ -45,6 +46,8 @@ namespace MainUI
 
         private MainViewPortControl _oMvpControl;
         private CoordSystemSmall _oCssControl;
+
+        private bool _bTailgate = true;
 
 
         //Benutzereingaben der Koordinaten zwischen denen eine 3D Linie erzeugt wird
@@ -70,7 +73,11 @@ namespace MainUI
             MvpControl.setTextBlock(statusPane);
             MainUIViewport3D.Content = MvpControl;
 
-            AxisOfRotation = new Vector3D(0, 0, 1);
+
+            if (_bTailgate)
+                AxisOfRotation = new Vector3D(0, 0, 1);
+            else
+                AxisOfRotation = new Vector3D(-13.94, -399.21, -20.94);
 
             create_Button.IsEnabled = false;
             slider_open_ObjectAngle.IsEnabled = false;
@@ -164,48 +171,51 @@ namespace MainUI
         private void add_Button_Click(object sender, RoutedEventArgs e)
         {
             convertUserInput();
-            generateReflectedDrive();
+
+            if(_bTailgate)
+                generateReflectedDrive();
+
             fill_TextBox();
             create_Button.IsEnabled = true;
-            
         }
 
 
         private void create_Button_Click(object sender, RoutedEventArgs e)
         {
-            
-            
             slider_open_ObjectAngle.Value = 0.0;
             MvpControl.resetModelTransformation();
             MvpControl.clearModel();
 
             MvpControl.ModelThickness = ModelThickness;
 
-            //_oDoor = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), this.slider_Model_Thickness.Value);
-            _oTail = new Tailgate(AxisPoints[0], AxisPoints[1], this.slider_Model_Thickness.Value);
-            
-            
-            
-            _oDriveLeft = new Drive(AxisPoints[2], AxisPoints[3]);
-            _oDriveRight = new Drive(AxisPoints[4], AxisPoints[5]);
+            if(_bTailgate)
+            {
+                _oTail = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value);
+                _oDriveLeft = new Drive(AxisPoints[2], AxisPoints[3]);
+                _oDriveRight = new Drive(AxisPoints[4], AxisPoints[5]);
 
-            //_oLineOfAction = new LineOfAction(AxisPoints[0], AxisPoints[2], AxisPoints[3], axisOfRotation)
+                MvpControl.Guide = _oTail;
 
-            MvpControl.Guide = _oTail;
-            //MvpControl.Guide = _oDoor;
+                MvpControl.AddPassiveElement(_oDriveLeft);
+                MvpControl.AddPassiveElement(_oDriveRight);
+                MvpControl.AddActiveElement(_oTail);
 
-            MvpControl.AddPassiveElement(_oDriveLeft);
-            MvpControl.AddPassiveElement(_oDriveRight);
-            MvpControl.AddActiveElement(_oTail);
+                createStaticElementsTailgate();
+            }
+            else
+            {
+                _oDoor = new SideDoor(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value);
+                _oDriveDoor = new Drive(AxisPoints[2], AxisPoints[3]);
 
-            createStaticElementsTailgate();
+                MvpControl.Guide = _oDoor;
 
-            //createStaticElementsSideDoor();
-            //MvpControl.AddActiveElement(_oDoor);
+                MvpControl.AddPassiveElement(_oDriveDoor);
+                MvpControl.AddActiveElement(_oDoor);
 
+                createStaticElementsSideDoor();
+            }
 
-
-            // trans.resetModelTransformation(groupDriveVisual);
+            createLineOfAction();
 
             //Dem MainGrid den focus übergeben
             MvpControl.FocusToViewport(sender, e);
@@ -243,8 +253,10 @@ namespace MainUI
             MvpControl.Move(e.NewValue/100);
 
             //Anzeige des Öffnungswinkel in TextBlock in [°]
-            OpenAngleDegree.Text = Math.Round(_oTail.CurValue, 2).ToString();
-           //OpenAngleDegree.Text = Math.Round(_oDoor.CurValue, 2).ToString();
+            if(_bTailgate)
+                OpenAngleDegree.Text = Math.Round(_oTail.CurValue, 2).ToString();
+            else
+                OpenAngleDegree.Text = Math.Round(_oDoor.CurValue, 2).ToString();
         }
 
         //Objekttransformation zurücksetzen
@@ -272,6 +284,7 @@ namespace MainUI
             double x4, y4, z4;
             */
             
+            
             try
             {
                 /*
@@ -295,21 +308,43 @@ namespace MainUI
                 y4 = Convert.ToDouble(value_Y4.Text);
                 z4 = Convert.ToDouble(value_Z4.Text);*/
 
-                x1 = 0;
-                y1 = 0;
-                z1 = 0;
+                if(_bTailgate)
+                {
+                    x1 = 0;
+                    y1 = 0;
+                    z1 = 0;
 
-                x2 = 500;
-                y2 = -850;
-                z2 = 0;
+                    x2 = 500;
+                    y2 = -850;
+                    z2 = 0;
 
-                x3 = 44.69;
-                y3 = -129.16;
-                z3 = 550.57;
+                    x3 = 44.69;
+                    y3 = -129.16;
+                    z3 = 550.57;
 
-                x4 = 393.56;
-                y4 = -448.26;
-                z4 = 626.20;
+                    x4 = 393.56;
+                    y4 = -448.26;
+                    z4 = 626.20;
+                }
+                else
+                {
+                    x1 = 1460;
+                    y1 = 780;
+                    z1 = 930;
+
+                    x2 = 2565;
+                    y2 = 1125;
+                    z2 = 875;
+
+                    x3 = 1515.0;
+                    y3 = 497.0;
+                    z3 = 910.0;
+
+                    x4 = 1920.0;
+                    y4 = 505.0;
+                    z4 = 875.0;
+                }
+                
 
 
                 Point3D p1 = new Point3D(x1, y1, z1);
@@ -356,7 +391,9 @@ namespace MainUI
                                         + value_Y4.Text + ", "
                                         + value_Z4.Text + ") \n");*/
             //listBox1.Items.Add(checkBox1);
-            listBox1.Items.Add("Objekt: " + "\n"
+            if(_bTailgate)
+            {
+                listBox1.Items.Add("Objekt: " + "\n"
                                 + "P1(" + x1 + ", "
                                         + y1 + ", "
                                         + z1 + ")  \n"
@@ -374,12 +411,36 @@ namespace MainUI
                                         + z4 + ") \n"
                                 + "\n"
                                 + "Antrieb2: " + "\n"
-                                + "P5(" + AxisPoints[4].X.ToString() + ", " 
+                                + "P5(" + AxisPoints[4].X.ToString() + ", "
                                         + AxisPoints[4].Y.ToString() + ", "
                                         + AxisPoints[4].Z.ToString() + ") \n"
                                 + "P6(" + AxisPoints[5].X.ToString() + ", "
                                         + AxisPoints[5].Y.ToString() + ", "
                                         + AxisPoints[5].Z.ToString() + ") \n");
+            }
+
+            else
+            {
+                listBox1.Items.Add("Objekt: " + "\n"
+                                + "P1(" + x1 + ", "
+                                        + y1 + ", "
+                                        + z1 + ")  \n"
+                                + "P2(" + x2 + ", "
+                                        + y2 + ", "
+                                        + z2 + ") \n"
+                                + "Elementbreite in mm: " + ModelThickness + "\n"
+                                + "\n"
+                                + "Antrieb1: " + "\n"
+                                + "P3(" + x3 + ", "
+                                        + y3 + ", "
+                                        + z3 + ") \n"
+                                + "P4(" + x4 + ", "
+                                        + y4 + ", "
+                                        + z4 + ") \n"
+                                + "\n");
+                                
+            }
+            
 
         }
 
@@ -400,7 +461,12 @@ namespace MainUI
         {
             MvpControl.RemoveAllStaticElementsMin();
             MvpControl.RemoveAllStaticElementsMax();
-            createStaticElementsTailgate();
+
+            if (_bTailgate)
+                createStaticElementsTailgate();
+            else
+                createStaticElementsSideDoor();
+
             MvpControl.ShowStaticElementMin();
             MvpControl.ShowStaticElementMax();
         }
@@ -410,6 +476,19 @@ namespace MainUI
             MvpControl.RemoveAllStaticElementsMin();
             MvpControl.RemoveAllStaticElementsMax();
         }
+
+        private void toolBox_LineOn_Click(object sender, RoutedEventArgs e)
+        {
+            MvpControl.RemoveAllLineOfActionElements();
+            createLineOfAction();
+            
+        }
+
+        private void toolBox_LineOff_Click(object sender, RoutedEventArgs e)
+        {
+            MvpControl.RemoveAllLineOfActionElements();
+        }
+
 
         private void toolBox_ZoomOut_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -426,17 +505,7 @@ namespace MainUI
         {
             MvpControl.viewBackSide();
         }
-
-        private void toolBox_LineOn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void toolBox_LineOff_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+        
         private void toolBox_Right_Button_Click(object sender, RoutedEventArgs e)
         {
             MvpControl.viewRightSide();
@@ -475,8 +544,8 @@ namespace MainUI
         private void createStaticElementsTailgate()
         {
             
-            _oTailMinAngle = new Tailgate(AxisPoints[0], AxisPoints[1], slider_Model_Thickness.Value, getTransparentMaterial());
-            _oTailMaxAngle = new Tailgate(AxisPoints[0], AxisPoints[1], slider_Model_Thickness.Value, getTransparentMaterial());
+            _oTailMinAngle = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, getTransparentMaterial());
+            _oTailMaxAngle = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, getTransparentMaterial());
 
             //_oTailMinAngle.Material = new DiffuseMaterial(getTransparentBrush());
             //_oTailMaxAngle.Material = new DiffuseMaterial(getTransparentBrush());
@@ -490,8 +559,8 @@ namespace MainUI
 
         private void createStaticElementsSideDoor()
         {
-            _oDoorMinAngle = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), slider_Model_Thickness.Value, getTransparentMaterial());
-            _oDoorMaxAngle = new SideDoor(AxisPoints[0], AxisPoints[1], new Vector3D(0, 1, 0), slider_Model_Thickness.Value, getTransparentMaterial());
+            _oDoorMinAngle = new SideDoor(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, getTransparentMaterial());
+            _oDoorMaxAngle = new SideDoor(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, getTransparentMaterial());
 
 
             MvpControl.AddStaticElementMinAngle(_oDoorMinAngle);
@@ -499,6 +568,12 @@ namespace MainUI
 
             MvpControl.ShowStaticElementMin();
             MvpControl.ShowStaticElementMax();
+        }
+
+        private void createLineOfAction()
+        {
+            _oLineOfAction = new LineOfAction(AxisPoints[0], AxisPoints[2], AxisPoints[3], AxisOfRotation);
+            MvpControl.AddLineOfActionElement(_oLineOfAction);
         }
 
         //private SolidColorBrush getTransparentBrush()

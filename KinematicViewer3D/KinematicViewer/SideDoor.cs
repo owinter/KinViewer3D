@@ -8,13 +8,14 @@ namespace KinematicViewer
 {
     public class SideDoor : GeometricalElement, IGuide
     {
-        private const double OFFSET = 130.0;
+        private const double OFFSET = 200.0;
         private const double DOORDEPTH = 200.0;
         private const double DOORHEIGHTBODY = 750.0;
         private const double DOORHEIGHTWINDOW = 450;
         private const double DOORHEIGHT = 1200.0;
-
         private const double DOORWIDTH = 1200;
+
+        private Vector3D _vY = new Vector3D(0, 1, 0);
 
         private double _dCurVal;
 
@@ -34,28 +35,35 @@ namespace KinematicViewer
         private Vector3D _oVAxisToHandE1;
 
         private Material _oAxisMaterial;
+        private double length;
 
         public SideDoor(Point3D axisPoint, Point3D latch, Vector3D axisOfRotation, double modelThickness, Material mat = null)
             :base(mat)
         {
-            //AxisOfRotation = axisOfRotation;
-            //AxisOfRotation = new Vector3D(0, 0, 1);
-            AxisOfRotation = new Vector3D(13.94, 399.21, 20.94);
+            AxisOfRotation = axisOfRotation;
+            //AxisOfRotation.Normalize();
+            length = axisOfRotation.Length;
+            
+            //AxisOfRotation = new Vector3D(13.94, 399.21, 20.94);
             AxisOfRotation = TransformationUtilities.ScaleVector(AxisOfRotation, 1);
             
 
             AxisPoint = axisPoint;
-            PointLatch = latch;
-            MaxValue = 100.5;
+            LatchPoint = latch;
+            MaxValue = 80.0;
 
             ModelThickness = modelThickness;
 
-            VAxisToHandE1 = PointLatch - AxisPoint;
+            VAxisToHandE1 = LatchPoint - AxisPoint;
+            VAxisToHandE1 = TransformationUtilities.ScaleVector(VAxisToHandE1, 1);
 
             CoordsBodyPart = makeCoordsBodyPart();
             CoordsWindowPart = makeCoordsWindowPart();
 
-            AxisMaterial = new DiffuseMaterial(Brushes.Red);
+            if (mat == null)
+                AxisMaterial = new DiffuseMaterial(Brushes.Red);
+            if (mat != null)
+                AxisMaterial = mat;
         }
 
         public Vector3D AxisOfRotation
@@ -82,7 +90,7 @@ namespace KinematicViewer
             set { _dMaxOpen = value; }
         }
 
-        public Point3D PointLatch
+        public Point3D LatchPoint
         {
             get { return _oPointLatch; }
             private set { _oPointLatch = value; }
@@ -125,29 +133,31 @@ namespace KinematicViewer
 
             //Seitentüre
             //Oberer Part
-            //for (int i = 0; i <= CoordsWindowPart.Count - 2; i++)
-            //{
-            //    Res.AddRange(new Sphere(CoordsWindowPart[i], ModelThickness, Brushes.Cyan).GetGeometryModel(guide));
-            //    Res.AddRange(new Cuboid(CoordsWindowPart[i], CoordsWindowPart[i + 1], ModelThickness).GetGeometryModel(guide));
-            //}
-
+            for (int i = 0; i <= CoordsWindowPart.Count - 2; i++)
+            {
+                Res.AddRange(new Sphere(CoordsWindowPart[i], ModelThickness, Material).GetGeometryModel(guide));
+                Res.AddRange(new Cuboid(CoordsWindowPart[i], CoordsWindowPart[i + 1], ModelThickness, Material).GetGeometryModel(guide));
+            }
 
             //Karossierie Part
             for (int i = 0; i <= CoordsBodyPart.Count - 2; i++)
             {
                 Res.AddRange(new Sphere(CoordsBodyPart[i], ModelThickness, Material).GetGeometryModel(guide));
-                Res.AddRange(new Cuboid(CoordsBodyPart[i], CoordsBodyPart[i + 1], ModelThickness).GetGeometryModel(guide));
+                Res.AddRange(new Cuboid(CoordsBodyPart[i], CoordsBodyPart[i + 1], ModelThickness, Material).GetGeometryModel(guide));
             }
 
             Res.AddRange(new Sphere(CoordsBodyPart[3], ModelThickness, Material).GetGeometryModel(guide));
-            Res.AddRange(new Cuboid(CoordsBodyPart[3], CoordsBodyPart[0], ModelThickness).GetGeometryModel(guide));
+            Res.AddRange(new Cuboid(CoordsBodyPart[3], CoordsBodyPart[0], ModelThickness, Material).GetGeometryModel(guide));
 
             //Handle
-            Res.AddRange(new Sphere(PointLatch, 50, AxisMaterial).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(LatchPoint, 50, AxisMaterial).GetGeometryModel(guide));
 
             //Drehachse
-            Point3D p1 = AxisPoint + AxisOfRotation * DOORWIDTH * 1 / 2;
-            Point3D p2 = AxisPoint - AxisOfRotation * DOORWIDTH * 1 / 2;
+            //Point3D p1 = AxisPoint + AxisOfRotation * DOORWIDTH * 1 / 2;
+            //Point3D p2 = AxisPoint - AxisOfRotation * DOORWIDTH * 1 / 2;
+            Point3D p1 = AxisPoint + AxisOfRotation * length /2;
+            Point3D p2 = AxisPoint - AxisOfRotation * length /2;
+
             //Point3D p1 = AxisPoint + TransformationUtilities.ScaleVector(AxisOfRotation, DOORHEIGHT * 0.5);
             //Point3D p2 = AxisPoint - TransformationUtilities.ScaleVector(AxisOfRotation, DOORHEIGHT * 0.5);
 
@@ -163,21 +173,15 @@ namespace KinematicViewer
         {
             List<Point3D> points = new List<Point3D>();
 
-            Vector3D vAxisE2 = Vector3D.CrossProduct(VAxisToHandE1, new Vector3D(0, 0, 1));
-            //vAxisE2.Normalize();
+            Point3D pUpR = LatchPoint + (new Vector3D(VAxisToHandE1.X, 0, VAxisToHandE1.Z) * OFFSET) + (_vY * OFFSET);
+            Point3D pUpL = pUpR - (new Vector3D(VAxisToHandE1.X, 0, VAxisToHandE1.Z) * DOORWIDTH);
+            Point3D pDownL = pUpL - (_vY * DOORHEIGHTBODY);
+            Point3D pDownR = pDownL + (new Vector3D(VAxisToHandE1.X, 0, VAxisToHandE1.Z) * DOORWIDTH);
 
-            Point3D p0 = AxisPoint + vAxisE2;
-            Point3D p1 = p0 + VAxisToHandE1;
-            Point3D p2 = p1 - vAxisE2;
-            Point3D p3 = p2 - VAxisToHandE1;
-
-            Vector3D vN = Vector3D.CrossProduct(vAxisE2, VAxisToHandE1);
-            vN.Normalize();
-
-            points.Add(p0);
-            points.Add(p1);
-            points.Add(p2);
-            points.Add(p3);
+            points.Add(pUpR);
+            points.Add(pUpL);
+            points.Add(pDownL);
+            points.Add(pDownR); 
 
             return points;
         }
@@ -186,9 +190,16 @@ namespace KinematicViewer
         private List<Point3D> makeCoordsWindowPart()
         {
             List<Point3D> points = new List<Point3D>();
-           
 
-         
+            Point3D pDownR = LatchPoint + (new Vector3D(VAxisToHandE1.X, 0, VAxisToHandE1.Z) * OFFSET) + (_vY * OFFSET);
+            Point3D pDownL = pDownR - (new Vector3D(VAxisToHandE1.X, 0, VAxisToHandE1.Z) * DOORWIDTH);
+            Point3D pUpR = pDownR + _vY * DOORHEIGHTWINDOW;
+            Point3D pUpL = pUpR - (new Vector3D(VAxisToHandE1.X, 0, VAxisToHandE1.Z) * DOORWIDTH / 2);
+
+            points.Add(pDownR);
+            points.Add(pUpR);
+            points.Add(pUpL);
+            points.Add(pDownL);
 
             return points;
         }
@@ -221,6 +232,18 @@ namespace KinematicViewer
         {
             InitiateMove(per);
             Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupActive);
+        }
+
+        public void MoveMinAngle(Model3DGroup groupStaticMinAngle, double per = 0)
+        {
+            InitiateMove(per);
+            Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupStaticMinAngle);
+        }
+
+        public void MoveMaxAngle(Model3DGroup groupStaticMaxAngle, double per = 1)
+        {
+            InitiateMove(per);
+            Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupStaticMaxAngle);
         }
     }
 }

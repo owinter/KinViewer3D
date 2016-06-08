@@ -31,10 +31,10 @@ namespace KinematicViewer
 
         private Material _oAxisMaterial;
 
-        public Tailgate(Point3D axisPoint, Point3D latch, double modelThickness, Material mat = null)
+        public Tailgate(Point3D axisPoint, Point3D latch, Vector3D axisOfRotation, double modelThickness, Material mat = null)
             :base(mat)
         {
-            AxisOfRotation = new Vector3D(0, 0, 1);
+            AxisOfRotation = axisOfRotation;
 
             AxisPoint = axisPoint;
             PointLatch = latch;

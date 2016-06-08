@@ -25,8 +25,8 @@ namespace KinematicViewer
             AxisPoint = axisPoint;
             AttachmentPointBody = attachmentPointBody;
             AttachmentPointDoor = attachmentPointDoor;
-            //AxisOfRotation = axisOfRotation;
-            AxisOfRotation = new Vector3D(0, 0, 1);
+            AxisOfRotation = axisOfRotation;
+            //AxisOfRotation = new Vector3D(0, 0, 1);
             LineOfActionMaterial = new DiffuseMaterial(Brushes.Red);
 
         }
