@@ -6,7 +6,7 @@ namespace KinematicViewer
     public class Cylinder : GeometricalElement
     {
         //Standard Wert der Seitenanzahl an Rechtecken
-        public const int STANDARD_NUM_SIDES = 128;
+        public const int STANDARD_NUM_SIDES = 64;
 
         //aktuell genutzte Seitenanzahl
         private int _iSides;

@@ -19,7 +19,7 @@ namespace KinematicViewer
         {
             Center = center;
             Radius = diameter / 2;
-            Slices = 32;
+            Slices = 16;
             Stacks = 16;
         }
 
