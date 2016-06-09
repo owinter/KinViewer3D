@@ -21,11 +21,11 @@ namespace KinematicViewer
         private Point3D _oPerpendicular;
 
         private Vector3D _oVAxisOfRotation;
-        private Vector3D _oVDrive;
+       // private Vector3D _oVDrive;
         private Material _oLineOfActionMaterial;
 
         private List<Point3D> _oLCoordsLinesOfAction;
-        
+        private Point3D startP;
 
         
 
@@ -39,11 +39,11 @@ namespace KinematicViewer
             AxisOfRotation = axisOfRotation;
             //AxisOfRotation = new Vector3D(0, 0, 1);
 
+            //Vector3D vDrive = AttachmentPointBody - AttachmentPointDoor;
+
             LineOfActionMaterial = new DiffuseMaterial(Brushes.Red);
-
-         
-
-
+            
+    
         }
 
         public Point3D AxisPoint
@@ -55,7 +55,7 @@ namespace KinematicViewer
         public Point3D AttachmentPointBody
         {
             get { return _oAttachmentPointBody; }
-            set { _oAttachmentPointBody = value; }
+            private set { _oAttachmentPointBody = value; }
         }
 
         public Vector3D AxisOfRotation
@@ -92,14 +92,16 @@ namespace KinematicViewer
         {
             List<GeometryModel3D> Res = new List<GeometryModel3D>();
 
-            Point3D attPointDoor = guide.MovePoint(AttachmentPointDoor);
-            CoordsLinesOfAction = makeCoordsLinesOfAction(attPointDoor);
+            Point3D attPointDoorUpdated = guide.MovePoint(AttachmentPointDoor);
+            
 
-            for (int i = 0; i <= CoordsLinesOfAction.Count-2; i+=2)
+            CoordsLinesOfAction = makeCoordsLinesOfAction(attPointDoorUpdated);
+
+
+            for (int i = 0; i <= CoordsLinesOfAction.Count - 2; i += 2)
             {
                 Res.AddRange(new Cylinder(CoordsLinesOfAction[i], CoordsLinesOfAction[i + 1], RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
             }
-
 
             return Res.ToArray();
         }
@@ -109,14 +111,16 @@ namespace KinematicViewer
             List<Point3D> points = new List<Point3D>();
 
             Point3D startPoint = AttachmentPointBody;
-            Vector3D vDriveUpdated = - (endPoint - AttachmentPointBody);
-            vDriveUpdated = TransformationUtilities.ScaleVector(vDriveUpdated, 1); 
-
+            
+            Vector3D vDriveUpdated =  (startPoint - endPoint);
+            vDriveUpdated.Normalize();
+            //vDriveUpdated = TransformationUtilities.ScaleVector(vDriveUpdated, 1); 
+            
             for(int i=0; i < ELEMENTS; i++ )
             {
                 points.Add(startPoint);
                 points.Add(startPoint + vDriveUpdated * ELEMENTLENGTH);
-                startPoint = (startPoint + (vDriveUpdated * ELEMENTLENGTH) + (vDriveUpdated * OFFSET));
+                startPoint = (startPoint + (vDriveUpdated * ELEMENTLENGTH) + (vDriveUpdated * OFFSET));   
             }
 
             return points;

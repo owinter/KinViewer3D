@@ -62,6 +62,7 @@
     <Compile Include="SideDoor.cs" />
     <Compile Include="Sphere.cs" />
     <Compile Include="Tailgate.cs" />
+    <Compile Include="TrackPoint.cs" />
     <Compile Include="Transformation.cs" />
     <Compile Include="ViewportCamera.cs" />
     <Compile Include="TransformationUtilities.cs" />

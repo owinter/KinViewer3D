@@ -40,6 +40,9 @@ namespace MainUI
         private LineOfAction _oLineOfAction;
         private LineOfAction _oLineOfAction2;
 
+        private TrackPoint _oTrackPoint;
+        private TrackPoint _oTrackPoint2;
+
         private Vector3D _oVAxisOfRotation;
 
         //Model- Dicke (Durchmesser der Linien)
@@ -281,6 +284,8 @@ namespace MainUI
                 createLineOfAction();
 
                 createStaticElementsTailgate();
+                createTrackPoint();
+                
             }
             else
             {
@@ -294,6 +299,7 @@ namespace MainUI
                 createLineOfAction();
 
                 createStaticElementsSideDoor();
+                createTrackPoint();
             }
 
             
@@ -561,8 +567,7 @@ namespace MainUI
         private void toolBox_LineOn_Click(object sender, RoutedEventArgs e)
         {
             MvpControl.RemoveAllLineOfActionElements();
-            createLineOfAction();
-            
+            createLineOfAction(); 
         }
 
         private void toolBox_LineOff_Click(object sender, RoutedEventArgs e)
@@ -570,11 +575,20 @@ namespace MainUI
             MvpControl.RemoveAllLineOfActionElements();
         }
 
+        private void toolBox_TrackPointOn_Click(object sender, RoutedEventArgs e)
+        {
+            MvpControl.RemoveAllTrackPointElements();
+            createTrackPoint();
+        }
+
+        private void toolBox_TrackPointOff_Click(object sender, RoutedEventArgs e)
+        {
+            MvpControl.RemoveAllTrackPointElements();
+        }
 
         private void toolBox_ZoomOut_Button_Click(object sender, RoutedEventArgs e)
         {
             MvpControl.zoomOut();
-           
         }
 
         private void toolBox_Front_Button_Click(object sender, RoutedEventArgs e)
@@ -659,11 +673,31 @@ namespace MainUI
                 _oLineOfAction2 = new LineOfAction(AxisPoints[0], AxisPoints[4], AxisPoints[5], AxisOfRotation);
                 MvpControl.AddLineOfActionElement(_oLineOfAction);
                 MvpControl.AddLineOfActionElement(_oLineOfAction2);
+                //MvpControl.AddPassiveElement(_oLineOfAction);
+                //MvpControl.AddPassiveElement(_oLineOfAction2);
             }
             else
             {
                 _oLineOfAction = new LineOfAction(AxisPoints[0], AxisPoints[2], AxisPoints[3], AxisOfRotation);
                 MvpControl.AddLineOfActionElement(_oLineOfAction);
+                //MvpControl.AddPassiveElement(_oLineOfAction);
+
+            }
+        }
+
+        private void createTrackPoint()
+        {
+            if (_bTailgate)
+            {
+                _oTrackPoint = new TrackPoint(AxisPoints[3]);
+                _oTrackPoint2 = new TrackPoint(AxisPoints[5]);
+                MvpControl.AddTrackPointElement(_oTrackPoint);
+                MvpControl.AddTrackPointElement(_oTrackPoint2);
+            }
+            else
+            {
+                _oTrackPoint = new TrackPoint(AxisPoints[3]);
+                MvpControl.AddTrackPointElement(_oTrackPoint);
             }
         }
 

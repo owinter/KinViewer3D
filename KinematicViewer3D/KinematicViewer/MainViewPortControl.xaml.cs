@@ -36,6 +36,7 @@ namespace KinematicViewer
         public List<GeometricalElement> ElementsStaticMinAngle;
         public List<GeometricalElement> ElementsStaticMaxAngle;
         public List<GeometricalElement> ElementsLineOfAction;
+        public List<GeometricalElement> ElementsTrackPoint;
 
         //Mittelpunkt des Objektes
         private Point3D _oMPoint;
@@ -65,6 +66,7 @@ namespace KinematicViewer
             ElementsStaticMinAngle = new List<GeometricalElement>();
             ElementsStaticMaxAngle = new List<GeometricalElement>();
             ElementsLineOfAction = new List<GeometricalElement>();
+            ElementsTrackPoint = new List<GeometricalElement>();
 
 
             CanMoveCamera = true;
@@ -133,6 +135,12 @@ namespace KinematicViewer
             UpdateLineOfActionGroup();
         }
 
+        public void AddTrackPointElement(GeometricalElement elem)
+        {
+            ElementsTrackPoint.Add(elem);
+            UpdateTrackPointGroup();
+        }
+
         public void RemoveActiveElement(GeometricalElement elem)
         {
             ElementsActive.Remove(elem);
@@ -161,6 +169,12 @@ namespace KinematicViewer
         {
             ElementsLineOfAction.Remove(elem);
             UpdateLineOfActionGroup();
+        }
+
+        public void RemoveTrackPointElement(GeometricalElement elem)
+        {
+            ElementsTrackPoint.Remove(elem);
+            UpdateTrackPointGroup();
         }
 
         private void UpdateActiveGroup()
@@ -208,6 +222,15 @@ namespace KinematicViewer
                     groupLineOfAction.Children.Add(m);
         }
 
+        private void UpdateTrackPointGroup()
+        {
+            groupTrackPoint.Children.Clear();
+
+            foreach (GeometricalElement e in ElementsTrackPoint)
+                foreach (Model3D m in e.GetGeometryModel(Guide))
+                    groupTrackPoint.Children.Add(m);
+        }
+
         public void ShowStaticElementMin()
         {
             Guide.Move(groupStaticMinAngle, 0);
@@ -236,6 +259,12 @@ namespace KinematicViewer
         {
             ElementsLineOfAction.Clear();
             UpdateLineOfActionGroup();
+        }
+
+        public void RemoveAllTrackPointElements()
+        {
+            ElementsTrackPoint.Clear();
+            UpdateTrackPointGroup();
         }
      
         //MAUSSTEUERUNG im MainGrid
@@ -408,6 +437,9 @@ namespace KinematicViewer
             ElementsLineOfAction.Clear();
             UpdateLineOfActionGroup();
 
+            ElementsTrackPoint.Clear();
+            UpdateTrackPointGroup();
+
             Guide = null;
         }
 
@@ -479,10 +511,10 @@ namespace KinematicViewer
                 return;
 
             Guide.Move(groupActive, per);
-            Guide.Move(groupLineOfAction, per);
+
             UpdatePassiveGroup();
             UpdateLineOfActionGroup();
-          
+            UpdateTrackPointGroup();
         }
 
         public void resetModelTransformation()

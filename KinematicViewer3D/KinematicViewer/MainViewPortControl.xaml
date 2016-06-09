@@ -116,6 +116,13 @@
                 </ModelVisual3D.Content>
             </ModelVisual3D>
 
+            <!-- Visual Model Group for Track Points-->
+            <ModelVisual3D x:Name="trackPointVisual">
+                <ModelVisual3D.Content>
+                    <Model3DGroup x:Name="groupTrackPoint" />
+                </ModelVisual3D.Content>
+            </ModelVisual3D>
+
             <!-- Visual Model Group for Drives-->
             <ModelVisual3D x:Name="passiveVisual">
                 <ModelVisual3D.Content>

@@ -488,6 +488,16 @@
                                                 Content="Line Off"
                                                 Click="toolBox_LineOff_Click">
                                         </Button>
+                                        <Button x:Name="toolBox_TrackPointOn"
+                                                Margin="10,0,0,0"
+                                                Content="Point On"
+                                                Click="toolBox_TrackPointOn_Click">
+                                        </Button>
+                                        <Button x:Name="toolBox_TrackPointOff"
+                                                Margin="10,0,0,0"
+                                                Content="Point Off"
+                                                Click="toolBox_TrackPointOff_Click">
+                                        </Button>
                                     </ToolBar>
                                 </ToolBarTray>
 
