@@ -92,6 +92,10 @@ namespace MainUI
             create_Button.IsEnabled = false;
             slider_open_ObjectAngle.IsEnabled = false;
             slider_open_ObjectAngle_TextBox.IsEnabled = false;
+
+            //toolBox_TransparentMinMax.IsChecked = false;
+            //toolBox_TrackPoint.IsChecked = false;
+            //toolBox_LineOfAction.IsChecked = false;
         }
 
 
@@ -285,7 +289,7 @@ namespace MainUI
 
                 createStaticElementsTailgate();
                 createTrackPoint();
-                
+
             }
             else
             {
@@ -524,11 +528,8 @@ namespace MainUI
                                 + "P4(" + X4 + ", "
                                         + Y4 + ", "
                                         + Z4 + ") \n"
-                                + "\n");
-                                
+                                + "\n");                   
             }
-            
-
         }
 
 
@@ -544,47 +545,59 @@ namespace MainUI
         }
 
 
-        private void toolBox_MinMaxOn_Click(object sender, RoutedEventArgs e)
+        private void toolBox_TransparentMinMax_Click(object sender, RoutedEventArgs e)
         {
-            MvpControl.RemoveAllStaticElementsMin();
-            MvpControl.RemoveAllStaticElementsMax();
+            if(toolBox_TransparentMinMax.IsChecked == false)
+            {
+                MvpControl.RemoveAllStaticElementsMin();
+                MvpControl.RemoveAllStaticElementsMax();
+            }
 
-            if (_bTailgate)
-                createStaticElementsTailgate();
+            else 
+            {
+                if (_bTailgate)
+                {
+                    createStaticElementsTailgate();
+                    MvpControl.ShowStaticElementMin();
+                    MvpControl.ShowStaticElementMax();
+                }
+                else
+                {
+                    createStaticElementsSideDoor();
+                    MvpControl.ShowStaticElementMin();
+                    MvpControl.ShowStaticElementMax();
+                }       
+            }  
+        }
+
+
+        private void toolBox_LineOfAction_Click(object sender, RoutedEventArgs e)
+        {
+            if(toolBox_LineOfAction.IsChecked == false)
+            {
+                MvpControl.RemoveAllLineOfActionElements();
+            }
+
             else
-                createStaticElementsSideDoor();
-
-            MvpControl.ShowStaticElementMin();
-            MvpControl.ShowStaticElementMax();
+            {
+                MvpControl.RemoveAllLineOfActionElements();
+                createLineOfAction();
+            }  
         }
 
-        private void toolBox_MinMaxOff_Click(object sender, RoutedEventArgs e)
+
+        private void toolBox_TrackPoint_Click(object sender, RoutedEventArgs e)
         {
-            MvpControl.RemoveAllStaticElementsMin();
-            MvpControl.RemoveAllStaticElementsMax();
+            if(toolBox_TrackPoint.IsChecked == false)
+            {
+                MvpControl.RemoveAllTrackPointElements();
+            }
+            else
+            {
+                createTrackPoint();
+            }  
         }
 
-        private void toolBox_LineOn_Click(object sender, RoutedEventArgs e)
-        {
-            MvpControl.RemoveAllLineOfActionElements();
-            createLineOfAction(); 
-        }
-
-        private void toolBox_LineOff_Click(object sender, RoutedEventArgs e)
-        {
-            MvpControl.RemoveAllLineOfActionElements();
-        }
-
-        private void toolBox_TrackPointOn_Click(object sender, RoutedEventArgs e)
-        {
-            MvpControl.RemoveAllTrackPointElements();
-            createTrackPoint();
-        }
-
-        private void toolBox_TrackPointOff_Click(object sender, RoutedEventArgs e)
-        {
-            MvpControl.RemoveAllTrackPointElements();
-        }
 
         private void toolBox_ZoomOut_Button_Click(object sender, RoutedEventArgs e)
         {

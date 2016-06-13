@@ -411,55 +411,56 @@
                                         <Button x:Name="toolBox_Reset_Button"
                                                 Margin="5,0,0,0"
                                                 Click="toolBox_Reset_Button_Click">
-                                            <Image Source="Image\Icons\16x16\ZoomReset.png" />
+                                            <Image Source="Image\Icons\16x16\Reset_16x16.png" />
+                                            
                                         </Button>
                                         <Button x:Name="toolBox_ZoomIn_Button"
                                                 Margin="5,0,0,0"
                                                 Click="toolBox_ZoomIn_Button_Click">
-                                            <Image Source="Image\Icons\16x16\Zoomplus.png" />
+                                            <Image Source="Image\Icons\16x16\ZoomIn_16x16.png" />
                                         </Button>
 
                                         <Button x:Name="toolBox_ZoomOut_Button"
                                                 Margin="5,0,0,0"
                                                 Click="toolBox_ZoomOut_Button_Click">
-                                            <Image Source="Image\Icons\16x16\ZoomSubtract.png" />
+                                            <Image Source="Image\Icons\16x16\ZoomOut_16x16.png" />
                                         </Button>
                                         <Separator Margin="5,0,0,0" />
 
                                         <Button x:Name="toolBox_Front_Button"
                                                 Margin="5,0,0,0"
                                                 Click="toolBox_Front_Button_Click">
-                                            <Image Source="Image\Icons\16x16\front_side.png" />
+                                            <Image Source="Image\Icons\16x16\cube_front_16x16.png" />
                                         </Button>
 
                                         <Button x:Name="toolBox_Back_Button"
                                                 Margin="5,0,0,0"
                                                 Click="toolBox_Back_Button_Click">
-                                            <Image Source="Image\Icons\16x16\back_side.png" />
+                                            <Image Source="Image\Icons\16x16\cube_back_16x16.png" />
                                         </Button>
 
                                         <Button x:Name="toolBox_Right_Button"
                                                 Margin="5,0,0,0"
                                                 Click="toolBox_Right_Button_Click">
-                                            <Image Source="Image\Icons\16x16\right_side.png" />
+                                            <Image Source="Image\Icons\16x16\cube_right_16x16.png" />
                                         </Button>
 
                                         <Button x:Name="toolBox_Left_Button"
                                                 Margin="5,0,0,0"
                                                 Click="toolBox_Left_Button_Click">
-                                            <Image Source="Image\Icons\16x16\left_side.png" />
+                                            <Image Source="Image\Icons\16x16\cube_left_16x16.png" />
                                         </Button>
 
                                         <Button x:Name="toolBox_Top_Button"
                                                 Margin="5,0,0,0"
                                                 Click="toolBox_Top_Button_Click">
-                                            <Image Source="Image\Icons\16x16\top_side.png" />
+                                            <Image Source="Image\Icons\16x16\cube_top_16x16.png" />
                                         </Button>
 
                                         <Button x:Name="toolBox_Bottom_Button"
                                                 Margin="5,0,0,0"
                                                 Click="toolBox_Bottom_Button_Click">
-                                            <Image Source="Image\Icons\16x16\bottom_side.png" />
+                                            <Image Source="Image\Icons\16x16\cube_bottom_16x16.png" />
                                         </Button>
 
                                         <Separator Margin="5,0,0,0" />
@@ -468,36 +469,24 @@
                                                    Width="155"
                                                    Background="WhiteSmoke" />
                                         <Separator Margin="5,0,0,0" />
-                                        <Button x:Name="toolBox_MinMaxOn"
+                                        <ToggleButton x:Name="toolBox_TransparentMinMax"
                                                 Margin="5,0,0,0"
-                                        	    Content="MinMax On" 
-                                        	    Click="toolBox_MinMaxOn_Click">
-                                        </Button>
-                                        <Button x:Name="toolBox_MinMaxOff"
+                                        	    Click="toolBox_TransparentMinMax_Click" 
+                                                IsChecked="True">
+                                            <Image Source="Image\Icons\16x16\transparent_16x16.png" />
+                                        </ToggleButton>
+                                        <ToggleButton x:Name="toolBox_LineOfAction"
                                                 Margin="10,0,0,0"
-                                        	    Content="MinMax Off" 
-                                        	    Click="toolBox_MinMaxOff_Click">
-                                        </Button>
-                                        <Button x:Name="toolBox_LineOn"
+                                                Click="toolBox_LineOfAction_Click" 
+                                                IsChecked="True">
+                                            <Image Source="Image\Icons\16x16\perpendicular_16x16.png" />
+                                        </ToggleButton>
+                                        <ToggleButton x:Name="toolBox_TrackPoint"
                                                 Margin="10,0,0,0"
-                                                Content="Line On"
-                                                Click="toolBox_LineOn_Click">
-                                        </Button>
-                                        <Button x:Name="toolBox_LineOff"
-                                                Margin="10,0,0,0"
-                                                Content="Line Off"
-                                                Click="toolBox_LineOff_Click">
-                                        </Button>
-                                        <Button x:Name="toolBox_TrackPointOn"
-                                                Margin="10,0,0,0"
-                                                Content="Point On"
-                                                Click="toolBox_TrackPointOn_Click">
-                                        </Button>
-                                        <Button x:Name="toolBox_TrackPointOff"
-                                                Margin="10,0,0,0"
-                                                Content="Point Off"
-                                                Click="toolBox_TrackPointOff_Click">
-                                        </Button>
+                                                Content="TrackPoint"
+                                                Click="toolBox_TrackPoint_Click" 
+                                                IsChecked="True">
+                                        </ToggleButton>
                                     </ToolBar>
                                 </ToolBarTray>
 

@@ -129,6 +129,34 @@
     <Resource Include="Image\Icons\24x24\ZoomReset.PNG" />
     <Resource Include="Image\Icons\24x24\ZoomSubtract.PNG" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Icons\24x22_24\cube_back_24x24.png" />
+    <Resource Include="Image\Icons\24x22_24\cube_bottom_24x24.png" />
+    <Resource Include="Image\Icons\24x22_24\cube_front_24x24.png" />
+    <Resource Include="Image\Icons\24x22_24\cube_left_24x24.png" />
+    <Resource Include="Image\Icons\24x22_24\cube_right_24x24.png" />
+    <Resource Include="Image\Icons\24x22_24\cube_top_24x24.png" />
+    <Resource Include="Image\Icons\24x22_24\Reset_24x22.png" />
+    <Resource Include="Image\Icons\24x22_24\transparent_24x24.png" />
+    <Resource Include="Image\Icons\24x22_24\ZoomIn_24x22.png" />
+    <Resource Include="Image\Icons\24x22_24\ZoomOut_24x22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Icons\24x22_24\perpendicular_24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Icons\16x16\cube_back_16x16.png" />
+    <Resource Include="Image\Icons\16x16\cube_bottom_16x16.png" />
+    <Resource Include="Image\Icons\16x16\cube_front_16x16.png" />
+    <Resource Include="Image\Icons\16x16\cube_left_16x16.png" />
+    <Resource Include="Image\Icons\16x16\cube_right_16x16.png" />
+    <Resource Include="Image\Icons\16x16\cube_top_16x16.png" />
+    <Resource Include="Image\Icons\16x16\perpendicular_16x16.png" />
+    <Resource Include="Image\Icons\16x16\Reset_16x16.png" />
+    <Resource Include="Image\Icons\16x16\transparent_16x16.png" />
+    <Resource Include="Image\Icons\16x16\ZoomIn_16x16.png" />
+    <Resource Include="Image\Icons\16x16\ZoomOut_16x16.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
