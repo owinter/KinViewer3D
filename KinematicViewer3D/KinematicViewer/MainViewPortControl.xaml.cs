@@ -41,6 +41,12 @@ namespace KinematicViewer
         //Mittelpunkt des Objektes
         private Point3D _oMPoint;
 
+        //Rotationsachse
+        private Vector3D _oVAxisOfRotation;
+
+        //RotationsDrehpunkt
+        private Point3D _oPAxisPoint;
+
         //Breite bzw Dicke des jeweiligen Models
         private double _dModelThickness;
 
@@ -99,6 +105,20 @@ namespace KinematicViewer
             get { return _oGuide; }
             set { _oGuide = value; }
         }
+
+        public Vector3D AxisOfRotation
+        {
+            get { return _oVAxisOfRotation; }
+            set { _oVAxisOfRotation = value; }
+        }
+
+        public Point3D AxisPoint
+        {
+            get { return _oPAxisPoint; }
+            set { _oPAxisPoint = value; }
+        }
+
+
 
         //Übergeben eines TextBlockObjectes an das ViewportControl
         public void setTextBlock(TextBlock statusPane)
@@ -231,15 +251,17 @@ namespace KinematicViewer
                     groupTrackPoint.Children.Add(m);
         }
 
-        public void ShowStaticElementMin()
+        public void ShowStaticElementMin(double per)
         {
-            Guide.Move(groupStaticMinAngle, 0);
+            //Guide.Move(groupStaticMinAngle, 0);
+            Transformation.rotateModel(per, AxisOfRotation, AxisPoint, groupStaticMinAngle);
             UpdateStaticMinAngleGroup();      
         }
 
-        public void ShowStaticElementMax()
+        public void ShowStaticElementMax(double per)
         {
-            Guide.Move(groupStaticMaxAngle, 1);
+            //Guide.Move(groupStaticMaxAngle, 1);
+            Transformation.rotateModel(per, AxisOfRotation, AxisPoint, groupStaticMinAngle);
             UpdateStaticMaxAngleGroup();
         }
 
@@ -515,6 +537,7 @@ namespace KinematicViewer
             UpdatePassiveGroup();
             UpdateLineOfActionGroup();
             UpdateTrackPointGroup();
+          
         }
 
         public void resetModelTransformation()

@@ -19,8 +19,9 @@ namespace KinematicViewer
 
         private double _dCurVal;
 
-        //maximaler Öffnungswinkel
+        //maximaler / minimaler Öffnungswinkel
         private double _dMaxOpen;
+        private double _dMinOpen;
 
         private Vector3D _oAxisOfRotation;
         private Point3D _oAxisPoint;
@@ -51,6 +52,7 @@ namespace KinematicViewer
             AxisPoint = axisPoint;
             LatchPoint = latch;
             MaxValue = 80.0;
+            MinValue = 0.0;
 
             ModelThickness = modelThickness;
 
@@ -88,6 +90,12 @@ namespace KinematicViewer
         {
             get { return _dMaxOpen; }
             set { _dMaxOpen = value; }
+        }
+
+        public double MinValue
+        {
+            get { return _dMinOpen; }
+            set { _dMinOpen = value; }
         }
 
         public Point3D LatchPoint
@@ -234,16 +242,16 @@ namespace KinematicViewer
             Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupActive);
         }
 
-        public void MoveMinAngle(Model3DGroup groupStaticMinAngle, double per = 0)
-        {
-            InitiateMove(per);
-            Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupStaticMinAngle);
-        }
+        //public void MoveMinAngle(Model3DGroup groupStaticMinAngle, double per = 0)
+        //{
+        //    InitiateMove(per);
+        //    Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupStaticMinAngle);
+        //}
 
-        public void MoveMaxAngle(Model3DGroup groupStaticMaxAngle, double per = 1)
-        {
-            InitiateMove(per);
-            Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupStaticMaxAngle);
-        }
+        //public void MoveMaxAngle(Model3DGroup groupStaticMaxAngle, double per = 1)
+        //{
+        //    InitiateMove(per);
+        //    Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupStaticMaxAngle);
+        //}
     }
 }

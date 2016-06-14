@@ -81,7 +81,9 @@ namespace MainUI
 
 
             if (_bTailgate)
+            {
                 AxisOfRotation = new Vector3D(0, 0, 1);
+            }
             else
             {
                 AxisOfRotation = new Vector3D(-13.94, -399.21, -20.94);
@@ -276,6 +278,8 @@ namespace MainUI
 
             if(_bTailgate)
             {
+                MvpControl.AxisOfRotation = AxisOfRotation;
+                MvpControl.AxisPoint = AxisPoints[0];
                 _oTail = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value);
                 _oDriveLeft = new Drive(AxisPoints[2], AxisPoints[3]);
                 _oDriveRight = new Drive(AxisPoints[4], AxisPoints[5]);
@@ -286,13 +290,15 @@ namespace MainUI
                 MvpControl.AddPassiveElement(_oDriveRight);
                 MvpControl.AddActiveElement(_oTail);
                 createLineOfAction();
-
-                createStaticElementsTailgate();
                 createTrackPoint();
+                createStaticElementsTailgate();
+                
 
             }
             else
             {
+                MvpControl.AxisOfRotation = AxisOfRotation;
+                MvpControl.AxisPoint = AxisPoints[0];
                 _oDoor = new SideDoor(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value);
                 _oDriveDoor = new Drive(AxisPoints[2], AxisPoints[3]);
 
@@ -301,9 +307,9 @@ namespace MainUI
                 MvpControl.AddPassiveElement(_oDriveDoor);
                 MvpControl.AddActiveElement(_oDoor);
                 createLineOfAction();
-
-                createStaticElementsSideDoor();
                 createTrackPoint();
+                createStaticElementsSideDoor();
+                
             }
 
             
@@ -558,14 +564,10 @@ namespace MainUI
                 if (_bTailgate)
                 {
                     createStaticElementsTailgate();
-                    MvpControl.ShowStaticElementMin();
-                    MvpControl.ShowStaticElementMax();
                 }
                 else
                 {
                     createStaticElementsSideDoor();
-                    MvpControl.ShowStaticElementMin();
-                    MvpControl.ShowStaticElementMax();
                 }       
             }  
         }
@@ -651,18 +653,14 @@ namespace MainUI
 
         private void createStaticElementsTailgate()
         {
-            
             _oTailMinAngle = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, getTransparentMaterial());
             _oTailMaxAngle = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, getTransparentMaterial());
-
-            //_oTailMinAngle.Material = new DiffuseMaterial(getTransparentBrush());
-            //_oTailMaxAngle.Material = new DiffuseMaterial(getTransparentBrush());
 
             MvpControl.AddStaticElementMinAngle(_oTailMinAngle);
             MvpControl.AddStaticElementMaxAngle(_oTailMaxAngle);
 
-            MvpControl.ShowStaticElementMin();
-            MvpControl.ShowStaticElementMax();
+            MvpControl.ShowStaticElementMin(_oTailMinAngle.MinValue);
+            MvpControl.ShowStaticElementMax(_oTailMaxAngle.MaxValue);
         }
 
         private void createStaticElementsSideDoor()
@@ -670,12 +668,11 @@ namespace MainUI
             _oDoorMinAngle = new SideDoor(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, getTransparentMaterial());
             _oDoorMaxAngle = new SideDoor(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, getTransparentMaterial());
 
-
             MvpControl.AddStaticElementMinAngle(_oDoorMinAngle);
             MvpControl.AddStaticElementMaxAngle(_oDoorMaxAngle);
 
-            MvpControl.ShowStaticElementMin();
-            MvpControl.ShowStaticElementMax();
+            MvpControl.ShowStaticElementMin(_oDoorMinAngle.MinValue);
+            MvpControl.ShowStaticElementMax(_oDoorMaxAngle.MaxValue);
         }
 
         private void createLineOfAction()
