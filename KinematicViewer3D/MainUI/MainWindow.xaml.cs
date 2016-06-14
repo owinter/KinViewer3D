@@ -87,6 +87,7 @@ namespace MainUI
             else
             {
                 AxisOfRotation = new Vector3D(-13.94, -399.21, -20.94);
+                
                 //AxisOfRotation = new Vector3D(13.94, 399.21, 20.94);
             }
                 
@@ -425,21 +426,39 @@ namespace MainUI
                 }
                 else
                 {
-                    X1 = 1460;
-                    Y1 = 780;
-                    Z1 = 930;
+                    //OriginalKoordinaten
+                    //X1 = 1460;
+                    //Y1 = 780;
+                    //Z1 = 930;
 
-                    X2 = 2565;
-                    Y2 = 1125;
-                    Z2 = 875;
+                    //X2 = 2565;
+                    //Y2 = 1125;
+                    //Z2 = 875;
 
-                    X3 = 1515.0;
-                    Y3 = 497.0;
-                    Z3 = 910.0;
+                    //X3 = 1515.0;
+                    //Y3 = 497.0;
+                    //Z3 = 910.0;
 
-                    X4 = 1920.0;
-                    Y4 = 505.0;
-                    Z4 = 875.0;
+                    //X4 = 1920.0;
+                    //Y4 = 505.0;
+                    //Z4 = 875.0;
+
+                    //Auf den Urpsrung umgerechnete Koordinaten
+                    X1 = 1460 - 1460;
+                    Y1 = 780 - 780;
+                    Z1 = 930 - 930;
+
+                    X2 = 2565 - 1460;
+                    Y2 = 1125 - 780;
+                    Z2 = 875 - 930;
+
+                    X3 = 1515.0 - 1460;
+                    Y3 = 497.0 - 780;
+                    Z3 = 910.0 - 930;
+
+                    X4 = 1920.0 - 1460;
+                    Y4 = 505.0 - 780;
+                    Z4 = 875.0 - 930;
                 }
                 
 
@@ -699,14 +718,14 @@ namespace MainUI
         {
             if (_bTailgate)
             {
-                _oTrackPoint = new TrackPoint(AxisPoints[3]);
-                _oTrackPoint2 = new TrackPoint(AxisPoints[5]);
+                _oTrackPoint = new TrackPoint(AxisPoints[3], AxisOfRotation);
+                _oTrackPoint2 = new TrackPoint(AxisPoints[5], AxisOfRotation);
                 MvpControl.AddTrackPointElement(_oTrackPoint);
                 MvpControl.AddTrackPointElement(_oTrackPoint2);
             }
             else
             {
-                _oTrackPoint = new TrackPoint(AxisPoints[3]);
+                _oTrackPoint = new TrackPoint(AxisPoints[3], AxisOfRotation);
                 MvpControl.AddTrackPointElement(_oTrackPoint);
             }
         }
