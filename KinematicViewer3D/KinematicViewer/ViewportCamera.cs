@@ -23,6 +23,7 @@ namespace KinematicViewer
         //perspektivische Camera
         public PerspectiveCamera oP_Camera;
 
+        //Camera für kleines Koordinatensystem
         public PerspectiveCamera oP_Camera_CoordSystem;
 
         //orthografische Camera
@@ -165,8 +166,6 @@ namespace KinematicViewer
             oP_Camera_CoordSystem.NearPlaneDistance = 0.125;
             Trans_CSS.Reset(oP_Camera_CoordSystem);
             ViewportCoordSystem.Camera = oP_Camera_CoordSystem;
-
-            // updatePositionCamera_CoordinateSystem(coord_CameraR, coord_CameraPhi, coord_CameraTheta);
         }
 
         //Position der Camera updaten

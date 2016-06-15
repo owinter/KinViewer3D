@@ -141,35 +141,35 @@ namespace KinematicViewer
             //Oberer Part
             for (int i = 0; i <= CoordsUpTail.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(CoordsUpTail[i], ModelThickness, Material).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsUpTail[i], ModelThickness, 16, 16, Material).GetGeometryModel(guide));
                 Res.AddRange(new Cuboid(CoordsUpTail[i], CoordsUpTail[i + 1], ModelThickness, Material).GetGeometryModel(guide));
             }
 
             //Unterer Part
             for (int i = 0; i <= CoordsDownTail.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(CoordsDownTail[i], ModelThickness, Material).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsDownTail[i], ModelThickness, 16, 16, Material).GetGeometryModel(guide));
                 Res.AddRange(new Cuboid(CoordsDownTail[i], CoordsDownTail[i + 1], ModelThickness, Material).GetGeometryModel(guide));
             }
 
             //Mittlerer Part
             for (int i = 0; i <= CoordsMidTail.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(CoordsMidTail[i], ModelThickness, Material).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsMidTail[i], ModelThickness, 16, 16, Material).GetGeometryModel(guide));
                 Res.AddRange(new Cuboid(CoordsMidTail[i], CoordsMidTail[i + 1], ModelThickness, Material).GetGeometryModel(guide));
             }
 
-            Res.AddRange(new Sphere(CoordsMidTail[3], ModelThickness, Material).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(CoordsMidTail[3], ModelThickness, 16, 16, Material).GetGeometryModel(guide));
             Res.AddRange(new Cuboid(CoordsMidTail[3], CoordsMidTail[0], ModelThickness, Material).GetGeometryModel(guide));
 
             //Handle
-            Res.AddRange(new Sphere(PointLatch, 50, AxisMaterial).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(PointLatch, 50, 16, 16, AxisMaterial).GetGeometryModel(guide));
 
             //Drehachse
             Point3D p1 = AxisPoint + AxisOfRotation * TAILWIDTH * 1 / 2;
             Point3D p2 = AxisPoint - AxisOfRotation * TAILWIDTH * 1 / 2;
 
-            Res.AddRange(new Sphere(AxisPoint, 50, AxisMaterial).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(AxisPoint, 50, 16, 16, AxisMaterial).GetGeometryModel(guide));
             Res.AddRange(new Cylinder(p1, p2, 10, AxisMaterial).GetGeometryModel(guide));
 
             return Res.ToArray();

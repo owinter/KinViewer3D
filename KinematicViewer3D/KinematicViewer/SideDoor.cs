@@ -143,22 +143,22 @@ namespace KinematicViewer
             //Oberer Part
             for (int i = 0; i <= CoordsWindowPart.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(CoordsWindowPart[i], ModelThickness, Material).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsWindowPart[i], ModelThickness, 16, 16, Material).GetGeometryModel(guide));
                 Res.AddRange(new Cuboid(CoordsWindowPart[i], CoordsWindowPart[i + 1], ModelThickness, Material).GetGeometryModel(guide));
             }
 
             //Karossierie Part
             for (int i = 0; i <= CoordsBodyPart.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(CoordsBodyPart[i], ModelThickness, Material).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsBodyPart[i], ModelThickness, 16, 16, Material).GetGeometryModel(guide));
                 Res.AddRange(new Cuboid(CoordsBodyPart[i], CoordsBodyPart[i + 1], ModelThickness, Material).GetGeometryModel(guide));
             }
 
-            Res.AddRange(new Sphere(CoordsBodyPart[3], ModelThickness, Material).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(CoordsBodyPart[3], ModelThickness, 16, 16, Material).GetGeometryModel(guide));
             Res.AddRange(new Cuboid(CoordsBodyPart[3], CoordsBodyPart[0], ModelThickness, Material).GetGeometryModel(guide));
 
             //Handle
-            Res.AddRange(new Sphere(LatchPoint, 50, AxisMaterial).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(LatchPoint, 50, 16, 16, AxisMaterial).GetGeometryModel(guide));
 
             //Drehachse
             //Point3D p1 = AxisPoint + AxisOfRotation * DOORWIDTH * 1 / 2;
@@ -169,7 +169,7 @@ namespace KinematicViewer
             //Point3D p1 = AxisPoint + TransformationUtilities.ScaleVector(AxisOfRotation, DOORHEIGHT * 0.5);
             //Point3D p2 = AxisPoint - TransformationUtilities.ScaleVector(AxisOfRotation, DOORHEIGHT * 0.5);
 
-            Res.AddRange(new Sphere(AxisPoint, 50, AxisMaterial).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(AxisPoint, 50, 16, 16, AxisMaterial).GetGeometryModel(guide));
             Res.AddRange(new Cylinder(p1, p2, 10, AxisMaterial).GetGeometryModel(guide));
 
             return Res.ToArray();

@@ -25,12 +25,18 @@ namespace KinematicViewer
         }
 
         //Rotiere einen neuen Punkt um einen bestehenden und eine Achse
-        public static Point3D rotateNewPoint(Vector3D v, double angle, Point3D point)
+        public static Point3D rotateNewPoint(Point3D point, double angle, Vector3D axis)
         {
             Point3D p = new Point3D();
-            RotateTransform3D rotation = new RotateTransform3D(new AxisAngleRotation3D(v, angle));
+            RotateTransform3D rotation = new RotateTransform3D(new AxisAngleRotation3D(axis, angle));
             p = rotation.Transform(point);
             return p;
+        }
+
+        public static Point3D rotateExistingPoint(Point3D point, double angle, Vector3D axis)
+        {
+            RotateTransform3D rotation = new RotateTransform3D(new AxisAngleRotation3D(axis, angle));
+            return rotation.Transform(point);
         }
 
         public static Point3D reflectPoint(Point3D p, Vector3D vR, Vector3D vE2, double d)

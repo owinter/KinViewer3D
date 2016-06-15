@@ -14,13 +14,15 @@ namespace KinematicViewer
         private int _iSlices;
         private int _iStacks;
 
-        public Sphere(Point3D center, double diameter, Material mat = null)
+        public Sphere(Point3D center, double diameter, int slices, int stacks,  Material mat = null)
             :base(mat)
         {
             Center = center;
             Radius = diameter / 2;
-            Slices = 16;
-            Stacks = 16;
+            //Slices = 16;
+            //Stacks = 16;
+            Slices = slices;
+            Stacks = stacks;
         }
 
         /// <summary>
