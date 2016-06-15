@@ -28,9 +28,9 @@ namespace KinematicViewer
             return p;
         }
 
-        public static Point3D rotateExistingPoint(Point3D point, double angle, Vector3D axis)
+        public static Point3D rotateExistingPoint(Point3D point, double angle, Vector3D axis, Point3D RotationCenter)
         {
-            RotateTransform3D rotation = new RotateTransform3D(new AxisAngleRotation3D(axis, angle));
+            RotateTransform3D rotation = new RotateTransform3D(new AxisAngleRotation3D(axis, angle), RotationCenter);
             return rotation.Transform(point);
         }
 

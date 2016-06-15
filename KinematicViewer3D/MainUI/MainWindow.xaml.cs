@@ -72,12 +72,16 @@ namespace MainUI
             if (_bTailgate)
             {
                 AxisOfRotation = new Vector3D(0, 0, 1);
+                AxisOfRotation =  TransformationUtilities.ScaleVector(AxisOfRotation, 1);
+                //AxisOfRotation.Normalize();
             }
             else
             {
-                AxisOfRotation = new Vector3D(-13.94, -399.21, -20.94);
+                //Linke Tür / Fahrertür
+                //AxisOfRotation = new Vector3D(-13.94, -399.21, -20.94);
 
-                //AxisOfRotation = new Vector3D(13.94, 399.21, 20.94);
+                //Rechte Tür / Beifahrertür
+                AxisOfRotation = new Vector3D(13.94, 399.21, 20.94);
             }
 
             create_Button.IsEnabled = false;
@@ -347,20 +351,20 @@ namespace MainUI
         //Koordinateneingabe in 3D Punkte umwandeln
         private void convertUserInput()
         {
-            /*
-            //Benutzereingaben der Koordinaten zwischen denen eine 3D Linie erzeugt wird
-            //Punkt Drehachse
-            double x1, y1, z1;
+            
+            ////Benutzereingaben der Koordinaten zwischen denen eine 3D Linie erzeugt wird
+            ////Punkt Drehachse
+            //double x1, y1, z1;
 
-            //Punkt für Haltegriff ( Handangriffspunkt)
-            double x2, y2, z2;
+            ////Punkt für Haltegriff ( Handangriffspunkt)
+            //double x2, y2, z2;
 
-            //Fester Punkt für Antrieb an Karrosserie
-            double x3, y3, z3;
+            ////Fester Punkt für Antrieb an Karrosserie
+            //double x3, y3, z3;
 
-            //Punkt für Antrieb an Heckklappe
-            double x4, y4, z4;
-            */
+            ////Punkt für Antrieb an Heckklappe
+            //double x4, y4, z4;
+            
 
             try
             {
@@ -684,14 +688,14 @@ namespace MainUI
         {
             if (_bTailgate)
             {
-                _oTrackPoint = new TrackPoint(AxisPoints[3], AxisOfRotation);
-                _oTrackPoint2 = new TrackPoint(AxisPoints[5], AxisOfRotation);
+                _oTrackPoint = new TrackPoint(AxisPoints[0], AxisPoints[3], AxisOfRotation);
+                _oTrackPoint2 = new TrackPoint(AxisPoints[0], AxisPoints[5], AxisOfRotation);
                 MvpControl.AddTrackPointElement(_oTrackPoint);
                 MvpControl.AddTrackPointElement(_oTrackPoint2);
             }
             else
             {
-                _oTrackPoint = new TrackPoint(AxisPoints[3], AxisOfRotation);
+                _oTrackPoint = new TrackPoint(AxisPoints[0], AxisPoints[3], AxisOfRotation);
                 MvpControl.AddTrackPointElement(_oTrackPoint);
             }
         }

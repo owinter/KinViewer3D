@@ -12,11 +12,13 @@ namespace KinematicViewer
         private Vector3D _oVAxisOfRotation;
         private Material _oTrackPointMaterial;
         private Point3D _oStartPoint;
+        private Point3D _oAxisPoint;
         private List<Point3D> _oLCoordsTrackPoint;
 
-        public TrackPoint(Point3D startPoint, Vector3D axisOfRotation, Material mat = null)
+        public TrackPoint(Point3D axisPoint, Point3D startPoint, Vector3D axisOfRotation, Material mat = null)
             : base(mat)
         {
+            AxisPoint = axisPoint;
             StartPoint = startPoint;
             AxisOfRotation = axisOfRotation;
             TrackPointMaterial = new DiffuseMaterial(Brushes.Gray);
@@ -49,6 +51,12 @@ namespace KinematicViewer
             set { _oVAxisOfRotation = value; }
         }
 
+        public Point3D AxisPoint
+        {
+            get { return _oAxisPoint; }
+            set { _oAxisPoint = value; }
+        }
+
         private void createTrackPoints()
         {
             for (int i = 0; i < ELEMENTS; i++)
@@ -73,7 +81,7 @@ namespace KinematicViewer
 
             for (int i = 0; i < ELEMENTS; i++)
             {
-                Point3D tp = TransformationUtilities.rotateExistingPoint(_oStartPoint, openValue, _oVAxisOfRotation);
+                Point3D tp = TransformationUtilities.rotateExistingPoint(_oStartPoint, openValue, _oVAxisOfRotation, AxisPoint);
                 Res.AddRange(new Sphere(tp, RADIUS, 4, 4, TrackPointMaterial).GetGeometryModel(guide));
                 openValue += curOpenVal;
             }

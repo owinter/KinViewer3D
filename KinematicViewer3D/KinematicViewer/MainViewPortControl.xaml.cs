@@ -300,11 +300,21 @@ namespace KinematicViewer
             if (CanMoveCamera)
             {
                 // Wenn Rechte Maustaste "nicht" gedrückt dann passiert auch nichts
-                if (_bMouseDownRight)
+                if (_bMouseDownRight && (!_bMouseDownLeft || !_bMouseDownMiddle))
+                {
                     ViewportCam.orbitCam();
-
-                if (_bMouseDownMiddle)
+                }
+                    
+                if (_bMouseDownMiddle && (!_bMouseDownLeft || !_bMouseDownRight))
+                {
                     ViewportCam.dragCam();
+                }
+
+                if (_bMouseDownLeft )
+                {
+                    ViewportCam.panCam();
+                }
+                    
             }
         }
 
@@ -345,7 +355,7 @@ namespace KinematicViewer
 
         private void MainGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            CanMoveCamera = false;
+            //CanMoveCamera = false;
             _bMouseDownLeft = true;
 
             //Testverfahren für mögliches Hittesting
@@ -383,12 +393,15 @@ namespace KinematicViewer
 
             if (vis == (viewport.FindName("passiveVisual") as ModelVisual3D))
             {
-                changeModelColorRandom(resultMesh);
+                //changeModelColorRandom(resultMesh);
                 return HitTestResultBehavior.Stop;
             }
 
             if (vis == (viewport.FindName("activeVisual") as ModelVisual3D))
             {
+                trans.RotationPoint = AxisPoint;
+                ViewportCam.setCam();
+                
                 changeModelColorRandom(resultMesh);
                 return HitTestResultBehavior.Stop;
             }

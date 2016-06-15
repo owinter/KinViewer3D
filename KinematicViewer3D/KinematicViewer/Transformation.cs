@@ -12,6 +12,7 @@ namespace KinematicViewer
 
         public Transformation()
         {
+            RotationPoint = new Point3D(0, 0, 0);
             Yaw = 0.0;
             Pitch = 0.0;
         }
@@ -70,12 +71,12 @@ namespace KinematicViewer
 
             //Ohne optionalem Parameter wird um den Ursprung (0,0,0) rotiert
             //Mit optionalem Parameter rotationPoint, kann man um den Mittelpunkt eines Objektes rotieren (new RotateTransform3D(r, rotationPoint));
-            transformGroup.Children.Add(new RotateTransform3D(r));
+            transformGroup.Children.Add(new RotateTransform3D(r, RotationPoint));
             r = new QuaternionRotation3D(new Quaternion(-thetaAxis, theta));
 
             //Ohne optionalem Parameter wird um den Ursprung (0,0,0) rotiert
             //Mit optionalem Parameter rotationPoint, kann man um den Mittelpunkt eines Objektes rotieren (new RotateTransform3D(r, rotationPoint));
-            transformGroup.Children.Add(new RotateTransform3D(r));
+            transformGroup.Children.Add(new RotateTransform3D(r, RotationPoint));
         }
 
         public void Drag(ProjectionCamera camera, double dx, double dy)
@@ -86,9 +87,8 @@ namespace KinematicViewer
 
         public void Pan(ProjectionCamera camera, double dx, double dy)
         {
-            //camera.Position = new Point3D(camera.Position.X, camera.Position.Y, camera.Position.Z);
-            camera.LookDirection = new Vector3D(-(camera.Position.X + dx), -(camera.Position.Y + dy), -camera.Position.Z);
-            // camera.UpDirection = new Vector3D(0, 1, 0);
+            camera.LookDirection = new Vector3D((camera.LookDirection.X + dx), (camera.LookDirection.Y + dy), camera.LookDirection.Z);
+            camera.UpDirection = new Vector3D(0, 1, 0);
         }
 
         public void Reset(ProjectionCamera camera)
