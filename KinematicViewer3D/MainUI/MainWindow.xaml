@@ -277,13 +277,21 @@
             </StackPanel>
         </Border>
 
-        <!--RIGHT DOCK PANEL -->
+        <!--RIGHT DOCK PANEL BLANK -->
+        <Border Width="15"
+                Background="LightGray"
+                BorderBrush="Black"
+                BorderThickness="0"
+                DockPanel.Dock="Right">
+        </Border>
+
+        <!--RIGHT DOCK PANEL WITH PROPERTIES --><!--
         <Border Width="200"
                 Background="LightGray"
                 BorderBrush="Black"
                 BorderThickness="0"
                 DockPanel.Dock="Right">
-            <!--RIGHT control top-->
+            --><!--RIGHT control top--><!--
             <StackPanel>
                 <Border Background="LightGray"
                         BorderBrush="Silver"
@@ -296,7 +304,7 @@
                         <Label Margin="0,0,0,250" Content="Weitere Steuerelemente" />
                     </StackPanel>
                 </Border>
-                <!--RIGHT control center-->
+                --><!--RIGHT control center--><!--
                 <Border Background="LightGray"
                         BorderBrush="Silver"
                         Width="170"
@@ -307,7 +315,7 @@
                         <Label Margin="0,0,0,125" Content="Weitere Steuerelemente" />
                     </StackPanel>
                 </Border>
-                <!--RIGHT control bottom-->
+                --><!--RIGHT control bottom--><!--
                 <Border Background="#eee9e9"
                         BorderBrush="Silver"
                         Width="170"
@@ -323,13 +331,13 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <!--HiERHIN COORDSYSTEM SMALL -->
+                        --><!--HiERHIN COORDSYSTEM SMALL --><!--
                         <KinematicViewer:CoordSystemSmall Name="MainUICoordSystemSmall" />
-                        <!---->
+                        --><!----><!--
                     </Grid>
                 </Border>
             </StackPanel>
-        </Border>
+        </Border>-->
 
         <!--BOTTOM DOCK PANEL-->
                         <Border Height="53"
@@ -393,9 +401,10 @@
                         <!--LAST CHILD (where the magic takes place  ;) )-->
                         <!--VIEWER-CONTENT -->
                         <Border BorderBrush="Black"
-                BorderThickness="1"
-                CornerRadius="3,3,3,3"
-                Margin="0,5,0,0">
+                                BorderThickness="1"
+                                CornerRadius="3,3,3,3"
+                                Margin="0,5,0,0">
+
                             <DockPanel>
                                 <ToolBarTray DockPanel.Dock="Top"
                                              Background="#eee9e9"
