@@ -34,7 +34,7 @@ namespace KinematicViewer
         private Material _oAxisMaterial;
 
         public Tailgate(Point3D axisPoint, Point3D latch, Vector3D axisOfRotation, double modelThickness, Material mat = null)
-            :base(mat)
+            : base(mat)
         {
             AxisOfRotation = axisOfRotation;
 
@@ -51,7 +51,7 @@ namespace KinematicViewer
             CoordsUpTail = makeCoordsUpTail();
             CoordsDownTail = makeCoordsDownTail();
 
-            if(mat == null)
+            if (mat == null)
                 AxisMaterial = new DiffuseMaterial(Brushes.Red);
             if (mat != null)
                 AxisMaterial = mat;
@@ -129,13 +129,9 @@ namespace KinematicViewer
             set { _oAxisMaterial = value; }
         }
 
-        
-
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
             List<GeometryModel3D> Res = new List<GeometryModel3D>();
-
-
 
             //Klappe
             //Oberer Part

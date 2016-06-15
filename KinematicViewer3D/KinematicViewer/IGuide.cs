@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Media.Media3D;
+﻿using System.Windows.Media.Media3D;
 
 namespace KinematicViewer
 {
@@ -15,6 +11,7 @@ namespace KinematicViewer
         Point3D MovePoint(Point3D endPoint);
 
         void InitiateMove(double per);
+
         void Move(Model3DGroup groupActive, double per = 0);
     }
 }

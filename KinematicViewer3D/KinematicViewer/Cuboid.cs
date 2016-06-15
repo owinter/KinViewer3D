@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
 namespace KinematicViewer
@@ -130,6 +129,7 @@ namespace KinematicViewer
 
             return points.ToArray();
         }
+
         // Vektor Länge für das zu erstellende Segment
         private Vector3D scaleVector(Vector3D vector, double length)
         {

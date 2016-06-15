@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
@@ -17,8 +14,8 @@ namespace KinematicViewer
         private Point3D _oStartPoint;
         private List<Point3D> _oLCoordsTrackPoint;
 
-        public TrackPoint(Point3D startPoint, Vector3D axisOfRotation,  Material mat = null)
-            :base(mat)
+        public TrackPoint(Point3D startPoint, Vector3D axisOfRotation, Material mat = null)
+            : base(mat)
         {
             StartPoint = startPoint;
             AxisOfRotation = axisOfRotation;
@@ -54,7 +51,7 @@ namespace KinematicViewer
 
         private void createTrackPoints()
         {
-            for( int i = 0; i < ELEMENTS; i++)
+            for (int i = 0; i < ELEMENTS; i++)
             {
                 CoordsTrackPoint.Add(new Point3D(StartPoint.X, StartPoint.Y, StartPoint.Z));
             }
@@ -64,7 +61,7 @@ namespace KinematicViewer
         {
             List<GeometryModel3D> Res = new List<GeometryModel3D>();
             double curOpenVal = guide.CurValue / ELEMENTS;
-            double openValue  = curOpenVal;
+            double openValue = curOpenVal;
 
             //for(int i = 0 ; i < CoordsTrackPoint.Count; i++)
             //{

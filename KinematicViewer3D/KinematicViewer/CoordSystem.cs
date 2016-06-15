@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
@@ -11,12 +8,13 @@ namespace KinematicViewer
     public class CoordSystem
     {
         private ModelVisual3D _oCoordSystem_Visual;
-        
+
         //ModelGroup für das Koordinatensystem
         private Model3DGroup _oCoordSystem_ModelGroup;
 
         //3D KoordinatenSystem Model der jeweiligen farbigen Achsen
         private GeometryModel3D _oAxes_Model_X;
+
         private GeometryModel3D _oAxes_Model_Y;
         private GeometryModel3D _oAxes_Model_Z;
         private GeometryModel3D _oCube_Model;
@@ -32,7 +30,6 @@ namespace KinematicViewer
         //Transformationen für das Koordinatensystem
         private Transformation _oTransCoordSystem;
 
-
         public CoordSystem(Viewport3D viewportCoordSystem)
         {
             _oViewportCoordSystem = viewportCoordSystem;
@@ -46,7 +43,6 @@ namespace KinematicViewer
             buildCoordinateSystem();
         }
 
-
         private List<Light> Lights
         {
             get { return _oLLights; }
@@ -59,7 +55,6 @@ namespace KinematicViewer
             set { _oPCamera_CoordSystem = value; }
         }
 
-     
         private void buildCoordinateSystem()
         {
             DefineCoordinateSystem(out _oAxes_Model_X, out _oAxes_Model_Y, out _oAxes_Model_Z, out _oCube_Model);
@@ -73,7 +68,7 @@ namespace KinematicViewer
             _oViewportCoordSystem.Children.Add(_oCoordSystem_Visual);
         }
 
-        //Definiert die 3 Achsen mit jeweiligen Materialien und Farben 
+        //Definiert die 3 Achsen mit jeweiligen Materialien und Farben
         private void DefineCoordinateSystem(out GeometryModel3D axes_Model_x, out GeometryModel3D axes_Model_y, out GeometryModel3D axes_Model_z, out GeometryModel3D cube_Model)
         {
             // 3 Achsen erstellen.
@@ -110,12 +105,9 @@ namespace KinematicViewer
             cube_Model = new GeometryModel3D(cube_mesh, cube_material);
         }
 
-
         //Erstelle ein dünnes Rechteck zwischen zwei Punkten
         private void AddSegment(MeshGeometry3D mesh, Point3D point1, Point3D point2, Vector3D up, double thickness)
         {
-            
-
             // Vektor zwischen Ursprung und Segment-Endpunkt berechnen
             Vector3D v = point2 - point1;
 
@@ -171,7 +163,6 @@ namespace KinematicViewer
             AddTriangle(mesh, p2pp, p2mm, p2pm);
         }
 
-
         //Fügt die Seiten an das Mesh vom Koordinatensystem
         private void AddTriangle(MeshGeometry3D mesh, Point3D point1, Point3D point2, Point3D point3)
         {
@@ -187,14 +178,12 @@ namespace KinematicViewer
             mesh.TriangleIndices.Add(index);
         }
 
-
         // Vektor Länge für das Koordinatensystem
         private Vector3D ScaleVector(Vector3D vector, double length)
         {
             double scale = length / vector.Length;
             return new Vector3D(vector.X * scale, vector.Y * scale, vector.Z * scale);
         }
-
 
         // Beleuchtung für das Koordinatensystem
         private void DefineLights()

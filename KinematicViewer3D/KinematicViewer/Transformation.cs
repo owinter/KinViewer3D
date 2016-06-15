@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Media.Media3D;
 
@@ -12,7 +9,6 @@ namespace KinematicViewer
         private double _dYaw; // Gieren bzw Schlingern rechts links um y- Achse (Vertikalachse)
         private double _dPitch; // Neigen um die Querachse x- Achse
         private Point3D _oRotationPoint;
-       
 
         public Transformation()
         {
@@ -65,7 +61,6 @@ namespace KinematicViewer
             if (phi < -90) phi = -90;
             if (phi > 90) phi = 90;
 
-            
             Vector3D thetaAxis = new Vector3D(0, 1, 0);
             Vector3D phiAxis = new Vector3D(-1, 0, 0);
 
@@ -93,9 +88,8 @@ namespace KinematicViewer
         {
             //camera.Position = new Point3D(camera.Position.X, camera.Position.Y, camera.Position.Z);
             camera.LookDirection = new Vector3D(-(camera.Position.X + dx), -(camera.Position.Y + dy), -camera.Position.Z);
-           // camera.UpDirection = new Vector3D(0, 1, 0);
+            // camera.UpDirection = new Vector3D(0, 1, 0);
         }
-      
 
         public void Reset(ProjectionCamera camera)
         {
@@ -128,48 +122,39 @@ namespace KinematicViewer
     }
 }
 
-
-
-
-
-
-
-
-
-
 //////////////////////////////////////////////////////////////////////////
 /*
- * 
+ *
  * Beispielhafte Rotation um eine achse mit Quaternionen
- * 
+ *
  * */
- /*
+/*
 void OnRendering(object sender, EventArgs args)
 {
-    // Detach collection from MeshGeometry3D.
-    Point3DCollection points = mesh.Positions;
-    mesh.Positions = null;
-    points.Clear();
+   // Detach collection from MeshGeometry3D.
+   Point3DCollection points = mesh.Positions;
+   mesh.Positions = null;
+   points.Clear();
 
-    // Calculation rotation quaternion.
-    double angle = 360.0 * (stopwatch.Elapsed.TotalSeconds %
-                                    secondsPerCycle) / secondsPerCycle;
-    Quaternion qRotate = new Quaternion(axis, angle);
-    Quaternion qConjugate = qRotate;
-    qConjugate.Conjugate();
+   // Calculation rotation quaternion.
+   double angle = 360.0 * (stopwatch.Elapsed.TotalSeconds %
+                                   secondsPerCycle) / secondsPerCycle;
+   Quaternion qRotate = new Quaternion(axis, angle);
+   Quaternion qConjugate = qRotate;
+   qConjugate.Conjugate();
 
-    // Apply rotation to each point.
-    foreach (Point3D point in pointsCuboid)
-    {
-        Quaternion qPoint = new Quaternion(point.X, point.Y, point.Z, 0);
-        qPoint -= qCenter;
-        Quaternion qRotatedPoint = qRotate * qPoint * qConjugate;
-        qRotatedPoint += qCenter;
-        points.Add(new Point3D(qRotatedPoint.X, qRotatedPoint.Y,
-                                                qRotatedPoint.Z));
-    }
+   // Apply rotation to each point.
+   foreach (Point3D point in pointsCuboid)
+   {
+       Quaternion qPoint = new Quaternion(point.X, point.Y, point.Z, 0);
+       qPoint -= qCenter;
+       Quaternion qRotatedPoint = qRotate * qPoint * qConjugate;
+       qRotatedPoint += qCenter;
+       points.Add(new Point3D(qRotatedPoint.X, qRotatedPoint.Y,
+                                               qRotatedPoint.Z));
+   }
 
-    // Re-attach collections to MeshGeometry3D.
-    mesh.Positions = points;
+   // Re-attach collections to MeshGeometry3D.
+   mesh.Positions = points;
 }
 */

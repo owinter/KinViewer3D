@@ -1,18 +1,9 @@
-﻿using System;
+﻿using KinematicViewer;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using KinematicViewer;
 
 namespace MainUI
 {
@@ -26,6 +17,7 @@ namespace MainUI
 
         //Visuals im Viewport
         private SideDoor _oDoor;
+
         private SideDoor _oDoorMinAngle;
         private SideDoor _oDoorMaxAngle;
 
@@ -53,7 +45,6 @@ namespace MainUI
 
         private bool _bTailgate = true;
 
-
         //Benutzereingaben der Koordinaten zwischen denen eine 3D Linie erzeugt wird
         //Punkt Drehachse
         private double _dX1, _dY1, _dZ1;
@@ -67,7 +58,6 @@ namespace MainUI
         //Punkt für Antrieb an Heckklappe
         private double _dX4, _dY4, _dZ4;
 
-
         public MainWindow()
         {
             InitializeComponent();
@@ -79,7 +69,6 @@ namespace MainUI
             MvpControl.setTextBlock(statusPane);
             MainUIViewport3D.Content = MvpControl;
 
-
             if (_bTailgate)
             {
                 AxisOfRotation = new Vector3D(0, 0, 1);
@@ -87,10 +76,9 @@ namespace MainUI
             else
             {
                 AxisOfRotation = new Vector3D(-13.94, -399.21, -20.94);
-                
+
                 //AxisOfRotation = new Vector3D(13.94, 399.21, 20.94);
             }
-                
 
             create_Button.IsEnabled = false;
             slider_open_ObjectAngle.IsEnabled = false;
@@ -100,7 +88,6 @@ namespace MainUI
             //toolBox_TrackPoint.IsChecked = false;
             //toolBox_LineOfAction.IsChecked = false;
         }
-
 
         public List<Point3D> AxisPoints
         {
@@ -117,7 +104,7 @@ namespace MainUI
         public MainViewPortControl MvpControl
         {
             get { return _oMvpControl; }
-            private set  { _oMvpControl = value; }
+            private set { _oMvpControl = value; }
         }
 
         public CoordSystemSmall CssControl
@@ -204,7 +191,6 @@ namespace MainUI
             set { _dZ4 = value; }
         }
 
-
         //MENUBAR Elemente
         //Start einer perspektivischen Kamera
         private void perspective_Camera_Click(object sender, RoutedEventArgs e)
@@ -243,11 +229,11 @@ namespace MainUI
         //Menubar Anleitung
         private void Manual_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("*  Rechte Maustaste gedrückt halten um die Kamera zu rotieren \n" 
+            MessageBox.Show("*  Rechte Maustaste gedrückt halten um die Kamera zu rotieren \n"
                          + "*  Mausrad für Hinein und HinausZoomen der Kamera \n"
-                         + "*  <- -> Pfeiltasten für links und rechts gieren um Y - Achse herum \n" 
+                         + "*  <- -> Pfeiltasten für links und rechts gieren um Y - Achse herum \n"
                          + "*  oben und unten Pfeiltasten für neigen um die X - Achse herum \n"
-                         +"*  + und - Pfeiltasten für Hinein- und HinausZoomen der Kamera \n");
+                         + "*  + und - Pfeiltasten für Hinein- und HinausZoomen der Kamera \n");
         }
 
         //STEUERUNG Elemente
@@ -261,13 +247,12 @@ namespace MainUI
         {
             convertUserInput();
 
-            if(_bTailgate)
+            if (_bTailgate)
                 generateReflectedDrive();
 
             fill_TextBox();
             create_Button.IsEnabled = true;
         }
-
 
         private void create_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -277,7 +262,7 @@ namespace MainUI
 
             MvpControl.ModelThickness = ModelThickness;
 
-            if(_bTailgate)
+            if (_bTailgate)
             {
                 MvpControl.AxisOfRotation = AxisOfRotation;
                 MvpControl.AxisPoint = AxisPoints[0];
@@ -293,8 +278,6 @@ namespace MainUI
                 createLineOfAction();
                 createTrackPoint();
                 createStaticElementsTailgate();
-                
-
             }
             else
             {
@@ -310,10 +293,7 @@ namespace MainUI
                 createLineOfAction();
                 createTrackPoint();
                 createStaticElementsSideDoor();
-                
             }
-
-            
 
             //Dem MainGrid den focus übergeben
             MvpControl.FocusToViewport(sender, e);
@@ -333,12 +313,12 @@ namespace MainUI
             create_Button.IsEnabled = false;
         }
 
-        //Löscht alle visuellen 3D Modele 
+        //Löscht alle visuellen 3D Modele
         private void clear_Button_Click(object sender, RoutedEventArgs e)
         {
             MvpControl.resetModelTransformation();
             MvpControl.clearModel();
-            
+
             slider_open_ObjectAngle.Value = 0.0;
             slider_open_ObjectAngle.IsEnabled = false;
             slider_open_ObjectAngle_TextBox.IsEnabled = false;
@@ -348,10 +328,10 @@ namespace MainUI
         //Ändert den Öffnungswinkel des Objektes anhand des Sliders
         private void change_open_ObjectAngle(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            MvpControl.Move(e.NewValue/100);
+            MvpControl.Move(e.NewValue / 100);
 
             //Anzeige des Öffnungswinkel in TextBlock in [°]
-            if(_bTailgate)
+            if (_bTailgate)
                 OpenAngleDegree.Text = Math.Round(_oTail.CurValue, 2).ToString();
             else
                 OpenAngleDegree.Text = Math.Round(_oDoor.CurValue, 2).ToString();
@@ -381,8 +361,7 @@ namespace MainUI
             //Punkt für Antrieb an Heckklappe
             double x4, y4, z4;
             */
-            
-            
+
             try
             {
                 /*
@@ -406,7 +385,7 @@ namespace MainUI
                 y4 = Convert.ToDouble(value_Y4.Text);
                 z4 = Convert.ToDouble(value_Z4.Text);*/
 
-                if(_bTailgate)
+                if (_bTailgate)
                 {
                     X1 = 0;
                     Y1 = 0;
@@ -460,8 +439,6 @@ namespace MainUI
                     Y4 = 505.0 - 780;
                     Z4 = 875.0 - 930;
                 }
-                
-
 
                 Point3D p1 = new Point3D(X1, Y1, Z1);
                 Point3D p2 = new Point3D(X2, Y2, Z2);
@@ -478,10 +455,8 @@ namespace MainUI
                 MessageBox.Show("Zuerst Koordinaten eingeben, dann erst Viewport benutzen. \n"
                     + "Zum Fortfahren den Button Clear betätigen und daraufhin die Koordinaten eingeben."
                     + ex.Message, "Exception Sample", MessageBoxButton.OK, MessageBoxImage.Warning);
-
             }
         }
-
 
         //Erstellen des TextBox Inhaltes
         private void fill_TextBox()
@@ -489,7 +464,7 @@ namespace MainUI
             //CheckBox checkBox1 = new CheckBox();
             //checkBox1.Focusable = true;
             //checkBox1.Content
-            /* 
+            /*
             listBox1.Items.Add( "Objekt: " + "\n"
                                 + "P1(" + value_X1.Text + ", "
                                         + value_Y1.Text + ", "
@@ -507,7 +482,7 @@ namespace MainUI
                                         + value_Y4.Text + ", "
                                         + value_Z4.Text + ") \n");*/
             //listBox1.Items.Add(checkBox1);
-            if(_bTailgate)
+            if (_bTailgate)
             {
                 listBox1.Items.Add("Objekt: " + "\n"
                                 + "P1(" + X1 + ", "
@@ -534,7 +509,6 @@ namespace MainUI
                                         + AxisPoints[5].Y.ToString() + ", "
                                         + AxisPoints[5].Z.ToString() + ") \n");
             }
-
             else
             {
                 listBox1.Items.Add("Objekt: " + "\n"
@@ -553,10 +527,9 @@ namespace MainUI
                                 + "P4(" + X4 + ", "
                                         + Y4 + ", "
                                         + Z4 + ") \n"
-                                + "\n");                   
+                                + "\n");
             }
         }
-
 
         //ToolBar Buttons
         private void toolBox_Reset_Button_Click(object sender, RoutedEventArgs e)
@@ -569,16 +542,14 @@ namespace MainUI
             MvpControl.zoomIn();
         }
 
-
         private void toolBox_TransparentMinMax_Click(object sender, RoutedEventArgs e)
         {
-            if(toolBox_TransparentMinMax.IsChecked == false)
+            if (toolBox_TransparentMinMax.IsChecked == false)
             {
                 MvpControl.RemoveAllStaticElementsMin();
                 MvpControl.RemoveAllStaticElementsMax();
             }
-
-            else 
+            else
             {
                 if (_bTailgate)
                 {
@@ -587,38 +558,34 @@ namespace MainUI
                 else
                 {
                     createStaticElementsSideDoor();
-                }       
-            }  
+                }
+            }
         }
-
 
         private void toolBox_LineOfAction_Click(object sender, RoutedEventArgs e)
         {
-            if(toolBox_LineOfAction.IsChecked == false)
+            if (toolBox_LineOfAction.IsChecked == false)
             {
                 MvpControl.RemoveAllLineOfActionElements();
             }
-
             else
             {
                 MvpControl.RemoveAllLineOfActionElements();
                 createLineOfAction();
-            }  
+            }
         }
-
 
         private void toolBox_TrackPoint_Click(object sender, RoutedEventArgs e)
         {
-            if(toolBox_TrackPoint.IsChecked == false)
+            if (toolBox_TrackPoint.IsChecked == false)
             {
                 MvpControl.RemoveAllTrackPointElements();
             }
             else
             {
                 createTrackPoint();
-            }  
+            }
         }
-
 
         private void toolBox_ZoomOut_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -634,7 +601,7 @@ namespace MainUI
         {
             MvpControl.viewBackSide();
         }
-        
+
         private void toolBox_Right_Button_Click(object sender, RoutedEventArgs e)
         {
             MvpControl.viewRightSide();
@@ -659,7 +626,7 @@ namespace MainUI
         {
             Vector3D vR = new Vector3D(AxisPoints[0].X, AxisPoints[0].Y, AxisPoints[0].Z);
             Vector3D vAxisToHandE1 = AxisPoints[1] - AxisPoints[0];
-            Vector3D vE2 = Vector3D.CrossProduct(vAxisToHandE1, new Vector3D(0,1,0));
+            Vector3D vE2 = Vector3D.CrossProduct(vAxisToHandE1, new Vector3D(0, 1, 0));
 
             double d = Vector3D.DotProduct(vR, vE2);
 
@@ -696,7 +663,7 @@ namespace MainUI
 
         private void createLineOfAction()
         {
-            if(_bTailgate)
+            if (_bTailgate)
             {
                 _oLineOfAction = new LineOfAction(AxisPoints[0], AxisPoints[2], AxisPoints[3], AxisOfRotation);
                 _oLineOfAction2 = new LineOfAction(AxisPoints[0], AxisPoints[4], AxisPoints[5], AxisOfRotation);
@@ -710,7 +677,6 @@ namespace MainUI
                 _oLineOfAction = new LineOfAction(AxisPoints[0], AxisPoints[2], AxisPoints[3], AxisOfRotation);
                 MvpControl.AddLineOfActionElement(_oLineOfAction);
                 //MvpControl.AddPassiveElement(_oLineOfAction);
-
             }
         }
 
@@ -742,7 +708,6 @@ namespace MainUI
         //    return Res;
         //}
 
-
         private Material getTransparentMaterial()
         {
             Color c = new Color();
@@ -755,7 +720,6 @@ namespace MainUI
             scBrush.Opacity = 0.25;
 
             Material mat = new DiffuseMaterial(scBrush);
-
 
             //Material mat = new DiffuseMaterial((SolidColorBrush)(new BrushConverter().ConvertFrom("#8000FFFF")));
 

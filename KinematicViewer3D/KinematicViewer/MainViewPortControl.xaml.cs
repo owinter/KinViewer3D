@@ -74,9 +74,7 @@ namespace KinematicViewer
             ElementsLineOfAction = new List<GeometricalElement>();
             ElementsTrackPoint = new List<GeometricalElement>();
 
-
             CanMoveCamera = true;
-
         }
 
         //Öffentliche Getter & Setter Methoden
@@ -118,8 +116,6 @@ namespace KinematicViewer
             set { _oPAxisPoint = value; }
         }
 
-
-
         //Übergeben eines TextBlockObjectes an das ViewportControl
         public void setTextBlock(TextBlock statusPane)
         {
@@ -143,6 +139,7 @@ namespace KinematicViewer
             ElementsStaticMinAngle.Add(elem);
             UpdateStaticMinAngleGroup();
         }
+
         public void AddStaticElementMaxAngle(GeometricalElement elem)
         {
             ElementsStaticMaxAngle.Add(elem);
@@ -221,7 +218,7 @@ namespace KinematicViewer
 
             foreach (GeometricalElement e in ElementsStaticMinAngle)
                 foreach (Model3D m in e.GetGeometryModel(null))
-                    groupStaticMinAngle.Children.Add(m);       
+                    groupStaticMinAngle.Children.Add(m);
         }
 
         private void UpdateStaticMaxAngleGroup()
@@ -230,7 +227,7 @@ namespace KinematicViewer
 
             foreach (GeometricalElement e in ElementsStaticMinAngle)
                 foreach (Model3D m in e.GetGeometryModel(null))
-                    groupStaticMaxAngle.Children.Add(m); 
+                    groupStaticMaxAngle.Children.Add(m);
         }
 
         private void UpdateLineOfActionGroup()
@@ -255,7 +252,7 @@ namespace KinematicViewer
         {
             //Guide.Move(groupStaticMinAngle, 0);
             Transformation.rotateModel(per, AxisOfRotation, AxisPoint, groupStaticMinAngle);
-            UpdateStaticMinAngleGroup();      
+            UpdateStaticMinAngleGroup();
         }
 
         public void ShowStaticElementMax(double per)
@@ -288,7 +285,7 @@ namespace KinematicViewer
             ElementsTrackPoint.Clear();
             UpdateTrackPointGroup();
         }
-     
+
         //MAUSSTEUERUNG im MainGrid
         private void MainGrid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -324,7 +321,6 @@ namespace KinematicViewer
             if (e.ChangedButton == MouseButton.Middle)
             {
                 _bMouseDownMiddle = false;
-
             }
         }
 
@@ -358,7 +354,6 @@ namespace KinematicViewer
 
             //dem Viewport den Focus übergeben, sodass die Tasteneingabe funktioniert
             viewport_MouseDown(sender, e);
-
         }
 
         private void MainGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -537,7 +532,6 @@ namespace KinematicViewer
             UpdatePassiveGroup();
             UpdateLineOfActionGroup();
             UpdateTrackPointGroup();
-          
         }
 
         public void resetModelTransformation()
@@ -561,6 +555,6 @@ namespace KinematicViewer
             Point p = e.GetPosition(viewport);
             s_coords = string.Format("Bild-Koordinaten: ({0:d}, {1:d})", (int)p.X, (int)p.Y);
             this.statusPane.Text = s_coords;
-        }      
+        }
     }
 }

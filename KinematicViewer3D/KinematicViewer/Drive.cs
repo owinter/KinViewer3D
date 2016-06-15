@@ -25,10 +25,8 @@ namespace KinematicViewer
         private Material _oDoorPartMaterialExtracted;
         private Material _oDoorPartMaterialEndPoint;
 
-        
-
         public Drive(Point3D point1, Point3D point2, Material mat = null)
-            :base(mat)
+            : base(mat)
         {
             StartPoint = point1;
             EndPoint = point2;
@@ -136,11 +134,9 @@ namespace KinematicViewer
 
         public Material DoorPartMaterialEndPoint
         {
-            get {  return _oDoorPartMaterialEndPoint; }
-            set {  _oDoorPartMaterialEndPoint = value; }
+            get { return _oDoorPartMaterialEndPoint; }
+            set { _oDoorPartMaterialEndPoint = value; }
         }
-
-       
 
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
@@ -175,7 +171,7 @@ namespace KinematicViewer
             }
 
             //Roter Bereich
-            if ((vLength > ExtractedLength - Stroke * 1 / 3) && (vLength > ExtractedLength - Stroke * 2 / 3) && !(vLength <= ExtractedLength - Stroke * 2 / 3)) 
+            if ((vLength > ExtractedLength - Stroke * 1 / 3) && (vLength > ExtractedLength - Stroke * 2 / 3) && !(vLength <= ExtractedLength - Stroke * 2 / 3))
             {
                 Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, BodyPartMaterial).GetGeometryModel(guide));
                 Res.AddRange(new Sphere(StartPoint, RadiusBody, 16, 16, BodyPartMaterialStartPoint).GetGeometryModel(guide));

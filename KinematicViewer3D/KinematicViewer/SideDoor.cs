@@ -21,12 +21,12 @@ namespace KinematicViewer
 
         //maximaler / minimaler Öffnungswinkel
         private double _dMaxOpen;
+
         private double _dMinOpen;
 
         private Vector3D _oAxisOfRotation;
         private Point3D _oAxisPoint;
         private Point3D _oPointLatch;
-
 
         private List<Point3D> _oLCoordsBodyPart;
         private List<Point3D> _oLCoordsWindowPart;
@@ -39,15 +39,14 @@ namespace KinematicViewer
         private double length;
 
         public SideDoor(Point3D axisPoint, Point3D latch, Vector3D axisOfRotation, double modelThickness, Material mat = null)
-            :base(mat)
+            : base(mat)
         {
             AxisOfRotation = axisOfRotation;
             //AxisOfRotation.Normalize();
             length = axisOfRotation.Length;
-            
+
             //AxisOfRotation = new Vector3D(13.94, 399.21, 20.94);
             AxisOfRotation = TransformationUtilities.ScaleVector(AxisOfRotation, 1);
-            
 
             AxisPoint = axisPoint;
             LatchPoint = latch;
@@ -110,7 +109,6 @@ namespace KinematicViewer
             private set { _dModelThickness = value; }
         }
 
-
         public List<Point3D> CoordsBodyPart
         {
             get { return _oLCoordsBodyPart; }
@@ -163,8 +161,8 @@ namespace KinematicViewer
             //Drehachse
             //Point3D p1 = AxisPoint + AxisOfRotation * DOORWIDTH * 1 / 2;
             //Point3D p2 = AxisPoint - AxisOfRotation * DOORWIDTH * 1 / 2;
-            Point3D p1 = AxisPoint + AxisOfRotation * length /2;
-            Point3D p2 = AxisPoint - AxisOfRotation * length /2;
+            Point3D p1 = AxisPoint + AxisOfRotation * length / 2;
+            Point3D p2 = AxisPoint - AxisOfRotation * length / 2;
 
             //Point3D p1 = AxisPoint + TransformationUtilities.ScaleVector(AxisOfRotation, DOORHEIGHT * 0.5);
             //Point3D p2 = AxisPoint - TransformationUtilities.ScaleVector(AxisOfRotation, DOORHEIGHT * 0.5);
@@ -174,7 +172,6 @@ namespace KinematicViewer
 
             return Res.ToArray();
         }
-
 
         //Erstelle Koordinaten für den mittleren Karosserieteil der Seitentüre
         private List<Point3D> makeCoordsBodyPart()
@@ -189,7 +186,7 @@ namespace KinematicViewer
             points.Add(pUpR);
             points.Add(pUpL);
             points.Add(pDownL);
-            points.Add(pDownR); 
+            points.Add(pDownR);
 
             return points;
         }

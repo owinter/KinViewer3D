@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
 namespace KinematicViewer
@@ -14,8 +13,8 @@ namespace KinematicViewer
         private int _iSlices;
         private int _iStacks;
 
-        public Sphere(Point3D center, double diameter, int slices, int stacks,  Material mat = null)
-            :base(mat)
+        public Sphere(Point3D center, double diameter, int slices, int stacks, Material mat = null)
+            : base(mat)
         {
             Center = center;
             Radius = diameter / 2;
@@ -45,6 +44,7 @@ namespace KinematicViewer
             get { return _iSlices; }
             set { _iSlices = value; }
         }
+
         public int Stacks
         {
             get { return _iStacks; }
@@ -102,7 +102,7 @@ namespace KinematicViewer
                 }
             }
 
-            //Geometrie erzeugen 
+            //Geometrie erzeugen
             GeometryModel3D model = new GeometryModel3D(mesh, Material);
             model.Transform = new Transform3DGroup();
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
+﻿using System.Windows.Media.Media3D;
 
 namespace KinematicViewer
 {
@@ -43,23 +38,23 @@ namespace KinematicViewer
         {
             /*
              * Hessische Form : Px * N - d = 0   ==> d = Px * N
-             * 
+             *
              * vR ist der Punkt auf der Drehachse in Vektorenform
              * vE2 ist Richtungsvektor von Drehachse 90 ° zur Seite. Quasi die Breite der Heckklappe
-             * 
-             * Also:     
+             *
+             * Also:
              * d = vR * vE2
-             * 
-             * 
-             * 
+             *
+             *
+             *
              *          d - attPoint * vE2
              * lamda = --------------------   // lambda ist der Abstand vom zum Spiegelnden Punkt des Drives zur Ebene,
              *              vE2 * vE2         // die durch den Vektor von AxisPoint zu HandPoint und der Y- Achse aufgespannt wird
-             *              
-             *              
-             *              
+             *
+             *
+             *
              * Punkt P = attPoint + 2 * lambda * vE2
-             * 
+             *
              */
             double lambda = ((d - Vector3D.DotProduct(new Vector3D(p.X, p.Y, p.Z), vE2)) / (Vector3D.DotProduct(vE2, vE2)));
 
