@@ -23,6 +23,8 @@ namespace KinematicViewer
         private double _dMaxOpen;
 
         private double _dMinOpen;
+        private double _dModelThickness;
+        private double _dLength;
 
         private Vector3D _oAxisOfRotation;
         private Point3D _oAxisPoint;
@@ -31,19 +33,16 @@ namespace KinematicViewer
         private List<Point3D> _oLCoordsBodyPart;
         private List<Point3D> _oLCoordsWindowPart;
 
-        private double _dModelThickness;
-
         private Vector3D _oVAxisToHandE1;
 
         private Material _oAxisMaterial;
-        private double length;
 
         public SideDoor(Point3D axisPoint, Point3D latch, Vector3D axisOfRotation, double modelThickness, Material mat = null)
             : base(mat)
         {
             AxisOfRotation = axisOfRotation;
             //AxisOfRotation.Normalize();
-            length = axisOfRotation.Length;
+            AxisLength = axisOfRotation.Length;
 
             //AxisOfRotation = new Vector3D(13.94, 399.21, 20.94);
             AxisOfRotation = TransformationUtilities.ScaleVector(AxisOfRotation, 1);
@@ -133,6 +132,12 @@ namespace KinematicViewer
             set { _oAxisMaterial = value; }
         }
 
+        public double AxisLength
+        {
+            get { return _dLength; }
+            set { _dLength = value; }
+        }
+
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
             List<GeometryModel3D> Res = new List<GeometryModel3D>();
@@ -161,8 +166,8 @@ namespace KinematicViewer
             //Drehachse
             //Point3D p1 = AxisPoint + AxisOfRotation * DOORWIDTH * 1 / 2;
             //Point3D p2 = AxisPoint - AxisOfRotation * DOORWIDTH * 1 / 2;
-            Point3D p1 = AxisPoint + AxisOfRotation * length / 2;
-            Point3D p2 = AxisPoint - AxisOfRotation * length / 2;
+            Point3D p1 = AxisPoint + AxisOfRotation * AxisLength / 2;
+            Point3D p2 = AxisPoint - AxisOfRotation * AxisLength / 2;
 
             //Point3D p1 = AxisPoint + TransformationUtilities.ScaleVector(AxisOfRotation, DOORHEIGHT * 0.5);
             //Point3D p2 = AxisPoint - TransformationUtilities.ScaleVector(AxisOfRotation, DOORHEIGHT * 0.5);

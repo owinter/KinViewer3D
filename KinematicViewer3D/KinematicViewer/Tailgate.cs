@@ -18,6 +18,8 @@ namespace KinematicViewer
         private double _dMaxOpen;
 
         private double _dMinOpen;
+        private double _dLength;
+        private double _dModelThickness;
 
         private Vector3D _oAxisOfRotation;
         private Point3D _oAxisPoint;
@@ -27,8 +29,6 @@ namespace KinematicViewer
         private List<Point3D> _oLCoordsMidTail;
         private List<Point3D> _oLCoordsUpTail;
 
-        private double _dModelThickness;
-
         private Vector3D _oVAxisToHandE1;
 
         private Material _oAxisMaterial;
@@ -37,6 +37,8 @@ namespace KinematicViewer
             : base(mat)
         {
             AxisOfRotation = axisOfRotation;
+            AxisLength = AxisOfRotation.Length;
+            AxisOfRotation = TransformationUtilities.ScaleVector(AxisOfRotation, 1);
 
             AxisPoint = axisPoint;
             PointLatch = latch;
@@ -127,6 +129,12 @@ namespace KinematicViewer
         {
             get { return _oAxisMaterial; }
             set { _oAxisMaterial = value; }
+        }
+
+        public double AxisLength
+        {
+            get { return _dLength; }
+            set { _dLength = value; }
         }
 
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)

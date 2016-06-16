@@ -72,8 +72,6 @@ namespace MainUI
             if (_bTailgate)
             {
                 AxisOfRotation = new Vector3D(0, 0, 1);
-                AxisOfRotation =  TransformationUtilities.ScaleVector(AxisOfRotation, 1);
-                //AxisOfRotation.Normalize();
             }
             else
             {
@@ -82,7 +80,6 @@ namespace MainUI
 
                 //Rechte Tür / Beifahrertür
                 AxisOfRotation = new Vector3D(13.94, 399.21, 20.94);
-                //AxisOfRotation = TransformationUtilities.ScaleVector(AxisOfRotation, 1);
             }
 
             create_Button.IsEnabled = false;

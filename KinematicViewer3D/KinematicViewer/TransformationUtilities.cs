@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Windows.Media.Media3D;
+﻿using System.Windows.Media.Media3D;
 
 namespace KinematicViewer
 {
@@ -81,7 +80,7 @@ namespace KinematicViewer
 
             double sc, tc;
 
-            if(D < SMALL_NUM)
+            if (D < SMALL_NUM)
             {
                 sc = 0.0;
                 tc = (b > c ? d / b : e / c); // den größten wert nehmen
@@ -98,7 +97,5 @@ namespace KinematicViewer
 
             return res;
         }
-
-        
     }
 }
