@@ -82,6 +82,7 @@ namespace MainUI
 
                 //Rechte Tür / Beifahrertür
                 AxisOfRotation = new Vector3D(13.94, 399.21, 20.94);
+                //AxisOfRotation = TransformationUtilities.ScaleVector(AxisOfRotation, 1);
             }
 
             create_Button.IsEnabled = false;
@@ -279,9 +280,9 @@ namespace MainUI
                 MvpControl.AddPassiveElement(_oDriveLeft);
                 MvpControl.AddPassiveElement(_oDriveRight);
                 MvpControl.AddActiveElement(_oTail);
-                createLineOfAction();
-                createTrackPoint();
-                createStaticElementsTailgate();
+                //createLineOfAction();
+                //createTrackPoint();
+                //createStaticElementsTailgate();
             }
             else
             {
@@ -294,9 +295,9 @@ namespace MainUI
 
                 MvpControl.AddPassiveElement(_oDriveDoor);
                 MvpControl.AddActiveElement(_oDoor);
-                createLineOfAction();
-                createTrackPoint();
-                createStaticElementsSideDoor();
+                //createLineOfAction();
+                //createTrackPoint();
+                //createStaticElementsSideDoor();
             }
 
             //Dem MainGrid den focus übergeben

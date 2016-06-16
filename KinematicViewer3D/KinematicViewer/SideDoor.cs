@@ -13,7 +13,7 @@ namespace KinematicViewer
         private const double DOORHEIGHTBODY = 750.0;
         private const double DOORHEIGHTWINDOW = 450;
         private const double DOORHEIGHT = 1200.0;
-        private const double DOORWIDTH = 1200;
+        private const double DOORWIDTH = 1250;
 
         private Vector3D _vY = new Vector3D(0, 1, 0);
 

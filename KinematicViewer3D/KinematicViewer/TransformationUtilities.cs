@@ -1,4 +1,5 @@
-﻿using System.Windows.Media.Media3D;
+﻿using System.Collections.Generic;
+using System.Windows.Media.Media3D;
 
 namespace KinematicViewer
 {
@@ -62,5 +63,42 @@ namespace KinematicViewer
 
             return point;
         }
+
+        public static double MinDistVectorToVector(Vector3D L1, Vector3D L2, Point3D p1, Point3D p2)
+        {
+            const double SMALL_NUM = 0.00000001;
+
+            Vector3D u = L1;
+            Vector3D v = L2;
+            Vector3D w = p1 - p2;
+
+            double a = Vector3D.DotProduct(u, u);
+            double b = Vector3D.DotProduct(u, v);
+            double c = Vector3D.DotProduct(v, v);
+            double d = Vector3D.DotProduct(u, w);
+            double e = Vector3D.DotProduct(v, w);
+            double D = a * c - b * b;
+
+            double sc, tc;
+
+            if(D < SMALL_NUM)
+            {
+                sc = 0.0;
+                tc = (b > c ? d / b : e / c); // den größten wert nehmen
+            }
+            else
+            {
+                sc = (b * e - c * d) / D;
+                tc = (a * e - b * d) / D;
+            }
+
+            Vector3D dP = w + (sc * u) - (tc * v);
+
+            double res = dP.Length;
+
+            return res;
+        }
+
+        
     }
 }

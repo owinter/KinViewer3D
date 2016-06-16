@@ -481,20 +481,20 @@
                                         <ToggleButton x:Name="toolBox_TransparentMinMax"
                                                 Margin="5,0,0,0"
                                         	    Click="toolBox_TransparentMinMax_Click" 
-                                                IsChecked="True">
+                                                IsChecked="False">
                                             <Image Source="Image\Icons\16x16\transparent_16x16.png" />
                                         </ToggleButton>
                                         <ToggleButton x:Name="toolBox_LineOfAction"
                                                 Margin="10,0,0,0"
                                                 Click="toolBox_LineOfAction_Click" 
-                                                IsChecked="True">
+                                                IsChecked="False">
                                             <Image Source="Image\Icons\16x16\perpendicular_16x16.png" />
                                         </ToggleButton>
                                         <ToggleButton x:Name="toolBox_TrackPoint"
                                                 Margin="10,0,0,0"
                                                 Content="TrackPoint"
                                                 Click="toolBox_TrackPoint_Click" 
-                                                IsChecked="True">
+                                                IsChecked="False">
                                         </ToggleButton>
                                     </ToolBar>
                                 </ToolBarTray>

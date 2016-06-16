@@ -405,6 +405,11 @@ namespace KinematicViewer
                 changeModelColorRandom(resultMesh);
                 return HitTestResultBehavior.Stop;
             }
+            if(vis == (viewport.FindName("lineOfActionVisual") as ModelVisual3D))
+            {
+
+                return HitTestResultBehavior.Stop;
+            }
             return HitTestResultBehavior.Continue;
         }
 
