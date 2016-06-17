@@ -337,6 +337,13 @@ namespace MainUI
                 OpenAngleDegree.Text = Math.Round(_oTail.CurValue, 2).ToString();
             else
                 OpenAngleDegree.Text = Math.Round(_oDoor.CurValue, 2).ToString();
+
+            if(toolBox_LineOfAction.IsEnabled)
+            {
+                string hebelarm =" Hebelarm in [mm]: " + Math.Round(_oLineOfAction.DistancePerpendicular, 2).ToString();
+                statusPane.Text = hebelarm;
+            }
+            
         }
 
         //Objekttransformation zurücksetzen
@@ -574,6 +581,9 @@ namespace MainUI
             {
                 MvpControl.RemoveAllLineOfActionElements();
                 createLineOfAction();
+
+                string hebelarm = " Hebelarm in [mm]:  " + Math.Round(_oLineOfAction.DistancePerpendicular, 2).ToString();
+                statusPane.Text = hebelarm;
             }
         }
 
