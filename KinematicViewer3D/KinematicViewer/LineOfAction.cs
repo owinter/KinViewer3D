@@ -103,24 +103,30 @@ namespace KinematicViewer
             List<GeometryModel3D> Res = new List<GeometryModel3D>();
 
             Point3D attPointDoorUpdated = guide.MovePoint(AttachmentPointDoor);
-
             Vector3D vDriveUpdated = AttachmentPointBody - attPointDoorUpdated;
 
             Perpendiculars = calculatePerpendiculars(AxisOfRotation, vDriveUpdated, AxisPoint, AttachmentPointBody);
 
-            CoordsLineOfActionAxisSegments = makeCoordsLineOfAction(Perpendiculars[1], Perpendiculars[0]);
-            CoordsLineOfActionDriveSegments = makeCoordsLineOfAction(AttachmentPointBody, Perpendiculars[0]);
+            CoordsLineOfActionAxisSegments = makeCoordsLineOfActionAxisSegment(Perpendiculars[1], Perpendiculars[0]);
+            CoordsLineOfActionDriveSegments = makeCoordsLineOfActionDriveSegment(AttachmentPointBody, Perpendiculars[0]);
 
+            //Lotfußpunkt auf der Drehachse
+            Res.AddRange(new Sphere(Perpendiculars[1], RADIUS * 4, 16, 8, PerpendicularMaterial).GetGeometryModel(guide));
+
+            //Elemente entlang des kürzesten Vektors zwischen beiden Lotpunkten
             for (int i = 0; i < CoordsLineOfActionAxisSegments.Count; i += 2)
             {
                 Res.AddRange(new Cylinder(CoordsLineOfActionAxisSegments[i], CoordsLineOfActionAxisSegments[i + 1], RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
             }
+
+            //Elemente entlang des Antriebs zum Lotfußpunkt
             for (int i = 0; i < CoordsLineOfActionDriveSegments.Count; i += 2)
             {
                 Res.AddRange(new Cylinder(CoordsLineOfActionDriveSegments[i], CoordsLineOfActionDriveSegments[i + 1], RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
             }
 
-            Res.AddRange(new Sphere(Perpendiculars[0], RADIUS * 4, 16, 16, PerpendicularMaterial).GetGeometryModel(guide));
+            //Lotfußpunkt auf der verlängerten Antriebsachse
+            Res.AddRange(new Sphere(Perpendiculars[0], RADIUS * 4, 16, 8, PerpendicularMaterial).GetGeometryModel(guide));
 
             //Res.AddRange(new Cylinder(Perpendiculars[0], Perpendiculars[1], RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
             //Res.AddRange(new Cylinder(Perpendiculars[0], AttachmentPointBody, RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
@@ -129,22 +135,49 @@ namespace KinematicViewer
             return Res.ToArray();
         }
 
-        private List<Point3D> makeCoordsLineOfAction(Point3D startPoint, Point3D perpendicularDrive)
+        private List<Point3D> makeCoordsLineOfActionAxisSegment(Point3D startPoint, Point3D perpendicularDrive)
         {
             List<Point3D> points = new List<Point3D>();
 
             Vector3D vDirection = perpendicularDrive - startPoint;
 
-            int elements = Convert.ToInt16((Math.Ceiling(vDirection.Length / ELEMENTLENGTH)) + 2);
+            int elements = Convert.ToInt16((Math.Floor(vDirection.Length / (ELEMENTLENGTH + OFFSET))));
+            double leftOver = vDirection.Length % (ELEMENTLENGTH + OFFSET);
 
             vDirection = TransformationUtilities.ScaleVector(vDirection, 1);
 
-            Point3D startE = startPoint;
+            Point3D startElem = startPoint;
             for (int i = 0; i < elements; i++)
             {
-                points.Add(startE);
-                points.Add(startE + vDirection * ELEMENTLENGTH);
-                startE = (startE + vDirection * ELEMENTLENGTH) + (vDirection * OFFSET);
+                points.Add(startElem);
+                points.Add(startElem + vDirection * ELEMENTLENGTH);
+                startElem = (startElem + vDirection * ELEMENTLENGTH) + (vDirection * OFFSET);
+            }
+            if (leftOver > 0)
+            {
+                points.Add(startElem);
+                points.Add(startElem + vDirection * leftOver);
+            }
+
+            return points;
+        }
+
+        private List<Point3D> makeCoordsLineOfActionDriveSegment(Point3D startPoint, Point3D perpendicularDrive)
+        {
+            List<Point3D> points = new List<Point3D>();
+
+            Vector3D vDirection = perpendicularDrive - startPoint;
+
+            int elements = Convert.ToInt16((Math.Ceiling(vDirection.Length / ELEMENTLENGTH)) + 5);
+
+            vDirection = TransformationUtilities.ScaleVector(vDirection, 1);
+
+            Point3D startElem = startPoint;
+            for (int i = 0; i < elements; i++)
+            {
+                points.Add(startElem);
+                points.Add(startElem + vDirection * ELEMENTLENGTH);
+                startElem = (startElem + vDirection * ELEMENTLENGTH) + (vDirection * OFFSET);
             }
 
             return points;
