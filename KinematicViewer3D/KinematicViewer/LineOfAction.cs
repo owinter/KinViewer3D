@@ -7,10 +7,9 @@ namespace KinematicViewer
 {
     public class LineOfAction : GeometricalElement
     {
-        private const double RADIUS = 5;
-        private const int ELEMENTS = 10;
-        private const double ELEMENTLENGTH = 20;
-        private const double OFFSET = 10;
+        private const double RADIUS = 2;
+        private const double ELEMENTLENGTH = 15;
+        private const double OFFSET = 2;
 
         private double _dDistancePerpendicular;
 
@@ -20,10 +19,11 @@ namespace KinematicViewer
 
         private Vector3D _oVAxisOfRotation;
 
-        // private Vector3D _oVDrive;
         private Material _oLineOfActionMaterial;
+        private Material _oPerpendicularMaterial;
 
-        private List<Point3D> _oLCoordsLinesOfAction;
+        private List<Point3D> _oLCoordsLinesOfActionAxisSegments;
+        private List<Point3D> _oLCoordsLineOfActionDriveSegments;
         private List<Point3D> _oLPerpendiculars;
 
         public LineOfAction(Point3D axisPoint, Point3D attachmentPointBody, Point3D attachmentPointDoor, Vector3D axisOfRotation, Material mat = null)
@@ -33,11 +33,9 @@ namespace KinematicViewer
             AttachmentPointBody = attachmentPointBody;
             AttachmentPointDoor = attachmentPointDoor;
             AxisOfRotation = axisOfRotation;
-            //AxisOfRotation = new Vector3D(0, 0, 1);
-
-            //Vector3D vDrive = AttachmentPointBody - AttachmentPointDoor;
 
             LineOfActionMaterial = new DiffuseMaterial(Brushes.Red);
+            PerpendicularMaterial = new DiffuseMaterial(Brushes.Black);
         }
 
         public Point3D AxisPoint
@@ -64,16 +62,28 @@ namespace KinematicViewer
             set { _oLineOfActionMaterial = value; }
         }
 
+        public Material PerpendicularMaterial
+        {
+            get { return _oPerpendicularMaterial; }
+            set { _oPerpendicularMaterial = value; }
+        }
+
         public Point3D AttachmentPointDoor
         {
             get { return _oAttachmentPointDoor; }
             set { _oAttachmentPointDoor = value; }
         }
 
-        public List<Point3D> CoordsLinesOfAction
+        public List<Point3D> CoordsLineOfActionAxisSegments
         {
-            get { return _oLCoordsLinesOfAction; }
-            set { _oLCoordsLinesOfAction = value; }
+            get { return _oLCoordsLinesOfActionAxisSegments; }
+            set { _oLCoordsLinesOfActionAxisSegments = value; }
+        }
+
+        public List<Point3D> CoordsLineOfActionDriveSegments
+        {
+            get { return _oLCoordsLineOfActionDriveSegments; }
+            set { _oLCoordsLineOfActionDriveSegments = value; }
         }
 
         public List<Point3D> Perpendiculars
@@ -94,86 +104,55 @@ namespace KinematicViewer
 
             Point3D attPointDoorUpdated = guide.MovePoint(AttachmentPointDoor);
 
-            //Test Perpendicular
-            Vector3D vDriveU = AttachmentPointBody - attPointDoorUpdated;
-            Perpendiculars = NearestPointsOfTwoVectors(AxisOfRotation, vDriveU, AxisPoint, AttachmentPointBody);
+            Vector3D vDriveUpdated = AttachmentPointBody - attPointDoorUpdated;
 
-            CoordsLinesOfAction = makeCoordsLinesOfAction(Perpendiculars[0], Perpendiculars[1]);
+            Perpendiculars = calculatePerpendiculars(AxisOfRotation, vDriveUpdated, AxisPoint, AttachmentPointBody);
 
-            //for(int i = 0; i <= CoordsLinesOfAction.Count / 2 - 2; i +=2)
-            //{
-            //    Res.AddRange(new Cylinder(CoordsLinesOfAction[i], CoordsLinesOfAction[i + 1], RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
-            //}
-            //for(int j = CoordsLinesOfAction.Count/2 +1; j <= CoordsLinesOfAction.Count - 2; j += 2 )
-            //{
-            //    Res.AddRange(new Cylinder(CoordsLinesOfAction[j], CoordsLinesOfAction[j + 1], RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
-            //}
+            CoordsLineOfActionAxisSegments = makeCoordsLineOfAction(Perpendiculars[1], Perpendiculars[0]);
+            CoordsLineOfActionDriveSegments = makeCoordsLineOfAction(AttachmentPointBody, Perpendiculars[0]);
 
-            //for (int i = 0; i <= CoordsLinesOfAction.Count - 2; i += 2)
-            //{
-            //    Res.AddRange(new Cylinder(CoordsLinesOfAction[i], CoordsLinesOfAction[i + 1], RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
-            //}
+            for (int i = 0; i < CoordsLineOfActionAxisSegments.Count; i += 2)
+            {
+                Res.AddRange(new Cylinder(CoordsLineOfActionAxisSegments[i], CoordsLineOfActionAxisSegments[i + 1], RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
+            }
+            for (int i = 0; i < CoordsLineOfActionDriveSegments.Count; i += 2)
+            {
+                Res.AddRange(new Cylinder(CoordsLineOfActionDriveSegments[i], CoordsLineOfActionDriveSegments[i + 1], RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
+            }
 
-            //for (int i = 0; i <=Perpendiculars.Count -2; i += 2)
-            //{
-            //    Res.AddRange(new Cylinder(Perpendiculars[i], Perpendiculars[i + 1], RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
-            //}
-            Res.AddRange(new Cylinder(Perpendiculars[0], Perpendiculars[1], RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
-            Res.AddRange(new Cylinder(Perpendiculars[0], AttachmentPointBody, RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
-            Res.AddRange(new Sphere(Perpendiculars[0], RADIUS * 2, 16, 16, LineOfActionMaterial).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(Perpendiculars[0], RADIUS * 4, 16, 16, PerpendicularMaterial).GetGeometryModel(guide));
+
+            //Res.AddRange(new Cylinder(Perpendiculars[0], Perpendiculars[1], RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
+            //Res.AddRange(new Cylinder(Perpendiculars[0], AttachmentPointBody, RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
+            //Res.AddRange(new Sphere(Perpendiculars[0], RADIUS * 2, 16, 16, LineOfActionMaterial).GetGeometryModel(guide));
 
             return Res.ToArray();
         }
 
-        private List<Point3D> makeCoordsLinesOfAction(Point3D perpendicularAxis, Point3D perpendicularDrive)
+        private List<Point3D> makeCoordsLineOfAction(Point3D startPoint, Point3D perpendicularDrive)
         {
             List<Point3D> points = new List<Point3D>();
 
-            Vector3D vD = perpendicularDrive - AttachmentPointBody;
-            Vector3D vA = perpendicularAxis - perpendicularDrive;
+            Vector3D vDirection = perpendicularDrive - startPoint;
 
-            int elementsD = Convert.ToInt16(Math.Ceiling(vD.Length / ELEMENTLENGTH));
-            int elementsA = Convert.ToInt16(Math.Ceiling(vA.Length / ELEMENTLENGTH));
+            int elements = Convert.ToInt16((Math.Ceiling(vDirection.Length / ELEMENTLENGTH)) + 2);
 
-            vD.Normalize();
-            vA.Normalize();
+            vDirection = TransformationUtilities.ScaleVector(vDirection, 1);
 
-            Point3D startD = perpendicularDrive;
-            Point3D startA = perpendicularAxis;
-
-            for (int i = 0; i < elementsD; i++)
+            Point3D startE = startPoint;
+            for (int i = 0; i < elements; i++)
             {
-                points.Add(startD);
-                points.Add(startD + vD * ELEMENTLENGTH);
-                startD = (startD + (vD * ELEMENTLENGTH) + (vD * OFFSET));
+                points.Add(startE);
+                points.Add(startE + vDirection * ELEMENTLENGTH);
+                startE = (startE + vDirection * ELEMENTLENGTH) + (vDirection * OFFSET);
             }
-
-            for (int j = 0; j < elementsA; j++)
-            {
-                points.Add(startA);
-                points.Add(startA + vA * ELEMENTLENGTH);
-                startA = (startA + (vA * ELEMENTLENGTH) + (vA * OFFSET));
-            }
-
-            //Point3D startPoint = AttachmentPointBody;
-
-            //Vector3D vDriveUpdated = (startPoint - endPoint);
-            //vDriveUpdated.Normalize();
-            ////vDriveUpdated = TransformationUtilities.ScaleVector(vDriveUpdated, 1);
-
-            //for (int i = 0; i < ELEMENTS; i++)
-            //{
-            //    points.Add(startPoint);
-            //    points.Add(startPoint + vDriveUpdated * ELEMENTLENGTH);
-            //    startPoint = (startPoint + (vDriveUpdated * ELEMENTLENGTH) + (vDriveUpdated * OFFSET));
-            //}
 
             return points;
         }
 
-        public List<Point3D> NearestPointsOfTwoVectors(Vector3D axisOfRotation, Vector3D vDrive, Point3D axisPoint, Point3D attachmentPointBody)
+        public List<Point3D> calculatePerpendiculars(Vector3D axisOfRotation, Vector3D vDrive, Point3D axisPoint, Point3D attachmentPointBody)
         {
-            const double SMALL_NUM = 0.00000001; // "Division overflow" um nicht durch 0 zu teilen
+            const double SMALL_DIVISOR = 0.00000001; // "Division overflow", um nicht durch 0 zu teilen
 
             List<Point3D> points = new List<Point3D>();
 
@@ -189,10 +168,10 @@ namespace KinematicViewer
             double D = a * c - b * b;               // >= 0
             double sc, tc;
 
-            if (D < SMALL_NUM)
+            if (D < SMALL_DIVISOR)                    // Falls die Vektoren parallel
             {
                 sc = 0.0;
-                tc = (b > c ? (d / b) : (e / c)); // den größten wert nehmen
+                tc = (b > c ? (d / b) : (e / c));     // den größten wert nehmen
             }
             else
             {
