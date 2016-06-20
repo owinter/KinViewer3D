@@ -7,9 +7,9 @@ namespace KinematicViewer
 {
     public class LineOfAction : GeometricalElement
     {
-        private const double RADIUS = 2;
+        private const double RADIUS = 2.5;
         private const double ELEMENTLENGTH = 15;
-        private const double OFFSET = 2;
+        private const double OFFSET = 2.5;
 
         private double _dDistancePerpendicular;
 

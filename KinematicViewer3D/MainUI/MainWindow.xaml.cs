@@ -338,11 +338,12 @@ namespace MainUI
             else
                 OpenAngleDegree.Text = Math.Round(_oDoor.CurValue, 2).ToString();
 
-            if(toolBox_LineOfAction.IsEnabled)
+            if(toolBox_LineOfAction.IsChecked == true)
             {
                 string hebelarm =" Hebelarm in [mm]: " + Math.Round(_oLineOfAction.DistancePerpendicular, 2).ToString();
                 statusPane.Text = hebelarm;
             }
+            
             
         }
 

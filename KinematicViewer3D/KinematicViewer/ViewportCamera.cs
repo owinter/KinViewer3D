@@ -248,11 +248,11 @@ namespace KinematicViewer
             double dx = actualRelativePos.X;
             double dy = actualRelativePos.Y;
 
-            Trans.Yaw = Trans.Yaw + dx;
-            Trans.Pitch = Trans.Pitch + dy;
+            Trans.Yaw += dx;
+            Trans.Pitch += dy;
 
-            Trans_CSS.Yaw = Trans_CSS.Yaw + dx;
-            Trans_CSS.Pitch = Trans_CSS.Pitch + dy;
+            Trans_CSS.Yaw += dx;
+            Trans_CSS.Pitch += dy;
 
             switch (MyCam)
             {
