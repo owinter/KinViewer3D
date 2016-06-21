@@ -51,9 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoordSystem.cs" />
-    <Compile Include="CoordSystemSmall.xaml.cs">
-      <DependentUpon>CoordSystemSmall.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Cuboid.cs" />
     <Compile Include="Cuboid2.cs" />
     <Compile Include="Cylinder.cs" />
@@ -69,10 +66,6 @@
     <Compile Include="Transformation.cs" />
     <Compile Include="ViewportCamera.cs" />
     <Compile Include="TransformationUtilities.cs" />
-    <Page Include="CoordSystemSmall.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainViewPortControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -14,7 +14,6 @@ namespace KinematicViewer
 
         //3D KoordinatenSystem Model der jeweiligen farbigen Achsen
         private GeometryModel3D _oAxes_Model_X;
-
         private GeometryModel3D _oAxes_Model_Y;
         private GeometryModel3D _oAxes_Model_Z;
         private GeometryModel3D _oCube_Model;
@@ -27,8 +26,6 @@ namespace KinematicViewer
 
         private Viewport3D _oViewportCoordSystem;
 
-        //Transformationen für das Koordinatensystem
-        private Transformation _oTransCoordSystem;
 
         public CoordSystem(Viewport3D viewportCoordSystem)
         {
@@ -36,7 +33,6 @@ namespace KinematicViewer
 
             _oCoordSystem_ModelGroup = new Model3DGroup();
             _oCoordSystem_Visual = new ModelVisual3D();
-            _oTransCoordSystem = new Transformation();
             Lights = new List<Light>();
 
             DefineLights();

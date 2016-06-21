@@ -91,7 +91,7 @@ namespace KinematicViewer
         public Viewport3D Viewport
         {
             get { return _oViewport; }
-            private set { _oViewport = value; }
+            set { _oViewport = value; }
         }
 
         public Viewport3D ViewportCoordSystem
@@ -238,6 +238,7 @@ namespace KinematicViewer
 
         public void orbitCam()
         {
+            
             //Liefert die Mausposition relativ zum Viewport3D und transformiert sie zum Center
             //actualRelativePos beinhaltet die X und Y Entfernung vom Center des Viewports
             Point relativePos = Mouse.GetPosition(Viewport);
@@ -277,7 +278,7 @@ namespace KinematicViewer
 
         public void dragCam()
         {
-            setMouseToCenter();
+            
             //Liefert die Mausposition relativ zum Viewport3D und transformiert sie zum Center
             //actualRelativePos beinhaltet die X und Y Entfernung vom Center des Viewports
 
@@ -303,11 +304,12 @@ namespace KinematicViewer
                     }
                     break;
             }
+            MouseUtilities.SetPosition(_oCenterOfViewport);
         }
 
         public void panCam()
         {
-            setMouseToCenter();
+            
             Point relativePos = Mouse.GetPosition(Viewport);
             Point actualRelativePos = new Point(relativePos.X - Viewport.ActualWidth / 2, Viewport.ActualHeight / 2 - relativePos.Y);
             double dx = actualRelativePos.X;
@@ -327,6 +329,7 @@ namespace KinematicViewer
                     }
                     break;
             }
+            MouseUtilities.SetPosition(_oCenterOfViewport);
         }
 
         public void setMouseToCenter()

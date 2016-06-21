@@ -57,6 +57,14 @@ namespace KinematicViewer
         {
             InitializeComponent();
             //axisPoints = new List<Point3D>();
+
+            ElementsActive = new List<GeometricalElement>();
+            ElementsPassive = new List<GeometricalElement>();
+            ElementsStaticMinAngle = new List<GeometricalElement>();
+            ElementsStaticMaxAngle = new List<GeometricalElement>();
+            ElementsLineOfAction = new List<GeometricalElement>();
+            ElementsTrackPoint = new List<GeometricalElement>();
+
             trans = new Transformation();
             _oCS = new CoordSystem(viewportCoordSystem);
             ViewportCam = new ViewportCamera(MainGrid, viewport, viewportCoordSystem, _oCS, trans);
@@ -67,12 +75,7 @@ namespace KinematicViewer
             ViewportCam.MyCam = Cam.Perspective;
             ViewportCam.resetCam();
 
-            ElementsActive = new List<GeometricalElement>();
-            ElementsPassive = new List<GeometricalElement>();
-            ElementsStaticMinAngle = new List<GeometricalElement>();
-            ElementsStaticMaxAngle = new List<GeometricalElement>();
-            ElementsLineOfAction = new List<GeometricalElement>();
-            ElementsTrackPoint = new List<GeometricalElement>();
+            
 
             CanMoveCamera = true;
         }
@@ -304,17 +307,17 @@ namespace KinematicViewer
                 {
                     ViewportCam.orbitCam();
                 }
-                    
+
                 if (_bMouseDownMiddle && (!_bMouseDownLeft || !_bMouseDownRight))
                 {
                     ViewportCam.dragCam();
                 }
 
-                if (_bMouseDownLeft )
+                if (_bMouseDownLeft)
                 {
                     ViewportCam.panCam();
                 }
-                    
+
             }
         }
 
@@ -323,6 +326,7 @@ namespace KinematicViewer
             if (e.ChangedButton == MouseButton.Middle)
             {
                 _bMouseDownMiddle = true;
+                ViewportCam.setMouseToCenter();
             }
         }
 
@@ -357,6 +361,7 @@ namespace KinematicViewer
         {
             //CanMoveCamera = false;
             _bMouseDownLeft = true;
+            ViewportCam.setMouseToCenter();
 
             //Testverfahren für mögliches Hittesting
             Point pt = e.GetPosition(viewport);

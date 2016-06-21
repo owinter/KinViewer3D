@@ -41,7 +41,7 @@ namespace MainUI
         private double _dModelThickness;
 
         private MainViewPortControl _oMvpControl;
-        private CoordSystemSmall _oCssControl;
+        
 
         private bool _bTailgate = true;
 
@@ -107,12 +107,6 @@ namespace MainUI
         {
             get { return _oMvpControl; }
             private set { _oMvpControl = value; }
-        }
-
-        public CoordSystemSmall CssControl
-        {
-            get { return _oCssControl; }
-            private set { _oCssControl = value; }
         }
 
         public Vector3D AxisOfRotation
