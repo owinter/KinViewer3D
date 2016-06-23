@@ -20,9 +20,6 @@ namespace KinematicViewer
         //Klasse für Kameraeinstellungen und deren Positionen
         private ViewportCamera _oViewportCam;
 
-        ////Koordinatensystem für rechten Dock Panel erstellen
-        //private CoordSystemSmall _oC_SystemSmall;
-
         // Koordinatensystem im eigenen viewport
         private CoordSystem _oCoordSystem;
 
@@ -53,8 +50,8 @@ namespace KinematicViewer
         //Breite bzw Dicke des jeweiligen Models
         private double _dModelThickness;
 
-        private string s_coords;
-        private TextBlock statusPane;
+        private string _sScreenCoords;
+        private TextBlock _oStatusPane;
 
         public MainViewPortControl()
         {
@@ -98,8 +95,8 @@ namespace KinematicViewer
 
         public string S_Coords
         {
-            get { return s_coords; }
-            set { s_coords = value; }
+            get { return _sScreenCoords; }
+            set { _sScreenCoords = value; }
         }
 
         public ViewportCamera ViewportCam
@@ -147,7 +144,7 @@ namespace KinematicViewer
         //Übergeben eines TextBlockObjectes an das ViewportControl
         public void setTextBlock(TextBlock statusPane)
         {
-            this.statusPane = statusPane;
+            this._oStatusPane = statusPane;
         }
 
         public void AddActiveElement(GeometricalElement elem)
@@ -315,7 +312,7 @@ namespace KinematicViewer
         }
 
         //Visuelles Koordinatensystem erstellen
-        public void createCoordSystem()
+        private void createCoordSystem()
         {
             //Hintergrundfarbe im gleichen Farbton wie das MainViewport
             Color c = (Color)ColorConverter.ConvertFromString("#eee9e9");
@@ -329,18 +326,18 @@ namespace KinematicViewer
             GridCoordSystem.VerticalAlignment = VerticalAlignment.Top;
 
             //Border Koordinatensystem
-            Border b = new Border();
-            b.Background = new SolidColorBrush(c);
-            b.BorderBrush = Brushes.Silver;
-            b.BorderThickness = new Thickness(2);
-            b.Width = 160;
-            b.Height = 160;
+            Border csBorder = new Border();
+            csBorder.Background = new SolidColorBrush(c);
+            csBorder.BorderBrush = Brushes.Silver;
+            csBorder.BorderThickness = new Thickness(2);
+            csBorder.Width = 160;
+            csBorder.Height = 160;
 
             //visueller Inhalt ( 3 farbige Achsen ) des Koordinatensystems
             CoordSystem = new CoordSystem(ViewportCoordSystem);
 
             //dem Grid des Koordinatensystems die Border und viewport hinzufügen
-            GridCoordSystem.Children.Add(b);
+            GridCoordSystem.Children.Add(csBorder);
             GridCoordSystem.Children.Add(ViewportCoordSystem);
 
             //das Grid Koordinatensystem dem MainGrid hinzufügen
@@ -605,11 +602,9 @@ namespace KinematicViewer
         //    _oMPoint = new Point3D(x, y, z);
         //}
 
-        //public delegate void ViewPortEventHandler(object sender, ProgressEventArgs e);
-        //public event ViewPortEventHandler ViewUpdated;
 
         /// <summary>
-        ///
+        ///Bewegt den "Guide" um einen bestimmten Anteil
         /// </summary>
         /// <param name="per">Anteil der Bewegung in % [0-100]</param>
         public void Move(double per)
@@ -622,6 +617,11 @@ namespace KinematicViewer
             UpdatePassiveGroup();
             UpdateLineOfActionGroup();
             UpdateTrackPointGroup();
+
+            ////Test für die Transparenten Materialien
+            //---> hat negativen Einfluss auf die Performance
+            //UpdateStaticMinAngleGroup();
+            //UpdateStaticMaxAngleGroup();
         }
 
         public void resetModelTransformation()
@@ -643,8 +643,8 @@ namespace KinematicViewer
         private void showScreenCoords(object sender, MouseEventArgs e)
         {
             Point p = e.GetPosition(viewport);
-            s_coords = string.Format("Bild-Koordinaten: ({0:d}, {1:d})", (int)p.X, (int)p.Y);
-            this.statusPane.Text = s_coords;
+            _sScreenCoords = string.Format("Bild-Koordinaten: ({0:d}, {1:d})", (int)p.X, (int)p.Y);
+            _oStatusPane.Text = _sScreenCoords;
         }
     }
 }

@@ -61,8 +61,6 @@ namespace MainUI
         {
             InitializeComponent();
             AxisPoints = new List<Point3D>();
-            //CssControl = new CoordSystemSmall();
-            //MainUICoordSystemSmall.Content = CssControl;
 
             MvpControl = new MainViewPortControl();
             MvpControl.setTextBlock(statusPane);
@@ -85,9 +83,15 @@ namespace MainUI
             slider_open_ObjectAngle.IsEnabled = false;
             slider_open_ObjectAngle_TextBox.IsEnabled = false;
 
+
+
             //toolBox_TransparentMinMax.IsChecked = false;
             //toolBox_TrackPoint.IsChecked = false;
             //toolBox_LineOfAction.IsChecked = false;
+
+            toolBox_TransparentMinMax.IsEnabled = false;
+            toolBox_TrackPoint.IsEnabled = false;
+            toolBox_LineOfAction.IsEnabled = false;
         }
 
         public List<Point3D> AxisPoints
@@ -244,7 +248,7 @@ namespace MainUI
 
             if (_bTailgate)
                 generateReflectedDrive();
-
+            
             fill_TextBox();
             create_Button.IsEnabled = true;
         }
@@ -261,7 +265,10 @@ namespace MainUI
             {
                 MvpControl.AxisOfRotation = AxisOfRotation;
                 MvpControl.AxisPoint = AxisPoints[0];
-                _oTail = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value);
+
+                double length = TransformationUtilities.calculateTailWidth(AxisPoints[0], AxisPoints[1], AxisPoints[3]);
+                _oTail = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, null, length);
+
                 _oDriveLeft = new Drive(AxisPoints[2], AxisPoints[3]);
                 _oDriveRight = new Drive(AxisPoints[4], AxisPoints[5]);
 
@@ -298,6 +305,10 @@ namespace MainUI
 
             slider_open_ObjectAngle.IsEnabled = true;
             slider_open_ObjectAngle_TextBox.IsEnabled = true;
+
+            toolBox_TransparentMinMax.IsEnabled = true;
+            toolBox_TrackPoint.IsEnabled = true;
+            toolBox_LineOfAction.IsEnabled = true;
         }
 
         //Button Listener für das Löschen der ListBox
@@ -321,6 +332,10 @@ namespace MainUI
             toolBox_LineOfAction.IsChecked = false;
             toolBox_TrackPoint.IsChecked = false;
             toolBox_TransparentMinMax.IsChecked = false;
+
+            toolBox_TransparentMinMax.IsEnabled = false;
+            toolBox_TrackPoint.IsEnabled = false;
+            toolBox_LineOfAction.IsEnabled = false;
         }
 
         //Listener für Öffnungswinkel SLIDER
@@ -595,7 +610,7 @@ namespace MainUI
 
         private void toolBox_CoordSystem_Click(object sender, RoutedEventArgs e)
         {
-            if(toolBox_CoordSystem.IsChecked == true)
+            if (toolBox_CoordSystem.IsChecked == true)
             {
                 MvpControl.showCoordSystem();
             }
@@ -657,8 +672,10 @@ namespace MainUI
 
         private void createStaticElementsTailgate()
         {
-            _oTailMinAngle = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, getTransparentMaterial());
-            _oTailMaxAngle = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, getTransparentMaterial());
+            double length = TransformationUtilities.calculateTailWidth(AxisPoints[0], AxisPoints[1], AxisPoints[3]);
+
+            _oTailMinAngle = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, getTransparentMaterial(), length);
+            _oTailMaxAngle = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, getTransparentMaterial(), length);
 
             MvpControl.AddStaticElementMinAngle(_oTailMinAngle);
             MvpControl.AddStaticElementMaxAngle(_oTailMaxAngle);
@@ -687,14 +704,11 @@ namespace MainUI
                 _oLineOfAction2 = new LineOfAction(AxisPoints[0], AxisPoints[4], AxisPoints[5], AxisOfRotation);
                 MvpControl.AddLineOfActionElement(_oLineOfAction);
                 MvpControl.AddLineOfActionElement(_oLineOfAction2);
-                //MvpControl.AddPassiveElement(_oLineOfAction);
-                //MvpControl.AddPassiveElement(_oLineOfAction2);
             }
             else
             {
                 _oLineOfAction = new LineOfAction(AxisPoints[0], AxisPoints[2], AxisPoints[3], AxisOfRotation);
                 MvpControl.AddLineOfActionElement(_oLineOfAction);
-                //MvpControl.AddPassiveElement(_oLineOfAction);
             }
         }
 
@@ -714,18 +728,37 @@ namespace MainUI
             }
         }
 
+        //private Material getTransparentMaterial()
+        //{
+        //    Color c = new Color();
+        //    c.A = 255;
+        //    c.R = Colors.LightCyan.R;
+        //    c.G = Colors.LightCyan.G;
+        //    c.B = Colors.LightCyan.B;
+
+        //    SolidColorBrush scBrush = new SolidColorBrush(c);
+        //    scBrush.Opacity = 0.25;
+
+        //    Material mat = new DiffuseMaterial(scBrush);
+        //    //Material mat = new DiffuseMaterial((SolidColorBrush)(new BrushConverter().ConvertFrom("#8000FFFF")));
+
+        //    return mat;
+        //}
+
         private Material getTransparentMaterial()
         {
             Color c = new Color();
-            c.A = 255;
-            c.R = Colors.LightCyan.R;
-            c.G = Colors.LightCyan.G;
-            c.B = Colors.LightCyan.B;
+            c.A = 10;
+            c.R = Colors.DarkGray.R;
+            c.G = Colors.DarkGray.G;
+            c.B = Colors.DarkGray.B;
 
             SolidColorBrush scBrush = new SolidColorBrush(c);
-            scBrush.Opacity = 0.25;
+            scBrush.Opacity = 0.95;
 
-            Material mat = new DiffuseMaterial(scBrush);
+            //Material mat = new DiffuseMaterial(scBrush);
+            Material mat = new EmissiveMaterial(scBrush);
+            //Material mat = new SpecularMaterial(Brushes.Black, 1);
 
             //Material mat = new DiffuseMaterial((SolidColorBrush)(new BrushConverter().ConvertFrom("#8000FFFF")));
 

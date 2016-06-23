@@ -12,6 +12,8 @@ namespace KinematicViewer
         private const double TAILDEPTH = 200.0;
         private const double TAILWIDTH = 1250.0;
 
+        private double _dTailWidth = 1250.0;
+
         private double _dCurVal;
 
         //maximaler Öffnungswinkel
@@ -33,7 +35,7 @@ namespace KinematicViewer
 
         private Material _oAxisMaterial;
 
-        public Tailgate(Point3D axisPoint, Point3D latch, Vector3D axisOfRotation, double modelThickness, Material mat = null)
+        public Tailgate(Point3D axisPoint, Point3D handPoint, Vector3D axisOfRotation, double modelThickness, Material mat = null, double tailWidth = TAILWIDTH)
             : base(mat)
         {
             AxisOfRotation = axisOfRotation;
@@ -41,13 +43,14 @@ namespace KinematicViewer
             AxisOfRotation = TransformationUtilities.ScaleVector(AxisOfRotation, 1);
 
             AxisPoint = axisPoint;
-            PointLatch = latch;
+            HandPoint = handPoint;
             MaxValue = 62.5;
             MinValue = 0.0;
 
+            TailWidth = tailWidth;
             ModelThickness = modelThickness;
 
-            VAxisToHandE1 = PointLatch - AxisPoint;
+            VAxisToHandE1 = HandPoint - AxisPoint;
 
             CoordsMidTail = makeCoordsMidTail();
             CoordsUpTail = makeCoordsUpTail();
@@ -89,7 +92,7 @@ namespace KinematicViewer
             set { _dMinOpen = value; }
         }
 
-        public Point3D PointLatch
+        public Point3D HandPoint
         {
             get { return _oPointLatch; }
             private set { _oPointLatch = value; }
@@ -137,6 +140,12 @@ namespace KinematicViewer
             set { _dLength = value; }
         }
 
+        public double TailWidth
+        {
+            get { return _dTailWidth; }
+            set { _dTailWidth = value; }
+        }
+
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
             List<GeometryModel3D> Res = new List<GeometryModel3D>();
@@ -167,11 +176,11 @@ namespace KinematicViewer
             Res.AddRange(new Cuboid(CoordsMidTail[3], CoordsMidTail[0], ModelThickness, Material).GetGeometryModel(guide));
 
             //Handle
-            Res.AddRange(new Sphere(PointLatch, 50, 16, 16, AxisMaterial).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(HandPoint, 50, 16, 16, AxisMaterial).GetGeometryModel(guide));
 
             //Drehachse
-            Point3D p1 = AxisPoint + AxisOfRotation * TAILWIDTH * 1 / 2;
-            Point3D p2 = AxisPoint - AxisOfRotation * TAILWIDTH * 1 / 2;
+            Point3D p1 = AxisPoint + AxisOfRotation * TailWidth * 1 / 2;
+            Point3D p2 = AxisPoint - AxisOfRotation * TailWidth * 1 / 2;
 
             Res.AddRange(new Sphere(AxisPoint, 50, 16, 16, AxisMaterial).GetGeometryModel(guide));
             Res.AddRange(new Cylinder(p1, p2, 10, AxisMaterial).GetGeometryModel(guide));
@@ -213,10 +222,10 @@ namespace KinematicViewer
             vN.Normalize();
             //vN = TransformationUtilities.ScaleVector(vN, 1);
 
-            Point3D pUpL = AxisPoint + (vN * OFFSET) + (vAxisQuerE2 * TAILWIDTH / 2);
-            Point3D pUpR = AxisPoint + (vN * OFFSET) - (vAxisQuerE2 * TAILWIDTH / 2);
-            Point3D pDownL = PointLatch + (vN * OFFSET) + (vAxisQuerE2 * TAILWIDTH / 2);
-            Point3D pDownR = PointLatch + (vN * OFFSET) - (vAxisQuerE2 * TAILWIDTH / 2);
+            Point3D pUpL = AxisPoint + (vN * OFFSET) + (vAxisQuerE2 * TailWidth / 2);
+            Point3D pUpR = AxisPoint + (vN * OFFSET) - (vAxisQuerE2 * TailWidth / 2);
+            Point3D pDownL = HandPoint + (vN * OFFSET) + (vAxisQuerE2 * TailWidth / 2);
+            Point3D pDownR = HandPoint + (vN * OFFSET) - (vAxisQuerE2 * TailWidth / 2);
 
             points.Add(pUpL);
             points.Add(pDownL);

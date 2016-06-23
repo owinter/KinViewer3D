@@ -63,6 +63,22 @@ namespace KinematicViewer
             return point;
         }
 
+        public static double calculateTailWidth(Point3D axisPoint, Point3D handPoint, Point3D attPointDoor)
+        {
+            Vector3D vR = new Vector3D(axisPoint.X, axisPoint.Y, axisPoint.Z);
+            Vector3D vAxisToHandE1 = handPoint - axisPoint;
+            Vector3D vE2 = Vector3D.CrossProduct(vAxisToHandE1, new Vector3D(0, 1, 0));
+
+            double d = Vector3D.DotProduct(vR, vE2);
+
+            double lambda = ((d - Vector3D.DotProduct(new Vector3D(attPointDoor.X, attPointDoor.Y, attPointDoor.Z), vE2)) / (Vector3D.DotProduct(vE2, vE2)));
+
+            Point3D point = attPointDoor + 2 * lambda * vE2;
+
+            double length = (point - attPointDoor).Length;
+            return length;
+        }
+
         public static double MinDistVectorToVector(Vector3D L1, Vector3D L2, Point3D p1, Point3D p2)
         {
             const double SMALL_NUM = 0.00000001;
