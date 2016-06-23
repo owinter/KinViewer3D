@@ -14,18 +14,15 @@ namespace KinematicViewer
 
         //3D KoordinatenSystem Model der jeweiligen farbigen Achsen
         private GeometryModel3D _oAxes_Model_X;
+
         private GeometryModel3D _oAxes_Model_Y;
         private GeometryModel3D _oAxes_Model_Z;
         private GeometryModel3D _oCube_Model;
-
-        //Perspektiviesche Kamera des Koordinatensystem
-        private PerspectiveCamera _oPCamera_CoordSystem;
 
         // Lichter für das Koordinatensystem.
         private List<Light> _oLLights;
 
         private Viewport3D _oViewportCoordSystem;
-
 
         public CoordSystem(Viewport3D viewportCoordSystem)
         {
@@ -43,12 +40,6 @@ namespace KinematicViewer
         {
             get { return _oLLights; }
             set { _oLLights = value; }
-        }
-
-        public PerspectiveCamera Camera_CoordSystem
-        {
-            get { return _oPCamera_CoordSystem; }
-            set { _oPCamera_CoordSystem = value; }
         }
 
         private void buildCoordinateSystem()
@@ -108,11 +99,11 @@ namespace KinematicViewer
             Vector3D v = point2 - point1;
 
             // Breite des Segmentes entsprechend Skalieren
-            Vector3D n1 = ScaleVector(up, thickness / 2.0);
+            Vector3D n1 = TransformationUtilities.ScaleVector(up, thickness / 2.0);
 
             // Erstellt einen senkrechten skalierten Vektor zu n1
             Vector3D n2 = Vector3D.CrossProduct(v, n1);
-            n2 = ScaleVector(n2, thickness / 2.0);
+            n2 = TransformationUtilities.ScaleVector(n2, thickness / 2.0);
 
             // Erstellen eines kleinen dünnen Rechtecks.
             // p1pm bedeutet point1 PLUS n1 MINUS n2.
@@ -172,13 +163,6 @@ namespace KinematicViewer
             mesh.TriangleIndices.Add(index++);
             mesh.TriangleIndices.Add(index++);
             mesh.TriangleIndices.Add(index);
-        }
-
-        // Vektor Länge für das Koordinatensystem
-        private Vector3D ScaleVector(Vector3D vector, double length)
-        {
-            double scale = length / vector.Length;
-            return new Vector3D(vector.X * scale, vector.Y * scale, vector.Z * scale);
         }
 
         // Beleuchtung für das Koordinatensystem

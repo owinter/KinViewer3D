@@ -24,7 +24,10 @@ namespace KinematicViewer
         //private CoordSystemSmall _oC_SystemSmall;
 
         // Koordinatensystem im eigenen viewport
-        private CoordSystem _oCS;
+        private CoordSystem _oCoordSystem;
+
+        private Viewport3D _oViewportCoordSystem;
+        private Grid _oGridCoordSystem;
 
         //Klasse für Transformationen aller Art
         private Transformation trans;
@@ -58,6 +61,15 @@ namespace KinematicViewer
             InitializeComponent();
             //axisPoints = new List<Point3D>();
 
+            trans = new Transformation();
+
+            //Viewport des Koordinatensystems erstellen
+            ViewportCoordSystem = new Viewport3D();
+            ViewportCoordSystem.ClipToBounds = true;
+
+            //Visuelles Koordinatensystem erstellen
+            createCoordSystem();
+
             ElementsActive = new List<GeometricalElement>();
             ElementsPassive = new List<GeometricalElement>();
             ElementsStaticMinAngle = new List<GeometricalElement>();
@@ -65,17 +77,12 @@ namespace KinematicViewer
             ElementsLineOfAction = new List<GeometricalElement>();
             ElementsTrackPoint = new List<GeometricalElement>();
 
-            trans = new Transformation();
-            _oCS = new CoordSystem(viewportCoordSystem);
-            ViewportCam = new ViewportCamera(MainGrid, viewport, viewportCoordSystem, _oCS, trans);
-
-            //_oCS.makeCoordSystemCamera();
+            //Kameras für die zwei Viewports erstellen
+            ViewportCam = new ViewportCamera(MainGrid, viewport, ViewportCoordSystem, CoordSystem, trans);
             ViewportCam.makeCoordSystemCamera();
             ViewportCam.startPerspectiveCamera();
             ViewportCam.MyCam = Cam.Perspective;
             ViewportCam.resetCam();
-
-            
 
             CanMoveCamera = true;
         }
@@ -117,6 +124,24 @@ namespace KinematicViewer
         {
             get { return _oPAxisPoint; }
             set { _oPAxisPoint = value; }
+        }
+
+        public CoordSystem CoordSystem
+        {
+            get { return _oCoordSystem; }
+            set { _oCoordSystem = value; }
+        }
+
+        public Viewport3D ViewportCoordSystem
+        {
+            get { return _oViewportCoordSystem; }
+            set { _oViewportCoordSystem = value; }
+        }
+
+        public Grid GridCoordSystem
+        {
+            get { return _oGridCoordSystem; }
+            set { _oGridCoordSystem = value; }
         }
 
         //Übergeben eines TextBlockObjectes an das ViewportControl
@@ -202,7 +227,7 @@ namespace KinematicViewer
             groupActive.Children.Clear();
 
             foreach (GeometricalElement e in ElementsActive)
-                foreach (Model3D m in e.GetGeometryModel(Guide))
+                foreach (GeometryModel3D m in e.GetGeometryModel(Guide))
                     groupActive.Children.Add(m);
         }
 
@@ -211,7 +236,7 @@ namespace KinematicViewer
             groupPassive.Children.Clear();
 
             foreach (GeometricalElement e in ElementsPassive)
-                foreach (Model3D m in e.GetGeometryModel(Guide))
+                foreach (GeometryModel3D m in e.GetGeometryModel(Guide))
                     groupPassive.Children.Add(m);
         }
 
@@ -220,7 +245,7 @@ namespace KinematicViewer
             groupStaticMinAngle.Children.Clear();
 
             foreach (GeometricalElement e in ElementsStaticMinAngle)
-                foreach (Model3D m in e.GetGeometryModel(null))
+                foreach (GeometryModel3D m in e.GetGeometryModel(null))
                     groupStaticMinAngle.Children.Add(m);
         }
 
@@ -229,7 +254,7 @@ namespace KinematicViewer
             groupStaticMaxAngle.Children.Clear();
 
             foreach (GeometricalElement e in ElementsStaticMinAngle)
-                foreach (Model3D m in e.GetGeometryModel(null))
+                foreach (GeometryModel3D m in e.GetGeometryModel(null))
                     groupStaticMaxAngle.Children.Add(m);
         }
 
@@ -238,7 +263,7 @@ namespace KinematicViewer
             groupLineOfAction.Children.Clear();
 
             foreach (GeometricalElement e in ElementsLineOfAction)
-                foreach (Model3D m in e.GetGeometryModel(Guide))
+                foreach (GeometryModel3D m in e.GetGeometryModel(Guide))
                     groupLineOfAction.Children.Add(m);
         }
 
@@ -247,7 +272,7 @@ namespace KinematicViewer
             groupTrackPoint.Children.Clear();
 
             foreach (GeometricalElement e in ElementsTrackPoint)
-                foreach (Model3D m in e.GetGeometryModel(Guide))
+                foreach (GeometryModel3D m in e.GetGeometryModel(Guide))
                     groupTrackPoint.Children.Add(m);
         }
 
@@ -289,6 +314,49 @@ namespace KinematicViewer
             UpdateTrackPointGroup();
         }
 
+        //Visuelles Koordinatensystem erstellen
+        public void createCoordSystem()
+        {
+            //Hintergrundfarbe im gleichen Farbton wie das MainViewport
+            Color c = (Color)ColorConverter.ConvertFromString("#eee9e9");
+
+            //Grid Koordinatensystem
+            GridCoordSystem = new Grid();
+            GridCoordSystem.Background = new SolidColorBrush(c);
+            GridCoordSystem.Height = 160;
+            GridCoordSystem.Width = 160;
+            GridCoordSystem.HorizontalAlignment = HorizontalAlignment.Right;
+            GridCoordSystem.VerticalAlignment = VerticalAlignment.Top;
+
+            //Border Koordinatensystem
+            Border b = new Border();
+            b.Background = new SolidColorBrush(c);
+            b.BorderBrush = Brushes.Silver;
+            b.BorderThickness = new Thickness(2);
+            b.Width = 160;
+            b.Height = 160;
+
+            //visueller Inhalt ( 3 farbige Achsen ) des Koordinatensystems
+            CoordSystem = new CoordSystem(ViewportCoordSystem);
+
+            //dem Grid des Koordinatensystems die Border und viewport hinzufügen
+            GridCoordSystem.Children.Add(b);
+            GridCoordSystem.Children.Add(ViewportCoordSystem);
+
+            //das Grid Koordinatensystem dem MainGrid hinzufügen
+            MainGrid.Children.Add(GridCoordSystem);
+        }
+
+        public void showCoordSystem()
+        {
+            MainGrid.Children.Add(GridCoordSystem);
+        }
+
+        public void removeCoordSystem()
+        {
+            MainGrid.Children.Remove(GridCoordSystem);
+        }
+
         //MAUSSTEUERUNG im MainGrid
         private void MainGrid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -317,7 +385,6 @@ namespace KinematicViewer
                 {
                     ViewportCam.panCam();
                 }
-
             }
         }
 
@@ -406,13 +473,13 @@ namespace KinematicViewer
             {
                 trans.RotationPoint = AxisPoint;
                 ViewportCam.setCam();
-                
+
                 changeModelColorRandom(resultMesh);
                 return HitTestResultBehavior.Stop;
             }
-            if(vis == (viewport.FindName("lineOfActionVisual") as ModelVisual3D))
-            {
 
+            if (vis == (viewport.FindName("lineOfActionVisual") as ModelVisual3D))
+            {
                 return HitTestResultBehavior.Stop;
             }
             return HitTestResultBehavior.Continue;

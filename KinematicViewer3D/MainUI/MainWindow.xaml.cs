@@ -41,7 +41,6 @@ namespace MainUI
         private double _dModelThickness;
 
         private MainViewPortControl _oMvpControl;
-        
 
         private bool _bTailgate = true;
 
@@ -318,6 +317,10 @@ namespace MainUI
             slider_open_ObjectAngle.Value = 0.0;
             slider_open_ObjectAngle.IsEnabled = false;
             slider_open_ObjectAngle_TextBox.IsEnabled = false;
+
+            toolBox_LineOfAction.IsChecked = false;
+            toolBox_TrackPoint.IsChecked = false;
+            toolBox_TransparentMinMax.IsChecked = false;
         }
 
         //Listener für Öffnungswinkel SLIDER
@@ -332,13 +335,11 @@ namespace MainUI
             else
                 OpenAngleDegree.Text = Math.Round(_oDoor.CurValue, 2).ToString();
 
-            if(toolBox_LineOfAction.IsChecked == true)
+            if (toolBox_LineOfAction.IsChecked == true)
             {
-                string hebelarm =" Hebelarm in [mm]: " + Math.Round(_oLineOfAction.DistancePerpendicular, 2).ToString();
+                string hebelarm = " Hebelarm in [mm]: " + Math.Round(_oLineOfAction.DistancePerpendicular, 2).ToString();
                 statusPane.Text = hebelarm;
             }
-            
-            
         }
 
         //Objekttransformation zurücksetzen
@@ -351,7 +352,6 @@ namespace MainUI
         //Koordinateneingabe in 3D Punkte umwandeln
         private void convertUserInput()
         {
-            
             ////Benutzereingaben der Koordinaten zwischen denen eine 3D Linie erzeugt wird
             ////Punkt Drehachse
             //double x1, y1, z1;
@@ -364,7 +364,6 @@ namespace MainUI
 
             ////Punkt für Antrieb an Heckklappe
             //double x4, y4, z4;
-            
 
             try
             {
@@ -594,6 +593,18 @@ namespace MainUI
             }
         }
 
+        private void toolBox_CoordSystem_Click(object sender, RoutedEventArgs e)
+        {
+            if(toolBox_CoordSystem.IsChecked == true)
+            {
+                MvpControl.showCoordSystem();
+            }
+            else
+            {
+                MvpControl.removeCoordSystem();
+            }
+        }
+
         private void toolBox_ZoomOut_Button_Click(object sender, RoutedEventArgs e)
         {
             MvpControl.zoomOut();
@@ -702,18 +713,6 @@ namespace MainUI
                 MvpControl.AddTrackPointElement(_oTrackPoint);
             }
         }
-
-        //private SolidColorBrush getTransparentBrush()
-        //{
-        //    Color c = new Color();
-        //    c.A = 16;
-        //    c.R = Colors.LightCyan.R;
-        //    c.G = Colors.LightCyan.G;
-        //    c.B = Colors.LightCyan.B;
-        //    SolidColorBrush Res = new SolidColorBrush(c);
-
-        //    return Res;
-        //}
 
         private Material getTransparentMaterial()
         {

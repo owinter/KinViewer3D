@@ -485,7 +485,7 @@
                 </ModelVisual3D.Content>
             </ModelVisual3D>
         </Viewport3D>
-
+        <!--
         <Grid Background="#eee9e9"
               Height="160"
               Width=" 160"
@@ -501,9 +501,9 @@
                     Height="Auto"
                     Width="Auto"
                     ClipToBounds="True"
-                    Focusable="True">
+                    Focusable="False">
                 </Viewport3D>
             </Border>
-        </Grid>
+        </Grid>-->
     </Grid>
 </UserControl>

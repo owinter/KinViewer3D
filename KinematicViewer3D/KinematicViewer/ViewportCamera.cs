@@ -58,7 +58,6 @@ namespace KinematicViewer
             Trans = trans;
 
             Trans_CSS = new Transformation();
-            oP_Camera_CoordSystem = coordSystem.Camera_CoordSystem;
 
             OrthoWidth = 3200;
             ZoomFactor = 100;

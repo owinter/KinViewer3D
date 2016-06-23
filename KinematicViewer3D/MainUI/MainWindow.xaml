@@ -492,9 +492,15 @@
                                         </ToggleButton>
                                         <ToggleButton x:Name="toolBox_TrackPoint"
                                                 Margin="10,0,0,0"
-                                                Content="TrackPoint"
                                                 Click="toolBox_TrackPoint_Click" 
                                                 IsChecked="False">
+                                            <Image Source="Image\Icons\16x16\trackPoints_16x16.png" />
+                                        </ToggleButton>
+                                        <ToggleButton x:Name="toolBox_CoordSystem"
+                                                      Margin="10,0,0,0"
+                                                      Click="toolBox_CoordSystem_Click"
+                                                      IsChecked="True" >
+                                            <Image Source="Image\Icons\16x16\coordSystem_16x16.png" />
                                         </ToggleButton>
                                     </ToolBar>
                                 </ToolBarTray>

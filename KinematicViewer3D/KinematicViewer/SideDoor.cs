@@ -26,14 +26,13 @@ namespace KinematicViewer
         private double _dModelThickness;
         private double _dLength;
 
+        private Vector3D _oVAxisToHandE1;
         private Vector3D _oAxisOfRotation;
         private Point3D _oAxisPoint;
         private Point3D _oPointLatch;
 
         private List<Point3D> _oLCoordsBodyPart;
         private List<Point3D> _oLCoordsWindowPart;
-
-        private Vector3D _oVAxisToHandE1;
 
         private Material _oAxisMaterial;
 
@@ -164,8 +163,6 @@ namespace KinematicViewer
             Res.AddRange(new Sphere(LatchPoint, 50, 16, 16, AxisMaterial).GetGeometryModel(guide));
 
             //Drehachse
-            //Point3D p1 = AxisPoint + AxisOfRotation * DOORWIDTH * 1 / 2;
-            //Point3D p2 = AxisPoint - AxisOfRotation * DOORWIDTH * 1 / 2;
             Point3D p1 = AxisPoint + AxisOfRotation * AxisLength / 2;
             Point3D p2 = AxisPoint - AxisOfRotation * AxisLength / 2;
 
