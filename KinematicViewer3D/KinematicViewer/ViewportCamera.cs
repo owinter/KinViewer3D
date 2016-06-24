@@ -29,7 +29,8 @@ namespace KinematicViewer
         //Kamerabreite für orthographische Kamera
         private double _dOrthoWidth;
 
-        private double _dZoomFactor;
+        private double _dZoomFactorToolBox;
+        private double _dZoomFactorMouse;
 
         //Mitte des ViewPort
         private Point _oCenterOfViewport;
@@ -60,7 +61,8 @@ namespace KinematicViewer
             Trans_CSS = new Transformation();
 
             OrthoWidth = 3200;
-            ZoomFactor = 100;
+            ZoomFactorToolBox = 100;
+            ZoomFactorMouse = 5;
         }
 
         public double Yaw
@@ -81,10 +83,16 @@ namespace KinematicViewer
             set { _dOrthoWidth = value; }
         }
 
-        public double ZoomFactor
+        public double ZoomFactorToolBox
         {
-            get { return _dZoomFactor; }
-            set { _dZoomFactor = value; }
+            get { return _dZoomFactorToolBox; }
+            set { _dZoomFactorToolBox = value; }
+        }
+
+        public double ZoomFactorMouse
+        {
+            get { return _dZoomFactorMouse; }
+            set { _dZoomFactorMouse = value; }
         }
 
         public Viewport3D Viewport
@@ -229,11 +237,63 @@ namespace KinematicViewer
             Trans_CSS.Pitch = 0.0;
         }
 
-        //Listener für das Mausrad --> ZOOM Funtkion
+        
+
+        //Zoom über das Drehen des Mausrades
         public void viewport_Grid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            zoomCam(e.Delta);
+            zoomCamera(e.Delta);
         }
+
+        //HineinZoomen über ToolBox
+        public void zoomIn()
+        {
+            zoomCamera(ZoomFactorToolBox);
+        }
+
+        //HerausZoomen über ToolBox
+        public void zoomOut()
+        {
+            zoomCamera(-ZoomFactorToolBox);
+        }
+
+        //Zoom über die vertikale Mausbewegung
+        public void zoomCam()
+        {
+            Point relativePos = Mouse.GetPosition(Viewport);
+            Point actualRelativePos = new Point(relativePos.X - Math.Ceiling(Viewport.ActualWidth / 2), Math.Floor(Viewport.ActualHeight / 2) - relativePos.Y);
+            double value_y = actualRelativePos.Y * ZoomFactorMouse;
+
+            zoomCamera(value_y);
+
+            MouseUtilities.SetPosition(_oCenterOfViewport);
+        }
+
+        private void zoomCamera(double value)
+        {
+            switch (MyCam)
+            {
+                case Cam.Perspective:
+                    {
+                        //je kleiner die Division desto schneller wird gezoomt und umgekehrt
+                        //Änderung der Kameraentfernung um das Delta des Mausrades
+                        Trans.Zoom(oP_Camera, value / 1);
+                    }
+                    break;
+
+                case Cam.Orthographic:
+                    {
+                        //je kleiner die Division desto schneller wird gezoomt und umgekehrt
+                        //Änderung der Kamerabreite um das Delta des Mausrades
+                        //CameraR = CameraR - e.Delta / 250D;
+                        OrthoWidth -= value / 2.5D;
+                    }
+                    break;
+            }
+            //trans_CSS.Zoom(oP_Camera_CoordSystem, value / 1);
+            updatePositionCamera();
+        }
+
 
         public void orbitCam()
         {
@@ -504,30 +564,7 @@ namespace KinematicViewer
             }
         }
 
-        private void zoomCam(double value)
-        {
-            switch (MyCam)
-            {
-                case Cam.Perspective:
-                    {
-                        //je kleiner die Division desto schneller wird gezoomt und umgekehrt
-                        //Änderung der Kameraentfernung um das Delta des Mausrades
-                        Trans.Zoom(oP_Camera, value / 1);
-                    }
-                    break;
-
-                case Cam.Orthographic:
-                    {
-                        //je kleiner die Division desto schneller wird gezoomt und umgekehrt
-                        //Änderung der Kamerabreite um das Delta des Mausrades
-                        //CameraR = CameraR - e.Delta / 250D;
-                        OrthoWidth -= value / 2.5D;
-                    }
-                    break;
-            }
-            //trans_CSS.Zoom(oP_Camera_CoordSystem, value / 1);
-            updatePositionCamera();
-        }
+        
 
         /// <summary>
         /// TOOLBAR Funktionen
@@ -609,15 +646,7 @@ namespace KinematicViewer
             Trans_CSS.doPitch(oP_Camera_CoordSystem, 270);
         }
 
-        public void zoomIn()
-        {
-            zoomCam(ZoomFactor);
-        }
-
-        public void zoomOut()
-        {
-            zoomCam(-ZoomFactor);
-        }
+        
 
         //Öffentliche Getter & Setter Methoden
         public Cam MyCam

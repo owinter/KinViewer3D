@@ -13,9 +13,15 @@ namespace KinematicViewer
     /// </summary>
     public partial class MainViewPortControl : UserControl
     {
+        //Abfrage für die Maussteuerung
         private bool _bMouseDownRight;
         private bool _bMouseDownLeft;
         private bool _bMouseDownMiddle;
+        private bool _bZoomCheck = false;
+        private bool _bZoom = false;
+        private bool _bDrag = false;
+        private bool _bOrbit = false;
+        private bool _bPan = false;
 
         //Klasse für Kameraeinstellungen und deren Positionen
         private ViewportCamera _oViewportCam;
@@ -354,6 +360,10 @@ namespace KinematicViewer
             MainGrid.Children.Remove(GridCoordSystem);
         }
 
+
+
+        
+
         //MAUSSTEUERUNG im MainGrid
         private void MainGrid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -367,21 +377,14 @@ namespace KinematicViewer
         {
             if (CanMoveCamera)
             {
-                // Wenn Rechte Maustaste "nicht" gedrückt dann passiert auch nichts
-                if (_bMouseDownRight && (!_bMouseDownLeft || !_bMouseDownMiddle))
-                {
-                    ViewportCam.orbitCam();
-                }
-
-                if (_bMouseDownMiddle && (!_bMouseDownLeft || !_bMouseDownRight))
-                {
+                if (_bDrag)
                     ViewportCam.dragCam();
-                }
-
-                if (_bMouseDownLeft)
-                {
+                if (_bOrbit)
+                    ViewportCam.orbitCam();
+                if (_bZoom)
+                    ViewportCam.zoomCam();
+                if (_bPan)
                     ViewportCam.panCam();
-                }
             }
         }
 
@@ -390,7 +393,9 @@ namespace KinematicViewer
             if (e.ChangedButton == MouseButton.Middle)
             {
                 _bMouseDownMiddle = true;
-                ViewportCam.setMouseToCenter();
+                Cursor = Cursors.ScrollAll;
+                _bDrag = true;
+                ViewportCam.setMouseToCenter();  
             }
         }
 
@@ -399,53 +404,163 @@ namespace KinematicViewer
             if (e.ChangedButton == MouseButton.Middle)
             {
                 _bMouseDownMiddle = false;
+                Cursor = Cursors.Arrow;
+                _bDrag = false;
+                _bOrbit = false;
+                _bZoom = false;
+                _bPan = false;
             }
         }
 
         private void MainGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (CanMoveCamera)
+            _bMouseDownRight = true;
+            if(_bMouseDownMiddle)
             {
-                _bMouseDownRight = true;
-                ViewportCam.setMouseToCenter();
-
-                // Curser unsichtbar machen
-                this.Cursor = Cursors.None;
-            }
+                Cursor = Cursors.Cross;
+                _bDrag = false;
+                _bOrbit = true;
+            }         
         }
 
         private void MainGrid_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            // Maustaste ist nicht länger gedrückt, also wird Curser wieder sichtbar
             _bMouseDownRight = false;
-            Cursor = Cursors.Arrow;
+            if (_bMouseDownMiddle)
+            {
+                Cursor = Cursors.ScrollNS;
+                _bDrag = false;
+                _bOrbit = false;
+                _bZoom = true;
+            }        
         }
 
         private void MainGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            //CanMoveCamera = false;
             _bMouseDownLeft = true;
-            ViewportCam.setMouseToCenter();
+            if (_bMouseDownMiddle)
+            {
+                Cursor = Cursors.None;
+                _bPan = true;
+            }
+                
+            if(!_bMouseDownMiddle)
+            {
+                //dem Viewport den Focus übergeben, sodass die Tasteneingabe funktioniert
+                viewport_MouseDown(sender, e);
+            }
 
-            //Testverfahren für mögliches Hittesting
-            Point pt = e.GetPosition(viewport);
-            VisualTreeHelper.HitTest(viewport, null, HitTestDown, new PointHitTestParameters(pt));
-
-            //dem Viewport den Focus übergeben, sodass die Tasteneingabe funktioniert
-            viewport_MouseDown(sender, e);
+            if(!_bMouseDownRight || !_bMouseDownMiddle)
+            {
+                //Testverfahren für mögliches Hittesting
+                Point pt = e.GetPosition(viewport);
+                VisualTreeHelper.HitTest(viewport, null, HitTestDown, new PointHitTestParameters(pt));
+            }
         }
 
         private void MainGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (!CanMoveCamera)
-            {
-                if (!_bMouseDownLeft) return;
-
-                showScreenCoords(sender, e);
-            }
             _bMouseDownLeft = false;
-            CanMoveCamera = true;
+            Cursor = Cursors.Arrow;
+            _bPan = false;
         }
+
+
+
+
+
+        ////MAUSSTEUERUNG im MainGrid
+        //private void MainGrid_MouseWheel(object sender, MouseWheelEventArgs e)
+        //{
+        //    if (CanMoveCamera)
+        //    {
+        //        ViewportCam.viewport_Grid_MouseWheel(sender, e);
+        //    }
+        //}
+
+        //private void MainGrid_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    if (CanMoveCamera)
+        //    {
+        //        // Wenn Rechte Maustaste "nicht" gedrückt dann passiert auch nichts
+        //        if (_bMouseDownRight && (!_bMouseDownLeft || !_bMouseDownMiddle))
+        //        {
+        //            ViewportCam.orbitCam();
+        //        }
+
+        //        if (_bMouseDownMiddle && (!_bMouseDownLeft || !_bMouseDownRight))
+        //        {
+        //            ViewportCam.dragCam();
+        //        }
+
+        //        if (_bMouseDownLeft)
+        //        {
+        //            ViewportCam.panCam();
+        //        }
+        //    }
+        //}
+
+        //private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (e.ChangedButton == MouseButton.Middle)
+        //    {
+        //        _bMouseDownMiddle = true;
+        //        ViewportCam.setMouseToCenter();
+        //    }
+        //}
+
+        //private void MainGrid_MouseUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (e.ChangedButton == MouseButton.Middle)
+        //    {
+        //        _bMouseDownMiddle = false;
+        //    }
+        //}
+
+        //private void MainGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (CanMoveCamera)
+        //    {
+        //        _bMouseDownRight = true;
+        //        ViewportCam.setMouseToCenter();
+
+        //        // Curser unsichtbar machen
+        //        this.Cursor = Cursors.None;
+        //    }
+        //}
+
+        //private void MainGrid_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    // Maustaste ist nicht länger gedrückt, also wird Curser wieder sichtbar
+        //    _bMouseDownRight = false;
+        //    Cursor = Cursors.Arrow;
+        //}
+
+        //private void MainGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    //CanMoveCamera = false;
+        //    _bMouseDownLeft = true;
+        //    ViewportCam.setMouseToCenter();
+
+        //    //Testverfahren für mögliches Hittesting
+        //    Point pt = e.GetPosition(viewport);
+        //    VisualTreeHelper.HitTest(viewport, null, HitTestDown, new PointHitTestParameters(pt));
+
+        //    //dem Viewport den Focus übergeben, sodass die Tasteneingabe funktioniert
+        //    viewport_MouseDown(sender, e);
+        //}
+
+        //private void MainGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (!CanMoveCamera)
+        //    {
+        //        if (!_bMouseDownLeft) return;
+
+        //        showScreenCoords(sender, e);
+        //    }
+        //    _bMouseDownLeft = false;
+        //    CanMoveCamera = true;
+        //}
 
         //HitTest Verhalten wenn auf einen Antrieb oder ein visuelles Model geklickt wird
         private HitTestResultBehavior HitTestDown(HitTestResult result)
