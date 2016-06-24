@@ -107,6 +107,7 @@ namespace KinematicViewer
 
             //Geometry aus Mesh erzeugen
             GeometryModel3D model = new GeometryModel3D(mesh, Material);
+            //model.BackMaterial = Material;
             model.Transform = new Transform3DGroup();
 
             return new GeometryModel3D[] { model };

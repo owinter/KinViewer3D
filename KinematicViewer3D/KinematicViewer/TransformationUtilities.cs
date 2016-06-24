@@ -34,7 +34,7 @@ namespace KinematicViewer
             return rotation.Transform(point);
         }
 
-        public static Point3D reflectPoint(Point3D p, Vector3D vR, Vector3D vE2, double d)
+        public static Point3D reflectPoint(Point3D axisPoint, Point3D handPoint, Point3D drivePoint)
         {
             /*
              * Hessische Form : Px * N - d = 0   ==> d = Px * N
@@ -56,9 +56,16 @@ namespace KinematicViewer
              * Punkt P = attPoint + 2 * lambda * vE2
              *
              */
-            double lambda = ((d - Vector3D.DotProduct(new Vector3D(p.X, p.Y, p.Z), vE2)) / (Vector3D.DotProduct(vE2, vE2)));
 
-            Point3D point = p + 2 * lambda * vE2;
+            Vector3D vR = new Vector3D(axisPoint.X, axisPoint.Y, axisPoint.Z);
+            Vector3D vAxisToHandE1 = handPoint - axisPoint;
+            Vector3D vE2 = Vector3D.CrossProduct(vAxisToHandE1, new Vector3D(0, 1, 0));
+
+            double d = Vector3D.DotProduct(vR, vE2);
+
+            double lambda = ((d - Vector3D.DotProduct(new Vector3D(drivePoint.X, drivePoint.Y, drivePoint.Z), vE2)) / (Vector3D.DotProduct(vE2, vE2)));
+
+            Point3D point = drivePoint + 2 * lambda * vE2;
 
             return point;
         }
@@ -79,12 +86,12 @@ namespace KinematicViewer
             return length;
         }
 
-        public static double MinDistVectorToVector(Vector3D L1, Vector3D L2, Point3D p1, Point3D p2)
+        public static double MinDistVectorToVector(Vector3D v1, Vector3D v2, Point3D p1, Point3D p2)
         {
             const double SMALL_NUM = 0.00000001;
 
-            Vector3D u = L1;
-            Vector3D v = L2;
+            Vector3D u = v1;
+            Vector3D v = v2;
             Vector3D w = p1 - p2;
 
             double a = Vector3D.DotProduct(u, u);

@@ -266,8 +266,8 @@ namespace MainUI
                 MvpControl.AxisOfRotation = AxisOfRotation;
                 MvpControl.AxisPoint = AxisPoints[0];
 
-                double length = TransformationUtilities.calculateTailWidth(AxisPoints[0], AxisPoints[1], AxisPoints[3]);
-                _oTail = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, null, length);
+                double tailWidth = TransformationUtilities.calculateTailWidth(AxisPoints[0], AxisPoints[1], AxisPoints[3]);
+                _oTail = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, false, tailWidth);
 
                 _oDriveLeft = new Drive(AxisPoints[2], AxisPoints[3]);
                 _oDriveRight = new Drive(AxisPoints[4], AxisPoints[5]);
@@ -285,7 +285,7 @@ namespace MainUI
             {
                 MvpControl.AxisOfRotation = AxisOfRotation;
                 MvpControl.AxisPoint = AxisPoints[0];
-                _oDoor = new SideDoor(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value);
+                _oDoor = new SideDoor(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, false);
                 _oDriveDoor = new Drive(AxisPoints[2], AxisPoints[3]);
 
                 MvpControl.Guide = _oDoor;
@@ -657,14 +657,8 @@ namespace MainUI
 
         private void generateReflectedDrive()
         {
-            Vector3D vR = new Vector3D(AxisPoints[0].X, AxisPoints[0].Y, AxisPoints[0].Z);
-            Vector3D vAxisToHandE1 = AxisPoints[1] - AxisPoints[0];
-            Vector3D vE2 = Vector3D.CrossProduct(vAxisToHandE1, new Vector3D(0, 1, 0));
-
-            double d = Vector3D.DotProduct(vR, vE2);
-
-            Point3D p1 = TransformationUtilities.reflectPoint(AxisPoints[2], vR, vE2, d);
-            Point3D p2 = TransformationUtilities.reflectPoint(AxisPoints[3], vR, vE2, d);
+            Point3D p1 = TransformationUtilities.reflectPoint(AxisPoints[0], AxisPoints[1], AxisPoints[2]);
+            Point3D p2 = TransformationUtilities.reflectPoint(AxisPoints[0], AxisPoints[1], AxisPoints[3]);
 
             AxisPoints.Add(p1);
             AxisPoints.Add(p2);
@@ -672,10 +666,10 @@ namespace MainUI
 
         private void createStaticElementsTailgate()
         {
-            double length = TransformationUtilities.calculateTailWidth(AxisPoints[0], AxisPoints[1], AxisPoints[3]);
+            double tailWidth = TransformationUtilities.calculateTailWidth(AxisPoints[0], AxisPoints[1], AxisPoints[3]);
 
-            _oTailMinAngle = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, getTransparentMaterial(), length);
-            _oTailMaxAngle = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, getTransparentMaterial(), length);
+            _oTailMinAngle = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, true, tailWidth, getTransparentMaterial());
+            _oTailMaxAngle = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, true, tailWidth, getTransparentMaterial());
 
             MvpControl.AddStaticElementMinAngle(_oTailMinAngle);
             MvpControl.AddStaticElementMaxAngle(_oTailMaxAngle);
@@ -686,8 +680,8 @@ namespace MainUI
 
         private void createStaticElementsSideDoor()
         {
-            _oDoorMinAngle = new SideDoor(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, getTransparentMaterial());
-            _oDoorMaxAngle = new SideDoor(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, getTransparentMaterial());
+            _oDoorMinAngle = new SideDoor(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, true, getTransparentMaterial());
+            _oDoorMaxAngle = new SideDoor(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, true, getTransparentMaterial());
 
             MvpControl.AddStaticElementMinAngle(_oDoorMinAngle);
             MvpControl.AddStaticElementMaxAngle(_oDoorMaxAngle);
@@ -731,7 +725,7 @@ namespace MainUI
         //private Material getTransparentMaterial()
         //{
         //    Color c = new Color();
-        //    c.A = 255;
+        //    c.A = 128;
         //    c.R = Colors.LightCyan.R;
         //    c.G = Colors.LightCyan.G;
         //    c.B = Colors.LightCyan.B;
@@ -748,19 +742,14 @@ namespace MainUI
         private Material getTransparentMaterial()
         {
             Color c = new Color();
-            c.A = 10;
-            c.R = Colors.DarkGray.R;
-            c.G = Colors.DarkGray.G;
-            c.B = Colors.DarkGray.B;
-
+            c.A = 15;
+            c.R = 192;
+            c.G = 192;
+            c.B = 192;
+            
             SolidColorBrush scBrush = new SolidColorBrush(c);
             scBrush.Opacity = 0.95;
-
-            //Material mat = new DiffuseMaterial(scBrush);
             Material mat = new EmissiveMaterial(scBrush);
-            //Material mat = new SpecularMaterial(Brushes.Black, 1);
-
-            //Material mat = new DiffuseMaterial((SolidColorBrush)(new BrushConverter().ConvertFrom("#8000FFFF")));
 
             return mat;
         }

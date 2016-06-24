@@ -8,20 +8,17 @@ namespace KinematicViewer
 {
     public class Tailgate : GeometricalElement, IGuide
     {
-        private const double OFFSET = 130.0;
+        private const double OFFSET = 160.0;
         private const double TAILDEPTH = 200.0;
         private const double TAILWIDTH = 1250.0;
 
         private double _dTailWidth = 1250.0;
-
         private double _dCurVal;
-
-        //maximaler Öffnungswinkel
         private double _dMaxOpen;
-
         private double _dMinOpen;
         private double _dLength;
         private double _dModelThickness;
+        private bool _bTransparent;
 
         private Vector3D _oAxisOfRotation;
         private Point3D _oAxisPoint;
@@ -35,7 +32,7 @@ namespace KinematicViewer
 
         private Material _oAxisMaterial;
 
-        public Tailgate(Point3D axisPoint, Point3D handPoint, Vector3D axisOfRotation, double modelThickness, Material mat = null, double tailWidth = TAILWIDTH)
+        public Tailgate(Point3D axisPoint, Point3D handPoint, Vector3D axisOfRotation, double modelThickness, bool transparent, double tailWidth = Double.NaN, Material mat = null)
             : base(mat)
         {
             AxisOfRotation = axisOfRotation;
@@ -47,8 +44,13 @@ namespace KinematicViewer
             MaxValue = 62.5;
             MinValue = 0.0;
 
-            TailWidth = tailWidth;
+            if (!Double.IsNaN((double)tailWidth))
+                TailWidth = tailWidth;
+            else
+                TailWidth = TAILWIDTH;
+
             ModelThickness = modelThickness;
+            Transparent = transparent;
 
             VAxisToHandE1 = HandPoint - AxisPoint;
 
@@ -56,10 +58,12 @@ namespace KinematicViewer
             CoordsUpTail = makeCoordsUpTail();
             CoordsDownTail = makeCoordsDownTail();
 
-            if (mat == null)
-                AxisMaterial = new DiffuseMaterial(Brushes.Red);
-            if (mat != null)
-                AxisMaterial = mat;
+            AxisMaterial = new DiffuseMaterial(Brushes.Red);
+
+            //if (mat == null)
+            //    AxisMaterial = new DiffuseMaterial(Brushes.Red);
+            //if (mat != null)
+            //    AxisMaterial = mat;
         }
 
         public Vector3D AxisOfRotation
@@ -146,6 +150,12 @@ namespace KinematicViewer
             set { _dTailWidth = value; }
         }
 
+        public bool Transparent
+        {
+            get { return _bTransparent; }
+            set { _bTransparent = value; }
+        }
+
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
             List<GeometryModel3D> Res = new List<GeometryModel3D>();
@@ -175,15 +185,23 @@ namespace KinematicViewer
             Res.AddRange(new Sphere(CoordsMidTail[3], ModelThickness, 16, 16, Material).GetGeometryModel(guide));
             Res.AddRange(new Cuboid(CoordsMidTail[3], CoordsMidTail[0], ModelThickness, Material).GetGeometryModel(guide));
 
-            //Handle
-            Res.AddRange(new Sphere(HandPoint, 50, 16, 16, AxisMaterial).GetGeometryModel(guide));
+            if (!Transparent)
+            {
+                //Handle
+                Res.AddRange(new Sphere(HandPoint, 50, 16, 16, AxisMaterial).GetGeometryModel(guide));
 
-            //Drehachse
-            Point3D p1 = AxisPoint + AxisOfRotation * TailWidth * 1 / 2;
-            Point3D p2 = AxisPoint - AxisOfRotation * TailWidth * 1 / 2;
+                //Drehachse
+                Point3D p1 = AxisPoint + AxisOfRotation * TailWidth * 1 / 2;
+                Point3D p2 = AxisPoint - AxisOfRotation * TailWidth * 1 / 2;
 
-            Res.AddRange(new Sphere(AxisPoint, 50, 16, 16, AxisMaterial).GetGeometryModel(guide));
-            Res.AddRange(new Cylinder(p1, p2, 10, AxisMaterial).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(AxisPoint, 50, 16, 16, AxisMaterial).GetGeometryModel(guide));
+                Res.AddRange(new Cylinder(p1, p2, 10, AxisMaterial).GetGeometryModel(guide));
+            }
+            else
+            {
+                //Handle in Transparentem Material
+                Res.AddRange(new Sphere(HandPoint, 50, 16, 16, Material).GetGeometryModel(guide));
+            }
 
             return Res.ToArray();
         }

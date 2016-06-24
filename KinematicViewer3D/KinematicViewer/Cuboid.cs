@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
 namespace KinematicViewer
@@ -60,6 +61,7 @@ namespace KinematicViewer
             buildRectangle(mesh, p_around[0], p_around[2], p_around[3], p_around[1]); //, new Vector3D(0, -1, 0)
 
             GeometryModel3D model = new GeometryModel3D(mesh, Material);
+            //model.BackMaterial = Material;
             model.Transform = new Transform3DGroup();
 
             return new GeometryModel3D[] { model };
@@ -98,11 +100,11 @@ namespace KinematicViewer
             Vector3D v = EndPointP2 - StartPointP1;
 
             // Breite des Segmentes entsprechend Skalieren
-            Vector3D n1 = scaleVector(new Vector3D(-v.Z, -v.Z, v.X + v.Y), Thickness / 2.0);
+            Vector3D n1 = TransformationUtilities.ScaleVector(new Vector3D(-v.Z, -v.Z, v.X + v.Y), Thickness / 2.0);
 
             // Erstellt einen senkrechten skalierten Vektor zu n1
             Vector3D n2 = Vector3D.CrossProduct(v, n1);
-            n2 = scaleVector(n2, Thickness / 2.0);
+            n2 = TransformationUtilities.ScaleVector(n2, Thickness / 2.0);
 
             // Erstellen eines kleinen dünnen Rechtecks.
             // p1pm bedeutet P1 PLUS n1 MINUS n2.
@@ -128,13 +130,6 @@ namespace KinematicViewer
             points.Add(p2mm);
 
             return points.ToArray();
-        }
-
-        // Vektor Länge für das zu erstellende Segment
-        private Vector3D scaleVector(Vector3D vector, double length)
-        {
-            double scale = length / vector.Length;
-            return new Vector3D(vector.X * scale, vector.Y * scale, vector.Z * scale);
         }
     }
 }
