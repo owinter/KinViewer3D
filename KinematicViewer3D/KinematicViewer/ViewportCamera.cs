@@ -61,7 +61,7 @@ namespace KinematicViewer
             Trans_CSS = new Transformation();
 
             OrthoWidth = 3200;
-            ZoomFactorToolBox = 100;
+            ZoomFactorToolBox = 300;
             ZoomFactorMouse = 5;
         }
 

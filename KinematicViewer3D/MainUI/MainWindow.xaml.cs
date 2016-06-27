@@ -228,8 +228,11 @@ namespace MainUI
         //Menubar Anleitung
         private void Manual_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("*  Rechte Maustaste gedrückt halten um die Kamera zu rotieren \n"
+            MessageBox.Show("* Mittlere und Rechte Maustaste gedrückt halten um die Kamera zu rotieren \n"
+                         + "* Mittlere Maustaste gedrückt halten für Verschieben der Kamera auf der XY Ebene \n"
+                         + "* Mittlere Maustaste und Linke Maustaste gedrückt halten zum Umschauen mit der Kamera \n"
                          + "*  Mausrad für Hinein und HinausZoomen der Kamera \n"
+                         + "* Mittlere Maustaste gedrückt halten und einmal Rechte Maustaste drücken für Zoomen per Mausbewegung \n"
                          + "*  <- -> Pfeiltasten für links und rechts gieren um Y - Achse herum \n"
                          + "*  oben und unten Pfeiltasten für neigen um die X - Achse herum \n"
                          + "*  + und - Pfeiltasten für Hinein- und HinausZoomen der Kamera \n");
