@@ -32,7 +32,7 @@ namespace KinematicViewer
 
         private Material _oAxisMaterial;
 
-        public Tailgate(Point3D axisPoint, Point3D handPoint, Vector3D axisOfRotation, double modelThickness, bool transparent, double tailWidth = Double.NaN, Material mat = null)
+        public Tailgate(Point3D axisPoint, Point3D handPoint, Vector3D axisOfRotation, double modelThickness, bool transparent, double tailWidth = TAILWIDTH, Material mat = null)
             : base(mat)
         {
             AxisOfRotation = axisOfRotation;
@@ -44,10 +44,10 @@ namespace KinematicViewer
             MaxValue = 62.5;
             MinValue = 0.0;
 
-            if (!Double.IsNaN((double)tailWidth))
-                TailWidth = tailWidth;
-            else
-                TailWidth = TAILWIDTH;
+            //if (!Double.IsNaN((double)tailWidth))
+            TailWidth = tailWidth;
+            //else
+            //TailWidth = TAILWIDTH;
 
             ModelThickness = modelThickness;
             Transparent = transparent;

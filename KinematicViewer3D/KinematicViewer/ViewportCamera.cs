@@ -166,7 +166,7 @@ namespace KinematicViewer
             oP_Camera_CoordSystem.LookDirection = new Vector3D(0, 0, -2000);
             oP_Camera_CoordSystem.UpDirection = new Vector3D(0, 1, 0);
             oP_Camera_CoordSystem.FieldOfView = 60;
-            oP_Camera_CoordSystem.FarPlaneDistance = 15000;
+            oP_Camera_CoordSystem.FarPlaneDistance = 5000;
             oP_Camera_CoordSystem.NearPlaneDistance = 0.125;
             Trans_CSS.Reset(oP_Camera_CoordSystem);
             ViewportCoordSystem.Camera = oP_Camera_CoordSystem;
@@ -297,7 +297,6 @@ namespace KinematicViewer
 
         public void orbitCam()
         {
-            
             //Liefert die Mausposition relativ zum Viewport3D und transformiert sie zum Center
             //actualRelativePos beinhaltet die X und Y Entfernung vom Center des Viewports
             Point relativePos = Mouse.GetPosition(Viewport);
@@ -311,8 +310,10 @@ namespace KinematicViewer
             Trans.Yaw += dx;
             Trans.Pitch += dy;
 
-            Trans_CSS.Yaw += dx;
-            Trans_CSS.Pitch += dy;
+            //Trans_CSS.Yaw += dx;
+            //Trans_CSS.Pitch += dy;
+            Trans_CSS.Yaw = Trans.Yaw;
+            Trans_CSS.Pitch = Trans.Pitch;
 
             switch (MyCam)
             {
@@ -337,7 +338,6 @@ namespace KinematicViewer
 
         public void dragCam()
         {
-            
             //Liefert die Mausposition relativ zum Viewport3D und transformiert sie zum Center
             //actualRelativePos beinhaltet die X und Y Entfernung vom Center des Viewports
 
@@ -353,22 +353,24 @@ namespace KinematicViewer
             {
                 case Cam.Perspective:
                     {
-                        Trans.Drag(oP_Camera, dx, dy);
+                        Trans.Drag(oP_Camera, -dx, -dy);
+                        oP_Camera_CoordSystem.Position = new Point3D(oP_Camera.Position.X, oP_Camera.Position.Y, oP_Camera_CoordSystem.Position.Z);
                     }
                     break;
 
                 case Cam.Orthographic:
                     {
-                        Trans.Drag(oO_Camera, dx, dy);
+                        Trans.Drag(oO_Camera, -dx, -dy);
+                        oP_Camera_CoordSystem.Position = new Point3D(oO_Camera.Position.X, oO_Camera.Position.Y, oP_Camera_CoordSystem.Position.Z);
                     }
                     break;
             }
+            
             MouseUtilities.SetPosition(_oCenterOfViewport);
         }
 
         public void panCam()
-        {
-            
+        {  
             Point relativePos = Mouse.GetPosition(Viewport);
             Point actualRelativePos = new Point(relativePos.X - Viewport.ActualWidth / 2, Viewport.ActualHeight / 2 - relativePos.Y);
             double dx = actualRelativePos.X;
@@ -445,7 +447,7 @@ namespace KinematicViewer
                         oP_Camera.Position = new Point3D(oP_Camera.Position.X, oP_Camera.Position.Y, oP_Camera.Position.Z);
                         oP_Camera.LookDirection = new Vector3D(-oP_Camera.Position.X, -oP_Camera.Position.Y, -oP_Camera.Position.Z);
                         oP_Camera.UpDirection = new Vector3D(0, 1, 0);
-                        oP_Camera.Transform = new Transform3DGroup();
+                        //oP_Camera.Transform = new Transform3DGroup();
                         Viewport.Camera = oP_Camera;
                         Trans.Yaw = Trans.Yaw;
                         Trans.Pitch = Trans.Pitch;
@@ -459,7 +461,7 @@ namespace KinematicViewer
                         oO_Camera.UpDirection = new Vector3D(0, 1, 0);
                         OrthoWidth = OrthoWidth;
                         oO_Camera.Width = OrthoWidth;
-                        oO_Camera.Transform = new Transform3DGroup();
+                        //oO_Camera.Transform = new Transform3DGroup();
                         Viewport.Camera = oO_Camera;
                         Trans.Yaw = Trans.Yaw;
                         Trans.Pitch = Trans.Pitch;
@@ -469,7 +471,7 @@ namespace KinematicViewer
             oP_Camera_CoordSystem.Position = new Point3D(oP_Camera_CoordSystem.Position.X, oP_Camera_CoordSystem.Position.Y, oP_Camera_CoordSystem.Position.Z);
             oP_Camera_CoordSystem.LookDirection = new Vector3D(-oP_Camera_CoordSystem.Position.X, -oP_Camera_CoordSystem.Position.Y, -oP_Camera_CoordSystem.Position.Z);
             oP_Camera_CoordSystem.UpDirection = new Vector3D(0, 1, 0);
-            oP_Camera_CoordSystem.Transform = new Transform3DGroup();
+            //oP_Camera_CoordSystem.Transform = new Transform3DGroup();
             Trans_CSS.Yaw = Trans_CSS.Yaw;
             Trans_CSS.Pitch = Trans_CSS.Pitch;
         }

@@ -6,6 +6,7 @@ namespace KinematicViewer
     public abstract class GeometricalElement
     {
         private Material _oMaterial = new DiffuseMaterial(Brushes.Cyan);
+        private string _sName;
 
         public GeometricalElement(Material mat = null)
         {
@@ -17,6 +18,12 @@ namespace KinematicViewer
         {
             get { return _oMaterial; }
             set { _oMaterial = value; }
+        }
+
+        public string Name
+        {
+            get { return _sName; }
+            set { _sName = value; }
         }
 
         public abstract GeometryModel3D[] GetGeometryModel(IGuide guide);

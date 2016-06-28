@@ -25,7 +25,7 @@ namespace KinematicViewer
         private Material _oDoorPartMaterialExtracted;
         private Material _oDoorPartMaterialEndPoint;
 
-        public Drive(Point3D point1, Point3D point2, Material mat = null)
+        public Drive(Point3D point1, Point3D point2, string name = "Drive", Material mat = null)
             : base(mat)
         {
             StartPoint = point1;
@@ -39,6 +39,7 @@ namespace KinematicViewer
             ExtractedLength = 648.8;
             Stroke = _dExtractedLength - _dRetractedLength;
             OffsetSecondCylinder = (0.25 * VDrive).Length;
+            Name = name;
 
             BodyPartMaterial = new DiffuseMaterial(Brushes.Gray);
             BodyPartMaterialStartPoint = new DiffuseMaterial(Brushes.Gray);

@@ -455,6 +455,7 @@ namespace KinematicViewer
                 //Testverfahren für mögliches Hittesting
                 Point pt = e.GetPosition(viewport);
                 VisualTreeHelper.HitTest(viewport, null, HitTestDown, new PointHitTestParameters(pt));
+                
             }
         }
 
@@ -465,7 +466,7 @@ namespace KinematicViewer
             _bPan = false;
         }
 
-        //HitTest Verhalten wenn auf einen Antrieb oder ein visuelles Model geklickt wird
+        //HitTest Verhalten, wenn auf dein visuelles Objekt geklickt wird
         private HitTestResultBehavior HitTestDown(HitTestResult result)
         {
             RayMeshGeometry3DHitTestResult resultMesh = result as RayMeshGeometry3DHitTestResult;
@@ -474,29 +475,67 @@ namespace KinematicViewer
                 return HitTestResultBehavior.Continue;
 
             ModelVisual3D vis = resultMesh.VisualHit as ModelVisual3D;
+            GeometryModel3D selectedModel = resultMesh.ModelHit as GeometryModel3D;
+
 
             if (vis == null)
                 return HitTestResultBehavior.Continue;
 
-            if (vis == (viewport.FindName("passiveVisual") as ModelVisual3D))
-            {
-                //changeModelColorRandom(resultMesh);
-                return HitTestResultBehavior.Stop;
-            }
 
             if (vis == (viewport.FindName("activeVisual") as ModelVisual3D))
             {
-                trans.RotationPoint = AxisPoint;
-                ViewportCam.setCam();
-
-                changeModelColorRandom(resultMesh);
+                foreach (GeometricalElement e in ElementsActive)
+                    foreach (GeometryModel3D m in e.GetGeometryModel(Guide))
+                    {
+                        if (m.Bounds == selectedModel.Bounds)
+                        {
+                            // MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}",e.Name,m.Bounds.X, m.Bounds.Y,m.Bounds.Z));
+                            trans.RotationPoint = new Point3D(m.Bounds.X, m.Bounds.Y, m.Bounds.Z);
+                            ViewportCam.setCam();
+                        }
+                    }
                 return HitTestResultBehavior.Stop;
             }
 
-            if (vis == (viewport.FindName("lineOfActionVisual") as ModelVisual3D))
+
+            if (vis == (viewport.FindName("passiveVisual") as ModelVisual3D))
             {
+                
+                foreach (GeometricalElement e in ElementsPassive)
+                    foreach (GeometryModel3D m in e.GetGeometryModel(Guide))
+                    {
+                        if (m.Bounds == selectedModel.Bounds)
+                        {
+                            // MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}",e.Name,m.Bounds.X, m.Bounds.Y,m.Bounds.Z));
+                            
+                            DiffuseMaterial mat = m.Material as DiffuseMaterial;
+                            Color c = new Color();
+                            c.A = 255;
+                            c.R = 0;
+                            c.G = 0;
+                            c.B = 255;
+
+                            //m.Material = new DiffuseMaterial(new SolidColorBrush(c));
+                            e.Material = new DiffuseMaterial(new SolidColorBrush(c));
+                            
+
+
+                            //Color c = new Color();
+                            //c.A = 255;
+                            //c.R = 0;
+                            //c.G = 0;
+                            //c.B = 255;
+                            //DiffuseMaterial mat = new DiffuseMaterial(new SolidColorBrush(c));
+
+                            //m.Material = mat;
+
+                            
+                        }
+                    }
+                
                 return HitTestResultBehavior.Stop;
             }
+
             return HitTestResultBehavior.Continue;
         }
 

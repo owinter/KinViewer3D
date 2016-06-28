@@ -272,8 +272,8 @@ namespace MainUI
                 double tailWidth = TransformationUtilities.calculateTailWidth(AxisPoints[0], AxisPoints[1], AxisPoints[3]);
                 _oTail = new Tailgate(AxisPoints[0], AxisPoints[1], AxisOfRotation, slider_Model_Thickness.Value, false, tailWidth);
 
-                _oDriveLeft = new Drive(AxisPoints[2], AxisPoints[3]);
-                _oDriveRight = new Drive(AxisPoints[4], AxisPoints[5]);
+                _oDriveLeft = new Drive(AxisPoints[2], AxisPoints[3], "DriveLeft");
+                _oDriveRight = new Drive(AxisPoints[4], AxisPoints[5], "DriveRight");
 
                 MvpControl.Guide = _oTail;
 
