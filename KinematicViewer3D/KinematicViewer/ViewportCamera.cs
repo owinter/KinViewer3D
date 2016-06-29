@@ -179,7 +179,10 @@ namespace KinematicViewer
             oP_Camera_CoordSystem.FieldOfView = 60;
             oP_Camera_CoordSystem.FarPlaneDistance = 5000;
             oP_Camera_CoordSystem.NearPlaneDistance = 0.125;
-            Trans_CSS.Reset(oP_Camera_CoordSystem);
+            //Trans_CSS.Reset(oP_Camera_CoordSystem);
+            oP_Camera_CoordSystem.Transform = new Transform3DGroup();
+            Trans_CSS.Yaw = 0;
+            Trans_CSS.Pitch = 0;
             ViewportCoordSystem.Camera = oP_Camera_CoordSystem;
         }
 
@@ -273,6 +276,7 @@ namespace KinematicViewer
         {
             Point relativePos = Mouse.GetPosition(Viewport);
             Point actualRelativePos = new Point(relativePos.X - Math.Ceiling(Viewport.ActualWidth / 2), Math.Floor(Viewport.ActualHeight / 2) - relativePos.Y);
+
             double value_y = actualRelativePos.Y * ZoomFactorMouse;
 
             zoomCamera(value_y);
@@ -320,11 +324,7 @@ namespace KinematicViewer
 
             Trans.Yaw += dx;
             Trans.Pitch += dy;
-            Yaw += dx;
-            Pit += dy;
 
-            //Trans_CSS.Yaw += dx;
-            //Trans_CSS.Pitch += dy;
             Trans_CSS.Yaw = Trans.Yaw;
             Trans_CSS.Pitch = Trans.Pitch;
 
@@ -367,14 +367,14 @@ namespace KinematicViewer
                 case Cam.Perspective:
                     {
                         Trans.Drag(oP_Camera, -dx, -dy);
-                        oP_Camera_CoordSystem.Position = new Point3D(oP_Camera.Position.X, oP_Camera.Position.Y, oP_Camera_CoordSystem.Position.Z);
+                        //oP_Camera_CoordSystem.Position = new Point3D(oP_Camera.Position.X, oP_Camera.Position.Y, oP_Camera_CoordSystem.Position.Z);
                     }
                     break;
 
                 case Cam.Orthographic:
                     {
                         Trans.Drag(oO_Camera, -dx, -dy);
-                        oP_Camera_CoordSystem.Position = new Point3D(oO_Camera.Position.X, oO_Camera.Position.Y, oP_Camera_CoordSystem.Position.Z);
+                        //oP_Camera_CoordSystem.Position = new Point3D(oO_Camera.Position.X, oO_Camera.Position.Y, oP_Camera_CoordSystem.Position.Z);
                     }
                     break;
             }
@@ -460,8 +460,10 @@ namespace KinematicViewer
                         Point3D actualCameraPositionPers = new Point3D(oP_Camera.Position.X, oP_Camera.Position.Y, oP_Camera.Position.Z);
                         oP_Camera.Position = actualCameraPositionPers;
                         oP_Camera.LookDirection = PointClicked - actualCameraPositionPers;
-                        //oP_Camera.LookDirection = new Vector3D(-oP_Camera.Position.X, -oP_Camera.Position.Y, -oP_Camera.Position.Z);
                         oP_Camera.UpDirection = new Vector3D(0, 1, 0);
+
+                        //minimaler Pitch um neue TransformationGroup zu erzeugen,  sonst springt die Kamera beim Orbit
+                        Trans.doPitch(oP_Camera, 0.001);
                     }
                     break;
 
@@ -470,19 +472,13 @@ namespace KinematicViewer
                         Point3D actualCameraPositionOrtho = new Point3D(oO_Camera.Position.X, oO_Camera.Position.Y, oO_Camera.Position.Z);
                         oO_Camera.Position = actualCameraPositionOrtho;
                         oO_Camera.LookDirection = PointClicked - actualCameraPositionOrtho;
-                        //oO_Camera.LookDirection = new Vector3D(-oO_Camera.Position.X, -oO_Camera.Position.Y, -oO_Camera.Position.Z);
                         oO_Camera.UpDirection = new Vector3D(0, 1, 0);
+
+                        //minimaler Pitch um neue TransformationGroup zu erzeugen,  sonst springt die Kamera beim Orbit
+                        Trans.doPitch(oO_Camera, 0.001);
                     }
                     break;
             }
-            updatePositionCamera();
-
-            //Point3D actualCameraPositionCoordSystem = new Point3D(oP_Camera_CoordSystem.Position.X, oP_Camera_CoordSystem.Position.Y, oP_Camera_CoordSystem.Position.Z);
-            //oP_Camera_CoordSystem.Position = actualCameraPositionCoordSystem;
-            ////oP_Camera_CoordSystem.LookDirection = pointClicked - actualCameraPositionCoordSystem;
-            //oP_Camera_CoordSystem.LookDirection = new Vector3D(-oP_Camera_CoordSystem.Position.X, -oP_Camera_CoordSystem.Position.Y, -oP_Camera_CoordSystem.Position.Z);
-            //oP_Camera_CoordSystem.UpDirection = new Vector3D(0, 1, 0);
-            ////oP_Camera_CoordSystem.Transform = new Transform3DGroup();
         }
 
         //Listener für die Tastatureingabe

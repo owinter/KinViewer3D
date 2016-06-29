@@ -15,6 +15,7 @@ namespace KinematicViewer
     {
         //Abfrage für die Maussteuerung
         private bool _bMouseDownRight;
+
         private bool _bMouseDownLeft;
         private bool _bMouseDownMiddle;
         private bool _bZoom = false;
@@ -359,10 +360,6 @@ namespace KinematicViewer
             MainGrid.Children.Remove(GridCoordSystem);
         }
 
-
-
-        
-
         //MAUSSTEUERUNG im MainGrid
         private void MainGrid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -394,7 +391,12 @@ namespace KinematicViewer
                 _bMouseDownMiddle = true;
                 Cursor = Cursors.ScrollAll;
                 _bDrag = true;
-                ViewportCam.setMouseToCenter();  
+
+                Point pt = e.GetPosition(viewport);
+                VisualTreeHelper.HitTest(viewport, null, HitTestMiddleDown, new PointHitTestParameters(pt));
+
+                //Zentrierung des MausCursers im Mittelpunkt des Viewports für jegliche Transformationen
+                ViewportCam.setMouseToCenter();
             }
         }
 
@@ -414,13 +416,19 @@ namespace KinematicViewer
         private void MainGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             _bMouseDownRight = true;
-            if(_bMouseDownMiddle)
+            if (_bMouseDownMiddle)
             {
                 Cursor = Cursors.Cross;
                 _bDrag = false;
                 _bZoom = false;
                 _bOrbit = true;
-            }         
+            }
+            if (!_bMouseDownMiddle && Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                ViewportCam.setMouseToCenter();
+                Cursor = Cursors.SizeAll;
+                _bPan = true;
+            }
         }
 
         private void MainGrid_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -428,46 +436,43 @@ namespace KinematicViewer
             _bMouseDownRight = false;
             if (_bMouseDownMiddle)
             {
-                Cursor = Cursors.ScrollNS;
+                Cursor = Cursors.None;
                 _bDrag = false;
                 _bOrbit = false;
                 _bZoom = true;
-            }        
+            }
+            if (!_bMouseDownMiddle && (!Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.LeftCtrl)))
+            {
+                Cursor = Cursors.Arrow;
+                _bPan = false;
+            }
         }
 
         private void MainGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _bMouseDownLeft = true;
-            if (_bMouseDownMiddle)
-            {
-                Cursor = Cursors.None;
-                _bPan = true;
-            }
-                
-            if(!_bMouseDownMiddle)
+
+            if (!_bMouseDownMiddle)
             {
                 //dem Viewport den Focus übergeben, sodass die Tasteneingabe funktioniert
                 viewport_MouseDown(sender, e);
             }
 
-            if(!_bMouseDownRight || !_bMouseDownMiddle)
+            if (!_bMouseDownRight && !_bMouseDownMiddle)
             {
                 //Testverfahren für mögliches Hittesting
                 Point pt = e.GetPosition(viewport);
-                VisualTreeHelper.HitTest(viewport, null, HitTestDown, new PointHitTestParameters(pt));
-                
+                VisualTreeHelper.HitTest(viewport, null, HitTestLeftDown, new PointHitTestParameters(pt));
             }
         }
 
         private void MainGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             _bMouseDownLeft = false;
-            Cursor = Cursors.Arrow;
-            _bPan = false;
         }
 
-        //HitTest Verhalten, wenn auf dein visuelles Objekt geklickt wird
-        private HitTestResultBehavior HitTestDown(HitTestResult result)
+        //HitTest Verhalten, wenn mit mittlerer Maustaste auf dein visuelles Objekt geklickt wird
+        private HitTestResultBehavior HitTestMiddleDown(HitTestResult result)
         {
             RayMeshGeometry3DHitTestResult resultMesh = result as RayMeshGeometry3DHitTestResult;
 
@@ -477,10 +482,8 @@ namespace KinematicViewer
             ModelVisual3D vis = resultMesh.VisualHit as ModelVisual3D;
             GeometryModel3D selectedModel = resultMesh.ModelHit as GeometryModel3D;
 
-
             if (vis == null)
                 return HitTestResultBehavior.Continue;
-
 
             if (vis == (viewport.FindName("activeVisual") as ModelVisual3D))
             {
@@ -489,7 +492,7 @@ namespace KinematicViewer
                     {
                         if (m.Bounds == selectedModel.Bounds)
                         {
-                            // MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}",e.Name,m.Bounds.X, m.Bounds.Y,m.Bounds.Z));
+                            //MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}",e.Name,m.Bounds.X, m.Bounds.Y,m.Bounds.Z));
                             Point3D pointClicked = new Point3D(m.Bounds.X, m.Bounds.Y, m.Bounds.Z);
                             trans.RotationPoint = pointClicked;
                             ViewportCam.PointClicked = pointClicked;
@@ -499,20 +502,61 @@ namespace KinematicViewer
                 return HitTestResultBehavior.Stop;
             }
 
-
             if (vis == (viewport.FindName("passiveVisual") as ModelVisual3D))
             {
-                
                 foreach (GeometricalElement e in ElementsPassive)
                     foreach (GeometryModel3D m in e.GetGeometryModel(Guide))
                     {
                         if (m.Bounds == selectedModel.Bounds)
                         {
-                            // MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}",e.Name,m.Bounds.X, m.Bounds.Y,m.Bounds.Z));
+                            //MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}",e.Name,m.Bounds.X, m.Bounds.Y,m.Bounds.Z));
                             Point3D pointClicked = new Point3D(m.Bounds.X, m.Bounds.Y, m.Bounds.Z);
                             trans.RotationPoint = pointClicked;
                             ViewportCam.PointClicked = pointClicked;
                             ViewportCam.setCam();
+                        }
+                    }
+                return HitTestResultBehavior.Stop;
+            }
+
+            return HitTestResultBehavior.Continue;
+        }
+
+        //HitTest Verhalten, wenn mit Linker Maustaste auf dein visuelles Objekt geklickt wird
+        private HitTestResultBehavior HitTestLeftDown(HitTestResult result)
+        {
+            RayMeshGeometry3DHitTestResult resultMesh = result as RayMeshGeometry3DHitTestResult;
+
+            if (resultMesh == null)
+                return HitTestResultBehavior.Continue;
+
+            ModelVisual3D vis = resultMesh.VisualHit as ModelVisual3D;
+            GeometryModel3D selectedModel = resultMesh.ModelHit as GeometryModel3D;
+
+            if (vis == null)
+                return HitTestResultBehavior.Continue;
+
+            if (vis == (viewport.FindName("activeVisual") as ModelVisual3D))
+            {
+                foreach (GeometricalElement e in ElementsActive)
+                    foreach (GeometryModel3D m in e.GetGeometryModel(Guide))
+                    {
+                        if (m.Bounds == selectedModel.Bounds)
+                        {
+                            MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}", e.Name, m.Bounds.X, m.Bounds.Y, m.Bounds.Z));
+                        }
+                    }
+                return HitTestResultBehavior.Stop;
+            }
+
+            if (vis == (viewport.FindName("passiveVisual") as ModelVisual3D))
+            {
+                foreach (GeometricalElement e in ElementsPassive)
+                    foreach (GeometryModel3D m in e.GetGeometryModel(Guide))
+                    {
+                        if (m.Bounds == selectedModel.Bounds)
+                        {
+                            MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}", e.Name, m.Bounds.X, m.Bounds.Y, m.Bounds.Z));
                         }
                     }
                 return HitTestResultBehavior.Stop;
@@ -640,7 +684,6 @@ namespace KinematicViewer
         //    }
         //    _oMPoint = new Point3D(x, y, z);
         //}
-
 
         /// <summary>
         ///Bewegt den "Guide" um einen bestimmten Anteil
