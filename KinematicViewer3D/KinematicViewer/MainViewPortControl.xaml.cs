@@ -562,6 +562,58 @@ namespace KinematicViewer
                 return HitTestResultBehavior.Stop;
             }
 
+            if (vis == (viewport.FindName("lineOfActionVisual") as ModelVisual3D))
+            {
+                foreach (GeometricalElement e in ElementsLineOfAction)
+                    foreach (GeometryModel3D m in e.GetGeometryModel(Guide))
+                    {
+                        if (m.Bounds == selectedModel.Bounds)
+                        {
+                            MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}", e.Name, m.Bounds.X, m.Bounds.Y, m.Bounds.Z));
+                        }
+                    }
+                return HitTestResultBehavior.Stop;
+            }
+
+            if (vis == (viewport.FindName("staticVisualMinAngle") as ModelVisual3D))
+            {
+                foreach (GeometricalElement e in ElementsStaticMinAngle)
+                    foreach (GeometryModel3D m in e.GetGeometryModel(Guide))
+                    {
+                        if (m.Bounds == selectedModel.Bounds)
+                        {
+                            MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}", e.Name, m.Bounds.X, m.Bounds.Y, m.Bounds.Z));
+                        }
+                    }
+                return HitTestResultBehavior.Stop;
+            }
+
+            if (vis == (viewport.FindName("staticVisualMaxAngle") as ModelVisual3D))
+            {
+                foreach (GeometricalElement e in ElementsStaticMaxAngle)
+                    foreach (GeometryModel3D m in e.GetGeometryModel(Guide))
+                    {
+                        if (m.Bounds == selectedModel.Bounds)
+                        {
+                            MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}", e.Name, m.Bounds.X, m.Bounds.Y, m.Bounds.Z));
+                        }
+                    }
+                return HitTestResultBehavior.Stop;
+            }
+
+            if (vis == (viewport.FindName("trackPointVisual") as ModelVisual3D))
+            {
+                foreach (GeometricalElement e in ElementsTrackPoint)
+                    foreach (GeometryModel3D m in e.GetGeometryModel(Guide))
+                    {
+                        if (m.Bounds == selectedModel.Bounds)
+                        {
+                            MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}", e.Name, m.Bounds.X, m.Bounds.Y, m.Bounds.Z));
+                        }
+                    }
+                return HitTestResultBehavior.Stop;
+            }
+
             return HitTestResultBehavior.Continue;
         }
 

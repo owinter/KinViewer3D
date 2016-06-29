@@ -155,18 +155,18 @@ namespace KinematicViewer
             //Oberer Part
             for (int i = 0; i <= CoordsWindowPart.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(CoordsWindowPart[i], ModelThickness, 16, 16, Material).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsWindowPart[i], ModelThickness * 1.5, 16, 16, Material).GetGeometryModel(guide));
                 Res.AddRange(new Cuboid(CoordsWindowPart[i], CoordsWindowPart[i + 1], ModelThickness, Material).GetGeometryModel(guide));
             }
 
             //Karossierie Part
             for (int i = 0; i <= CoordsBodyPart.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(CoordsBodyPart[i], ModelThickness, 16, 16, Material).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsBodyPart[i], ModelThickness * 1.5, 16, 16, Material).GetGeometryModel(guide));
                 Res.AddRange(new Cuboid(CoordsBodyPart[i], CoordsBodyPart[i + 1], ModelThickness, Material).GetGeometryModel(guide));
             }
 
-            Res.AddRange(new Sphere(CoordsBodyPart[3], ModelThickness, 16, 16, Material).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(CoordsBodyPart[3], ModelThickness * 1.5, 16, 16, Material).GetGeometryModel(guide));
             Res.AddRange(new Cuboid(CoordsBodyPart[3], CoordsBodyPart[0], ModelThickness, Material).GetGeometryModel(guide));
 
             if (!Transparent)

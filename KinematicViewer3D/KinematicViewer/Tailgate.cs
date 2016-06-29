@@ -164,25 +164,25 @@ namespace KinematicViewer
             //Oberer Part
             for (int i = 0; i <= CoordsUpTail.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(CoordsUpTail[i], ModelThickness, 16, 16, Material).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsUpTail[i], ModelThickness * 1.5, 16, 16, Material).GetGeometryModel(guide));
                 Res.AddRange(new Cuboid(CoordsUpTail[i], CoordsUpTail[i + 1], ModelThickness, Material).GetGeometryModel(guide));
             }
 
             //Unterer Part
             for (int i = 0; i <= CoordsDownTail.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(CoordsDownTail[i], ModelThickness, 16, 16, Material).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsDownTail[i], ModelThickness * 1.5, 16, 16, Material).GetGeometryModel(guide));
                 Res.AddRange(new Cuboid(CoordsDownTail[i], CoordsDownTail[i + 1], ModelThickness, Material).GetGeometryModel(guide));
             }
 
             //Mittlerer Part
             for (int i = 0; i <= CoordsMidTail.Count - 2; i++)
             {
-                Res.AddRange(new Sphere(CoordsMidTail[i], ModelThickness, 16, 16, Material).GetGeometryModel(guide));
+                Res.AddRange(new Sphere(CoordsMidTail[i], ModelThickness * 1.5, 16, 16, Material).GetGeometryModel(guide));
                 Res.AddRange(new Cuboid(CoordsMidTail[i], CoordsMidTail[i + 1], ModelThickness, Material).GetGeometryModel(guide));
             }
 
-            Res.AddRange(new Sphere(CoordsMidTail[3], ModelThickness, 16, 16, Material).GetGeometryModel(guide));
+            Res.AddRange(new Sphere(CoordsMidTail[3], ModelThickness * 1.5, 16, 16, Material).GetGeometryModel(guide));
             Res.AddRange(new Cuboid(CoordsMidTail[3], CoordsMidTail[0], ModelThickness, Material).GetGeometryModel(guide));
 
             if (!Transparent)

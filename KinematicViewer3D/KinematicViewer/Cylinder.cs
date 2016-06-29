@@ -6,7 +6,7 @@ namespace KinematicViewer
     public class Cylinder : GeometricalElement
     {
         //Standard Wert der Seitenanzahl an Rechtecken
-        public const int STANDARD_NUM_SIDES = 64;
+        public const int STANDARD_NUM_SIDES = 32;
 
         //aktuell genutzte Seitenanzahl
         private int _iSides;
@@ -16,13 +16,13 @@ namespace KinematicViewer
         private Point3D _oPointStart;
         private Point3D _oPointEnd;
 
-        public Cylinder(Point3D startPoint, Point3D endPoint, double radius, Material mat = null)
+        public Cylinder(Point3D startPoint, Point3D endPoint, double radius, Material mat = null, int sides = STANDARD_NUM_SIDES)
             : base(mat)
         {
             EndPoint = endPoint;
             StartPoint = startPoint;
             Radius = radius;
-            Sides = STANDARD_NUM_SIDES;
+            Sides = sides;
         }
 
         public Point3D StartPoint

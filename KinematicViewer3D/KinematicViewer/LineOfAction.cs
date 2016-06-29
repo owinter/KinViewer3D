@@ -7,7 +7,7 @@ namespace KinematicViewer
 {
     public class LineOfAction : GeometricalElement
     {
-        private const double RADIUS = 2.5;
+        private const double RADIUS = 3;
         private const double ELEMENTLENGTH = 15;
         private const double OFFSET = 2.5;
 
@@ -116,13 +116,13 @@ namespace KinematicViewer
             //Elemente entlang des kürzesten Vektors zwischen beiden Lotpunkten
             for (int i = 0; i < CoordsLineOfActionAxisSegments.Count; i += 2)
             {
-                Res.AddRange(new Cylinder(CoordsLineOfActionAxisSegments[i], CoordsLineOfActionAxisSegments[i + 1], RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
+                Res.AddRange(new Cylinder(CoordsLineOfActionAxisSegments[i], CoordsLineOfActionAxisSegments[i + 1], RADIUS, LineOfActionMaterial, 8).GetGeometryModel(guide));
             }
 
             //Elemente entlang des Antriebs zum Lotfußpunkt
             for (int i = 0; i < CoordsLineOfActionDriveSegments.Count; i += 2)
             {
-                Res.AddRange(new Cylinder(CoordsLineOfActionDriveSegments[i], CoordsLineOfActionDriveSegments[i + 1], RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
+                Res.AddRange(new Cylinder(CoordsLineOfActionDriveSegments[i], CoordsLineOfActionDriveSegments[i + 1], RADIUS,LineOfActionMaterial, 8).GetGeometryModel(guide));
             }
 
             //Lotfußpunkt auf der verlängerten Antriebsachse
