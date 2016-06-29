@@ -42,7 +42,7 @@ namespace MainUI
 
         private MainViewPortControl _oMvpControl;
 
-        private bool _bTailgate = true;
+        private bool _bTailgate = false;
 
         //Benutzereingaben der Koordinaten zwischen denen eine 3D Linie erzeugt wird
         //Punkt Drehachse
@@ -444,21 +444,21 @@ namespace MainUI
                     //Z4 = 875.0;
 
                     //Auf den Urpsrung umgerechnete Koordinaten
-                    X1 = 1460 - 1460;
-                    Y1 = 780 - 780;
-                    Z1 = 930 - 930;
+                    X1 = 1473 - 1473;
+                    Y1 = 781 - 781;
+                    Z1 = 935 - 935;
 
-                    X2 = 2565 - 1460;
-                    Y2 = 1125 - 780;
-                    Z2 = 875 - 930;
+                    X2 = 2565 - 1473;
+                    Y2 = 1125 - 781;
+                    Z2 = 875 - 935;
 
-                    X3 = 1515.0 - 1460;
-                    Y3 = 497.0 - 780;
-                    Z3 = 910.0 - 930;
+                    X3 = 1515.0 - 1473;
+                    Y3 = 497.0 - 781;
+                    Z3 = 910.0 - 935;
 
-                    X4 = 1920.0 - 1460;
-                    Y4 = 505.0 - 780;
-                    Z4 = 875.0 - 930;
+                    X4 = 1920.0 - 1473;
+                    Y4 = 505.0 - 781;
+                    Z4 = 875.0 - 935;
                 }
 
                 Point3D p1 = new Point3D(X1, Y1, Z1);

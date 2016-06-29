@@ -543,6 +543,11 @@ namespace KinematicViewer
                     {
                         if (m.Bounds == selectedModel.Bounds)
                         {
+                            if (e is Tailgate)
+                            {
+                                ((Tailgate)e).Material = new DiffuseMaterial(Brushes.Red);
+                            }
+
                             MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}", e.Name, m.Bounds.X, m.Bounds.Y, m.Bounds.Z));
                         }
                     }
@@ -554,8 +559,21 @@ namespace KinematicViewer
                 foreach (GeometricalElement e in ElementsPassive)
                     foreach (GeometryModel3D m in e.GetGeometryModel(Guide))
                     {
-                        if (m.Bounds == selectedModel.Bounds)
+                        //if (m.Bounds == selectedModel.Bounds)
+                        //{
+                        //    MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}", e.Name, m.Bounds.X, m.Bounds.Y, m.Bounds.Z));
+                        //}
+                        if(m.Bounds == selectedModel.Bounds)
                         {
+                            if (e is Drive)
+                            {
+                                double s;
+                                Drive d = e as Drive;
+
+                                s=d.Stroke;
+                                s=((Drive)e).Stroke;
+                                d.Material = new DiffuseMaterial(Brushes.Red);
+                            }
                             MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}", e.Name, m.Bounds.X, m.Bounds.Y, m.Bounds.Z));
                         }
                     }
