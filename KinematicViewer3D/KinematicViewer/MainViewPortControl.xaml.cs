@@ -490,7 +490,9 @@ namespace KinematicViewer
                         if (m.Bounds == selectedModel.Bounds)
                         {
                             // MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}",e.Name,m.Bounds.X, m.Bounds.Y,m.Bounds.Z));
-                            trans.RotationPoint = new Point3D(m.Bounds.X, m.Bounds.Y, m.Bounds.Z);
+                            Point3D pointClicked = new Point3D(m.Bounds.X, m.Bounds.Y, m.Bounds.Z);
+                            trans.RotationPoint = pointClicked;
+                            ViewportCam.PointClicked = pointClicked;
                             ViewportCam.setCam();
                         }
                     }
@@ -507,32 +509,12 @@ namespace KinematicViewer
                         if (m.Bounds == selectedModel.Bounds)
                         {
                             // MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}",e.Name,m.Bounds.X, m.Bounds.Y,m.Bounds.Z));
-                            
-                            DiffuseMaterial mat = m.Material as DiffuseMaterial;
-                            Color c = new Color();
-                            c.A = 255;
-                            c.R = 0;
-                            c.G = 0;
-                            c.B = 255;
-
-                            //m.Material = new DiffuseMaterial(new SolidColorBrush(c));
-                            e.Material = new DiffuseMaterial(new SolidColorBrush(c));
-                            
-
-
-                            //Color c = new Color();
-                            //c.A = 255;
-                            //c.R = 0;
-                            //c.G = 0;
-                            //c.B = 255;
-                            //DiffuseMaterial mat = new DiffuseMaterial(new SolidColorBrush(c));
-
-                            //m.Material = mat;
-
-                            
+                            Point3D pointClicked = new Point3D(m.Bounds.X, m.Bounds.Y, m.Bounds.Z);
+                            trans.RotationPoint = pointClicked;
+                            ViewportCam.PointClicked = pointClicked;
+                            ViewportCam.setCam();
                         }
                     }
-                
                 return HitTestResultBehavior.Stop;
             }
 

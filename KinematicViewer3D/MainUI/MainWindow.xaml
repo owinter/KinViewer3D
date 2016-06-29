@@ -419,18 +419,21 @@
 
                                         <Button x:Name="toolBox_Reset_Button"
                                                 Margin="5,0,0,0"
+                                                ToolTip="Kamera Reset"
                                                 Click="toolBox_Reset_Button_Click">
                                             <Image Source="Image\Icons\16x16\Reset_16x16.png" />
                                             
                                         </Button>
                                         <Button x:Name="toolBox_ZoomIn_Button"
                                                 Margin="5,0,0,0"
+                                                ToolTip="vergrößern"
                                                 Click="toolBox_ZoomIn_Button_Click">
                                             <Image Source="Image\Icons\16x16\ZoomIn_16x16.png" />
                                         </Button>
 
                                         <Button x:Name="toolBox_ZoomOut_Button"
                                                 Margin="5,0,0,0"
+                                                ToolTip="verkleinern"
                                                 Click="toolBox_ZoomOut_Button_Click">
                                             <Image Source="Image\Icons\16x16\ZoomOut_16x16.png" />
                                         </Button>
@@ -438,36 +441,42 @@
 
                                         <Button x:Name="toolBox_Front_Button"
                                                 Margin="5,0,0,0"
+                                                ToolTip="Frontseite betrachten"
                                                 Click="toolBox_Front_Button_Click">
                                             <Image Source="Image\Icons\16x16\cube_front_16x16.png" />
                                         </Button>
 
                                         <Button x:Name="toolBox_Back_Button"
                                                 Margin="5,0,0,0"
+                                                ToolTip="Hinterseite betrachten"
                                                 Click="toolBox_Back_Button_Click">
                                             <Image Source="Image\Icons\16x16\cube_back_16x16.png" />
                                         </Button>
 
                                         <Button x:Name="toolBox_Right_Button"
                                                 Margin="5,0,0,0"
+                                                ToolTip="rechte Seite betrachten"
                                                 Click="toolBox_Right_Button_Click">
                                             <Image Source="Image\Icons\16x16\cube_right_16x16.png" />
                                         </Button>
 
                                         <Button x:Name="toolBox_Left_Button"
                                                 Margin="5,0,0,0"
+                                                ToolTip="linke Seite betrachten"
                                                 Click="toolBox_Left_Button_Click">
                                             <Image Source="Image\Icons\16x16\cube_left_16x16.png" />
                                         </Button>
 
                                         <Button x:Name="toolBox_Top_Button"
                                                 Margin="5,0,0,0"
+                                                ToolTip="Oberseite betrachten"
                                                 Click="toolBox_Top_Button_Click">
                                             <Image Source="Image\Icons\16x16\cube_top_16x16.png" />
                                         </Button>
 
                                         <Button x:Name="toolBox_Bottom_Button"
                                                 Margin="5,0,0,0"
+                                                ToolTip="Unterseite betrachten"
                                                 Click="toolBox_Bottom_Button_Click">
                                             <Image Source="Image\Icons\16x16\cube_bottom_16x16.png" />
                                         </Button>
@@ -480,26 +489,78 @@
                                         <Separator Margin="5,0,0,0" />
                                         <ToggleButton x:Name="toolBox_TransparentMinMax"
                                                 Margin="5,0,0,0"
+                                                ToolTipService.ShowOnDisabled="True"
                                         	    Click="toolBox_TransparentMinMax_Click" 
                                                 IsChecked="False">
+                                            <ToggleButton.ToolTip>
+                                                <ToolTip>
+                                                    <StackPanel>
+                                                        <TextBlock FontWeight="Bold">
+                                                            Minimaler / Maximaler Öffnungswinkel
+                                                        </TextBlock>
+                                                        <TextBlock>
+                                                            Erstellt ein Transparentes Objekt, welches den minimalen / maximalen Öffnungswinkel darstellt
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                </ToolTip>
+                                            </ToggleButton.ToolTip>
                                             <Image Source="Image\Icons\16x16\transparent_16x16.png" />
                                         </ToggleButton>
                                         <ToggleButton x:Name="toolBox_LineOfAction"
                                                 Margin="10,0,0,0"
+                                                ToolTipService.ShowOnDisabled="True"
                                                 Click="toolBox_LineOfAction_Click" 
                                                 IsChecked="False">
+                                            <ToggleButton.ToolTip>
+                                                <ToolTip>
+                                                    <StackPanel>
+                                                        <TextBlock FontWeight="Bold">
+                                                            Wirkungslinie / Hebelarm
+                                                        </TextBlock>
+                                                        <TextBlock>
+                                                            Zeigt die Wirkungslinie mit Länge des Hebelarms
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                </ToolTip>
+                                            </ToggleButton.ToolTip>
                                             <Image Source="Image\Icons\16x16\perpendicular_16x16.png" />
                                         </ToggleButton>
                                         <ToggleButton x:Name="toolBox_TrackPoint"
                                                 Margin="10,0,0,0"
+                                                ToolTipService.ShowOnDisabled="True"
                                                 Click="toolBox_TrackPoint_Click" 
                                                 IsChecked="False">
+                                            <ToggleButton.ToolTip>
+                                                <ToolTip>
+                                                    <StackPanel>
+                                                        <TextBlock FontWeight="Bold">
+                                                            Spurpunkte
+                                                        </TextBlock>
+                                                        <TextBlock>
+                                                            Zeigt die Spurpunkte des bewegten Antriebs
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                </ToolTip>
+                                            </ToggleButton.ToolTip>
                                             <Image Source="Image\Icons\16x16\trackPoints_16x16.png" />
                                         </ToggleButton>
                                         <ToggleButton x:Name="toolBox_CoordSystem"
                                                       Margin="10,0,0,0"
+                                                      ToolTipService.ShowOnDisabled="True"
                                                       Click="toolBox_CoordSystem_Click"
                                                       IsChecked="True" >
+                                            <ToggleButton.ToolTip>
+                                                <ToolTip>
+                                                    <StackPanel>
+                                                        <TextBlock FontWeight="Bold">
+                                                            Koordinatensystem
+                                                        </TextBlock>
+                                                        <TextBlock>
+                                                            Zeigt die Ausrichtung der Kamera in einem Koordinatensystem
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                </ToolTip>
+                                            </ToggleButton.ToolTip>
                                             <Image Source="Image\Icons\16x16\coordSystem_16x16.png" />
                                         </ToggleButton>
                                     </ToolBar>
