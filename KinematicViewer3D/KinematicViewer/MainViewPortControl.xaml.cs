@@ -764,7 +764,10 @@ namespace KinematicViewer
             if (Guide == null)
                 return;
 
-            Guide.Move(groupActive, per);
+            //Guide.Move(groupActive, per);
+            Guide.Move(per);
+            UpdateActiveGroup();
+
 
             UpdatePassiveGroup();
             UpdateLineOfActionGroup();

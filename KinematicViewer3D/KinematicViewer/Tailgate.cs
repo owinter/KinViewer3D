@@ -13,6 +13,7 @@ namespace KinematicViewer
         private const double TAILWIDTH = 1250.0;
 
         private double _dTailWidth = 1250.0;
+        private double _dToGo;
         private double _dCurVal;
         private double _dMaxOpen;
         private double _dMinOpen;
@@ -276,7 +277,10 @@ namespace KinematicViewer
 
         public void InitiateMove(double per)
         {
-            CurValue = per * MaxValue;
+            double NewVal = per * MaxValue;
+
+            _dToGo = NewVal - CurValue;
+            CurValue = NewVal;
         }
 
         public Point3D MovePoint(Point3D endPoint)
@@ -304,16 +308,28 @@ namespace KinematicViewer
             Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupActive);
         }
 
-        //public void MoveMinAngle(Model3DGroup groupStaticMinAngle, double per = 0)
-        //{
-        //    InitiateMove(per);
-        //    Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupStaticMinAngle);
-        //}
+        public void Move(double per = 0)
+        {
 
-        //public void MoveMaxAngle(Model3DGroup groupStaticMaxAngle, double per = 1)
-        //{
-        //    InitiateMove(per);
-        //    Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupStaticMaxAngle);
-        //}
+            InitiateMove(per);
+
+            for (int i = 0; i < CoordsUpTail.Count; i++)
+            {
+                CoordsUpTail[i] = TransformationUtilities.rotateNewPoint(CoordsUpTail[i], _dToGo, AxisOfRotation);
+            }
+
+            for (int i = 0; i < CoordsMidTail.Count; i++)
+            {
+                CoordsMidTail[i] = TransformationUtilities.rotateNewPoint(CoordsMidTail[i], _dToGo, AxisOfRotation);
+            }
+
+            for (int i = 0; i < CoordsDownTail.Count; i++)
+            {
+                CoordsDownTail[i] = TransformationUtilities.rotateNewPoint(CoordsDownTail[i], _dToGo, AxisOfRotation);
+            }
+
+            HandPoint = TransformationUtilities.rotateNewPoint(HandPoint, _dToGo, AxisOfRotation);
+        }
+
     }
 }

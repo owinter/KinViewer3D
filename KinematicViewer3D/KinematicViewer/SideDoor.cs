@@ -21,7 +21,7 @@ namespace KinematicViewer
 
         //maximaler / minimaler Öffnungswinkel
         private double _dMaxOpen;
-
+        private double _dToGo;
         private double _dMinOpen;
         private double _dModelThickness;
         private double _dLength;
@@ -230,7 +230,10 @@ namespace KinematicViewer
 
         public void InitiateMove(double per)
         {
-            CurValue = per * MaxValue;
+            double NewVal = per * MaxValue;
+
+            _dToGo = NewVal - CurValue;
+            CurValue = NewVal;
         }
 
         public Point3D MovePoint(Point3D endPoint)
@@ -258,16 +261,22 @@ namespace KinematicViewer
             Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupActive);
         }
 
-        //public void MoveMinAngle(Model3DGroup groupStaticMinAngle, double per = 0)
-        //{
-        //    InitiateMove(per);
-        //    Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupStaticMinAngle);
-        //}
+        public void Move(double per = 0)
+        {
+            InitiateMove(per);
 
-        //public void MoveMaxAngle(Model3DGroup groupStaticMaxAngle, double per = 1)
-        //{
-        //    InitiateMove(per);
-        //    Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupStaticMaxAngle);
-        //}
+            for(int i = 0; i< CoordsBodyPart.Count; i++)
+            {
+                CoordsBodyPart[i] = TransformationUtilities.rotateNewPoint(CoordsBodyPart[i], _dToGo, AxisOfRotation);
+            }
+            for (int i = 0; i < CoordsWindowPart.Count; i++)
+            {
+                CoordsWindowPart[i] = TransformationUtilities.rotateNewPoint(CoordsWindowPart[i], _dToGo, AxisOfRotation);
+            }
+
+            LatchPoint = TransformationUtilities.rotateNewPoint(LatchPoint, _dToGo, AxisOfRotation);
+        }
+
+
     }
 }

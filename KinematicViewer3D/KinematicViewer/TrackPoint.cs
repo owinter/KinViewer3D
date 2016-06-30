@@ -23,8 +23,7 @@ namespace KinematicViewer
             AxisOfRotation = axisOfRotation;
             TrackPointMaterial = new DiffuseMaterial(Brushes.Gray);
             CoordsTrackPoint = new List<Point3D>();
-            //CoordsTrackPoint.Add(startPoint);
-            //createTrackPoints();
+
         }
 
         public List<Point3D> CoordsTrackPoint
@@ -57,13 +56,13 @@ namespace KinematicViewer
             set { _oAxisPoint = value; }
         }
 
-        private void createTrackPoints()
-        {
-            for (int i = 0; i < ELEMENTS; i++)
-            {
-                CoordsTrackPoint.Add(new Point3D(StartPoint.X, StartPoint.Y, StartPoint.Z));
-            }
-        }
+        //private void createTrackPoints()
+        //{
+        //    for (int i = 0; i < ELEMENTS; i++)
+        //    {
+        //        CoordsTrackPoint.Add(new Point3D(StartPoint.X, StartPoint.Y, StartPoint.Z));
+        //    }
+        //}
 
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
@@ -78,7 +77,11 @@ namespace KinematicViewer
             //    openValue += curOpenVal;
             //    CoordsTrackPoint[i] = StartPoint;
             //}
+            //StartPunkt hinzufügen
 
+            Res.AddRange(new Sphere(StartPoint, RADIUS, 4, 4, TrackPointMaterial).GetGeometryModel(guide));
+
+            //weitere sich ständig ändernde Punkte , je nach Öffnungswinkel
             for (int i = 0; i < ELEMENTS; i++)
             {
                 Point3D tp = TransformationUtilities.rotateExistingPoint(_oStartPoint, openValue, _oVAxisOfRotation, AxisPoint);
