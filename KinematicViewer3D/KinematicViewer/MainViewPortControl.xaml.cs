@@ -436,7 +436,7 @@ namespace KinematicViewer
             _bMouseDownRight = false;
             if (_bMouseDownMiddle)
             {
-                Cursor = Cursors.None;
+                Cursor = Cursors.ScrollNS;
                 _bDrag = false;
                 _bOrbit = false;
                 _bZoom = true;
