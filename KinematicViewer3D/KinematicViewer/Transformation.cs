@@ -62,6 +62,8 @@ namespace KinematicViewer
             if (phi < -90) phi = -90;
             if (phi > 90) phi = 90;
 
+            camera.UpDirection = new Vector3D(0, 1, 0);
+
             Vector3D thetaAxis = new Vector3D(0, 1, 0);
             Vector3D phiAxis = new Vector3D(-1, 0, 0);
 

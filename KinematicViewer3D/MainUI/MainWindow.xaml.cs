@@ -42,7 +42,7 @@ namespace MainUI
 
         private MainViewPortControl _oMvpControl;
 
-        private bool _bTailgate = false;
+        private bool _bTailgate = true;
 
         //Benutzereingaben der Koordinaten zwischen denen eine 3D Linie erzeugt wird
         //Punkt Drehachse
