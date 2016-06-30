@@ -45,7 +45,6 @@ namespace KinematicViewer
             //AxisOfRotation.Normalize();
             AxisLength = axisOfRotation.Length;
 
-            //AxisOfRotation = new Vector3D(13.94, 399.21, 20.94);
             AxisOfRotation = TransformationUtilities.ScaleVector(AxisOfRotation, 1);
 
             AxisPoint = axisPoint;

@@ -386,7 +386,7 @@ namespace KinematicViewer
 
         private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Middle)
+            if (e.ChangedButton == MouseButton.Middle && !(_bMouseDownLeft || _bMouseDownRight))
             {
                 _bMouseDownMiddle = true;
                 Cursor = Cursors.ScrollAll;

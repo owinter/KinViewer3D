@@ -72,11 +72,11 @@ namespace MainUI
             }
             else
             {
-                //Linke Tür / Fahrertür
-                //AxisOfRotation = new Vector3D(-13.94, -399.21, -20.94);
+                //Rechte Tür / Beifahrer
+                AxisOfRotation = new Vector3D(-13.94, 399.21, 20.94);
 
-                //Rechte Tür / Beifahrertür
-                AxisOfRotation = new Vector3D(13.94, 399.21, 20.94);
+                ////Linke  Tür / Fahrertür 
+                ////AxisOfRotation = new Vector3D(13.94, -399.21, -20.94);
             }
 
             create_Button.IsEnabled = false;
@@ -355,7 +355,7 @@ namespace MainUI
 
             if (toolBox_LineOfAction.IsChecked == true)
             {
-                string hebelarm = " Hebelarm in [mm]: " + Math.Round(_oLineOfAction.DistancePerpendicular, 2).ToString();
+                string hebelarm = " Hebelarm in [mm]: " + Math.Round(_oLineOfAction.DistancePerpendicular, 3).ToString();
                 statusPane.Text = hebelarm;
             }
         }
@@ -426,39 +426,39 @@ namespace MainUI
                 }
                 else
                 {
-                    //OriginalKoordinaten
-                    //X1 = 1460;
-                    //Y1 = 780;
-                    //Z1 = 930;
+                    //// OriginalKoordinaten
+                    // X1 = 1472.41;
+                    // Y1 = 780;
+                    // Z1 = -934.46;
 
-                    //X2 = 2565;
-                    //Y2 = 1125;
-                    //Z2 = 875;
+                    // X2 = 2565;
+                    // Y2 = 1125;
+                    // Z2 = -875;
 
-                    //X3 = 1515.0;
-                    //Y3 = 497.0;
-                    //Z3 = 910.0;
+                    // X3 = 1515.0;
+                    // Y3 = 497.0;
+                    // Z3 = -910.0;
 
-                    //X4 = 1920.0;
-                    //Y4 = 505.0;
-                    //Z4 = 875.0;
+                    // X4 = 1920.0;
+                    // Y4 = 505.0;
+                    // Z4 = -875.0;
 
                     //Auf den Urpsrung umgerechnete Koordinaten
-                    X1 = 1473 - 1473;
-                    Y1 = 781 - 781;
-                    Z1 = 935 - 935;
+                    X1 = 1472.41 - 1472.41;
+                    Y1 = 780.525 - 780.525;
+                    Z1 = -934.46 - (-934.46);
 
-                    X2 = 2565 - 1473;
-                    Y2 = 1125 - 781;
-                    Z2 = 875 - 935;
+                    X2 = 2565 - 1472.41;
+                    Y2 = 1125 - 780.525;
+                    Z2 = -875 - (-934.4);
 
-                    X3 = 1515.0 - 1473;
-                    Y3 = 497.0 - 781;
-                    Z3 = 910.0 - 935;
+                    X3 = 1515 - 1472.41;
+                    Y3 = 497 - 780.525;
+                    Z3 = -910 - (-934.46);
 
-                    X4 = 1920.0 - 1473;
-                    Y4 = 505.0 - 781;
-                    Z4 = 875.0 - 935;
+                    X4 = 1920 - 1472.41;
+                    Y4 = 505 - 780.525;
+                    Z4 = -875 - (-934.46);
                 }
 
                 Point3D p1 = new Point3D(X1, Y1, Z1);
