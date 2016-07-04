@@ -83,8 +83,6 @@ namespace MainUI
             slider_open_ObjectAngle.IsEnabled = false;
             slider_open_ObjectAngle_TextBox.IsEnabled = false;
 
-
-
             //toolBox_TransparentMinMax.IsChecked = false;
             //toolBox_TrackPoint.IsChecked = false;
             //toolBox_LineOfAction.IsChecked = false;

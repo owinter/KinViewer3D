@@ -15,7 +15,6 @@ namespace KinematicViewer
     {
         //Abfrage für die Maussteuerung
         private bool _bMouseDownRight;
-
         private bool _bMouseDownLeft;
         private bool _bMouseDownMiddle;
         private bool _bZoom = false;

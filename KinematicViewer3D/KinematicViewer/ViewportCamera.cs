@@ -315,7 +315,7 @@ namespace KinematicViewer
             //Liefert die Mausposition relativ zum Viewport3D und transformiert sie zum Center
             //actualRelativePos beinhaltet die X und Y Entfernung vom Center des Viewports
             Point relativePos = Mouse.GetPosition(Viewport);
-            Point actualRelativePos = new Point(relativePos.X - Math.Ceiling(Viewport.ActualWidth / 2), Math.Floor(Viewport.ActualHeight / 2) - relativePos.Y);
+            Point actualRelativePos = new Point(relativePos.X - Math.Ceiling(Viewport.ActualWidth / 2), Math.Ceiling(Viewport.ActualHeight / 2) - relativePos.Y);
 
             //dx und dy sind die Beträge, um jene die Maus dieses Maus Move Events bewegt.
             //Beim Rücksetzen der Maus zum Center, ist dies einfach die neue Position der Maus , relativ zum Center
