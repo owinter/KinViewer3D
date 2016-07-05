@@ -187,10 +187,10 @@ namespace KinematicViewer
         /// <summary>
         /// Berechnet die Lotfußpunkte und Distanz zwischen zwei Windschiefen Vektoren und gibt diese zurück
         /// </summary>
-        /// <param name="axisOfRotation"></param>
-        /// <param name="vDrive"></param>
-        /// <param name="axisPoint"></param>
-        /// <param name="attachmentPointBody"></param>
+        /// <param name="axisOfRotation">Richtung Drehachse</param>
+        /// <param name="vDrive">Ausrichtungsvektor des Antriebs</param>
+        /// <param name="axisPoint">Mittelpunkt auf der Drehachse</param>
+        /// <param name="attachmentPointBody">Anbindungspunkt des Antriebs an Karosserie</param>
         /// <param http="http://geomalgorithms.com/a07-_distance.html#Distance between Lines" ></param>
         /// <returns>
         /// </returns>
@@ -209,26 +209,26 @@ namespace KinematicViewer
             double c = Vector3D.DotProduct(v, v);   // >= 0
             double d = Vector3D.DotProduct(u, w);
             double e = Vector3D.DotProduct(v, w);
-            double D = a * c - b * b;               // >= 0
+            double Divisor = a * c - b * b;         // >= 0
             double sc, tc;
 
-            if (D < SMALL_DIVISOR)                    // Falls die Vektoren parallel
+            if (Divisor < SMALL_DIVISOR)            // Falls die Vektoren parallel sind
             {
                 sc = 0.0;
-                tc = (b > c ? (d / b) : (e / c));     // den größten wert nehmen
+                tc = (b > c ? (d / b) : (e / c));   // den größten wert nehmen
             }
             else
             {
-                sc = (b * e - c * d) / D;
-                tc = (a * e - b * d) / D;
+                sc = (b * e - c * d) / Divisor;
+                tc = (a * e - b * d) / Divisor;
             }
             Point3D p0 = new Point3D((w - (tc * v)).X, (w - (tc * v)).Y, (w - (tc * v)).Z); // Lotfußpunkt auf dem Drive Vektor
-            Vector3D dP = w + (sc * u) - (tc * v);                                          // kürzester Vektor zwischen beiden Vektoren
-            Point3D p1 = p0 - dP;                                                           // Lotfußpunkt auf der Drehachse
+            Vector3D vShortestVector = w + (sc * u) - (tc * v);                                          // kürzester Vektor zwischen beiden Vektoren
+            Point3D p1 = p0 - vShortestVector;                                                           // Lotfußpunkt auf der Drehachse
 
-            DistancePerpendicular = dP.Length;  //Länge des kürzesten Vektors
+            DistancePerpendicular = vShortestVector.Length;  //Länge des kürzesten Vektors --> Hebelarm
 
-            points.Add(p0); // Lotfußpunkt auf dem Drive Vektor
+            points.Add(p0); // Lotfußpunkt auf dem verlängerten Drive Vektor
             points.Add(p1); // Lotfußpunkt auf der Drehachse
 
             return points;
