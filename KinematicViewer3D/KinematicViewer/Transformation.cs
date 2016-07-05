@@ -93,9 +93,9 @@ namespace KinematicViewer
             camera.UpDirection = new Vector3D(0, 1, 0);
         }
 
-        public void Reset(ProjectionCamera camera)
+        public void Reset(ProjectionCamera camera, double value_Z)
         {
-            camera.Position = new Point3D(camera.Position.X, camera.Position.Y, 4000);
+            camera.Position = new Point3D(camera.Position.X, camera.Position.Y, value_Z);
             camera.Transform = new Transform3DGroup();
             Yaw = 0;
             Pitch = 0;

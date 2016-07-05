@@ -421,22 +421,28 @@
                                                 Margin="5,0,0,0"
                                                 ToolTip="Kamera Reset"
                                                 Click="toolBox_Reset_Button_Click">
-                                            <Image Source="Image\Icons\16x16\Reset_16x16.png" />
-                                            
+                                            <Image Source="Image\Icons\16x16\Reset_16x16.png" />  
                                         </Button>
-                                        <Button x:Name="toolBox_ZoomIn_Button"
-                                                Margin="5,0,0,0"
-                                                ToolTip="vergrößern"
-                                                Click="toolBox_ZoomIn_Button_Click">
+                                        
+                                        <RepeatButton x:Name="toolBox_ZoomIn_Button"
+                                                      Margin="5,0,0,0"
+                                                      ToolTip="vergrößern" 
+                                                      BorderThickness="0"
+                                                      Background="{x:Null}"
+                                                      BorderBrush="{x:Null}"                       
+                                                      Click="toolBox_ZoomIn_Button_Click">
                                             <Image Source="Image\Icons\16x16\ZoomIn_16x16.png" />
-                                        </Button>
+                                        </RepeatButton>
 
-                                        <Button x:Name="toolBox_ZoomOut_Button"
-                                                Margin="5,0,0,0"
-                                                ToolTip="verkleinern"
-                                                Click="toolBox_ZoomOut_Button_Click">
+                                        <RepeatButton x:Name="toolBox_ZoomOut_Button"
+                                                      Margin="5,0,0,0"
+                                                      ToolTip="verkleinern"
+                                                      BorderThickness="0"
+                                                      Background="{x:Null}" 
+                                                      BorderBrush="{x:Null}"
+                                                      Click="toolBox_ZoomOut_Button_Click">
                                             <Image Source="Image\Icons\16x16\ZoomOut_16x16.png" />
-                                        </Button>
+                                        </RepeatButton>
                                         <Separator Margin="5,0,0,0" />
 
                                         <Button x:Name="toolBox_Front_Button"

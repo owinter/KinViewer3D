@@ -81,7 +81,7 @@ namespace KinematicViewer
 
             //Kameras für die zwei Viewports erstellen
             ViewportCam = new ViewportCamera(viewport, ViewportCoordSystem, CoordSystem, trans);
-            ViewportCam.makeCoordSystemCamera();
+            ViewportCam.startCoordSystemCamera();
             ViewportCam.startPerspectiveCamera();
             ViewportCam.MyCam = Cam.Perspective;
             ViewportCam.resetCam();

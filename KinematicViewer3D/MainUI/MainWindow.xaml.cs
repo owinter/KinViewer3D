@@ -301,9 +301,6 @@ namespace MainUI
             //Dem MainGrid den focus übergeben
             MvpControl.FocusToViewport(sender, e);
 
-            ////Kamera für Main Viewport updaten
-            MvpControl.ViewportCam.updatePositionCamera();
-
             slider_open_ObjectAngle.IsEnabled = true;
             slider_open_ObjectAngle_TextBox.IsEnabled = true;
 
@@ -558,7 +555,12 @@ namespace MainUI
 
         private void toolBox_ZoomIn_Button_Click(object sender, RoutedEventArgs e)
         {
-            MvpControl.zoomIn();
+            MvpControl.zoomIn();     
+        }
+
+        private void toolBox_ZoomOut_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MvpControl.zoomOut();
         }
 
         private void toolBox_TransparentMinMax_Click(object sender, RoutedEventArgs e)
@@ -619,11 +621,6 @@ namespace MainUI
             {
                 MvpControl.removeCoordSystem();
             }
-        }
-
-        private void toolBox_ZoomOut_Button_Click(object sender, RoutedEventArgs e)
-        {
-            MvpControl.zoomOut();
         }
 
         private void toolBox_Front_Button_Click(object sender, RoutedEventArgs e)

@@ -143,7 +143,7 @@ namespace KinematicViewer
             oP_Camera.FieldOfView = 45;
             oP_Camera.FarPlaneDistance = 25000;
             oP_Camera.NearPlaneDistance = 0.125;
-            Trans.Reset(oP_Camera);
+            Trans.Reset(oP_Camera, 4000);
             Viewport.Camera = oP_Camera;
         }
 
@@ -157,23 +157,20 @@ namespace KinematicViewer
             oO_Camera.FarPlaneDistance = 25000;
             oO_Camera.NearPlaneDistance = 0.125;
             oO_Camera.Width = OrthoWidth;
-            Trans.Reset(oO_Camera);
+            Trans.Reset(oO_Camera, 4000);
             Viewport.Camera = oO_Camera;
         }
 
-        public void makeCoordSystemCamera()
+        public void startCoordSystemCamera()
         {
             oP_Camera_CoordSystem = new PerspectiveCamera();
             oP_Camera_CoordSystem.Position = new Point3D(0, 0, 2000);
             oP_Camera_CoordSystem.LookDirection = new Vector3D(0, 0, -2000);
             oP_Camera_CoordSystem.UpDirection = new Vector3D(0, 1, 0);
             oP_Camera_CoordSystem.FieldOfView = 60;
-            oP_Camera_CoordSystem.FarPlaneDistance = 5000;
+            oP_Camera_CoordSystem.FarPlaneDistance = 3000;
             oP_Camera_CoordSystem.NearPlaneDistance = 0.125;
-            //Trans_CSS.Reset(oP_Camera_CoordSystem);
-            oP_Camera_CoordSystem.Transform = new Transform3DGroup();
-            Trans_CSS.Yaw = 0;
-            Trans_CSS.Pitch = 0;
+            Trans_CSS.Reset(oP_Camera_CoordSystem, 2000);
             ViewportCoordSystem.Camera = oP_Camera_CoordSystem;
         }
 
@@ -193,7 +190,6 @@ namespace KinematicViewer
                     {
                         Yaw = Trans.Yaw;
                         Pitch = Trans.Pitch;
-                        oO_Camera.Width = OrthoWidth;
                     }
                     break;
 
@@ -264,7 +260,7 @@ namespace KinematicViewer
         public void zoomCamMouseMove()
         {
             Point relativePos = Mouse.GetPosition(Viewport);
-            Point actualRelativePos = new Point(relativePos.X - Math.Ceiling(Viewport.ActualWidth / 2), Math.Floor(Viewport.ActualHeight / 2) - relativePos.Y);
+            Point actualRelativePos = new Point(relativePos.X - Math.Ceiling(Viewport.ActualWidth / 2), Math.Ceiling(Viewport.ActualHeight / 2) - relativePos.Y);
 
             double dy = actualRelativePos.Y * ZoomFactorMouse;
             zoomCamera(dy);
@@ -288,11 +284,10 @@ namespace KinematicViewer
                         //je kleiner die Division desto schneller wird gezoomt und umgekehrt
                         //Änderung der Kamerabreite um das Delta des Mausrades
                         OrthoWidth -= value / 2.5D;
+                        oO_Camera.Width = OrthoWidth;
                     }
                     break;
             }
-            //trans_CSS.Zoom(oP_Camera_CoordSystem, value / 1);
-            updatePositionCamera();
         }
 
         public void orbitCam()
@@ -337,7 +332,7 @@ namespace KinematicViewer
         public void dragCam()
         {
             Point relativePos = Mouse.GetPosition(Viewport);
-            Point actualRelativePos = new Point(relativePos.X - Viewport.ActualWidth / 2, Viewport.ActualHeight / 2 - relativePos.Y);
+            Point actualRelativePos = new Point(relativePos.X - Math.Ceiling(Viewport.ActualWidth / 2), Math.Ceiling(Viewport.ActualHeight / 2) - relativePos.Y);
             double dx = actualRelativePos.X;
             double dy = actualRelativePos.Y;
 
@@ -362,7 +357,7 @@ namespace KinematicViewer
         public void panCam()
         {
             Point relativePos = Mouse.GetPosition(Viewport);
-            Point actualRelativePos = new Point(relativePos.X - Viewport.ActualWidth / 2, Viewport.ActualHeight / 2 - relativePos.Y);
+            Point actualRelativePos = new Point(relativePos.X - Math.Ceiling(Viewport.ActualWidth / 2), Math.Ceiling(Viewport.ActualHeight / 2) - relativePos.Y);
             double dx = actualRelativePos.X;
             double dy = actualRelativePos.Y;
 
@@ -386,7 +381,7 @@ namespace KinematicViewer
         public void setMouseToCenter()
         {
             // Berechnen vom Center des Viewports in Bildschirmkoordinaten
-            _oCenterOfViewport = Viewport.PointToScreen(new Point(Viewport.ActualWidth / 2, Viewport.ActualHeight / 2));
+            _oCenterOfViewport = Viewport.PointToScreen(new Point(Math.Ceiling(Viewport.ActualWidth / 2), Math.Ceiling(Viewport.ActualHeight / 2)));
 
             // Rücksetzen der Maus auf diese Position (Mitte des Viewports)
             MouseUtilities.SetPosition(_oCenterOfViewport);
