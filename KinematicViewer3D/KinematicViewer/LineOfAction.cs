@@ -8,8 +8,8 @@ namespace KinematicViewer
     public class LineOfAction : GeometricalElement
     {
         private const double RADIUS = 3;
-        private const double ELEMENTLENGTH = 15;
-        private const double OFFSET = 2.5;
+        private const double ELEMENTLENGTH = 20;
+        private const double OFFSET = 3;
 
         private double _dDistancePerpendicular;
 
@@ -122,7 +122,7 @@ namespace KinematicViewer
             //Elemente entlang des Antriebs zum Lotfußpunkt
             for (int i = 0; i < CoordsLineOfActionDriveSegments.Count; i += 2)
             {
-                Res.AddRange(new Cylinder(CoordsLineOfActionDriveSegments[i], CoordsLineOfActionDriveSegments[i + 1], RADIUS,LineOfActionMaterial, 8).GetGeometryModel(guide));
+                Res.AddRange(new Cylinder(CoordsLineOfActionDriveSegments[i], CoordsLineOfActionDriveSegments[i + 1], RADIUS, LineOfActionMaterial, 8).GetGeometryModel(guide));
             }
 
             //Lotfußpunkt auf der verlängerten Antriebsachse
@@ -139,9 +139,10 @@ namespace KinematicViewer
         {
             List<Point3D> points = new List<Point3D>();
 
-            Vector3D vDirection = perpendicularDrive - startPoint;
+            Vector3D vDirection = perpendicularDrive - startPoint; 
 
             int elements = Convert.ToInt16((Math.Floor(vDirection.Length / (ELEMENTLENGTH + OFFSET))));
+
             double leftOver = vDirection.Length % (ELEMENTLENGTH + OFFSET);
 
             vDirection = TransformationUtilities.ScaleVector(vDirection, 1);
@@ -171,7 +172,7 @@ namespace KinematicViewer
             int elements = Convert.ToInt16((Math.Ceiling(vDirection.Length / ELEMENTLENGTH)) + 5);
 
             vDirection = TransformationUtilities.ScaleVector(vDirection, 1);
-
+            //System.Console.WriteLine(vDirection + "\n");
             Point3D startElem = startPoint;
             for (int i = 0; i < elements; i++)
             {
@@ -183,12 +184,22 @@ namespace KinematicViewer
             return points;
         }
 
+        /// <summary>
+        /// Berechnet die Lotfußpunkte und Distanz zwischen zwei Windschiefen Vektoren und gibt diese zurück
+        /// </summary>
+        /// <param name="axisOfRotation"></param>
+        /// <param name="vDrive"></param>
+        /// <param name="axisPoint"></param>
+        /// <param name="attachmentPointBody"></param>
+        /// <param http="http://geomalgorithms.com/a07-_distance.html#Distance between Lines" ></param>
+        /// <returns>
+        /// </returns>
         public List<Point3D> calculatePerpendiculars(Vector3D axisOfRotation, Vector3D vDrive, Point3D axisPoint, Point3D attachmentPointBody)
         {
             const double SMALL_DIVISOR = 0.00000001; // "Division overflow", um nicht durch 0 zu teilen
 
             List<Point3D> points = new List<Point3D>();
-
+      
             Vector3D u = axisOfRotation;
             Vector3D v = vDrive;
             Vector3D w = attachmentPointBody - axisPoint;

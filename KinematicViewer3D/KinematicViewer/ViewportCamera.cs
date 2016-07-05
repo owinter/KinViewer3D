@@ -29,7 +29,8 @@ namespace KinematicViewer
         //Kamerabreite für orthographische Kamera
         private double _dOrthoWidth;
 
-        private double _dZoomFactorToolBox;
+        //Zoom Faktoren
+        private double _dZoomFactor;
         private double _dZoomFactorMouse;
 
         //Mitte des ViewPort
@@ -40,31 +41,27 @@ namespace KinematicViewer
 
         //Speicherung der yaw und pitch Werte
         private double _dYaw;
-
-        private double _dPit;
+        private double _dPitch;
 
         //benutzbare Instanzen
         private Viewport3D _oViewport;
 
         private Viewport3D _oViewportCoordSystem;
-        private Grid _oMainGrid;
         private CoordSystem _oCoordSystem;
         private Transformation _oTrans;
         private Transformation _oTrans_CSS;
 
         //Konstruktor
-        public ViewportCamera(Grid mainGrid, Viewport3D viewport, Viewport3D viewportCoordSystem, CoordSystem coordSystem, Transformation trans)
+        public ViewportCamera(Viewport3D viewport, Viewport3D viewportCoordSystem, CoordSystem coordSystem, Transformation trans)
         {
-            MainGrid = mainGrid;
             Viewport = viewport;
             CoordSystem = coordSystem;
             ViewportCoordSystem = viewportCoordSystem;
             Trans = trans;
-
             Trans_CSS = new Transformation();
 
             OrthoWidth = 3200;
-            ZoomFactorToolBox = 300;
+            ZoomFactor = 300;
             ZoomFactorMouse = 5;
             PointClicked = new Point3D(0, 0, 0);
             Trans.RotationPoint = PointClicked;
@@ -73,13 +70,13 @@ namespace KinematicViewer
         public double Yaw
         {
             get { return _dYaw; }
-            set { _dYaw = value; }
+            private set { _dYaw = value; }
         }
 
-        public double Pit
+        public double Pitch
         {
-            get { return _dPit; }
-            set { _dPit = value; }
+            get { return _dPitch; }
+            private set { _dPitch = value; }
         }
 
         public double OrthoWidth
@@ -88,10 +85,10 @@ namespace KinematicViewer
             set { _dOrthoWidth = value; }
         }
 
-        public double ZoomFactorToolBox
+        public double ZoomFactor
         {
-            get { return _dZoomFactorToolBox; }
-            set { _dZoomFactorToolBox = value; }
+            get { return _dZoomFactor; }
+            set { _dZoomFactor = value; }
         }
 
         public double ZoomFactorMouse
@@ -116,12 +113,6 @@ namespace KinematicViewer
         {
             get { return _oViewportCoordSystem; }
             private set { _oViewportCoordSystem = value; }
-        }
-
-        public Grid MainGrid
-        {
-            get { return _oMainGrid; }
-            private set { _oMainGrid = value; }
         }
 
         public CoordSystem CoordSystem
@@ -194,14 +185,14 @@ namespace KinematicViewer
                 case Cam.Perspective:
                     {
                         Yaw = Trans.Yaw;
-                        Pit = Trans.Pitch;
+                        Pitch = Trans.Pitch;
                     }
                     break;
 
                 case Cam.Orthographic:
                     {
                         Yaw = Trans.Yaw;
-                        Pit = Trans.Pitch;
+                        Pitch = Trans.Pitch;
                         oO_Camera.Width = OrthoWidth;
                     }
                     break;
@@ -251,8 +242,6 @@ namespace KinematicViewer
             Trans_CSS.Pitch = 0.0;
         }
 
-        
-
         //Zoom über das Drehen des Mausrades
         public void viewport_Grid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -260,27 +249,27 @@ namespace KinematicViewer
         }
 
         //HineinZoomen über ToolBox
-        public void zoomIn()
+        public void ToolBoxZoomIn()
         {
-            zoomCamera(ZoomFactorToolBox);
+            zoomCamera(ZoomFactor);
         }
 
         //HerausZoomen über ToolBox
-        public void zoomOut()
+        public void ToolBoxZoomOut()
         {
-            zoomCamera(-ZoomFactorToolBox);
+            zoomCamera(-ZoomFactor);
         }
 
         //Zoom über die vertikale Mausbewegung
-        public void zoomCam()
+        public void zoomCamMouseMove()
         {
             Point relativePos = Mouse.GetPosition(Viewport);
             Point actualRelativePos = new Point(relativePos.X - Math.Ceiling(Viewport.ActualWidth / 2), Math.Floor(Viewport.ActualHeight / 2) - relativePos.Y);
 
-            double value_y = actualRelativePos.Y * ZoomFactorMouse;
+            double dy = actualRelativePos.Y * ZoomFactorMouse;
+            zoomCamera(dy);
 
-            zoomCamera(value_y);
-
+            //Rücksetzen der MausPosition zum Center des Viewports
             MouseUtilities.SetPosition(_oCenterOfViewport);
         }
 
@@ -290,9 +279,7 @@ namespace KinematicViewer
             {
                 case Cam.Perspective:
                     {
-                        //je kleiner die Division desto schneller wird gezoomt und umgekehrt
-                        //Änderung der Kameraentfernung um das Delta des Mausrades
-                        Trans.Zoom(oP_Camera, value / 1);
+                        Trans.Zoom(oP_Camera, value);
                     }
                     break;
 
@@ -300,7 +287,6 @@ namespace KinematicViewer
                     {
                         //je kleiner die Division desto schneller wird gezoomt und umgekehrt
                         //Änderung der Kamerabreite um das Delta des Mausrades
-                        //CameraR = CameraR - e.Delta / 250D;
                         OrthoWidth -= value / 2.5D;
                     }
                     break;
@@ -308,7 +294,6 @@ namespace KinematicViewer
             //trans_CSS.Zoom(oP_Camera_CoordSystem, value / 1);
             updatePositionCamera();
         }
-
 
         public void orbitCam()
         {
@@ -345,20 +330,14 @@ namespace KinematicViewer
 
             Trans_CSS.Orbit(oP_Camera_CoordSystem);
 
-            //Rücksetzen der MausPosition zum Center vom Viewport in Bildschirm Koordinaten
+            //Rücksetzen der MausPosition zum Center des Viewports
             MouseUtilities.SetPosition(_oCenterOfViewport);
         }
 
         public void dragCam()
         {
-            //Liefert die Mausposition relativ zum Viewport3D und transformiert sie zum Center
-            //actualRelativePos beinhaltet die X und Y Entfernung vom Center des Viewports
-
             Point relativePos = Mouse.GetPosition(Viewport);
             Point actualRelativePos = new Point(relativePos.X - Viewport.ActualWidth / 2, Viewport.ActualHeight / 2 - relativePos.Y);
-
-            //dx und dy sind die Beträge, um jene die Maus dieses Maus Move Events bewegt.
-            //Beim Rücksetzen der Maus zum Center, ist dies einfach die neue Position der Maus , relativ zum Center
             double dx = actualRelativePos.X;
             double dy = actualRelativePos.Y;
 
@@ -367,23 +346,21 @@ namespace KinematicViewer
                 case Cam.Perspective:
                     {
                         Trans.Drag(oP_Camera, -dx, -dy);
-                        //oP_Camera_CoordSystem.Position = new Point3D(oP_Camera.Position.X, oP_Camera.Position.Y, oP_Camera_CoordSystem.Position.Z);
                     }
                     break;
 
                 case Cam.Orthographic:
                     {
                         Trans.Drag(oO_Camera, -dx, -dy);
-                        //oP_Camera_CoordSystem.Position = new Point3D(oO_Camera.Position.X, oO_Camera.Position.Y, oP_Camera_CoordSystem.Position.Z);
                     }
                     break;
             }
-            
+
             MouseUtilities.SetPosition(_oCenterOfViewport);
         }
 
         public void panCam()
-        {  
+        {
             Point relativePos = Mouse.GetPosition(Viewport);
             Point actualRelativePos = new Point(relativePos.X - Viewport.ActualWidth / 2, Viewport.ActualHeight / 2 - relativePos.Y);
             double dx = actualRelativePos.X;
@@ -484,94 +461,55 @@ namespace KinematicViewer
         //Listener für die Tastatureingabe
         public void viewport_KeyDown(object sender, KeyEventArgs e)
         {
-            double value = 30;
-            double zoomFactor = 50;
+            double movingAmoung = 30;
 
             switch (e.Key)
             {
                 case Key.Up:
                     {
-                        if (MyCam == Cam.Perspective)
-                            Trans.doPitch(oP_Camera, -value);
-
-                        if (MyCam == Cam.Orthographic)
-                            Trans.doPitch(oO_Camera, -value);
+                        pitchCam(-movingAmoung);
                     }
-                    Trans_CSS.doPitch(oP_Camera_CoordSystem, -value);
                     e.Handled = true;
                     break;
 
                 case Key.Down:
                     {
-                        if (MyCam == Cam.Perspective)
-                            Trans.doPitch(oP_Camera, value);
-
-                        if (MyCam == Cam.Orthographic)
-                            Trans.doPitch(oO_Camera, value);
+                        pitchCam(movingAmoung);
                     }
-                    Trans_CSS.doPitch(oP_Camera_CoordSystem, value);
                     e.Handled = true;
                     break;
 
                 case Key.Left:
                     {
-                        if (MyCam == Cam.Perspective)
-                            Trans.doYaw(oP_Camera, value);
-
-                        if (MyCam == Cam.Orthographic)
-                            Trans.doYaw(oO_Camera, value);
+                        yawCam(movingAmoung);
                     }
-                    Trans_CSS.doYaw(oP_Camera_CoordSystem, value);
                     e.Handled = true;
                     break;
 
                 case Key.Right:
                     {
-                        if (MyCam == Cam.Perspective)
-                            Trans.doYaw(oP_Camera, -value);
-
-                        if (MyCam == Cam.Orthographic)
-                            Trans.doYaw(oO_Camera, -value);
+                        yawCam(-movingAmoung);
                     }
-                    Trans_CSS.doYaw(oP_Camera_CoordSystem, -value);
                     e.Handled = true;
                     break;
 
                 case Key.Add:
                 case Key.OemPlus:
                     {
-                        if (MyCam == Cam.Perspective)
-                            Trans.Zoom(oP_Camera, zoomFactor);
-
-                        if (MyCam == Cam.Orthographic)
-                        {
-                            OrthoWidth -= zoomFactor;
-                            updatePositionCamera();
-                        }
+                        zoomCamera(ZoomFactor);
                     }
-                    //Trans_CSS.Zoom(oP_Camera_CoordSystem, zoomFactor);
                     e.Handled = true;
                     break;
 
                 case Key.Subtract:
                 case Key.OemMinus:
                     {
-                        if (MyCam == Cam.Perspective)
-                            Trans.Zoom(oP_Camera, -zoomFactor);
-
-                        if (MyCam == Cam.Orthographic)
-                        {
-                            OrthoWidth += zoomFactor;
-                            updatePositionCamera();
-                        }
+                        zoomCamera(-ZoomFactor);
                     }
-                    //Trans_CSS.Zoom(oP_Camera_CoordSystem, -zoomFactor);
                     e.Handled = true;
                     break;
             }
         }
-
-        
 
         /// <summary>
         /// TOOLBAR Funktionen
@@ -585,75 +523,69 @@ namespace KinematicViewer
 
         public void viewBack()
         {
-            reloadCameraPositionDefault();
-            resetCam();
             //540 entspr. 180°
-            if (MyCam == Cam.Perspective)
-                Trans.doYaw(oP_Camera, 540);
-            if (MyCam == Cam.Orthographic)
-                Trans.doYaw(oO_Camera, 540);
-
-            //Koordinatensystem aktualisieren
-            Trans_CSS.doYaw(oP_Camera_CoordSystem, 540);
+            InitToolBoxYawCamera(540);
         }
 
         public void viewRight()
         {
-            reloadCameraPositionDefault();
-            resetCam();
             //270 entspr. 90°
-            if (MyCam == Cam.Perspective)
-                Trans.doYaw(oP_Camera, -270);
-            if (MyCam == Cam.Orthographic)
-                Trans.doYaw(oO_Camera, -270);
-
-            //Koordinatensystem aktualisieren
-            Trans_CSS.doYaw(oP_Camera_CoordSystem, -270);
+            InitToolBoxYawCamera(-270);
         }
 
         public void viewLeft()
         {
-            reloadCameraPositionDefault();
-            resetCam();
             //270 entspr. 90°
-            if (MyCam == Cam.Perspective)
-                Trans.doYaw(oP_Camera, 270);
-            if (MyCam == Cam.Orthographic)
-                Trans.doYaw(oO_Camera, 270);
-
-            //Koordinatensystem aktualisieren
-            Trans_CSS.doYaw(oP_Camera_CoordSystem, 270);
+            InitToolBoxYawCamera(270);
         }
 
         public void viewTop()
         {
-            reloadCameraPositionDefault();
-            resetCam();
             //270 entspr. 90°
-            if (MyCam == Cam.Perspective)
-                Trans.doPitch(oP_Camera, -270);
-            if (MyCam == Cam.Orthographic)
-                Trans.doPitch(oO_Camera, -270);
-
-            //Koordinatensystem aktualisieren
-            Trans_CSS.doPitch(oP_Camera_CoordSystem, -270);
+            InitToolBoxPitchCam(-270);
         }
 
         public void viewBottom()
         {
-            reloadCameraPositionDefault();
-            resetCam();
             //270 entspr. 90°
-            if (MyCam == Cam.Perspective)
-                Trans.doPitch(oP_Camera, 270);
-            if (MyCam == Cam.Orthographic)
-                Trans.doPitch(oO_Camera, 270);
-
-            //Koordinatensystem aktualisieren
-            Trans_CSS.doPitch(oP_Camera_CoordSystem, 270);
+            InitToolBoxPitchCam(270);
         }
 
-        
+        private void InitToolBoxYawCamera(double value)
+        {
+            reloadCameraPositionDefault();
+            resetCam();
+            yawCam(value);
+        }
+
+        private void InitToolBoxPitchCam(double value)
+        {
+            reloadCameraPositionDefault();
+            resetCam();
+            pitchCam(value);
+        }
+
+        private void pitchCam(double value)
+        {
+            if (MyCam == Cam.Perspective)
+                Trans.doPitch(oP_Camera, value);
+            if (MyCam == Cam.Orthographic)
+                Trans.doPitch(oO_Camera, value);
+
+            //Koordinatensystem aktualisieren
+            Trans_CSS.doPitch(oP_Camera_CoordSystem, value);
+        }
+
+        private void yawCam(double value)
+        {
+            if (MyCam == Cam.Perspective)
+                Trans.doYaw(oP_Camera, value);
+            if (MyCam == Cam.Orthographic)
+                Trans.doYaw(oO_Camera, value);
+
+            //Koordinatensystem aktualisieren
+            Trans_CSS.doYaw(oP_Camera_CoordSystem, value);
+        }
 
         //Öffentliche Getter & Setter Methoden
         public Cam MyCam
@@ -666,7 +598,5 @@ namespace KinematicViewer
                 resetCam();
             }
         }
-
-        
     }
 }

@@ -80,7 +80,7 @@ namespace KinematicViewer
             ElementsTrackPoint = new List<GeometricalElement>();
 
             //Kameras für die zwei Viewports erstellen
-            ViewportCam = new ViewportCamera(MainGrid, viewport, ViewportCoordSystem, CoordSystem, trans);
+            ViewportCam = new ViewportCamera(viewport, ViewportCoordSystem, CoordSystem, trans);
             ViewportCam.makeCoordSystemCamera();
             ViewportCam.startPerspectiveCamera();
             ViewportCam.MyCam = Cam.Perspective;
@@ -377,7 +377,7 @@ namespace KinematicViewer
                 if (_bOrbit)
                     ViewportCam.orbitCam();
                 if (_bZoom)
-                    ViewportCam.zoomCam();
+                    ViewportCam.zoomCamMouseMove();
                 if (_bPan)
                     ViewportCam.panCam();
             }
@@ -731,12 +731,12 @@ namespace KinematicViewer
 
         public void zoomIn()
         {
-            ViewportCam.zoomIn();
+            ViewportCam.ToolBoxZoomIn();
         }
 
         public void zoomOut()
         {
-            ViewportCam.zoomOut();
+            ViewportCam.ToolBoxZoomOut();
         }
 
         //private void calculateMPoint()
