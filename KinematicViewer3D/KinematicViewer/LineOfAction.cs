@@ -202,13 +202,13 @@ namespace KinematicViewer
       
             Vector3D u = axisOfRotation;
             Vector3D v = vDrive;
-            Vector3D w = attachmentPointBody - axisPoint;
+            Vector3D w0 = attachmentPointBody - axisPoint;
 
             double a = Vector3D.DotProduct(u, u);   // >= 0
             double b = Vector3D.DotProduct(u, v);
             double c = Vector3D.DotProduct(v, v);   // >= 0
-            double d = Vector3D.DotProduct(u, w);
-            double e = Vector3D.DotProduct(v, w);
+            double d = Vector3D.DotProduct(u, w0);
+            double e = Vector3D.DotProduct(v, w0);
             double Divisor = a * c - b * b;         // >= 0
             double sc, tc;
 
@@ -222,11 +222,14 @@ namespace KinematicViewer
                 sc = (b * e - c * d) / Divisor;
                 tc = (a * e - b * d) / Divisor;
             }
-            Point3D p0 = new Point3D((w - (tc * v)).X, (w - (tc * v)).Y, (w - (tc * v)).Z); // Lotfußpunkt auf dem Drive Vektor
-            Vector3D vShortestVector = w + (sc * u) - (tc * v);                                          // kürzester Vektor zwischen beiden Vektoren
-            Point3D p1 = p0 - vShortestVector;                                                           // Lotfußpunkt auf der Drehachse
+            //Point3D p0 = new Point3D((w0 - (tc * v)).X, (w0 - (tc * v)).Y, (w0 - (tc * v)).Z); // Lotfußpunkt auf dem Drive Vektor
+            //Vector3D vShortestVectorWc = w0 + (sc * u) - (tc * v);                             // kürzester Vektor zwischen beiden Vektoren
+            //Point3D p1 = p0 - vShortestVectorWc;                                               // Lotfußpunkt auf der Drehachse
 
-            DistancePerpendicular = vShortestVector.Length;  //Länge des kürzesten Vektors --> Hebelarm
+            Point3D p0 = new Point3D((attachmentPointBody - (tc * v)).X, (attachmentPointBody - (tc * v)).Y, (attachmentPointBody - (tc * v)).Z);
+            Point3D p1 = new Point3D((axisPoint - (sc * u)).X, (axisPoint - (sc * u)).Y, (axisPoint - (sc * u)).Z);
+            Vector3D vShortestVectorWc = w0 + (sc * u) - (tc * v);
+            DistancePerpendicular = vShortestVectorWc.Length;  //Länge des kürzesten Vektors --> Hebelarm
 
             points.Add(p0); // Lotfußpunkt auf dem verlängerten Drive Vektor
             points.Add(p1); // Lotfußpunkt auf der Drehachse

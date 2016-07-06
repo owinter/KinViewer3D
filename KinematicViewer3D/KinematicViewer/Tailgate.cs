@@ -315,20 +315,20 @@ namespace KinematicViewer
 
             for (int i = 0; i < CoordsUpTail.Count; i++)
             {
-                CoordsUpTail[i] = TransformationUtilities.rotateNewPoint(CoordsUpTail[i], _dToGo, AxisOfRotation);
+                CoordsUpTail[i] = TransformationUtilities.rotateNewPoint(CoordsUpTail[i], _dToGo, AxisOfRotation, AxisPoint);
             }
 
             for (int i = 0; i < CoordsMidTail.Count; i++)
             {
-                CoordsMidTail[i] = TransformationUtilities.rotateNewPoint(CoordsMidTail[i], _dToGo, AxisOfRotation);
+                CoordsMidTail[i] = TransformationUtilities.rotateNewPoint(CoordsMidTail[i], _dToGo, AxisOfRotation, AxisPoint);
             }
 
             for (int i = 0; i < CoordsDownTail.Count; i++)
             {
-                CoordsDownTail[i] = TransformationUtilities.rotateNewPoint(CoordsDownTail[i], _dToGo, AxisOfRotation);
+                CoordsDownTail[i] = TransformationUtilities.rotateNewPoint(CoordsDownTail[i], _dToGo, AxisOfRotation, AxisPoint);
             }
 
-            HandPoint = TransformationUtilities.rotateNewPoint(HandPoint, _dToGo, AxisOfRotation);
+            HandPoint = TransformationUtilities.rotateNewPoint(HandPoint, _dToGo, AxisOfRotation, AxisPoint);
         }
 
     }

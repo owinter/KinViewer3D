@@ -267,14 +267,14 @@ namespace KinematicViewer
 
             for(int i = 0; i< CoordsBodyPart.Count; i++)
             {
-                CoordsBodyPart[i] = TransformationUtilities.rotateNewPoint(CoordsBodyPart[i], _dToGo, AxisOfRotation);
+                CoordsBodyPart[i] = TransformationUtilities.rotateNewPoint(CoordsBodyPart[i], _dToGo, AxisOfRotation, AxisPoint);
             }
             for (int i = 0; i < CoordsWindowPart.Count; i++)
             {
-                CoordsWindowPart[i] = TransformationUtilities.rotateNewPoint(CoordsWindowPart[i], _dToGo, AxisOfRotation);
+                CoordsWindowPart[i] = TransformationUtilities.rotateNewPoint(CoordsWindowPart[i], _dToGo, AxisOfRotation, AxisPoint);
             }
 
-            LatchPoint = TransformationUtilities.rotateNewPoint(LatchPoint, _dToGo, AxisOfRotation);
+            LatchPoint = TransformationUtilities.rotateNewPoint(LatchPoint, _dToGo, AxisOfRotation, AxisPoint);
         }
 
 

@@ -33,7 +33,7 @@ namespace KinematicViewer
         private double _dZoomFactor;
         private double _dZoomFactorMouse;
 
-        //Mitte des ViewPort
+        //Mitte des ViewPort in Bildschirmkoordinaten
         private Point _oCenterOfViewport;
 
         //angeklickter Rotationspunkt
@@ -41,11 +41,11 @@ namespace KinematicViewer
 
         //Speicherung der yaw und pitch Werte
         private double _dYaw;
+
         private double _dPitch;
 
-        //benutzbare Instanzen
+        //benutzbare eigene Instanzen
         private Viewport3D _oViewport;
-
         private Viewport3D _oViewportCoordSystem;
         private CoordSystem _oCoordSystem;
         private Transformation _oTrans;
@@ -57,14 +57,14 @@ namespace KinematicViewer
             Viewport = viewport;
             CoordSystem = coordSystem;
             ViewportCoordSystem = viewportCoordSystem;
-            Trans = trans;
-            Trans_CSS = new Transformation();
+            TransformationViewport = trans;
+            TransformationViewport_CoordSystem = new Transformation();
 
             OrthoWidth = 3200;
             ZoomFactor = 300;
             ZoomFactorMouse = 5;
             PointClicked = new Point3D(0, 0, 0);
-            Trans.RotationPoint = PointClicked;
+            TransformationViewport.RotationPoint = PointClicked;
         }
 
         public double Yaw
@@ -97,6 +97,12 @@ namespace KinematicViewer
             set { _dZoomFactorMouse = value; }
         }
 
+        public Point CenterOfViewport
+        {
+            get { return _oCenterOfViewport; }
+            set { _oCenterOfViewport = value; }
+        }
+
         public Point3D PointClicked
         {
             get { return _oPointClicked; }
@@ -121,13 +127,13 @@ namespace KinematicViewer
             private set { _oCoordSystem = value; }
         }
 
-        public Transformation Trans
+        public Transformation TransformationViewport
         {
             get { return _oTrans; }
             private set { _oTrans = value; }
         }
 
-        public Transformation Trans_CSS
+        public Transformation TransformationViewport_CoordSystem
         {
             get { return _oTrans_CSS; }
             private set { _oTrans_CSS = value; }
@@ -143,7 +149,7 @@ namespace KinematicViewer
             oP_Camera.FieldOfView = 45;
             oP_Camera.FarPlaneDistance = 25000;
             oP_Camera.NearPlaneDistance = 0.125;
-            Trans.Reset(oP_Camera, 4000);
+            TransformationViewport.Reset(oP_Camera, 4000);
             Viewport.Camera = oP_Camera;
         }
 
@@ -157,7 +163,7 @@ namespace KinematicViewer
             oO_Camera.FarPlaneDistance = 25000;
             oO_Camera.NearPlaneDistance = 0.125;
             oO_Camera.Width = OrthoWidth;
-            Trans.Reset(oO_Camera, 4000);
+            TransformationViewport.Reset(oO_Camera, 4000);
             Viewport.Camera = oO_Camera;
         }
 
@@ -170,7 +176,7 @@ namespace KinematicViewer
             oP_Camera_CoordSystem.FieldOfView = 60;
             oP_Camera_CoordSystem.FarPlaneDistance = 3000;
             oP_Camera_CoordSystem.NearPlaneDistance = 0.125;
-            Trans_CSS.Reset(oP_Camera_CoordSystem, 2000);
+            TransformationViewport_CoordSystem.Reset(oP_Camera_CoordSystem, 2000);
             ViewportCoordSystem.Camera = oP_Camera_CoordSystem;
         }
 
@@ -181,15 +187,15 @@ namespace KinematicViewer
             {
                 case Cam.Perspective:
                     {
-                        Yaw = Trans.Yaw;
-                        Pitch = Trans.Pitch;
+                        Yaw = TransformationViewport.Yaw;
+                        Pitch = TransformationViewport.Pitch;
                     }
                     break;
 
                 case Cam.Orthographic:
                     {
-                        Yaw = Trans.Yaw;
-                        Pitch = Trans.Pitch;
+                        Yaw = TransformationViewport.Yaw;
+                        Pitch = TransformationViewport.Pitch;
                     }
                     break;
 
@@ -225,17 +231,17 @@ namespace KinematicViewer
             //orthographische Kamerabreite zurücksetzen
             OrthoWidth = 3200;
 
-            Trans.Yaw = 0.0;
-            Trans.Pitch = 0.0;
-            Trans.RotationPoint = new Point3D(0, 0, 0);
+            TransformationViewport.Yaw = 0.0;
+            TransformationViewport.Pitch = 0.0;
+            TransformationViewport.RotationPoint = new Point3D(0, 0, 0);
 
             //Kamera des Koordinatensystems reloaden
             oP_Camera_CoordSystem.Position = new Point3D(0, 0, 2000);
             oP_Camera_CoordSystem.LookDirection = new Vector3D(0, 0, -2000);
             oP_Camera_CoordSystem.UpDirection = new Vector3D(0, 1, 0);
 
-            Trans_CSS.Yaw = 0.0;
-            Trans_CSS.Pitch = 0.0;
+            TransformationViewport_CoordSystem.Yaw = 0.0;
+            TransformationViewport_CoordSystem.Pitch = 0.0;
         }
 
         //Zoom über das Drehen des Mausrades
@@ -266,7 +272,7 @@ namespace KinematicViewer
             zoomCamera(dy);
 
             //Rücksetzen der MausPosition zum Center des Viewports
-            MouseUtilities.SetPosition(_oCenterOfViewport);
+            MouseUtilities.SetPosition(CenterOfViewport);
         }
 
         private void zoomCamera(double value)
@@ -275,7 +281,7 @@ namespace KinematicViewer
             {
                 case Cam.Perspective:
                     {
-                        Trans.Zoom(oP_Camera, value);
+                        TransformationViewport.Zoom(oP_Camera, value);
                     }
                     break;
 
@@ -302,31 +308,31 @@ namespace KinematicViewer
             double dx = actualRelativePos.X;
             double dy = actualRelativePos.Y;
 
-            Trans.Yaw += dx;
-            Trans.Pitch += dy;
+            TransformationViewport.Yaw += dx;
+            TransformationViewport.Pitch += dy;
 
-            Trans_CSS.Yaw = Trans.Yaw;
-            Trans_CSS.Pitch = Trans.Pitch;
+            TransformationViewport_CoordSystem.Yaw = TransformationViewport.Yaw;
+            TransformationViewport_CoordSystem.Pitch = TransformationViewport.Pitch;
 
             switch (MyCam)
             {
                 case Cam.Perspective:
                     {
-                        Trans.Orbit(oP_Camera);
+                        TransformationViewport.Orbit(oP_Camera);
                     }
                     break;
 
                 case Cam.Orthographic:
                     {
-                        Trans.Orbit(oO_Camera);
+                        TransformationViewport.Orbit(oO_Camera);
                     }
                     break;
             }
 
-            Trans_CSS.Orbit(oP_Camera_CoordSystem);
+            TransformationViewport_CoordSystem.Orbit(oP_Camera_CoordSystem);
 
             //Rücksetzen der MausPosition zum Center des Viewports
-            MouseUtilities.SetPosition(_oCenterOfViewport);
+            MouseUtilities.SetPosition(CenterOfViewport);
         }
 
         public void dragCam()
@@ -340,18 +346,18 @@ namespace KinematicViewer
             {
                 case Cam.Perspective:
                     {
-                        Trans.Drag(oP_Camera, -dx, -dy);
+                        TransformationViewport.Drag(oP_Camera, -dx, -dy);
                     }
                     break;
 
                 case Cam.Orthographic:
                     {
-                        Trans.Drag(oO_Camera, -dx, -dy);
+                        TransformationViewport.Drag(oO_Camera, -dx, -dy);
                     }
                     break;
             }
 
-            MouseUtilities.SetPosition(_oCenterOfViewport);
+            MouseUtilities.SetPosition(CenterOfViewport);
         }
 
         public void panCam()
@@ -365,26 +371,26 @@ namespace KinematicViewer
             {
                 case Cam.Perspective:
                     {
-                        Trans.Pan(oP_Camera, dx, dy);
+                        TransformationViewport.Pan(oP_Camera, dx, dy);
                     }
                     break;
 
                 case Cam.Orthographic:
                     {
-                        Trans.Pan(oO_Camera, dx, dy);
+                        TransformationViewport.Pan(oO_Camera, dx, dy);
                     }
                     break;
             }
-            MouseUtilities.SetPosition(_oCenterOfViewport);
+            MouseUtilities.SetPosition(CenterOfViewport);
         }
 
         public void setMouseToCenter()
         {
             // Berechnen vom Center des Viewports in Bildschirmkoordinaten
-            _oCenterOfViewport = Viewport.PointToScreen(new Point(Math.Ceiling(Viewport.ActualWidth / 2), Math.Ceiling(Viewport.ActualHeight / 2)));
+            CenterOfViewport = Viewport.PointToScreen(new Point(Math.Ceiling(Viewport.ActualWidth / 2), Math.Ceiling(Viewport.ActualHeight / 2)));
 
             // Rücksetzen der Maus auf diese Position (Mitte des Viewports)
-            MouseUtilities.SetPosition(_oCenterOfViewport);
+            MouseUtilities.SetPosition(CenterOfViewport);
         }
 
         public void resetCam()
@@ -397,8 +403,8 @@ namespace KinematicViewer
                         oP_Camera.LookDirection = new Vector3D(-oP_Camera.Position.X, -oP_Camera.Position.Y, -4000);
                         oP_Camera.UpDirection = new Vector3D(0, 1, 0);
                         oP_Camera.Transform = new Transform3DGroup();
-                        Trans.Yaw = 0;
-                        Trans.Pitch = 0;
+                        TransformationViewport.Yaw = 0;
+                        TransformationViewport.Pitch = 0;
                     }
                     break;
 
@@ -410,8 +416,8 @@ namespace KinematicViewer
                         OrthoWidth = 3000;
                         oO_Camera.Width = OrthoWidth;
                         oO_Camera.Transform = new Transform3DGroup();
-                        Trans.Yaw = 0;
-                        Trans.Pitch = 0;
+                        TransformationViewport.Yaw = 0;
+                        TransformationViewport.Pitch = 0;
                     }
                     break;
             }
@@ -419,8 +425,8 @@ namespace KinematicViewer
             oP_Camera_CoordSystem.LookDirection = new Vector3D(-oP_Camera_CoordSystem.Position.X, -oP_Camera_CoordSystem.Position.Y, -2000);
             oP_Camera_CoordSystem.UpDirection = new Vector3D(0, 1, 0);
             oP_Camera_CoordSystem.Transform = new Transform3DGroup();
-            Trans_CSS.Yaw = 0;
-            Trans_CSS.Pitch = 0;
+            TransformationViewport_CoordSystem.Yaw = 0;
+            TransformationViewport_CoordSystem.Pitch = 0;
         }
 
         public void setCam()
@@ -435,7 +441,7 @@ namespace KinematicViewer
                         oP_Camera.UpDirection = new Vector3D(0, 1, 0);
 
                         //minimaler Pitch um neue TransformationGroup zu erzeugen,  sonst springt die Kamera beim Orbit
-                        Trans.doPitch(oP_Camera, 0.001);
+                        TransformationViewport.doPitch(oP_Camera, 0.001);
                     }
                     break;
 
@@ -447,7 +453,7 @@ namespace KinematicViewer
                         oO_Camera.UpDirection = new Vector3D(0, 1, 0);
 
                         //minimaler Pitch um neue TransformationGroup zu erzeugen,  sonst springt die Kamera beim Orbit
-                        Trans.doPitch(oO_Camera, 0.001);
+                        TransformationViewport.doPitch(oO_Camera, 0.001);
                     }
                     break;
             }
@@ -563,26 +569,25 @@ namespace KinematicViewer
         private void pitchCam(double value)
         {
             if (MyCam == Cam.Perspective)
-                Trans.doPitch(oP_Camera, value);
+                TransformationViewport.doPitch(oP_Camera, value);
             if (MyCam == Cam.Orthographic)
-                Trans.doPitch(oO_Camera, value);
+                TransformationViewport.doPitch(oO_Camera, value);
 
             //Koordinatensystem aktualisieren
-            Trans_CSS.doPitch(oP_Camera_CoordSystem, value);
+            TransformationViewport_CoordSystem.doPitch(oP_Camera_CoordSystem, value);
         }
 
         private void yawCam(double value)
         {
             if (MyCam == Cam.Perspective)
-                Trans.doYaw(oP_Camera, value);
+                TransformationViewport.doYaw(oP_Camera, value);
             if (MyCam == Cam.Orthographic)
-                Trans.doYaw(oO_Camera, value);
+                TransformationViewport.doYaw(oO_Camera, value);
 
             //Koordinatensystem aktualisieren
-            Trans_CSS.doYaw(oP_Camera_CoordSystem, value);
+            TransformationViewport_CoordSystem.doYaw(oP_Camera_CoordSystem, value);
         }
 
-        //Öffentliche Getter & Setter Methoden
         public Cam MyCam
         {
             get { return _cCam; }
