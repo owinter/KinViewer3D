@@ -42,7 +42,7 @@ namespace MainUI
 
         private MainViewPortControl _oMvpControl;
 
-        private bool _bTailgate = false;
+        private bool _bTailgate = true;
 
         //Benutzereingaben der Koordinaten zwischen denen eine 3D Linie erzeugt wird
         //Punkt Drehachse
@@ -272,7 +272,7 @@ namespace MainUI
 
                 _oDriveLeft = new Drive(AxisPoints[2], AxisPoints[3], "DriveLeft");
                 _oDriveRight = new Drive(AxisPoints[4], AxisPoints[5], "DriveRight");
-
+             
                 MvpControl.Guide = _oTail;
 
                 MvpControl.AddPassiveElement(_oDriveLeft);
@@ -422,38 +422,38 @@ namespace MainUI
                 else
                 {
                     //// OriginalKoordinaten
-                    X1 = 1472.41;
-                    Y1 = 780;
-                    Z1 = -934.46;
+                    //X1 = 1472.41;
+                    //Y1 = 780;
+                    //Z1 = -934.46;
 
-                    X2 = 2565;
-                    Y2 = 1125;
-                    Z2 = -875;
+                    //X2 = 2565;
+                    //Y2 = 1125;
+                    //Z2 = -875;
 
-                    X3 = 1515.0;
-                    Y3 = 497.0;
-                    Z3 = -910.0;
+                    //X3 = 1515.0;
+                    //Y3 = 497.0;
+                    //Z3 = -910.0;
 
-                    X4 = 1920.0;
-                    Y4 = 505.0;
-                    Z4 = -875.0;
+                    //X4 = 1920.0;
+                    //Y4 = 505.0;
+                    //Z4 = -875.0;
 
                     //Auf den Urpsrung umgerechnete Koordinaten
-                    //X1 = 1472.41 - 1472.41;
-                    //Y1 = 780.525 - 780.525;
-                    //Z1 = -934.46 - (-934.46);
+                    X1 = 1472.41 - 1472.41;
+                    Y1 = 780.525 - 780.525;
+                    Z1 = -934.46 - (-934.46);
 
-                    //X2 = 2565 - 1472.41;
-                    //Y2 = 1125 - 780.525;
-                    //Z2 = -875 - (-934.4);
+                    X2 = 2565 - 1472.41;
+                    Y2 = 1125 - 780.525;
+                    Z2 = -875 - (-934.4);
 
-                    //X3 = 1515 - 1472.41;
-                    //Y3 = 497 - 780.525;
-                    //Z3 = -910 - (-934.46);
+                    X3 = 1515 - 1472.41;
+                    Y3 = 497 - 780.525;
+                    Z3 = -910 - (-934.46);
 
-                    //X4 = 1920 - 1472.41;
-                    //Y4 = 505 - 780.525;
-                    //Z4 = -875 - (-934.46);
+                    X4 = 1920 - 1472.41;
+                    Y4 = 505 - 780.525;
+                    Z4 = -875 - (-934.46);
                 }
 
                 Point3D p1 = new Point3D(X1, Y1, Z1);

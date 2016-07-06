@@ -16,6 +16,14 @@ namespace KinematicViewer
         private Point3D _oPointStart;
         private Point3D _oPointEnd;
 
+        /// <summary>
+        /// Erzeugt einen Zylinder mit einstellbarem Durchmesser und Material
+        /// </summary>
+        /// <param name="startPoint">Start Punkt des Zylinders</param>
+        /// <param name="endPoint">End Punkt des Zylinders</param>
+        /// <param name="radius">Radius des Zylinders</param>
+        /// <param name="mat">Oberflächenmaterial des Zylinders</param>
+        /// <param name="sides">Anzahl der enthaltenen Oberflächenseiten (je mehr Seiten, desto "runder" der Zylinder)</param>
         public Cylinder(Point3D startPoint, Point3D endPoint, double radius, Material mat = null, int sides = STANDARD_NUM_SIDES)
             : base(mat)
         {

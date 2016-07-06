@@ -19,12 +19,18 @@ namespace KinematicViewer
 
         private Material _oBodyPartMaterial;
         private Material _oBodyPartMaterialStartPoint;
-
         private Material _oDoorPartMaterialRetracted;
         private Material _oDoorPartMaterialMiddle;
         private Material _oDoorPartMaterialExtracted;
         private Material _oDoorPartMaterialEndPoint;
 
+        /// <summary>
+        /// Erzeugt ein visuelles Modell eines Antriebs
+        /// </summary>
+        /// <param name="point1">Start Punkt des Antriebs</param>
+        /// <param name="point2">End Punkt des Antriebs</param>
+        /// <param name="name">Name des Objektes</param>
+        /// <param name="mat">Oberflächenmaterial des Antriebs</param>
         public Drive(Point3D point1, Point3D point2, string name = "Drive", Material mat = null)
             : base(mat)
         {

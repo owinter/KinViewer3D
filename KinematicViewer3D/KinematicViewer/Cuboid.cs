@@ -10,6 +10,13 @@ namespace KinematicViewer
         private Point3D _oPointEnd;
         private double _dThickness;
 
+        /// <summary>
+        /// Erzeugt einen Quader mit einstellbarer Dicke und Material
+        /// </summary>
+        /// <param name="startPointP1">Start Punkt des Quaders</param>
+        /// <param name="endPointP2">End Punkt des Quaders</param>
+        /// <param name="modelThickness">Dicke des Quaders</param>
+        /// <param name="mat">Oberflächenmaterial des Quaders</param>
         public Cuboid(Point3D startPointP1, Point3D endPointP2, double modelThickness, Material mat = null)
             : base(mat)
         {

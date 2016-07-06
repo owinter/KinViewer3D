@@ -33,6 +33,16 @@ namespace KinematicViewer
 
         private Material _oAxisMaterial;
 
+        /// <summary>
+        /// Erzeugt ein visuelles Modell einer Heckklappe
+        /// </summary>
+        /// <param name="axisPoint">Mittelpunkt der Drehachse</param>
+        /// <param name="handPoint">Handangriffspunkt der Heckklappe</param>
+        /// <param name="axisOfRotation">Drehachse als Vektor</param>
+        /// <param name="modelThickness">Rahmendicke der Heckklappe</param>
+        /// <param name="transparent">Handelt es sich um eine transparente Klappe, um minimalen und maximalen Öffnungswinkel darzustellen</param>
+        /// <param name="tailWidth">Breite der Heckklappe in [mm]</param>
+        /// <param name="mat">Oberflächenmaterial der Heckklappe</param>
         public Tailgate(Point3D axisPoint, Point3D handPoint, Vector3D axisOfRotation, double modelThickness, bool transparent, double tailWidth = TAILWIDTH, Material mat = null)
             : base(mat)
         {
@@ -196,7 +206,7 @@ namespace KinematicViewer
                 Point3D p2 = AxisPoint - AxisOfRotation * TailWidth * 1 / 2;
 
                 Res.AddRange(new Sphere(AxisPoint, 50, 16, 16, AxisMaterial).GetGeometryModel(guide));
-                Res.AddRange(new Cylinder(p1, p2, 10, AxisMaterial).GetGeometryModel(guide));
+                Res.AddRange(new Cylinder(p1, p2, 5, AxisMaterial).GetGeometryModel(guide));
             }
             else
             {

@@ -15,6 +15,13 @@ namespace KinematicViewer
         private Point3D _oAxisPoint;
         private List<Point3D> _oLCoordsTrackPoint;
 
+        /// <summary>
+        /// Erzeugt visuelle Spurenpunkte für sich bewegende Objekte (Antriebe)
+        /// </summary>
+        /// <param name="axisPoint">Mittelpunkt der Drehachse</param>
+        /// <param name="startPoint">Ausgangspunkt der Bewegung</param>
+        /// <param name="axisOfRotation">Drehachse als Vektor</param>
+        /// <param name="mat">Oberflächenmaterial der Spurenpunkte</param>
         public TrackPoint(Point3D axisPoint, Point3D startPoint, Vector3D axisOfRotation, Material mat = null)
             : base(mat)
         {

@@ -13,11 +13,19 @@ namespace KinematicViewer
         private int _iSlices;
         private int _iStacks;
 
-        public Sphere(Point3D center, double diameter, int slices, int stacks, Material mat = null)
+        /// <summary>
+        /// Erzeugt eine Spähre mit einstellbarem Radius und Material
+        /// </summary>
+        /// <param name="center">Mittelpunkt der Sphäre</param>
+        /// <param name="radius">Radius der Sphäre</param>
+        /// <param name="slices">vertikale Seiten der Sphäre (je mehr, desto "runder")</param>
+        /// <param name="stacks">horizontale Seiten der Sphäre (je mehr, desto "runder")</param>
+        /// <param name="mat">Oberflächenmaterial der Sphähre</param>
+        public Sphere(Point3D center, double radius, int slices, int stacks, Material mat = null)
             : base(mat)
         {
             Center = center;
-            Radius = diameter / 2;
+            Radius = radius / 2;
             //Slices = 16;
             //Stacks = 16;
             Slices = slices;

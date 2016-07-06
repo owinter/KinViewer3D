@@ -26,6 +26,14 @@ namespace KinematicViewer
         private List<Point3D> _oLCoordsLineOfActionDriveSegments;
         private List<Point3D> _oLPerpendiculars;
 
+        /// <summary>
+        /// Erzeugt eine visuelle Wirkungslinie, um den Hebelarm zu berechnen und darzustellen
+        /// </summary>
+        /// <param name="axisPoint">Mittelpunkt der Drehachse</param>
+        /// <param name="attachmentPointBody">Anbindungspunkt des Antriebs an Karosserie</param>
+        /// <param name="attachmentPointDoor">Anbindungspunkt des Antriebs an Klappe oder Tür</param>
+        /// <param name="axisOfRotation">Drehachse als Vektor</param>
+        /// <param name="mat">Oberflächenmaterial der Wirkungslinie</param>
         public LineOfAction(Point3D axisPoint, Point3D attachmentPointBody, Point3D attachmentPointDoor, Vector3D axisOfRotation, Material mat = null)
             : base(mat)
         {

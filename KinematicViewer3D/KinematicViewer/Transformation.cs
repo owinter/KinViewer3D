@@ -10,6 +10,9 @@ namespace KinematicViewer
         private double _dPitch; // Neigen um die Querachse x- Achse
         private Point3D _oRotationPoint;
 
+        /// <summary>
+        /// Erzeugt ein Objekt zum Verwalten aller Transformationen im UserControl
+        /// </summary>
         public Transformation()
         {
             RotationPoint = new Point3D(0, 0, 0);

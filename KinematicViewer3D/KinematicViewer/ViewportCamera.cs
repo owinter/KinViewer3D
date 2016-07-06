@@ -51,7 +51,13 @@ namespace KinematicViewer
         private Transformation _oTrans;
         private Transformation _oTrans_CSS;
 
-        //Konstruktor
+        /// <summary>
+        /// Verwaltung aller Viewport Kameras im UserControl
+        /// </summary>
+        /// <param name="viewport">Objekt des Main Viewports</param>
+        /// <param name="viewportCoordSystem">Objekt des Viewports für das ein-/ ausschaltbare Koordinatensystem</param>
+        /// <param name="coordSystem">Objekt des ein-/ ausschaltbaren Koordinatensystems</param>
+        /// <param name="trans">Objekt für jegliche Transformationen im Main Viewport</param>
         public ViewportCamera(Viewport3D viewport, Viewport3D viewportCoordSystem, CoordSystem coordSystem, Transformation trans)
         {
             Viewport = viewport;

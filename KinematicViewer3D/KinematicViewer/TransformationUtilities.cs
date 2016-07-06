@@ -39,7 +39,7 @@ namespace KinematicViewer
             /*
              * Hessische Form : Px * N - d = 0   ==> d = Px * N
              *
-             * vR ist der Punkt auf der Drehachse in Vektorenform
+             * vR ist der Punkt auf der Drehachse in Vektorform
              * vE2 ist Richtungsvektor von Drehachse 90 ° zur Seite. Quasi die Breite der Heckklappe
              *
              * Also:

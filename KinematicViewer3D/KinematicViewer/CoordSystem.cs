@@ -24,6 +24,10 @@ namespace KinematicViewer
 
         private Viewport3D _oViewportCoordSystem;
 
+        /// <summary>
+        /// Erzeugt ein visuelles Modell eines Koordinatensystems
+        /// </summary>
+        /// <param name="viewportCoordSystem">Objekt des Viewports für das ein-/ ausschaltbare Koordinatensystem</param>
         public CoordSystem(Viewport3D viewportCoordSystem)
         {
             _oViewportCoordSystem = viewportCoordSystem;

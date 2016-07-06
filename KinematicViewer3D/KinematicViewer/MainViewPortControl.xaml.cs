@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
@@ -21,6 +22,8 @@ namespace KinematicViewer
         private bool _bDrag = false;
         private bool _bOrbit = false;
         private bool _bPan = false;
+
+        private Point _oPt_leftClick;
 
         //Klasse für Kameraeinstellungen und deren Positionen
         private ViewportCamera _oViewportCam;
@@ -58,6 +61,9 @@ namespace KinematicViewer
         private string _sScreenCoords;
         private TextBlock _oStatusPane;
 
+        /// <summary>
+        /// Viewport UserControl
+        /// </summary>
         public MainViewPortControl()
         {
             InitializeComponent();
@@ -144,6 +150,12 @@ namespace KinematicViewer
         {
             get { return _oGridCoordSystem; }
             set { _oGridCoordSystem = value; }
+        }
+
+        public Point Pt_leftClick
+        {
+            get { return _oPt_leftClick; }
+            set {  _oPt_leftClick = value; }
         }
 
         //Übergeben eines TextBlockObjectes an das ViewportControl
@@ -359,6 +371,24 @@ namespace KinematicViewer
             MainGrid.Children.Remove(GridCoordSystem);
         }
 
+        private void showPopUpDrive(List<string>data)
+        {
+            Popup popup = new Popup();
+            popup.HorizontalOffset = Pt_leftClick.X;
+            popup.VerticalOffset = Pt_leftClick.Y;
+            TextBlock tx = new TextBlock();
+            tx.Text = data[0];
+            Grid g = new Grid();
+            g.Background = Brushes.White;
+            g.Children.Add(tx);
+            popup.Child = g;
+            popup.IsOpen = true;
+            
+
+        }
+
+
+
         //MAUSSTEUERUNG im MainGrid
         private void MainGrid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -461,6 +491,7 @@ namespace KinematicViewer
             {
                 //Testverfahren für mögliches Hittesting
                 Point pt = e.GetPosition(viewport);
+                Pt_leftClick = pt;
                 VisualTreeHelper.HitTest(viewport, null, HitTestLeftDown, new PointHitTestParameters(pt));
             }
         }
@@ -469,6 +500,7 @@ namespace KinematicViewer
         {
             _bMouseDownLeft = false;
         }
+
 
         //HitTest Verhalten, wenn mit mittlerer Maustaste auf dein visuelles Objekt geklickt wird
         private HitTestResultBehavior HitTestMiddleDown(HitTestResult result)
@@ -521,6 +553,7 @@ namespace KinematicViewer
             return HitTestResultBehavior.Continue;
         }
 
+
         //HitTest Verhalten, wenn mit Linker Maustaste auf dein visuelles Objekt geklickt wird
         private HitTestResultBehavior HitTestLeftDown(HitTestResult result)
         {
@@ -544,7 +577,22 @@ namespace KinematicViewer
                         {
                             if (e is Tailgate)
                             {
-                                ((Tailgate)e).Material = new DiffuseMaterial(Brushes.Red);
+                                Material mat = ((Tailgate)e).Material;
+                                if (_bMouseDownLeft)
+                                {
+                                    ((Tailgate)e).Material = new DiffuseMaterial(Brushes.Green);
+                                }
+                                UpdateActiveGroup();
+                            }
+
+                            if (e is SideDoor)
+                            {
+                                Material mat = ((SideDoor)e).Material;
+                                if (_bMouseDownLeft)
+                                {
+                                    ((SideDoor)e).Material = new DiffuseMaterial(Brushes.Green);  
+                                }
+                                UpdateActiveGroup();
                             }
 
                             MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}", e.Name, m.Bounds.X, m.Bounds.Y, m.Bounds.Z));
@@ -558,22 +606,18 @@ namespace KinematicViewer
                 foreach (GeometricalElement e in ElementsPassive)
                     foreach (GeometryModel3D m in e.GetGeometryModel(Guide))
                     {
-                        //if (m.Bounds == selectedModel.Bounds)
-                        //{
-                        //    MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}", e.Name, m.Bounds.X, m.Bounds.Y, m.Bounds.Z));
-                        //}
                         if(m.Bounds == selectedModel.Bounds)
                         {
                             if (e is Drive)
                             {
-                                double s;
-                                Drive d = e as Drive;
+                                List<string> data = new List<string>();
+                                data.Add(((Drive)e).EndPoint.ToString());
+                                showPopUpDrive(data);
+                                
 
-                                s=d.Stroke;
-                                s=((Drive)e).Stroke;
-                                d.Material = new DiffuseMaterial(Brushes.Red);
+
                             }
-                            MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}", e.Name, m.Bounds.X, m.Bounds.Y, m.Bounds.Z));
+                            //MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}", e.Name, m.Bounds.X, m.Bounds.Y, m.Bounds.Z));
                         }
                     }
                 return HitTestResultBehavior.Stop;

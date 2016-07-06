@@ -38,6 +38,15 @@ namespace KinematicViewer
 
         private Material _oAxisMaterial;
 
+        /// <summary>
+        /// Erzeugt ein visuelles Modell einer Seitentür
+        /// </summary>
+        /// <param name="axisPoint">Mittelpunkt der Drehachse</param>
+        /// <param name="latch">Schlosspunkt der Seitentüre</param>
+        /// <param name="axisOfRotation">Drehachse als Vektor</param>
+        /// <param name="modelThickness">Rahmendicke der Seitentüre</param>
+        /// <param name="transparent">andelt es sich um eine transparente Türe, um minimalen und maximalen Öffnungswinkel darzustellen</param>
+        /// <param name="mat">Oberflächenmaterial der Seitentüre</param>
         public SideDoor(Point3D axisPoint, Point3D latch, Vector3D axisOfRotation, double modelThickness, bool transparent, Material mat = null)
             : base(mat)
         {
