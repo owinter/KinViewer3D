@@ -25,6 +25,8 @@ namespace KinematicViewer
 
         private Point _oPt_leftClick;
 
+        private Popup popup;
+
         //Klasse für Kameraeinstellungen und deren Positionen
         private ViewportCamera _oViewportCam;
 
@@ -373,7 +375,7 @@ namespace KinematicViewer
 
         private void showPopUpDrive(List<string>data)
         {
-            Popup popup = new Popup();
+            popup = new Popup();
             popup.HorizontalOffset = Pt_leftClick.X;
             popup.VerticalOffset = Pt_leftClick.Y;
             TextBlock tx = new TextBlock();
@@ -383,6 +385,7 @@ namespace KinematicViewer
             g.Children.Add(tx);
             popup.Child = g;
             popup.IsOpen = true;
+            MainGrid.Children.Add(popup);
             
 
         }
@@ -483,6 +486,7 @@ namespace KinematicViewer
 
             if (!_bMouseDownMiddle)
             {
+                popup.IsOpen = false;
                 //dem Viewport den Focus übergeben, sodass die Tasteneingabe funktioniert
                 viewport_MouseDown(sender, e);
             }
@@ -610,7 +614,7 @@ namespace KinematicViewer
                         {
                             if (e is Drive)
                             {
-                                List<string> data = new List<string>();
+                                List<String> data = new List<String>();
                                 data.Add(((Drive)e).EndPoint.ToString());
                                 showPopUpDrive(data);
                                 
