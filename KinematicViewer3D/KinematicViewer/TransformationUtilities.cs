@@ -1,4 +1,6 @@
-﻿using System.Windows.Media.Media3D;
+﻿using System;
+using System.Windows;
+using System.Windows.Media.Media3D;
 
 namespace KinematicViewer
 {
@@ -17,21 +19,6 @@ namespace KinematicViewer
         {
             double scale = length / vector.Length;
             return new Vector3D(vector.X * scale, vector.Y * scale, vector.Z * scale);
-        }
-
-        //Rotiere einen neuen Punkt um einen bestehenden und eine Achse
-        public static Point3D rotateNewPoint(Point3D point, double angle, Vector3D axis, Point3D rotationCenter)
-        {
-            Point3D p = new Point3D();
-            RotateTransform3D rotation = new RotateTransform3D(new AxisAngleRotation3D(axis, angle), rotationCenter);
-            p = rotation.Transform(point);
-            return p;
-        }
-
-        public static Point3D rotateExistingPoint(Point3D point, double angle, Vector3D axis, Point3D rotationCenter)
-        {
-            RotateTransform3D rotation = new RotateTransform3D(new AxisAngleRotation3D(axis, angle), rotationCenter);
-            return rotation.Transform(point);
         }
 
         public static Point3D reflectPoint(Point3D axisPoint, Point3D handPoint, Point3D drivePoint)
@@ -120,5 +107,7 @@ namespace KinematicViewer
 
             return res;
         }
+
+        
     }
 }

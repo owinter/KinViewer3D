@@ -6,12 +6,12 @@ namespace KinematicViewer
 {
     public class Sphere : GeometricalElement
     {
-        private Point3D _oPointCenter;
-
         private double _dRadius;
 
         private int _iSlices;
         private int _iStacks;
+
+        private Point3D _oPointCenter;
 
         /// <summary>
         /// Erzeugt eine Spähre mit einstellbarem Radius und Material

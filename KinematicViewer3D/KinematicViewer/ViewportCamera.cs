@@ -41,15 +41,14 @@ namespace KinematicViewer
 
         //Speicherung der yaw und pitch Werte
         private double _dYaw;
-
         private double _dPitch;
 
         //benutzbare eigene Instanzen
         private Viewport3D _oViewport;
         private Viewport3D _oViewportCoordSystem;
         private CoordSystem _oCoordSystem;
-        private Transformation _oTrans;
-        private Transformation _oTrans_CSS;
+        private CameraTransformation _oTrans;
+        private CameraTransformation _oTrans_CSS;
 
         /// <summary>
         /// Verwaltung aller Viewport Kameras im UserControl
@@ -58,13 +57,13 @@ namespace KinematicViewer
         /// <param name="viewportCoordSystem">Objekt des Viewports für das ein-/ ausschaltbare Koordinatensystem</param>
         /// <param name="coordSystem">Objekt des ein-/ ausschaltbaren Koordinatensystems</param>
         /// <param name="trans">Objekt für jegliche Transformationen im Main Viewport</param>
-        public ViewportCamera(Viewport3D viewport, Viewport3D viewportCoordSystem, CoordSystem coordSystem, Transformation trans)
+        public ViewportCamera(Viewport3D viewport, Viewport3D viewportCoordSystem, CoordSystem coordSystem, CameraTransformation trans)
         {
             Viewport = viewport;
             CoordSystem = coordSystem;
             ViewportCoordSystem = viewportCoordSystem;
             TransformationViewport = trans;
-            TransformationViewport_CoordSystem = new Transformation();
+            TransformationViewport_CoordSystem = new CameraTransformation();
 
             OrthoWidth = 3200;
             ZoomFactor = 300;
@@ -133,13 +132,13 @@ namespace KinematicViewer
             private set { _oCoordSystem = value; }
         }
 
-        public Transformation TransformationViewport
+        public CameraTransformation TransformationViewport
         {
             get { return _oTrans; }
             private set { _oTrans = value; }
         }
 
-        public Transformation TransformationViewport_CoordSystem
+        public CameraTransformation TransformationViewport_CoordSystem
         {
             get { return _oTrans_CSS; }
             private set { _oTrans_CSS = value; }

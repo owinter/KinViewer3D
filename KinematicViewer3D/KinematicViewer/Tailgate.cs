@@ -13,7 +13,7 @@ namespace KinematicViewer
         private const double TAILWIDTH = 1250.0;
 
         private double _dTailWidth = 1250.0;
-        private double _dToGo;
+        private double _dDeltaCurVal;
         private double _dCurVal;
         private double _dMaxOpen;
         private double _dMinOpen;
@@ -55,10 +55,7 @@ namespace KinematicViewer
             MaxValue = 62.5;
             MinValue = 0.0;
 
-            //if (!Double.IsNaN((double)tailWidth))
             TailWidth = tailWidth;
-            //else
-            //TailWidth = TAILWIDTH;
 
             ModelThickness = modelThickness;
             Transparent = transparent;
@@ -70,11 +67,6 @@ namespace KinematicViewer
             CoordsDownTail = makeCoordsDownTail();
 
             AxisMaterial = new DiffuseMaterial(Brushes.Red);
-
-            //if (mat == null)
-            //    AxisMaterial = new DiffuseMaterial(Brushes.Red);
-            //if (mat != null)
-            //    AxisMaterial = mat;
         }
 
         public Vector3D AxisOfRotation
@@ -93,6 +85,12 @@ namespace KinematicViewer
         {
             get { return _dCurVal; }
             set { _dCurVal = value; }
+        }
+
+        public double DeltaCurValue
+        {
+            get { return _dDeltaCurVal; }
+            set { _dDeltaCurVal = value; }
         }
 
         public double MaxValue
@@ -166,6 +164,7 @@ namespace KinematicViewer
             get { return _bTransparent; }
             set { _bTransparent = value; }
         }
+        
 
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
@@ -196,6 +195,7 @@ namespace KinematicViewer
             Res.AddRange(new Sphere(CoordsMidTail[3], ModelThickness * 1.5, 16, 16, Material).GetGeometryModel(guide));
             Res.AddRange(new Cuboid(CoordsMidTail[3], CoordsMidTail[0], ModelThickness, Material).GetGeometryModel(guide));
 
+            //Bei transparentem Modell wird die Drehachse weggelassen
             if (!Transparent)
             {
                 //Handle
@@ -289,7 +289,7 @@ namespace KinematicViewer
         {
             double NewVal = per * MaxValue;
 
-            _dToGo = NewVal - CurValue;
+            DeltaCurValue = NewVal - CurValue;
             CurValue = NewVal;
         }
 
@@ -315,7 +315,7 @@ namespace KinematicViewer
         public void Move(Model3DGroup groupActive, double per = 0)
         {
             InitiateMove(per);
-            Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupActive);
+           VisualObjectTransformation.rotateModelGroup(CurValue, AxisOfRotation, AxisPoint, groupActive);
         }
 
         public void Move(double per = 0)
@@ -323,23 +323,26 @@ namespace KinematicViewer
 
             InitiateMove(per);
 
+            //Bewegt alle Punkte des oberen Teils der Heckklappe
             for (int i = 0; i < CoordsUpTail.Count; i++)
             {
-                CoordsUpTail[i] = TransformationUtilities.rotateNewPoint(CoordsUpTail[i], _dToGo, AxisOfRotation, AxisPoint);
+                CoordsUpTail[i] = VisualObjectTransformation.rotatePoint(CoordsUpTail[i], DeltaCurValue, AxisOfRotation, AxisPoint);
             }
 
+            //Bewegt alle Punkte des mittleren Teils der Heckklappe
             for (int i = 0; i < CoordsMidTail.Count; i++)
             {
-                CoordsMidTail[i] = TransformationUtilities.rotateNewPoint(CoordsMidTail[i], _dToGo, AxisOfRotation, AxisPoint);
+                CoordsMidTail[i] = VisualObjectTransformation.rotatePoint(CoordsMidTail[i], DeltaCurValue, AxisOfRotation, AxisPoint);
             }
 
+            //Bewegt alle Punkte des unteren Teils der Heckklappe
             for (int i = 0; i < CoordsDownTail.Count; i++)
             {
-                CoordsDownTail[i] = TransformationUtilities.rotateNewPoint(CoordsDownTail[i], _dToGo, AxisOfRotation, AxisPoint);
+                CoordsDownTail[i] = VisualObjectTransformation.rotatePoint(CoordsDownTail[i], DeltaCurValue, AxisOfRotation, AxisPoint);
             }
 
-            HandPoint = TransformationUtilities.rotateNewPoint(HandPoint, _dToGo, AxisOfRotation, AxisPoint);
+            //Bewegt den Handangriffspunkt 
+            HandPoint = VisualObjectTransformation.rotatePoint(HandPoint, DeltaCurValue, AxisOfRotation, AxisPoint);
         }
-
     }
 }

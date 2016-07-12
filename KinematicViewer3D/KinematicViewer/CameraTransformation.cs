@@ -4,16 +4,21 @@ using System.Windows.Media.Media3D;
 
 namespace KinematicViewer
 {
-    public class Transformation
+    public class CameraTransformation
     {
-        private double _dYaw; // Gieren bzw Schlingern rechts links um y- Achse (Vertikalachse)
-        private double _dPitch; // Neigen um die Querachse x- Achse
+        // Gieren bzw Schlingern rechts links um y- Achse (Vertikalachse)
+        private double _dYaw;
+
+        // Neigen um die Querachse x- Achse
+        private double _dPitch; 
+
+        //Rotationsmittelpunkt
         private Point3D _oRotationPoint;
 
         /// <summary>
         /// Erzeugt ein Objekt zum Verwalten aller Transformationen im UserControl
         /// </summary>
-        public Transformation()
+        public CameraTransformation()
         {
             RotationPoint = new Point3D(0, 0, 0);
             Yaw = 0.0;
@@ -102,27 +107,6 @@ namespace KinematicViewer
             camera.Transform = new Transform3DGroup();
             Yaw = 0;
             Pitch = 0;
-        }
-
-        public static void rotateModel(double axisAngle, Vector3D axisOfRotation, Point3D AxisPoint, Model3DGroup groupActive)
-        {
-            try
-            {
-                Point3D axisPoint = AxisPoint;
-                AxisAngleRotation3D aARot = new AxisAngleRotation3D(axisOfRotation, axisAngle);
-                RotateTransform3D rotation = new RotateTransform3D(aARot, axisPoint);
-                groupActive.Transform = rotation;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Zuerst 3D Modell erstellen, dann erst Öfnungswinkel verändern. \n"
-                    + ex.Message, "Exception Sample", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-        }
-
-        public void resetModelTransformation(Model3DGroup groupActive)
-        {
-            groupActive.Transform = new Transform3DGroup();
         }
     }
 }

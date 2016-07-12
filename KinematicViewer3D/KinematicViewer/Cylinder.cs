@@ -123,13 +123,13 @@ namespace KinematicViewer
 
         private void AddTriangle(MeshGeometry3D mesh, Point3D point1, Point3D point2, Point3D point3)
         {
-            // Create the points.
+            // Punktkoordinaten dem Mesh hinzufügen.
             int index1 = mesh.Positions.Count;
             mesh.Positions.Add(point1);
             mesh.Positions.Add(point2);
             mesh.Positions.Add(point3);
 
-            // Create the triangle.
+            // Trianlges erzeugen
             mesh.TriangleIndices.Add(index1++);
             mesh.TriangleIndices.Add(index1++);
             mesh.TriangleIndices.Add(index1);

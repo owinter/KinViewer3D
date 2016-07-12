@@ -15,19 +15,16 @@ namespace KinematicViewer
         private const double DOORHEIGHT = 1200.0;
         private const double DOORWIDTH = 1250;
 
-        private Vector3D _vY = new Vector3D(0, 1, 0);
-
         private double _dCurVal;
-
-        //maximaler / minimaler Öffnungswinkel
+        private double _dDeltaCurVal;
         private double _dMaxOpen;
-        private double _dToGo;
         private double _dMinOpen;
         private double _dModelThickness;
         private double _dLength;
 
         private bool _bTransparent;
 
+        private Vector3D _vY = new Vector3D(0, 1, 0);
         private Vector3D _oVAxisToHandE1;
         private Vector3D _oAxisOfRotation;
         private Point3D _oAxisPoint;
@@ -71,10 +68,6 @@ namespace KinematicViewer
             CoordsWindowPart = makeCoordsWindowPart();
 
             AxisMaterial = new DiffuseMaterial(Brushes.Red);
-            //if (mat == null)
-            //    AxisMaterial = new DiffuseMaterial(Brushes.Red);
-            //if (mat != null)
-            //    AxisMaterial = mat;
         }
 
         public Vector3D AxisOfRotation
@@ -93,6 +86,12 @@ namespace KinematicViewer
         {
             get { return _dCurVal; }
             set { _dCurVal = value; }
+        }
+
+        public double DeltaCurValue
+        {
+            get { return _dDeltaCurVal; }
+            set { _dDeltaCurVal = value; }
         }
 
         public double MaxValue
@@ -155,6 +154,8 @@ namespace KinematicViewer
             set { _bTransparent = value; }
         }
 
+        
+
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
             List<GeometryModel3D> Res = new List<GeometryModel3D>();
@@ -177,6 +178,7 @@ namespace KinematicViewer
             Res.AddRange(new Sphere(CoordsBodyPart[3], ModelThickness * 1.5, 16, 16, Material).GetGeometryModel(guide));
             Res.AddRange(new Cuboid(CoordsBodyPart[3], CoordsBodyPart[0], ModelThickness, Material).GetGeometryModel(guide));
 
+            //Bei transparentem Modell wird die Drehachse weggelassen
             if (!Transparent)
             {
                 //Handle
@@ -241,7 +243,7 @@ namespace KinematicViewer
         {
             double NewVal = per * MaxValue;
 
-            _dToGo = NewVal - CurValue;
+            DeltaCurValue = NewVal - CurValue;
             CurValue = NewVal;
         }
 
@@ -267,7 +269,7 @@ namespace KinematicViewer
         public void Move(Model3DGroup groupActive, double per = 0)
         {
             InitiateMove(per);
-            Transformation.rotateModel(CurValue, AxisOfRotation, AxisPoint, groupActive);
+            VisualObjectTransformation.rotateModelGroup(CurValue, AxisOfRotation, AxisPoint, groupActive);
         }
 
         public void Move(double per = 0)
@@ -276,14 +278,14 @@ namespace KinematicViewer
 
             for(int i = 0; i< CoordsBodyPart.Count; i++)
             {
-                CoordsBodyPart[i] = TransformationUtilities.rotateNewPoint(CoordsBodyPart[i], _dToGo, AxisOfRotation, AxisPoint);
+                CoordsBodyPart[i] = VisualObjectTransformation.rotatePoint(CoordsBodyPart[i], DeltaCurValue, AxisOfRotation, AxisPoint);
             }
             for (int i = 0; i < CoordsWindowPart.Count; i++)
             {
-                CoordsWindowPart[i] = TransformationUtilities.rotateNewPoint(CoordsWindowPart[i], _dToGo, AxisOfRotation, AxisPoint);
+                CoordsWindowPart[i] = VisualObjectTransformation.rotatePoint(CoordsWindowPart[i], DeltaCurValue, AxisOfRotation, AxisPoint);
             }
 
-            LatchPoint = TransformationUtilities.rotateNewPoint(LatchPoint, _dToGo, AxisOfRotation, AxisPoint);
+            LatchPoint = VisualObjectTransformation.rotatePoint(LatchPoint, DeltaCurValue, AxisOfRotation, AxisPoint);
         }
 
 

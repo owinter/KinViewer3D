@@ -136,6 +136,7 @@ namespace KinematicViewer
             //Lotfußpunkt auf der verlängerten Antriebsachse
             Res.AddRange(new Sphere(Perpendiculars[0], RADIUS * 4, 16, 8, PerpendicularMaterial).GetGeometryModel(guide));
 
+            //Einfache Wirkungslinien als dünne Zylinder dargestellt => performance Test
             //Res.AddRange(new Cylinder(Perpendiculars[0], Perpendiculars[1], RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
             //Res.AddRange(new Cylinder(Perpendiculars[0], AttachmentPointBody, RADIUS, LineOfActionMaterial).GetGeometryModel(guide));
             //Res.AddRange(new Sphere(Perpendiculars[0], RADIUS * 2, 16, 16, LineOfActionMaterial).GetGeometryModel(guide));
@@ -180,7 +181,7 @@ namespace KinematicViewer
             int elements = Convert.ToInt16((Math.Ceiling(vDirection.Length / ELEMENTLENGTH)) + 5);
 
             vDirection = TransformationUtilities.ScaleVector(vDirection, 1);
-            //System.Console.WriteLine(vDirection + "\n");
+
             Point3D startElem = startPoint;
             for (int i = 0; i < elements; i++)
             {

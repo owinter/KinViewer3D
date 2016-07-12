@@ -44,7 +44,6 @@ namespace MainUI
 
         private bool _bTailgate = true;
 
-        //Benutzereingaben der Koordinaten zwischen denen eine 3D Linie erzeugt wird
         //Punkt Drehachse
         private double _dX1, _dY1, _dZ1;
 

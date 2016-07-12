@@ -37,7 +37,7 @@ namespace KinematicViewer
         private Grid _oGridCoordSystem;
 
         //Klasse für Transformationen aller Art
-        private Transformation trans;
+        private CameraTransformation trans;
 
         private IGuide _oGuide;
 
@@ -71,7 +71,7 @@ namespace KinematicViewer
             InitializeComponent();
             //axisPoints = new List<Point3D>();
 
-            trans = new Transformation();
+            trans = new CameraTransformation();
 
             //Viewport des Koordinatensystems erstellen
             ViewportCoordSystem = new Viewport3D();
@@ -295,14 +295,14 @@ namespace KinematicViewer
         public void ShowStaticElementMin(double per)
         {
             //Guide.Move(groupStaticMinAngle, 0);
-            Transformation.rotateModel(per, AxisOfRotation, AxisPoint, groupStaticMinAngle);
+            VisualObjectTransformation.rotateModelGroup(per, AxisOfRotation, AxisPoint, groupStaticMinAngle);
             UpdateStaticMinAngleGroup();
         }
 
         public void ShowStaticElementMax(double per)
         {
             //Guide.Move(groupStaticMaxAngle, 1);
-            Transformation.rotateModel(per, AxisOfRotation, AxisPoint, groupStaticMinAngle);
+            VisualObjectTransformation.rotateModelGroup(per, AxisOfRotation, AxisPoint, groupStaticMinAngle);
             UpdateStaticMaxAngleGroup();
         }
 
@@ -486,7 +486,7 @@ namespace KinematicViewer
 
             if (!_bMouseDownMiddle)
             {
-                popup.IsOpen = false;
+                //popup.IsOpen = false;
                 //dem Viewport den Focus übergeben, sodass die Tasteneingabe funktioniert
                 viewport_MouseDown(sender, e);
             }
@@ -828,7 +828,7 @@ namespace KinematicViewer
 
         public void resetModelTransformation()
         {
-            trans.resetModelTransformation(groupActive);
+            VisualObjectTransformation.resetModelGroupTransformation(groupActive);
         }
 
         private void changeModelColorRandom(RayMeshGeometry3DHitTestResult resultMesh)

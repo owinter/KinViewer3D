@@ -63,9 +63,10 @@
     <Compile Include="Sphere.cs" />
     <Compile Include="Tailgate.cs" />
     <Compile Include="TrackPoint.cs" />
-    <Compile Include="Transformation.cs" />
+    <Compile Include="CameraTransformation.cs" />
     <Compile Include="ViewportCamera.cs" />
     <Compile Include="TransformationUtilities.cs" />
+    <Compile Include="VisualObjectTransformation.cs" />
     <Page Include="MainViewPortControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

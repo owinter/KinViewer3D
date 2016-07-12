@@ -7,6 +7,7 @@ namespace KinematicViewer
 {
     public class CoordSystem
     {
+        //Rendering Objekt
         private ModelVisual3D _oCoordSystem_Visual;
 
         //ModelGroup für das Koordinatensystem
@@ -14,7 +15,6 @@ namespace KinematicViewer
 
         //3D KoordinatenSystem Model der jeweiligen farbigen Achsen
         private GeometryModel3D _oAxes_Model_X;
-
         private GeometryModel3D _oAxes_Model_Y;
         private GeometryModel3D _oAxes_Model_Z;
         private GeometryModel3D _oCube_Model;
@@ -46,6 +46,7 @@ namespace KinematicViewer
             set { _oLLights = value; }
         }
 
+        //Fügt dem Viewport die einzelnen gerenderten Modelle hinzu
         private void buildCoordinateSystem()
         {
             DefineCoordinateSystem(out _oAxes_Model_X, out _oAxes_Model_Y, out _oAxes_Model_Z, out _oCube_Model);
@@ -96,7 +97,7 @@ namespace KinematicViewer
             cube_Model = new GeometryModel3D(cube_mesh, cube_material);
         }
 
-        //Erstelle ein dünnes Rechteck zwischen zwei Punkten
+        //Erstellt ein dünnes Rechteck zwischen zwei Punkten
         private void AddSegment(MeshGeometry3D mesh, Point3D point1, Point3D point2, Vector3D up, double thickness)
         {
             // Vektor zwischen Ursprung und Segment-Endpunkt berechnen
@@ -157,13 +158,13 @@ namespace KinematicViewer
         //Fügt die Seiten an das Mesh vom Koordinatensystem
         private void AddTriangle(MeshGeometry3D mesh, Point3D point1, Point3D point2, Point3D point3)
         {
-            // Create the points.
+            // Punktkoordinaten dem Mesh hinzufügen
             int index = mesh.Positions.Count;
             mesh.Positions.Add(point1);
             mesh.Positions.Add(point2);
             mesh.Positions.Add(point3);
 
-            // Create the triangle.
+            // Triangles erzeugen
             mesh.TriangleIndices.Add(index++);
             mesh.TriangleIndices.Add(index++);
             mesh.TriangleIndices.Add(index);

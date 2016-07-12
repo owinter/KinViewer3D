@@ -49,10 +49,10 @@ namespace KinematicViewer
 
             BodyPartMaterial = new DiffuseMaterial(Brushes.Gray);
             BodyPartMaterialStartPoint = new DiffuseMaterial(Brushes.Gray);
+            DoorPartMaterialEndPoint = new DiffuseMaterial(Brushes.Gray);
             DoorPartMaterialRetracted = new DiffuseMaterial(Brushes.YellowGreen);
             DoorPartMaterialMiddle = new DiffuseMaterial(Brushes.Orange);
             DoorPartMaterialExtracted = new DiffuseMaterial(Brushes.OrangeRed);
-            DoorPartMaterialEndPoint = new DiffuseMaterial(Brushes.Gray);
         }
 
         public Point3D EndPoint
@@ -159,7 +159,7 @@ namespace KinematicViewer
             //Offset um welchen der zweite Cylinder verschoben wird
             Vector3D vOffset = (OffsetSecondCylinder + (vLength - VDrive.Length)) * vDriveUpdated;
 
-            //grüner Bereich
+            //grüner Bereich => retracted
             if (vLength <= ExtractedLength - Stroke * 2 / 3)
             {
                 Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, BodyPartMaterial).GetGeometryModel(guide));
@@ -168,7 +168,7 @@ namespace KinematicViewer
                 Res.AddRange(new Sphere(attPointDoor, RadiusDoor, 16, 16, DoorPartMaterialEndPoint).GetGeometryModel(guide));
             }
 
-            //Gelber Bereich
+            //Gelber Bereich => middle
             if ((vLength > ExtractedLength - Stroke * 2 / 3) && !(vLength <= ExtractedLength - Stroke * 2 / 3))
             {
                 Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, BodyPartMaterial).GetGeometryModel(guide));
@@ -177,7 +177,7 @@ namespace KinematicViewer
                 Res.AddRange(new Sphere(attPointDoor, RadiusDoor, 16, 16, DoorPartMaterialEndPoint).GetGeometryModel(guide));
             }
 
-            //Roter Bereich
+            //Roter Bereich => extracted
             if ((vLength > ExtractedLength - Stroke * 1 / 3) && (vLength > ExtractedLength - Stroke * 2 / 3) && !(vLength <= ExtractedLength - Stroke * 2 / 3))
             {
                 Res.AddRange(new Cylinder(StartPoint, attPointDoor - 0.25 * vDriveUpdated, RadiusBody, BodyPartMaterial).GetGeometryModel(guide));
@@ -186,7 +186,7 @@ namespace KinematicViewer
                 Res.AddRange(new Sphere(attPointDoor, RadiusDoor, 16, 16, DoorPartMaterialEndPoint).GetGeometryModel(guide));
             }
 
-            //Farblicher Anbindungspunkt an die Heckklappe in Cyan
+            //Farblicher Anbindungspunkt an die Heckklappe in Farbe der Heckklappe (Standardmaterialfarbe Cyan)
             Res.AddRange(new Sphere(attPointDoor, 40, 16, 16, Material).GetGeometryModel(guide));
 
             return Res.ToArray();
