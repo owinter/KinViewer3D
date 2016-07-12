@@ -334,7 +334,8 @@ namespace KinematicViewer
         private void createCoordSystem()
         {
             //Hintergrundfarbe im gleichen Farbton wie das MainViewport
-            Color c = (Color)ColorConverter.ConvertFromString("#eee9e9");
+            //Color c = (Color)ColorConverter.ConvertFromString("#eee9e9");
+            Color c = (Color)ColorConverter.ConvertFromString("#E9E9E9");
 
             //Grid Koordinatensystem
             GridCoordSystem = new Grid();

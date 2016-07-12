@@ -6,8 +6,9 @@
              xmlns:local="clr-namespace:KinematicViewer"
              mc:Ignorable="d">
     <!--d:DesignHeight="300" d:DesignWidth="300"-->
+    <!-- Background="#eee9e9"-->
     <Grid Name="MainGrid"
-          Background="#eee9e9"
+          Background="#E9E9E9"
           MouseWheel="MainGrid_MouseWheel"
           MouseMove="MainGrid_MouseMove"
           MouseDown="MainGrid_MouseDown"
@@ -18,8 +19,6 @@
           MouseLeftButtonUp="MainGrid_MouseLeftButtonUp"
           KeyDown="MainGrid_KeyDown"
           Focusable="True">
-        <!-- MouseDown="Grid_MouseDown"
-                       MouseUp="Grid_MouseUp"-->
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -59,34 +58,6 @@
                 <DiffuseMaterial x:Key="line_matBlue" Brush="Blue" />
                 <SolidColorBrush x:Key="groundSolid" Color="#D4D4D4" Opacity="0.1" />
             </Viewport3D.Resources>
-
-            <!--  <OrthographicCamera
-                            x:Name="orthographic_Camera"
-                                           FarPlaneDistance="100"
-                                           Position="5,5,10"
-                                           LookDirection="-5,-5,-10"
-                                           UpDirection="0,1,0"
-                                           NearPlaneDistance="0.125">
-                        </OrthographicCamera>
-            <Viewport3D.Camera>
-                <PerspectiveCamera x:Name="perspective_Camera"
-                                           FarPlaneDistance="15000"
-                                           Position="0,100,2000"
-                                           LookDirection="0,-100,-2000"
-                                           UpDirection="0,1,0"
-                                           NearPlaneDistance="0.125"
-                                           FieldOfView="45">
-                </PerspectiveCamera>
-            <OrthographicCamera
-                            x:Name="orthographic_Camera"
-                                           FarPlaneDistance="15000"
-                                           Position="   0,100,2000"
-                                           LookDirection="0,-100,-2000"
-                                           UpDirection="0,1,0"
-                                           NearPlaneDistance="0.125"
-                                           Width="1300">
-                        </OrthographicCamera>
-            </Viewport3D.Camera> -->
 
             <!-- Model Visuals for all created visual Objects-->
             <!-- Visual Model Group for Tailgates & Doors-->
@@ -131,9 +102,9 @@
             </ModelVisual3D>
 
             <!-- ModelGroup for Lights and GroundMesh in Scene-->
-            <ModelVisual3D x:Name="modelLightsAndGround">
+            <ModelVisual3D x:Name="modelLightsAndGroundGrid">
                 <ModelVisual3D.Content>
-                    <Model3DGroup x:Name="groupLightsAndGround">
+                    <Model3DGroup x:Name="groupLightsAndGroundGrid">
                         <!-- Color is Dark Gray....almost Black => Dark ambientlight-->
                         <AmbientLight Color="#4A4A4A" />
                         
