@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using KinematicViewer.Transformation;
+using KinematicViewer.Geometry.Figures;
 
-namespace KinematicViewer
+
+namespace KinematicViewer.Geometry.Guides
 {
     public class SideDoor : GeometricalElement, IGuide
     {

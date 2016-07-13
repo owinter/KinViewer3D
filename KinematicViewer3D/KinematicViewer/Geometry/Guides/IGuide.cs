@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Media.Media3D;
 
-namespace KinematicViewer
+namespace KinematicViewer.Geometry.Guides
 {
     public interface IGuide
     {

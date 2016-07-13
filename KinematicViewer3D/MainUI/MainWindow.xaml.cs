@@ -1,4 +1,7 @@
-﻿using KinematicViewer;
+﻿using KinematicViewer.Geometry.Guides;
+using KinematicViewer.Geometry.UnguidedElements;
+using KinematicViewer.Transformation;
+using KinematicViewer.UserControlLibrary;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -74,7 +77,7 @@ namespace MainUI
                 //Rechte Tür / Beifahrer
                 AxisOfRotation = new Vector3D(-13.94, 399.21, 20.94);
 
-                ////Linke  Tür / Fahrertür 
+                ////Linke  Tür / Fahrertür
                 ////AxisOfRotation = new Vector3D(13.94, -399.21, -20.94);
             }
 
@@ -248,7 +251,7 @@ namespace MainUI
 
             if (_bTailgate)
                 generateReflectedDrive();
-            
+
             fill_TextBox();
             create_Button.IsEnabled = true;
         }
@@ -271,7 +274,7 @@ namespace MainUI
 
                 _oDriveLeft = new Drive(AxisPoints[2], AxisPoints[3], "DriveLeft");
                 _oDriveRight = new Drive(AxisPoints[4], AxisPoints[5], "DriveRight");
-             
+
                 MvpControl.Guide = _oTail;
 
                 MvpControl.AddPassiveElement(_oDriveLeft);
@@ -554,7 +557,7 @@ namespace MainUI
 
         private void toolBox_ZoomIn_Button_Click(object sender, RoutedEventArgs e)
         {
-            MvpControl.zoomIn();     
+            MvpControl.zoomIn();
         }
 
         private void toolBox_ZoomOut_Button_Click(object sender, RoutedEventArgs e)
@@ -743,7 +746,7 @@ namespace MainUI
             c.R = 192;
             c.G = 192;
             c.B = 192;
-            
+
             SolidColorBrush scBrush = new SolidColorBrush(c);
             scBrush.Opacity = 0.95;
             Material mat = new EmissiveMaterial(scBrush);

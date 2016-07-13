@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using KinematicViewer.Transformation;
+using KinematicViewer.Geometry;
+using KinematicViewer.Geometry.Guides;
 
-namespace KinematicViewer
+namespace KinematicViewer.Geometry.Figures
 {
     public class Cuboid : GeometricalElement
     {

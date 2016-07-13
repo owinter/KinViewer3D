@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media.Media3D;
+using KinematicViewer.Transformation;
+using KinematicViewer.Geometry;
+using KinematicViewer.Geometry.Guides;
 
-namespace KinematicViewer
+namespace KinematicViewer.Geometry.Figures
 {
     public class Sphere : GeometricalElement
     {

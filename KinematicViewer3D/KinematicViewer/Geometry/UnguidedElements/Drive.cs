@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using KinematicViewer.Geometry;
+using KinematicViewer.Geometry.Figures;
+using KinematicViewer.Geometry.Guides;
 
-namespace KinematicViewer
+namespace KinematicViewer.Geometry.UnguidedElements
 {
     public class Drive : GeometricalElement
     {

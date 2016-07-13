@@ -1,7 +1,8 @@
 ﻿using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using KinematicViewer.Geometry.Guides;
 
-namespace KinematicViewer
+namespace KinematicViewer.Geometry
 {
     public abstract class GeometricalElement
     {

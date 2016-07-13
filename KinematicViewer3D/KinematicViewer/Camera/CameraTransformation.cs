@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media.Media3D;
 
-namespace KinematicViewer
+namespace KinematicViewer.Camera
 {
     public class CameraTransformation
     {

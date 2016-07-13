@@ -50,28 +50,28 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoordSystem.cs" />
-    <Compile Include="Cuboid.cs" />
-    <Compile Include="Cuboid2.cs" />
-    <Compile Include="Cylinder.cs" />
-    <Compile Include="Drive.cs" />
-    <Compile Include="GeometricalElement.cs" />
-    <Compile Include="IGuide.cs" />
-    <Compile Include="LineOfAction.cs" />
-    <Compile Include="MouseUtilities.cs" />
-    <Compile Include="SideDoor.cs" />
-    <Compile Include="Sphere.cs" />
-    <Compile Include="Tailgate.cs" />
-    <Compile Include="TrackPoint.cs" />
-    <Compile Include="CameraTransformation.cs" />
-    <Compile Include="ViewportCamera.cs" />
-    <Compile Include="TransformationUtilities.cs" />
-    <Compile Include="VisualObjectTransformation.cs" />
-    <Page Include="MainViewPortControl.xaml">
+    <Compile Include="UserControlLibrary\CoordSystem.cs" />
+    <Compile Include="Geometry\Figures\Cuboid.cs" />
+    <Compile Include="Geometry\Figures\Cuboid2.cs" />
+    <Compile Include="Geometry\Figures\Cylinder.cs" />
+    <Compile Include="Geometry\UnguidedElements\Drive.cs" />
+    <Compile Include="Geometry\GeometricalElement.cs" />
+    <Compile Include="Geometry\Guides\IGuide.cs" />
+    <Compile Include="Geometry\UnguidedElements\LineOfAction.cs" />
+    <Compile Include="UserControlLibrary\MouseUtilities.cs" />
+    <Compile Include="Geometry\Guides\SideDoor.cs" />
+    <Compile Include="Geometry\Figures\Sphere.cs" />
+    <Compile Include="Geometry\Guides\Tailgate.cs" />
+    <Compile Include="Geometry\UnguidedElements\TrackPoint.cs" />
+    <Compile Include="Camera\CameraTransformation.cs" />
+    <Compile Include="Camera\ViewportCamera.cs" />
+    <Compile Include="Transformation\TransformationUtilities.cs" />
+    <Compile Include="Transformation\VisualObjectTransformation.cs" />
+    <Page Include="UserControlLibrary\MainViewPortControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="MainViewPortControl.xaml.cs">
+    <Compile Include="UserControlLibrary\MainViewPortControl.xaml.cs">
       <DependentUpon>MainViewPortControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -101,6 +101,7 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

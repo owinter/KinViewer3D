@@ -1,10 +1,11 @@
 ﻿<Window xmlns:KinematicViewer="clr-namespace:KinematicViewer;assembly=KinematicViewer"
-        x:Class="MainUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MainUI"
+        xmlns:UserControlLibrary="clr-namespace:KinematicViewer.UserControlLibrary;assembly=KinematicViewer"
+        x:Class="MainUI.MainWindow"
         mc:Ignorable="d"
         Title="Kinematik Viewer 3D"
         MinHeight="675"
@@ -23,39 +24,39 @@
     </Window.CommandBindings>
 
     <DockPanel  LastChildFill="True"
-                Background="LightGray"
-                Focusable="False">
+		Background="LightGray"
+		Focusable="False">
         <!--TOP DOCK PANEL-->
         <Border Height="25"
-                Background="LightGray"
-                BorderBrush="Black"
-                BorderThickness="0"
-                DockPanel.Dock="Top">
+			Background="LightGray"
+			BorderBrush="Black"
+			BorderThickness="0"
+			DockPanel.Dock="Top">
 
             <!-- TOP Menu bar-->
             <Menu DockPanel.Dock="Top" IsMainMenu="True" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}">
                 <MenuItem Header="_Datei">
                     <MenuItem Header="Reset"
-                              Click="reset_Button_Click" />
+						Click="reset_Button_Click" />
                     <MenuItem Header="Reload"
-                              Click="reload_Button_Click" />
+						Click="reload_Button_Click" />
                     <Separator />
                     <MenuItem Header="_Beenden"
-                              InputGestureText="F2"
-                              Command="ApplicationCommands.Close" />
+						InputGestureText="F2"
+						Command="ApplicationCommands.Close" />
                 </MenuItem>
                 <MenuItem Header="_Bearbeiten" />
                 <MenuItem Header="_Ansicht">
                     <MenuItem Header="perspektivische Kamera"
-                              Click="perspective_Camera_Click"
-                              Name="miPerspective"
-                              IsCheckable="True"
-                              IsChecked="True" />
+						Click="perspective_Camera_Click"
+						x:Name="miPerspective"
+						IsCheckable="True"
+						IsChecked="True" />
                     <MenuItem Header="orthographische Kamera"
-                              Click="orthographic_Camera_Click"
-                              Name="miOrthographic"
-                              IsCheckable="True"
-                              IsChecked="False" />
+						Click="orthographic_Camera_Click"
+						x:Name="miOrthographic"
+						IsCheckable="True"
+						IsChecked="False" />
                 </MenuItem>
                 <MenuItem Header="_Hilfe">
                     <MenuItem Header="Anleitung" Click="Manual_Click" />
@@ -65,19 +66,19 @@
 
         <!--LEFT DOCK PANEL-->
         <Border Width="250"
-                Background="LightGray"
-                BorderBrush="Black"
-                BorderThickness="0"
-                DockPanel.Dock="Left">
+			Background="LightGray"
+			BorderBrush="Black"
+			BorderThickness="0"
+			DockPanel.Dock="Left">
             <!--LEFT  Input coords-->
             <StackPanel>
                 <Border Background="LightGray"
-                        BorderBrush="Silver"
-                        Width="240"
-                        BorderThickness="2"
-                        CornerRadius="10,10,10,10"
-                        Margin="0,5,0,0"
-                        Focusable="False">
+					BorderBrush="Silver"
+					Width="240"
+					BorderThickness="2"
+					CornerRadius="10,10,10,10"
+					Margin="0,5,0,0"
+					Focusable="False">
                     <StackPanel x:Name="coordinateInput">
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Vertical">
@@ -87,23 +88,23 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Label Margin="10,0,0,0" FontSize="11" Content="X" />
                                     <TextBox x:Name="value_X1"
-                                             Width="50"
-                                             Height="20"
-                                             Margin="3,0,0,0" />
+										Width="50"
+										Height="20"
+										Margin="3,0,0,0" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Margin="10,0,0,0" FontSize="11" Content="Y" />
                                     <TextBox x:Name="value_Y1"
-                                             Width="50"
-                                             Height="20"
-                                             Margin="3,0,0,0" />
+										Width="50"
+										Height="20"
+										Margin="3,0,0,0" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Margin="10,0,0,0" FontSize="11" Content="Z" />
                                     <TextBox x:Name="value_Z1"
-                                             Width="50"
-                                             Height="20"
-                                             Margin="3,0,0,0" />
+										Width="50"
+										Height="20"
+										Margin="3,0,0,0" />
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel Margin="50,0,0,0" Orientation="Vertical">
@@ -111,23 +112,23 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Label Margin="10,0,0,0" FontSize="11" Content="X" />
                                     <TextBox x:Name="value_X3"
-                                         Width="50"
-                                         Height="20"
-                                         Margin="3,0,0,0" />
+										Width="50"
+										Height="20"
+										Margin="3,0,0,0" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Margin="10,0,0,0" FontSize="11" Content="Y" />
                                     <TextBox x:Name="value_Y3"
-                                         Width="50"
-                                         Height="20"
-                                         Margin="3,0,0,0" />
+										Width="50"
+										Height="20"
+										Margin="3,0,0,0" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Margin="10,0,0,0" FontSize="11" Content="Z" />
                                     <TextBox x:Name="value_Z3"
-                                         Width="50"
-                                         Height="20"
-                                         Margin="3,0,0,0" />
+										Width="50"
+										Height="20"
+										Margin="3,0,0,0" />
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
@@ -139,23 +140,23 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Label Margin="10,0,0,0" FontSize="11" Content="X" />
                                     <TextBox x:Name="value_X2"
-                                         Width="50"
-                                         Height="20"
-                                         Margin="3,0,0,0" />
+										Width="50"
+										Height="20"
+										Margin="3,0,0,0" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Margin="10,0,0,0" FontSize="11" Content="Y" />
                                     <TextBox x:Name="value_Y2"
-                                         Width="50"
-                                         Height="20"
-                                         Margin="3,0,0,0" />
+										Width="50"
+										Height="20"
+										Margin="3,0,0,0" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Margin="10,0,0,0" FontSize="11" Content="Z" />
                                     <TextBox x:Name="value_Z2"
-                                         Width="50"
-                                         Height="20"
-                                         Margin="3,0,0,0" />
+										Width="50"
+										Height="20"
+										Margin="3,0,0,0" />
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel Margin="20,0,0,0" Orientation="Vertical">
@@ -165,97 +166,97 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Label Margin="10,0,0,0" FontSize="11" Content="X" />
                                     <TextBox x:Name="value_X4"
-                                     Width="50"
-                                     Height="20"
-                                     Margin="3,0,0,0" />
+										Width="50"
+										Height="20"
+										Margin="3,0,0,0" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Margin="10,0,0,0" FontSize="11" Content="Y" />
                                     <TextBox x:Name="value_Y4"
-                                     Width="50"
-                                     Height="20"
-                                     Margin="3,0,0,0" />
+										Width="50"
+										Height="20"
+										Margin="3,0,0,0" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Margin="10,0,0,0" FontSize="11" Content="Z" />
                                     <TextBox x:Name="value_Z4"
-                                     Width="50"
-                                     Height="20"
-                                     Margin="3,0,0,0" />
+										Width="50"
+										Height="20"
+										Margin="3,0,0,0" />
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
                             <Label FontSize="11"
-                                   FontWeight="Bold"
-                                   Content="Elementbreite in [mm]:" />
+								FontWeight="Bold"
+								Content="Elementbreite in [mm]:" />
                         </StackPanel>
                         <StackPanel  Margin="0,0,0,5" Orientation="Horizontal">
                             <Slider x:Name="slider_Model_Thickness"
-                                    Width="120"
-                                    Minimum="10"
-                                    Maximum="200"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    TickPlacement="BottomRight"
-                                    TickFrequency="10"
-                                    IsSnapToTickEnabled="True"
-                                    ValueChanged="setSliderModelThickness"
-                                    Focusable="False" />
+								Width="120"
+								Minimum="10"
+								Maximum="200"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								TickPlacement="BottomRight"
+								TickFrequency="10"
+								IsSnapToTickEnabled="True"
+								ValueChanged="setSliderModelThickness"
+								Focusable="False" />
                             <TextBox Text="{Binding Value, ElementName=slider_Model_Thickness, UpdateSourceTrigger=PropertyChanged}"
-                                     TextAlignment="Right"
-                                     Width="40" Focusable="True" />
+								TextAlignment="Right"
+								Width="40" Focusable="True" />
                         </StackPanel>
                     </StackPanel>
                 </Border>
                 <!--LEFT  Buttons & coords Output in Listbox -->
                 <Border Background="LightGray"
-                        BorderBrush="Silver" Width="240"
-                        BorderThickness="2"
-                        CornerRadius="10,10,10,10"
-                        Margin="0,10,0,0">
+					BorderBrush="Silver" Width="240"
+					BorderThickness="2"
+					CornerRadius="10,10,10,10"
+					Margin="0,10,0,0">
                     <StackPanel>
                         <StackPanel>
                             <Button x:Name="add_Points"
-                                    Content="Koordinaten hinzufügen"
-                                    Height="30"
-                                    Margin="5"
-                                    Focusable="False"
-                                    Click="add_Button_Click" />
+								Content="Koordinaten hinzufügen"
+								Height="30"
+								Margin="5"
+								Focusable="False"
+								Click="add_Button_Click" />
                         </StackPanel>
                         <StackPanel>
                             <Button x:Name="create_Button"
-                                    Content="Modell erstellen"
-                                    Height="30"
-                                    Margin="5"
-                                    Focusable="False"
-                                    Click="create_Button_Click" />
+								Content="Modell erstellen"
+								Height="30"
+								Margin="5"
+								Focusable="False"
+								Click="create_Button_Click" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Button x:Name="clear_listBox1"
-                                    Content="clear Points"
-                                    Width="110"
-                                    Height="30"
-                                    Margin="5,0,0,0"
-                                    Focusable="False"
-                                    Click="clear_listBox1_Button_Click" />
+								Content="clear Points"
+								Width="110"
+								Height="30"
+								Margin="5,0,0,0"
+								Focusable="False"
+								Click="clear_listBox1_Button_Click" />
 
                             <Button x:Name="clear_Button"
-                                    Content="clear Viewer"
-                                    Width="110"
-                                    Height="30"
-                                    Margin="5,0,5,0"
-                                    Focusable="False"
-                                    Click="clear_Button_Click" />
+								Content="clear Viewer"
+								Width="110"
+								Height="30"
+								Margin="5,0,5,0"
+								Focusable="False"
+								Click="clear_Button_Click" />
                         </StackPanel>
                         <StackPanel>
                             <ListBox x:Name="listBox1"
-                                     Margin="5,5,5,5"
-                                     HorizontalAlignment="Left"
-                                     Width="230"
-                                     Height="300"
-                                     BorderBrush="Black"
-                                     Focusable="False">
+								Margin="5,5,5,5"
+								HorizontalAlignment="Left"
+								Width="230"
+								Height="300"
+								BorderBrush="Black"
+								Focusable="False">
                                 <!--<CheckBox Margin="5,5,5,5"
                                           Name="checkBox1"
                                           HorizontalAlignment="Left"
@@ -279,19 +280,21 @@
 
         <!--RIGHT DOCK PANEL BLANK -->
         <Border Width="15"
-                Background="LightGray"
-                BorderBrush="Black"
-                BorderThickness="0"
-                DockPanel.Dock="Right">
-        </Border>
+			Background="LightGray"
+			BorderBrush="Black"
+			BorderThickness="0"
+			DockPanel.Dock="Right"/>
 
-        <!--RIGHT DOCK PANEL WITH PROPERTIES --><!--
+        <!--RIGHT DOCK PANEL WITH PROPERTIES -->
+        <!--
         <Border Width="200"
                 Background="LightGray"
                 BorderBrush="Black"
                 BorderThickness="0"
                 DockPanel.Dock="Right">
-            --><!--RIGHT control top--><!--
+            -->
+        <!--RIGHT control top-->
+        <!--
             <StackPanel>
                 <Border Background="LightGray"
                         BorderBrush="Silver"
@@ -304,7 +307,9 @@
                         <Label Margin="0,0,0,250" Content="Weitere Steuerelemente" />
                     </StackPanel>
                 </Border>
-                --><!--RIGHT control center--><!--
+                -->
+        <!--RIGHT control center-->
+        <!--
                 <Border Background="LightGray"
                         BorderBrush="Silver"
                         Width="170"
@@ -315,7 +320,9 @@
                         <Label Margin="0,0,0,125" Content="Weitere Steuerelemente" />
                     </StackPanel>
                 </Border>
-                --><!--RIGHT control bottom--><!--
+                -->
+        <!--RIGHT control bottom-->
+        <!--
                 <Border Background="#eee9e9"
                         BorderBrush="Silver"
                         Width="170"
@@ -331,250 +338,234 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        --><!--HiERHIN COORDSYSTEM SMALL --><!--
+                        -->
+        <!--HiERHIN COORDSYSTEM SMALL -->
+        <!--
                         <KinematicViewer:CoordSystemSmall Name="MainUICoordSystemSmall" />
-                        --><!----><!--
+                        -->
+        <!----><!--
                     </Grid>
                 </Border>
             </StackPanel>
         </Border>-->
 
         <!--BOTTOM DOCK PANEL-->
-                        <Border Height="53"
-                                Background="LightGray"
-                                BorderBrush="Black"
-                                BorderThickness="0"
-                                Margin="0,5,0,0"
-                                DockPanel.Dock="Bottom">
-                            <StackPanel>
-                                <StackPanel Orientation="Horizontal">
+        <Border Height="53"
+			Background="LightGray"
+			BorderBrush="Black"
+			BorderThickness="0"
+			Margin="0,5,0,0"
+			DockPanel.Dock="Bottom">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label FontSize="11"
+								FontWeight="Bold"
+								Content="Öffnungswinkel in [%]: " />
+                            <TextBox x:Name="slider_open_ObjectAngle_TextBox"
+								Text="{Binding Value, ElementName=slider_open_ObjectAngle, UpdateSourceTrigger=PropertyChanged}"
+								TextAlignment="Right"
+								Width="40"
+								Focusable="True" />
+                            <Label FontSize="11"
+								HorizontalAlignment="Right"
+								FontWeight="Bold"
+								Margin="5,0,0,0"
+								Content=" in [°]: " />
+                            <TextBlock x:Name="OpenAngleDegree"
+								Padding="3"
+								TextAlignment="Center"
+								Text="0.0"
+								Width="40"
+								Height="23"
+								Background="White"
+								Focusable="False" />
+                        </StackPanel>
+                        <Slider x:Name = "slider_open_ObjectAngle"
+							Width = "510"
+							Minimum="0"
+							Maximum = "100"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center"
+							TickPlacement="BottomRight"
+							TickFrequency="1"
+							IsSnapToTickEnabled="True"
+							AutoToolTipPlacement="TopLeft"
+							Focusable="True"
+							ValueChanged="change_open_ObjectAngle" />
+                    </StackPanel>
+                    <StackPanel Margin="45,0,0,0">
+                        <Label FontSize="11" Content="Objekttransformation zurücksetzen" />
+                        <Button x:Name="reset_button"
+							Content="zurücksetzen"
+							Click="reset_Model_Transformation_Button_Click"
+							Height="22"
+							Width="160"
+							Focusable="False" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!--LAST CHILD (where the magic takes place  ;) )-->
+        <!--VIEWER-CONTENT -->
+        <Border BorderBrush="Black"
+			BorderThickness="1"
+			CornerRadius="3,3,3,3"
+			Margin="0,5,0,0">
+
+            <DockPanel>
+                <ToolBarTray DockPanel.Dock="Top"
+					Background="#eee9e9"
+					IsLocked="False">
+                    <ToolBar BorderThickness="1,1,1,0"
+						ClipToBounds="True"
+						UseLayoutRounding="True"
+						Background="White"
+						Width="{Binding ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToolBarTray}}}">
+
+                        <Button x:Name="toolBox_Reset_Button"
+							Margin="5,0,0,0"
+							ToolTip="Kamera Reset"
+							Click="toolBox_Reset_Button_Click">
+                            <Image Source="Image\Icons\16x16\Reset_16x16.png" />
+                        </Button>
+
+                        <RepeatButton x:Name="toolBox_ZoomIn_Button"
+							Margin="5,0,0,0"
+							ToolTip="vergrößern" 
+							BorderThickness="0"
+							Background="{x:Null}"
+							BorderBrush="{x:Null}"                       
+							Click="toolBox_ZoomIn_Button_Click">
+                            <Image Source="Image\Icons\16x16\ZoomIn_16x16.png" />
+                        </RepeatButton>
+
+                        <RepeatButton x:Name="toolBox_ZoomOut_Button"
+							Margin="5,0,0,0"
+							ToolTip="verkleinern"
+							BorderThickness="0"
+							Background="{x:Null}" 
+							BorderBrush="{x:Null}"
+							Click="toolBox_ZoomOut_Button_Click">
+                            <Image Source="Image\Icons\16x16\ZoomOut_16x16.png" />
+                        </RepeatButton>
+                        <Separator Margin="5,0,0,0" />
+
+                        <Button x:Name="toolBox_Front_Button"
+							Margin="5,0,0,0"
+							ToolTip="Frontseite betrachten"
+							Click="toolBox_Front_Button_Click">
+                            <Image Source="Image\Icons\16x16\cube_front_16x16.png" />
+                        </Button>
+
+                        <Button x:Name="toolBox_Back_Button"
+							Margin="5,0,0,0"
+							ToolTip="Hinterseite betrachten"
+							Click="toolBox_Back_Button_Click">
+                            <Image Source="Image\Icons\16x16\cube_back_16x16.png" />
+                        </Button>
+
+                        <Button x:Name="toolBox_Right_Button"
+							Margin="5,0,0,0"
+							ToolTip="rechte Seite betrachten"
+							Click="toolBox_Right_Button_Click">
+                            <Image Source="Image\Icons\16x16\cube_right_16x16.png" />
+                        </Button>
+
+                        <Button x:Name="toolBox_Left_Button"
+							Margin="5,0,0,0"
+							ToolTip="linke Seite betrachten"
+							Click="toolBox_Left_Button_Click">
+                            <Image Source="Image\Icons\16x16\cube_left_16x16.png" />
+                        </Button>
+
+                        <Button x:Name="toolBox_Top_Button"
+							Margin="5,0,0,0"
+							ToolTip="Oberseite betrachten"
+							Click="toolBox_Top_Button_Click">
+                            <Image Source="Image\Icons\16x16\cube_top_16x16.png" />
+                        </Button>
+
+                        <Button x:Name="toolBox_Bottom_Button"
+							Margin="5,0,0,0"
+							ToolTip="Unterseite betrachten"
+							Click="toolBox_Bottom_Button_Click">
+                            <Image Source="Image\Icons\16x16\cube_bottom_16x16.png" />
+                        </Button>
+
+                        <Separator Margin="5,0,0,0" />
+                        <TextBlock x:Name="statusPane"
+							Margin="10,0,0,0"
+							Width="155"
+							Background="WhiteSmoke" />
+                        <Separator Margin="5,0,0,0" />
+                        <ToggleButton x:Name="toolBox_TransparentMinMax"
+							Margin="5,0,0,0"
+							ToolTipService.ShowOnDisabled="True"
+							Click="toolBox_TransparentMinMax_Click" 
+							IsChecked="False">
+                            <ToggleButton.ToolTip>
+                                <ToolTip>
                                     <StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Label FontSize="11"
-                                                   FontWeight="Bold"
-                                                   Content="Öffnungswinkel in [%]: " />
-                                            <TextBox x:Name="slider_open_ObjectAngle_TextBox"
-                                                     Text="{Binding Value, ElementName=slider_open_ObjectAngle, UpdateSourceTrigger=PropertyChanged}"
-                                                     TextAlignment="Right"
-                                                     Width="40"
-                                                     Focusable="True" />
-                                            <Label FontSize="11"
-                                                   HorizontalAlignment="Right"
-                                                   FontWeight="Bold"
-                                                   Margin="5,0,0,0"
-                                                   Content=" in [°]: " />
-                                            <TextBlock x:Name="OpenAngleDegree"
-                                                       Padding="3"
-                                                       TextAlignment="Center"
-                                                       Text="0.0"
-                                                       Width="40"
-                                                       Height="23"
-                                                       Background="White"
-                                                       Focusable="False" />
-                                        </StackPanel>
-                                        <Slider x:Name = "slider_open_ObjectAngle"
-                                                Width = "510"
-                                                Minimum="0"
-                                                Maximum = "100"
-                                                HorizontalAlignment="Left"
-                                                VerticalAlignment="Center"
-                                                TickPlacement="BottomRight"
-                                                TickFrequency="1"
-                                                IsSnapToTickEnabled="True"
-                                                AutoToolTipPlacement="TopLeft"
-                                                Focusable="True"
-                                                ValueChanged="change_open_ObjectAngle" />
+                                        <TextBlock FontWeight="Bold"><Run Text="Minimaler / Maximaler Öffnungswinkel"/></TextBlock>
+                                        <TextBlock><Run Text="Erstellt ein Transparentes Objekt, welches den minimalen / maximalen Öffnungswinkel darstellt"/></TextBlock>
                                     </StackPanel>
-                                    <StackPanel Margin="45,0,0,0">
-                                        <Label FontSize="11" Content="Objekttransformation zurücksetzen" />
-                                        <Button x:Name="reset_button"
-                                                Content="zurücksetzen"
-                                                Click="reset_Model_Transformation_Button_Click"
-                                                Height="22"
-                                                Width="160"
-                                                Focusable="False" />
+                                </ToolTip>
+                            </ToggleButton.ToolTip>
+                            <Image Source="Image\Icons\16x16\transparent_16x16.png" />
+                        </ToggleButton>
+                        <ToggleButton x:Name="toolBox_LineOfAction"
+							Margin="10,0,0,0"
+							ToolTipService.ShowOnDisabled="True"
+							Click="toolBox_LineOfAction_Click" 
+							IsChecked="False">
+                            <ToggleButton.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold"><Run Text="Wirkungslinie / Hebelarm"/></TextBlock>
+                                        <TextBlock><Run Text="Zeigt die Wirkungslinie mit Länge des Hebelarms"/></TextBlock>
                                     </StackPanel>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-
-                        <!--LAST CHILD (where the magic takes place  ;) )-->
-                        <!--VIEWER-CONTENT -->
-                        <Border BorderBrush="Black"
-                                BorderThickness="1"
-                                CornerRadius="3,3,3,3"
-                                Margin="0,5,0,0">
-
-                            <DockPanel>
-                                <ToolBarTray DockPanel.Dock="Top"
-                                             Background="#eee9e9"
-                                             IsLocked="False">
-                                    <ToolBar BorderThickness="1,1,1,0"
-                                             ClipToBounds="True"
-                                             UseLayoutRounding="True"
-                                             Background="White"
-                                             Width="{Binding ActualWidth,
-                                                             RelativeSource={RelativeSource FindAncestor,
-                                                                           AncestorType={x:Type ToolBarTray}}}">
-
-                                        <Button x:Name="toolBox_Reset_Button"
-                                                Margin="5,0,0,0"
-                                                ToolTip="Kamera Reset"
-                                                Click="toolBox_Reset_Button_Click">
-                                            <Image Source="Image\Icons\16x16\Reset_16x16.png" />  
-                                        </Button>
-                                        
-                                        <RepeatButton x:Name="toolBox_ZoomIn_Button"
-                                                      Margin="5,0,0,0"
-                                                      ToolTip="vergrößern" 
-                                                      BorderThickness="0"
-                                                      Background="{x:Null}"
-                                                      BorderBrush="{x:Null}"                       
-                                                      Click="toolBox_ZoomIn_Button_Click">
-                                            <Image Source="Image\Icons\16x16\ZoomIn_16x16.png" />
-                                        </RepeatButton>
-
-                                        <RepeatButton x:Name="toolBox_ZoomOut_Button"
-                                                      Margin="5,0,0,0"
-                                                      ToolTip="verkleinern"
-                                                      BorderThickness="0"
-                                                      Background="{x:Null}" 
-                                                      BorderBrush="{x:Null}"
-                                                      Click="toolBox_ZoomOut_Button_Click">
-                                            <Image Source="Image\Icons\16x16\ZoomOut_16x16.png" />
-                                        </RepeatButton>
-                                        <Separator Margin="5,0,0,0" />
-
-                                        <Button x:Name="toolBox_Front_Button"
-                                                Margin="5,0,0,0"
-                                                ToolTip="Frontseite betrachten"
-                                                Click="toolBox_Front_Button_Click">
-                                            <Image Source="Image\Icons\16x16\cube_front_16x16.png" />
-                                        </Button>
-
-                                        <Button x:Name="toolBox_Back_Button"
-                                                Margin="5,0,0,0"
-                                                ToolTip="Hinterseite betrachten"
-                                                Click="toolBox_Back_Button_Click">
-                                            <Image Source="Image\Icons\16x16\cube_back_16x16.png" />
-                                        </Button>
-
-                                        <Button x:Name="toolBox_Right_Button"
-                                                Margin="5,0,0,0"
-                                                ToolTip="rechte Seite betrachten"
-                                                Click="toolBox_Right_Button_Click">
-                                            <Image Source="Image\Icons\16x16\cube_right_16x16.png" />
-                                        </Button>
-
-                                        <Button x:Name="toolBox_Left_Button"
-                                                Margin="5,0,0,0"
-                                                ToolTip="linke Seite betrachten"
-                                                Click="toolBox_Left_Button_Click">
-                                            <Image Source="Image\Icons\16x16\cube_left_16x16.png" />
-                                        </Button>
-
-                                        <Button x:Name="toolBox_Top_Button"
-                                                Margin="5,0,0,0"
-                                                ToolTip="Oberseite betrachten"
-                                                Click="toolBox_Top_Button_Click">
-                                            <Image Source="Image\Icons\16x16\cube_top_16x16.png" />
-                                        </Button>
-
-                                        <Button x:Name="toolBox_Bottom_Button"
-                                                Margin="5,0,0,0"
-                                                ToolTip="Unterseite betrachten"
-                                                Click="toolBox_Bottom_Button_Click">
-                                            <Image Source="Image\Icons\16x16\cube_bottom_16x16.png" />
-                                        </Button>
-
-                                        <Separator Margin="5,0,0,0" />
-                                        <TextBlock x:Name="statusPane"
-                                                   Margin="10,0,0,0"
-                                                   Width="155"
-                                                   Background="WhiteSmoke" />
-                                        <Separator Margin="5,0,0,0" />
-                                        <ToggleButton x:Name="toolBox_TransparentMinMax"
-                                                Margin="5,0,0,0"
-                                                ToolTipService.ShowOnDisabled="True"
-                                        	    Click="toolBox_TransparentMinMax_Click" 
-                                                IsChecked="False">
-                                            <ToggleButton.ToolTip>
-                                                <ToolTip>
-                                                    <StackPanel>
-                                                        <TextBlock FontWeight="Bold">
-                                                            Minimaler / Maximaler Öffnungswinkel
-                                                        </TextBlock>
-                                                        <TextBlock>
-                                                            Erstellt ein Transparentes Objekt, welches den minimalen / maximalen Öffnungswinkel darstellt
-                                                        </TextBlock>
-                                                    </StackPanel>
-                                                </ToolTip>
-                                            </ToggleButton.ToolTip>
-                                            <Image Source="Image\Icons\16x16\transparent_16x16.png" />
-                                        </ToggleButton>
-                                        <ToggleButton x:Name="toolBox_LineOfAction"
-                                                Margin="10,0,0,0"
-                                                ToolTipService.ShowOnDisabled="True"
-                                                Click="toolBox_LineOfAction_Click" 
-                                                IsChecked="False">
-                                            <ToggleButton.ToolTip>
-                                                <ToolTip>
-                                                    <StackPanel>
-                                                        <TextBlock FontWeight="Bold">
-                                                            Wirkungslinie / Hebelarm
-                                                        </TextBlock>
-                                                        <TextBlock>
-                                                            Zeigt die Wirkungslinie mit Länge des Hebelarms
-                                                        </TextBlock>
-                                                    </StackPanel>
-                                                </ToolTip>
-                                            </ToggleButton.ToolTip>
-                                            <Image Source="Image\Icons\16x16\perpendicular_16x16.png" />
-                                        </ToggleButton>
-                                        <ToggleButton x:Name="toolBox_TrackPoint"
-                                                Margin="10,0,0,0"
-                                                ToolTipService.ShowOnDisabled="True"
-                                                Click="toolBox_TrackPoint_Click" 
-                                                IsChecked="False">
-                                            <ToggleButton.ToolTip>
-                                                <ToolTip>
-                                                    <StackPanel>
-                                                        <TextBlock FontWeight="Bold">
-                                                            Spurpunkte
-                                                        </TextBlock>
-                                                        <TextBlock>
-                                                            Zeigt die Spurpunkte des bewegten Antriebs
-                                                        </TextBlock>
-                                                    </StackPanel>
-                                                </ToolTip>
-                                            </ToggleButton.ToolTip>
-                                            <Image Source="Image\Icons\16x16\trackPoints_16x16.png" />
-                                        </ToggleButton>
-                                        <ToggleButton x:Name="toolBox_CoordSystem"
-                                                      Margin="10,0,0,0"
-                                                      ToolTipService.ShowOnDisabled="True"
-                                                      Click="toolBox_CoordSystem_Click"
-                                                      IsChecked="True" >
-                                            <ToggleButton.ToolTip>
-                                                <ToolTip>
-                                                    <StackPanel>
-                                                        <TextBlock FontWeight="Bold">
-                                                            Koordinatensystem
-                                                        </TextBlock>
-                                                        <TextBlock>
-                                                            Zeigt die Ausrichtung der Kamera in einem Koordinatensystem
-                                                        </TextBlock>
-                                                    </StackPanel>
-                                                </ToolTip>
-                                            </ToggleButton.ToolTip>
-                                            <Image Source="Image\Icons\16x16\coordSystem_16x16.png" />
-                                        </ToggleButton>
-                                    </ToolBar>
-                                </ToolBarTray>
-
-                                <!--HIERHIN VIEWPORT-->
-                                <KinematicViewer:MainViewPortControl Name="MainUIViewport3D" />
-                            </DockPanel>
-                        </Border>
+                                </ToolTip>
+                            </ToggleButton.ToolTip>
+                            <Image Source="Image\Icons\16x16\perpendicular_16x16.png" />
+                        </ToggleButton>
+                        <ToggleButton x:Name="toolBox_TrackPoint"
+							Margin="10,0,0,0"
+							ToolTipService.ShowOnDisabled="True"
+							Click="toolBox_TrackPoint_Click" 
+							IsChecked="False">
+                            <ToggleButton.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold"><Run Text="Spurpunkte"/></TextBlock>
+                                        <TextBlock><Run Text="Zeigt die Spurpunkte des bewegten Antriebs"/></TextBlock>
+                                    </StackPanel>
+                                </ToolTip>
+                            </ToggleButton.ToolTip>
+                            <Image Source="Image\Icons\16x16\trackPoints_16x16.png" />
+                        </ToggleButton>
+                        <ToggleButton x:Name="toolBox_CoordSystem"
+							Margin="10,0,0,0"
+							ToolTipService.ShowOnDisabled="True"
+							Click="toolBox_CoordSystem_Click"
+							IsChecked="True" >
+                            <ToggleButton.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock FontWeight="Bold"><Run Text="Koordinatensystem"/></TextBlock>
+                                        <TextBlock><Run Text="Zeigt die Ausrichtung der Kamera in einem Koordinatensystem"/></TextBlock>
+                                    </StackPanel>
+                                </ToolTip>
+                            </ToggleButton.ToolTip>
+                            <Image Source="Image\Icons\16x16\coordSystem_16x16.png" />
+                        </ToggleButton>
+                    </ToolBar>
+                </ToolBarTray>
+                <!--HIERHIN VIEWPORT-->
+                <UserControlLibrary:MainViewPortControl Name="MainUIViewport3D" />
+            </DockPanel>
+        </Border>
     </DockPanel>
 </Window>

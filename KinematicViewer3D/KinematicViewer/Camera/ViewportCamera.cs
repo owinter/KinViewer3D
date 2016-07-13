@@ -3,8 +3,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Media3D;
+using KinematicViewer.UserControlLibrary;
 
-namespace KinematicViewer
+namespace KinematicViewer.Camera
 {
     public enum Cam
     {

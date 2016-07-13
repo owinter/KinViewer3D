@@ -6,8 +6,14 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using KinematicViewer.Camera;
+using KinematicViewer.Transformation;
+using KinematicViewer.Geometry;
+using KinematicViewer.Geometry.Figures;
+using KinematicViewer.Geometry.Guides;
+using KinematicViewer.Geometry.UnguidedElements;
 
-namespace KinematicViewer
+namespace KinematicViewer.UserControlLibrary
 {
     /// <summary>
     /// Interaction logic for UserControl1.xaml
@@ -374,22 +380,22 @@ namespace KinematicViewer
             MainGrid.Children.Remove(GridCoordSystem);
         }
 
-        private void showPopUpDrive(List<string>data)
-        {
-            popup = new Popup();
-            popup.HorizontalOffset = Pt_leftClick.X;
-            popup.VerticalOffset = Pt_leftClick.Y;
-            TextBlock tx = new TextBlock();
-            tx.Text = data[0];
-            Grid g = new Grid();
-            g.Background = Brushes.White;
-            g.Children.Add(tx);
-            popup.Child = g;
-            popup.IsOpen = true;
-            MainGrid.Children.Add(popup);
+        //private void showPopUpDrive(List<string>data)
+        //{
+        //    popup = new Popup();
+        //    popup.HorizontalOffset = Pt_leftClick.X;
+        //    popup.VerticalOffset = Pt_leftClick.Y;
+        //    TextBlock tx = new TextBlock();
+        //    tx.Text = data[0];
+        //    Grid g = new Grid();
+        //    g.Background = Brushes.White;
+        //    g.Children.Add(tx);
+        //    popup.Child = g;
+        //    popup.IsOpen = true;
+        //    MainGrid.Children.Add(popup);
             
 
-        }
+        //}
 
 
 
@@ -615,9 +621,9 @@ namespace KinematicViewer
                         {
                             if (e is Drive)
                             {
-                                List<String> data = new List<String>();
-                                data.Add(((Drive)e).EndPoint.ToString());
-                                showPopUpDrive(data);
+                                //List<String> data = new List<String>();
+                                //data.Add(((Drive)e).EndPoint.ToString());
+                                //showPopUpDrive(data);
                                 
 
 
