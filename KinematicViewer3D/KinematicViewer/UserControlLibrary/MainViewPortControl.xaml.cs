@@ -428,7 +428,7 @@ namespace KinematicViewer.UserControlLibrary
             if (e.ChangedButton == MouseButton.Middle && !(_bMouseDownLeft || _bMouseDownRight))
             {
                 _bMouseDownMiddle = true;
-                Cursor = Cursors.ScrollAll;
+                Cursor = Cursors.None;
                 _bDrag = true;
 
                 Point pt = e.GetPosition(viewport);
@@ -457,7 +457,7 @@ namespace KinematicViewer.UserControlLibrary
             _bMouseDownRight = true;
             if (_bMouseDownMiddle)
             {
-                Cursor = Cursors.Cross;
+                //Cursor = Cursors.Cross;
                 _bDrag = false;
                 _bZoom = false;
                 _bOrbit = true;
