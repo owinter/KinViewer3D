@@ -5,7 +5,7 @@ using KinematicViewer.Geometry;
 using KinematicViewer.Geometry.Figures;
 using KinematicViewer.Geometry.Guides;
 
-namespace KinematicViewer.Geometry.UnguidedElements
+namespace KinematicViewer.Geometry.GuidedElements
 {
     public class Drive : GeometricalElement
     {

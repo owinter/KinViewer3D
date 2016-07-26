@@ -11,7 +11,7 @@ using KinematicViewer.Transformation;
 using KinematicViewer.Geometry;
 using KinematicViewer.Geometry.Figures;
 using KinematicViewer.Geometry.Guides;
-using KinematicViewer.Geometry.UnguidedElements;
+using KinematicViewer.Geometry.GuidedElements;
 
 namespace KinematicViewer.UserControlLibrary
 {
