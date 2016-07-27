@@ -28,10 +28,15 @@ namespace KinematicViewer.UserControlLibrary
         private bool _bDrag = false;
         private bool _bOrbit = false;
         private bool _bPan = false;
+        private bool _bModelSelected = false;
 
         private Point _oPt_leftClick;
 
         private Popup popup;
+
+        private GeometricalElement _oSelectedElement;
+        private Material _oSelectedMaterial;
+        private Material _oHighlightedMaterial;
 
         //Klasse für Kameraeinstellungen und deren Positionen
         private ViewportCamera _oViewportCam;
@@ -164,6 +169,24 @@ namespace KinematicViewer.UserControlLibrary
         {
             get { return _oPt_leftClick; }
             set {  _oPt_leftClick = value; }
+        }
+
+        public GeometricalElement SelectedElement
+        {
+            get { return _oSelectedElement; }
+            set { _oSelectedElement = value; }
+        }
+
+        public Material SelectedMaterial
+        {
+            get { return _oSelectedMaterial; }
+            set { _oSelectedMaterial = value; }
+        }
+
+        public Material HighlightedMaterial
+        {
+            get { return _oHighlightedMaterial; }
+            set { _oHighlightedMaterial = value; }
         }
 
         //Übergeben eines TextBlockObjectes an das ViewportControl
@@ -491,12 +514,8 @@ namespace KinematicViewer.UserControlLibrary
         {
             _bMouseDownLeft = true;
 
-            if (!_bMouseDownMiddle)
-            {
-                //popup.IsOpen = false;
-                //dem Viewport den Focus übergeben, sodass die Tasteneingabe funktioniert
-                viewport_MouseDown(sender, e);
-            }
+            //Focusübergabe an den Viewport
+            viewport_MouseDown(sender, e);
 
             if (!_bMouseDownRight && !_bMouseDownMiddle)
             {
@@ -504,12 +523,27 @@ namespace KinematicViewer.UserControlLibrary
                 Point pt = e.GetPosition(viewport);
                 Pt_leftClick = pt;
                 VisualTreeHelper.HitTest(viewport, null, HitTestLeftDown, new PointHitTestParameters(pt));
+                
             }
         }
 
         private void MainGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             _bMouseDownLeft = false;
+
+            if (_bModelSelected == false) return;
+            else
+            {
+                _bModelSelected = false;
+                if(SelectedMaterial != null)
+                {
+                    SelectedElement.Material = SelectedMaterial;
+                    SelectedElement = null;
+                    UpdateActiveGroup();
+                    //UpdatePassiveGroup();
+                }
+                
+            }
         }
 
 
@@ -568,6 +602,8 @@ namespace KinematicViewer.UserControlLibrary
         //HitTest Verhalten, wenn mit Linker Maustaste auf dein visuelles Objekt geklickt wird
         private HitTestResultBehavior HitTestLeftDown(HitTestResult result)
         {
+            _bModelSelected = true;
+
             RayMeshGeometry3DHitTestResult resultMesh = result as RayMeshGeometry3DHitTestResult;
 
             if (resultMesh == null)
@@ -588,21 +624,13 @@ namespace KinematicViewer.UserControlLibrary
                         {
                             if (e is Tailgate)
                             {
-                                Material mat = ((Tailgate)e).Material;
-                                if (_bMouseDownLeft)
-                                {
-                                    ((Tailgate)e).Material = new DiffuseMaterial(Brushes.Green);
-                                }
+                                HighlightingElement((Tailgate)e);
                                 UpdateActiveGroup();
                             }
 
                             if (e is SideDoor)
                             {
-                                Material mat = ((SideDoor)e).Material;
-                                if (_bMouseDownLeft)
-                                {
-                                    ((SideDoor)e).Material = new DiffuseMaterial(Brushes.Green);  
-                                }
+                                HighlightingElement((SideDoor)e);
                                 UpdateActiveGroup();
                             }
 
@@ -621,12 +649,8 @@ namespace KinematicViewer.UserControlLibrary
                         {
                             if (e is Drive)
                             {
-                                //List<String> data = new List<String>();
-                                //data.Add(((Drive)e).EndPoint.ToString());
-                                //showPopUpDrive(data);
-                                
-
-
+                                HighlightingElement((Drive)e);
+                                UpdatePassiveGroup();
                             }
                             //MessageBox.Show(String.Format("model found: {0} | {1},{2},{3}", e.Name, m.Bounds.X, m.Bounds.Y, m.Bounds.Z));
                         }
@@ -686,6 +710,7 @@ namespace KinematicViewer.UserControlLibrary
                 return HitTestResultBehavior.Stop;
             }
 
+            
             return HitTestResultBehavior.Continue;
         }
 
@@ -854,6 +879,18 @@ namespace KinematicViewer.UserControlLibrary
             Point p = e.GetPosition(viewport);
             _sScreenCoords = string.Format("Bild-Koordinaten: ({0:d}, {1:d})", (int)p.X, (int)p.Y);
             _oStatusPane.Text = _sScreenCoords;
+        }
+
+        private void HighlightingElement(GeometricalElement element)
+        {
+            HighlightedMaterial = new DiffuseMaterial(Brushes.LightSeaGreen);
+
+            SelectedElement = element;
+            if (SelectedMaterial == null)
+                SelectedMaterial = element.Material;
+           
+
+            element.Material = HighlightedMaterial;
         }
     }
 }
