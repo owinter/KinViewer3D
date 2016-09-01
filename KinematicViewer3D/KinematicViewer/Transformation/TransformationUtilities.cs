@@ -21,6 +21,13 @@ namespace KinematicViewer.Transformation
             return new Vector3D(vector.X * scale, vector.Y * scale, vector.Z * scale);
         }
 
+        /// <summary>
+        /// Spiegelt einen Antriebspunkt um eine Ebene, welche durch den Scharnierachsenmittelpunkt und den Handangriffspunkt aufgespannt wird
+        /// </summary>
+        /// <param name="axisPoint">Scharnierachsenmittelpunkt</param>
+        /// <param name="handPoint">Handangriffspunkt</param>
+        /// <param name="drivePoint">Anfangs-/ oder Endpunkt eines Antriebs</param>
+        /// <returns></returns>
         public static Point3D reflectPoint(Point3D axisPoint, Point3D handPoint, Point3D drivePoint)
         {
             /*
@@ -57,6 +64,14 @@ namespace KinematicViewer.Transformation
             return point;
         }
 
+        /// <summary>
+        /// Errechnet die Breite einer Heckklappe durch die Entfernung des Attachment Point Door(Anbindungspunkt des Antriebs an Heckklappe) zur Ebene,
+        /// welche durch den Scharnierachsenmittelpunkt und Handangriffspunkt aufgespannt wird
+        /// </summary>
+        /// <param name="axisPoint">Scharnierachsenmittelpunkt</param>
+        /// <param name="handPoint">Handangriffspunkt</param>
+        /// <param name="attPointDoor">Anbindungspunkt des Antriebs an Heckklappe</param>
+        /// <returns></returns>
         public static double calculateTailWidth(Point3D axisPoint, Point3D handPoint, Point3D attPointDoor)
         {
             Vector3D vR = new Vector3D(axisPoint.X, axisPoint.Y, axisPoint.Z);
