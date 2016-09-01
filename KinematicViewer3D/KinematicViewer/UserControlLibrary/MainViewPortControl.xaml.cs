@@ -16,7 +16,7 @@ using KinematicViewer.Geometry.GuidedElements;
 namespace KinematicViewer.UserControlLibrary
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Interaction logic for MainViewPortControl.xaml
     /// </summary>
     public partial class MainViewPortControl : UserControl
     {
