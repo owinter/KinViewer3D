@@ -173,6 +173,7 @@ namespace KinematicViewer.Camera
             Viewport.Camera = oO_Camera;
         }
 
+        //Erstelle perspektivische Kamera für das Koordinatensystem
         public void startCoordSystemCamera()
         {
             oP_Camera_CoordSystem = new PerspectiveCamera();
@@ -302,18 +303,22 @@ namespace KinematicViewer.Camera
             }
         }
 
-        public void orbitCam()
+        private Point GetActualRelativePos()
         {
             //Liefert die Mausposition relativ zum Viewport3D und transformiert sie zum Center
             //actualRelativePos beinhaltet die X und Y Entfernung vom Center des Viewports
             Point relativePos = Mouse.GetPosition(Viewport);
             Point actualRelativePos = new Point(relativePos.X - Math.Ceiling(Viewport.ActualWidth / 2), Math.Ceiling(Viewport.ActualHeight / 2) - relativePos.Y);
 
-            //dx und dy sind die Beträge, um jene die Maus dieses Maus Move Events bewegt.
-            //Beim Rücksetzen der Maus zum Center, ist dies einfach die neue Position der Maus , relativ zum Center
-            double dx = actualRelativePos.X;
-            double dy = actualRelativePos.Y;
+            return actualRelativePos;
+        }
 
+        public void orbitCam()
+        {
+            Point actualRelativePos = GetActualRelativePos();
+            double dx = actualRelativePos.X;
+            double dy = actualRelativePos.Y
+;
             TransformationViewport.Yaw += dx;
             TransformationViewport.Pitch += dy;
 
@@ -343,8 +348,7 @@ namespace KinematicViewer.Camera
 
         public void dragCam()
         {
-            Point relativePos = Mouse.GetPosition(Viewport);
-            Point actualRelativePos = new Point(relativePos.X - Math.Ceiling(Viewport.ActualWidth / 2), Math.Ceiling(Viewport.ActualHeight / 2) - relativePos.Y);
+            Point actualRelativePos = GetActualRelativePos();
             double dx = actualRelativePos.X;
             double dy = actualRelativePos.Y;
 
@@ -368,8 +372,7 @@ namespace KinematicViewer.Camera
 
         public void panCam()
         {
-            Point relativePos = Mouse.GetPosition(Viewport);
-            Point actualRelativePos = new Point(relativePos.X - Math.Ceiling(Viewport.ActualWidth / 2), Math.Ceiling(Viewport.ActualHeight / 2) - relativePos.Y);
+            Point actualRelativePos = GetActualRelativePos();
             double dx = actualRelativePos.X;
             double dy = actualRelativePos.Y;
 
