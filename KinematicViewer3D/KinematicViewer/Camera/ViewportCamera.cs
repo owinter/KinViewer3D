@@ -272,9 +272,7 @@ namespace KinematicViewer.Camera
         //Zoom über die vertikale Mausbewegung
         public void zoomCamMouseMove()
         {
-            Point relativePos = Mouse.GetPosition(Viewport);
-            Point actualRelativePos = new Point(relativePos.X - Math.Ceiling(Viewport.ActualWidth / 2), Math.Ceiling(Viewport.ActualHeight / 2) - relativePos.Y);
-
+            Point actualRelativePos = GetActualRelativePos();
             double dy = actualRelativePos.Y * ZoomFactorMouse;
             zoomCamera(dy);
 
