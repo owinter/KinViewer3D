@@ -295,6 +295,11 @@ namespace KinematicViewer.Geometry.Guides
             CurValue = NewVal;
         }
 
+        /// <summary>
+        /// Bewegt den Anbindungspunkt des Antriebs an die Heckklappe
+        /// </summary>
+        /// <param name="endPoint">Anbindungspunkt des Antriebs an Heckklappe (Attachment Point Dorr)</param>
+        /// <returns>Liefert einen rotierten Anbindungspunkt zurück</returns>
         public Point3D MovePoint(Point3D endPoint)
         {
             Point3D outputPoint = new Point3D();
@@ -314,12 +319,22 @@ namespace KinematicViewer.Geometry.Guides
             return outputPoint;
         }
 
+        /// <summary>
+        /// Versetzt die transparente Heckklappe in minimal und maximal Stellung des Öffnungswinkels
+        /// </summary>
+        /// <param name="groupActive">Heckklappe als komplette Model3DGroup</param>
+        /// <param name="per">Anteil der Bewegung in [%%]</param>
         public void Move(Model3DGroup groupActive, double per = 0)
         {
             InitiateMove(per);
            VisualObjectTransformation.rotateModelGroup(CurValue, AxisOfRotation, AxisPoint, groupActive);
         }
 
+
+        /// <summary>
+        /// Versetzt jeden Koordinatenpunkt einer Heckklappe in eine Bewegung
+        /// </summary>
+        /// <param name="per">Anteil der Bewegung in [%]</param>
         public void Move(double per = 0)
         {
 

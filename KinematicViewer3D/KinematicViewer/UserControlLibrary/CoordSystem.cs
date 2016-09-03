@@ -20,7 +20,7 @@ namespace KinematicViewer.UserControlLibrary
         private GeometryModel3D _oAxes_Model_Z;
         private GeometryModel3D _oCube_Model;
 
-        // Lichter für das Koordinatensystem.
+        //Liste von Lichtern für das Koordinatensystem.
         private List<Light> _oLLights;
 
         private Viewport3D _oViewportCoordSystem;

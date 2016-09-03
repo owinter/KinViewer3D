@@ -280,6 +280,7 @@ namespace KinematicViewer.Camera
             MouseUtilities.SetPosition(CenterOfViewport);
         }
 
+        //Zoomt eine spezifische Kamera um einen variablen Wert
         private void zoomCamera(double value)
         {
             switch (MyCam)
@@ -301,16 +302,17 @@ namespace KinematicViewer.Camera
             }
         }
 
+        //Liefert die Mausposition relativ zum Viewport3D und transformiert sie zum Center
+        //actualRelativePos beinhaltet die X und Y Entfernung vom Center des Viewports
         private Point GetActualRelativePos()
-        {
-            //Liefert die Mausposition relativ zum Viewport3D und transformiert sie zum Center
-            //actualRelativePos beinhaltet die X und Y Entfernung vom Center des Viewports
+        {  
             Point relativePos = Mouse.GetPosition(Viewport);
             Point actualRelativePos = new Point(relativePos.X - Math.Ceiling(Viewport.ActualWidth / 2), Math.Ceiling(Viewport.ActualHeight / 2) - relativePos.Y);
 
             return actualRelativePos;
         }
 
+        //Versetzt eine spezifische Kamera in eine orbitale Bewegung um einen Mittelpunkt
         public void orbitCam()
         {
             Point actualRelativePos = GetActualRelativePos();
@@ -344,6 +346,7 @@ namespace KinematicViewer.Camera
             MouseUtilities.SetPosition(CenterOfViewport);
         }
 
+        //Verschiebt eine spezifische Kamera auf der XY- Ebene
         public void dragCam()
         {
             Point actualRelativePos = GetActualRelativePos();
@@ -368,6 +371,7 @@ namespace KinematicViewer.Camera
             MouseUtilities.SetPosition(CenterOfViewport);
         }
 
+        //Schwenkt eine spezifische Kamera in der Szene (Umschauen mit der Kamera)
         public void panCam()
         {
             Point actualRelativePos = GetActualRelativePos();
@@ -391,6 +395,7 @@ namespace KinematicViewer.Camera
             MouseUtilities.SetPosition(CenterOfViewport);
         }
 
+        //Rücksetzten des Maus-Cursor auf den Mittelpunkt des Viewports
         public void setMouseToCenter()
         {
             // Berechnen vom Center des Viewports in Bildschirmkoordinaten
@@ -400,6 +405,7 @@ namespace KinematicViewer.Camera
             MouseUtilities.SetPosition(CenterOfViewport);
         }
 
+        //Rücksetzen einer spezifischen Kamera auf die Anfangswerte
         public void resetCam()
         {
             switch (MyCam)
@@ -436,6 +442,7 @@ namespace KinematicViewer.Camera
             TransformationViewport_CoordSystem.Pitch = 0;
         }
 
+        //Fixieren einer spezifischen Kamera und dessen Blickrichtung auf einen angeklickten Punkt
         public void setCam()
         {
             switch (MyCam)

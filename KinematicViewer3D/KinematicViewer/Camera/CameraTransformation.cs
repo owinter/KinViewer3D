@@ -61,6 +61,7 @@ namespace KinematicViewer.Camera
             camera.Position = new Point3D(camera.Position.X, camera.Position.Y, camera.Position.Z - amount);
         }
 
+        //Initialisiert eine orbitale Bewegung einer Kamera um einen Mittelpunkt
         public void Orbit(ProjectionCamera camera)
         {
             double theta = Yaw / 3;
@@ -89,18 +90,21 @@ namespace KinematicViewer.Camera
             transformGroup.Children.Add(new RotateTransform3D(r, RotationPoint));
         }
 
+        //Initialisiert ein Verschieben der Kamera auf XY-Ebene
         public void Drag(ProjectionCamera camera, double dx, double dy)
         {
             camera.Position = new Point3D(camera.Position.X + dx, camera.Position.Y + dy, camera.Position.Z);
             camera.UpDirection = new Vector3D(0, 1, 0);
         }
 
+        //Initialisiert eine Schwenkbewegung der Kamera (Umschauen mit der Kamera in einer Szene)
         public void Pan(ProjectionCamera camera, double dx, double dy)
         {
             camera.LookDirection = new Vector3D((camera.LookDirection.X + dx), (camera.LookDirection.Y + dy), camera.LookDirection.Z);
             camera.UpDirection = new Vector3D(0, 1, 0);
         }
 
+        //Zurücksetzen der Kamera
         public void Reset(ProjectionCamera camera, double value_Z)
         {
             camera.Position = new Point3D(camera.Position.X, camera.Position.Y, value_Z);

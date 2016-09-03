@@ -250,6 +250,11 @@ namespace KinematicViewer.Geometry.Guides
             CurValue = NewVal;
         }
 
+        /// <summary>
+        /// Bewegt den Anbindungspunkt des Antriebs an die Seitentür
+        /// </summary>
+        /// <param name="endPoint">Anbindungspunkt des Antriebs an Seitentür (Attachment Point Door)</param>
+        /// <returns>Liefert einen rotierten Anbindungspunkt zurück</returns>
         public Point3D MovePoint(Point3D endPoint)
         {
             Point3D outputPoint = new Point3D();
@@ -269,12 +274,21 @@ namespace KinematicViewer.Geometry.Guides
             return outputPoint;
         }
 
+        /// <summary>
+        /// Versetzt die transparente Seitentür in minimal oder maximal Stellung des Öffnungswinkels
+        /// </summary>
+        /// <param name="groupActive">Seitentür als komplette Model3DGroup</param>
+        /// <param name="per">Anteil der Bewegung in [%]</param>
         public void Move(Model3DGroup groupActive, double per = 0)
         {
             InitiateMove(per);
             VisualObjectTransformation.rotateModelGroup(CurValue, AxisOfRotation, AxisPoint, groupActive);
         }
 
+        /// <summary>
+        /// Versetzt jeden Koordinatenpunkt der Seitentür in eine Bewegung
+        /// </summary>
+        /// <param name="per">Anteil der Bewegung in [%]</param>
         public void Move(double per = 0)
         {
             InitiateMove(per);
