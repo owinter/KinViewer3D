@@ -30,9 +30,8 @@ namespace KinematicViewer.UserControlLibrary
         private bool _bPan = false;
         private bool _bModelSelected = false;
 
+        //Mausposition bei Klicken der linken Maustaste
         private Point _oPt_leftClick;
-
-        private Popup popup;
 
         private GeometricalElement _oSelectedElement;
         private Material _oSelectedMaterial;
@@ -59,9 +58,6 @@ namespace KinematicViewer.UserControlLibrary
         public List<GeometricalElement> ElementsLineOfAction;
         public List<GeometricalElement> ElementsTrackPoint;
 
-        //Mittelpunkt des Objektes
-        private Point3D _oMPoint;
-
         //Rotationsachse
         private Vector3D _oVAxisOfRotation;
 
@@ -71,7 +67,6 @@ namespace KinematicViewer.UserControlLibrary
         //Breite bzw Dicke des jeweiligen Models
         private double _dModelThickness;
 
-        private string _sScreenCoords;
         private TextBlock _oStatusPane;
 
         /// <summary>
@@ -115,12 +110,6 @@ namespace KinematicViewer.UserControlLibrary
         {
             get { return _dModelThickness; }
             set { _dModelThickness = value; }
-        }
-
-        public string S_Coords
-        {
-            get { return _sScreenCoords; }
-            set { _sScreenCoords = value; }
         }
 
         public ViewportCamera ViewportCam
@@ -403,24 +392,6 @@ namespace KinematicViewer.UserControlLibrary
             MainGrid.Children.Remove(GridCoordSystem);
         }
 
-        //private void showPopUpDrive(List<string>data)
-        //{
-        //    popup = new Popup();
-        //    popup.HorizontalOffset = Pt_leftClick.X;
-        //    popup.VerticalOffset = Pt_leftClick.Y;
-        //    TextBlock tx = new TextBlock();
-        //    tx.Text = data[0];
-        //    Grid g = new Grid();
-        //    g.Background = Brushes.White;
-        //    g.Children.Add(tx);
-        //    popup.Child = g;
-        //    popup.IsOpen = true;
-        //    MainGrid.Children.Add(popup);
-            
-
-        //}
-
-
 
         //MAUSSTEUERUNG im MainGrid
         private void MainGrid_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -542,7 +513,6 @@ namespace KinematicViewer.UserControlLibrary
                     UpdateActiveGroup();
                     //UpdatePassiveGroup();
                 }
-                
             }
         }
 
@@ -594,7 +564,6 @@ namespace KinematicViewer.UserControlLibrary
                     }
                 return HitTestResultBehavior.Stop;
             }
-
             return HitTestResultBehavior.Continue;
         }
 
@@ -709,8 +678,6 @@ namespace KinematicViewer.UserControlLibrary
                     }
                 return HitTestResultBehavior.Stop;
             }
-
-            
             return HitTestResultBehavior.Continue;
         }
 
@@ -819,20 +786,6 @@ namespace KinematicViewer.UserControlLibrary
             ViewportCam.ToolBoxZoomOut();
         }
 
-        //private void calculateMPoint()
-        //{
-        //    double count = AxisPoints.Count;
-        //    double x = 0;
-        //    double y = 0;
-        //    double z = 0;
-        //    for (int i = 0; i < count; i++)
-        //    {
-        //        x += AxisPoints[i].X / count;
-        //        y += AxisPoints[i].Y / count;
-        //        z += AxisPoints[i].Z / count;
-        //    }
-        //    _oMPoint = new Point3D(x, y, z);
-        //}
 
         /// <summary>
         ///Bewegt den "Guide" um einen bestimmten Anteil
@@ -843,42 +796,17 @@ namespace KinematicViewer.UserControlLibrary
             if (Guide == null)
                 return;
 
-            //Guide.Move(groupActive, per);
             Guide.Move(per);
             UpdateActiveGroup();
-
 
             UpdatePassiveGroup();
             UpdateLineOfActionGroup();
             UpdateTrackPointGroup();
-
-            ////Test für die Transparenten Materialien
-            //---> hat negativen Einfluss auf die Performance
-            //UpdateStaticMinAngleGroup();
-            //UpdateStaticMaxAngleGroup();
         }
 
         public void resetModelTransformation()
         {
             VisualObjectTransformation.resetModelGroupTransformation(groupActive);
-        }
-
-        private void changeModelColorRandom(RayMeshGeometry3DHitTestResult resultMesh)
-        {
-            GeometryModel3D model = resultMesh.ModelHit as GeometryModel3D;
-            DiffuseMaterial mat = model.Material as DiffuseMaterial;
-
-            Random rand = new Random();
-            mat.Brush = new SolidColorBrush(Color.FromRgb((byte)rand.Next(256),
-                                                          (byte)rand.Next(256),
-                                                          (byte)rand.Next(256)));
-        }
-
-        private void showScreenCoords(object sender, MouseEventArgs e)
-        {
-            Point p = e.GetPosition(viewport);
-            _sScreenCoords = string.Format("Bild-Koordinaten: ({0:d}, {1:d})", (int)p.X, (int)p.Y);
-            _oStatusPane.Text = _sScreenCoords;
         }
 
         private void HighlightingElement(GeometricalElement element)
