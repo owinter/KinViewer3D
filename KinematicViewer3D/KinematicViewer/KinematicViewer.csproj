@@ -52,7 +52,6 @@
   <ItemGroup>
     <Compile Include="UserControlLibrary\CoordSystem.cs" />
     <Compile Include="Geometry\Figures\Cuboid.cs" />
-    <Compile Include="Geometry\Figures\Cuboid2.cs" />
     <Compile Include="Geometry\Figures\Cylinder.cs" />
     <Compile Include="Geometry\GuidedElements\Drive.cs" />
     <Compile Include="Geometry\GeometricalElement.cs" />

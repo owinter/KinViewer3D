@@ -33,6 +33,7 @@ namespace KinematicViewer.UserControlLibrary
         //Mausposition bei Klicken der linken Maustaste
         private Point _oPt_leftClick;
 
+        //Selektionen von Visuellen Objekten und dessen Materialien für das Highlightinh
         private GeometricalElement _oSelectedElement;
         private Material _oSelectedMaterial;
         private Material _oHighlightedMaterial;
@@ -49,8 +50,10 @@ namespace KinematicViewer.UserControlLibrary
         //Klasse für Transformationen aller Art
         private CameraTransformation trans;
 
+        //Interface- Instanz für den "GUIDE"
         private IGuide _oGuide;
 
+        //Listen für alle visuellen Elemente
         public List<GeometricalElement> ElementsPassive;
         public List<GeometricalElement> ElementsActive;
         public List<GeometricalElement> ElementsStaticMinAngle;
@@ -67,6 +70,7 @@ namespace KinematicViewer.UserControlLibrary
         //Breite bzw Dicke des jeweiligen Models
         private double _dModelThickness;
 
+        //Textblock um Hebelarm als Dezimalzahl darzustellen
         private TextBlock _oStatusPane;
 
         /// <summary>
@@ -86,6 +90,7 @@ namespace KinematicViewer.UserControlLibrary
             //Visuelles Koordinatensystem erstellen
             createCoordSystem();
 
+            //Listen für visuelle Elemente erzeugen
             ElementsActive = new List<GeometricalElement>();
             ElementsPassive = new List<GeometricalElement>();
             ElementsStaticMinAngle = new List<GeometricalElement>();
@@ -184,78 +189,91 @@ namespace KinematicViewer.UserControlLibrary
             this._oStatusPane = statusPane;
         }
 
+        //Listen für visuelle Elemente befüllen
+        //Aktives Element in entspr. Liste hinzufügen (Heckklappen- / Seitentürelemente)
         public void AddActiveElement(GeometricalElement elem)
         {
             ElementsActive.Add(elem);
             UpdateActiveGroup();
         }
 
+        //Passives Element in entspr. Liste hinzufügen (Antriebselemente)
         public void AddPassiveElement(GeometricalElement elem)
         {
             ElementsPassive.Add(elem);
             UpdatePassiveGroup();
         }
 
+        //Transparentes Element mit minimalen Öffnungswinkel in entspr. Liste hinzufügen
         public void AddStaticElementMinAngle(GeometricalElement elem)
         {
             ElementsStaticMinAngle.Add(elem);
             UpdateStaticMinAngleGroup();
         }
-
+        //Transparentes Element mit maximalen Öffnungswinkel in entspr. Liste hinzufügen
         public void AddStaticElementMaxAngle(GeometricalElement elem)
         {
             ElementsStaticMaxAngle.Add(elem);
             UpdateStaticMaxAngleGroup();
         }
 
+        //Wirkungslinien-Element in entspr. Liste hinzufügen
         public void AddLineOfActionElement(GeometricalElement elem)
         {
             ElementsLineOfAction.Add(elem);
             UpdateLineOfActionGroup();
         }
 
+        //Spurpunkt-Element in entspr. Liste hinzufügen
         public void AddTrackPointElement(GeometricalElement elem)
         {
             ElementsTrackPoint.Add(elem);
             UpdateTrackPointGroup();
         }
 
+        //Aktives Element aus entspr. Liste löschen
         public void RemoveActiveElement(GeometricalElement elem)
         {
             ElementsActive.Remove(elem);
             UpdateActiveGroup();
         }
 
+        //Passives Element aus entspr. Liste löschen
         public void RemovePassiveElement(GeometricalElement elem)
         {
             ElementsPassive.Remove(elem);
             UpdatePassiveGroup();
         }
 
+        //Transparentes Element mit minimalem Öffnungswinkel aus entspr. Liste löschen
         public void RemoveStaticElementMinAngle(GeometricalElement elem)
         {
             ElementsStaticMinAngle.Remove(elem);
             UpdateStaticMinAngleGroup();
         }
 
+        //Transparentes Element mit maximalem Öffnungswinkel aus entspr. Liste löschen
         public void RemoveStaticElementMaxAngle(GeometricalElement elem)
         {
             ElementsStaticMaxAngle.Remove(elem);
             UpdateStaticMaxAngleGroup();
         }
 
+        //Wirkungslinien- Element aus entspr. Liste löschen
         public void RemoveLineOfActionElement(GeometricalElement elem)
         {
             ElementsLineOfAction.Remove(elem);
             UpdateLineOfActionGroup();
         }
 
+        //Spurpunkt Element aus entspr. Liste löschen
         public void RemoveTrackPointElement(GeometricalElement elem)
         {
             ElementsTrackPoint.Remove(elem);
             UpdateTrackPointGroup();
         }
 
+        //Der Render Gruppe für aktive Elemente die entspr. Liste hinzufügen und anschließend rendern
         private void UpdateActiveGroup()
         {
             groupActive.Children.Clear();
@@ -265,6 +283,7 @@ namespace KinematicViewer.UserControlLibrary
                     groupActive.Children.Add(m);
         }
 
+        //Der Render Gruppe für passive Elemente die entspr. Liste hinzufügen und anschließend rendern
         private void UpdatePassiveGroup()
         {
             groupPassive.Children.Clear();
@@ -274,6 +293,7 @@ namespace KinematicViewer.UserControlLibrary
                     groupPassive.Children.Add(m);
         }
 
+        //Der Render Gruppe für transparente Elemente mit minimalem Öffnungswinkel die entspr. Liste hinzufügen und anschließend rendern
         private void UpdateStaticMinAngleGroup()
         {
             groupStaticMinAngle.Children.Clear();
@@ -283,6 +303,7 @@ namespace KinematicViewer.UserControlLibrary
                     groupStaticMinAngle.Children.Add(m);
         }
 
+        //Der Render Gruppe für transparente Elemente mit maximalem Öffnungswinkel die entspr. Liste hinzufügen und anschließend rendern
         private void UpdateStaticMaxAngleGroup()
         {
             groupStaticMaxAngle.Children.Clear();
@@ -292,6 +313,7 @@ namespace KinematicViewer.UserControlLibrary
                     groupStaticMaxAngle.Children.Add(m);
         }
 
+        //Der Render Gruppe für Wirkungslinien Elemente die entspr. Liste hinzufügen und anschließend rendern
         private void UpdateLineOfActionGroup()
         {
             groupLineOfAction.Children.Clear();
@@ -301,6 +323,7 @@ namespace KinematicViewer.UserControlLibrary
                     groupLineOfAction.Children.Add(m);
         }
 
+        //Der Render Gruppe für Spurpunkt Elemente die entspr. Liste hinzufügen und anschließend rendern
         private void UpdateTrackPointGroup()
         {
             groupTrackPoint.Children.Clear();
@@ -310,6 +333,7 @@ namespace KinematicViewer.UserControlLibrary
                     groupTrackPoint.Children.Add(m);
         }
 
+        //Transparentes visuelles Bauraummodell in der Gruppe für minimale Öffnungswinkel entsprechend rotieren
         public void ShowStaticElementMin(double per)
         {
             //Guide.Move(groupStaticMinAngle, 0);
@@ -317,6 +341,7 @@ namespace KinematicViewer.UserControlLibrary
             UpdateStaticMinAngleGroup();
         }
 
+        //Transparentes visuelles Bauraummodell in der Gruppe für maximale Öffnungswinkel entsprechend rotieren
         public void ShowStaticElementMax(double per)
         {
             //Guide.Move(groupStaticMaxAngle, 1);
@@ -324,31 +349,35 @@ namespace KinematicViewer.UserControlLibrary
             UpdateStaticMaxAngleGroup();
         }
 
+        //Löschen der Inhalte in der Render Gruppe für transparente Elemente mit minimalem Öffnungswinkel
         public void RemoveAllStaticElementsMin()
         {
             ElementsStaticMinAngle.Clear();
             UpdateStaticMinAngleGroup();
         }
 
+        //Löschen der Inhalte in der Render Gruppe für transparente Elemente mit maximalem Öffnungswinkel
         public void RemoveAllStaticElementsMax()
         {
             ElementsStaticMaxAngle.Clear();
             UpdateStaticMaxAngleGroup();
         }
 
+        //Löschen der Inhalte in der Render Gruppe für Wirkungslinien
         public void RemoveAllLineOfActionElements()
         {
             ElementsLineOfAction.Clear();
             UpdateLineOfActionGroup();
         }
 
+        //Löschen der Inhalte in der Render Gruppe für Spurpunkte
         public void RemoveAllTrackPointElements()
         {
             ElementsTrackPoint.Clear();
             UpdateTrackPointGroup();
         }
 
-        //Visuelles Koordinatensystem erstellen
+        //Visuelles Koordinatensystem erstellen und dem Viewport3D bzw. dem Main Grid hinzufügen
         private void createCoordSystem()
         {
             //Hintergrundfarbe im gleichen Farbton wie das MainViewport
@@ -382,11 +411,13 @@ namespace KinematicViewer.UserControlLibrary
             MainGrid.Children.Add(GridCoordSystem);
         }
 
+        //Dem Viewport3D bzw dessen Main Grid das Koordinatensystem hinzufügen
         public void showCoordSystem()
         {
             MainGrid.Children.Add(GridCoordSystem);
         }
 
+        //Koordinatensystem aus dem Main Grid entfernen
         public void removeCoordSystem()
         {
             MainGrid.Children.Remove(GridCoordSystem);
@@ -394,6 +425,7 @@ namespace KinematicViewer.UserControlLibrary
 
 
         //MAUSSTEUERUNG im MainGrid
+        //Mausrad
         private void MainGrid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (CanMoveCamera)
@@ -402,6 +434,7 @@ namespace KinematicViewer.UserControlLibrary
             }
         }
 
+        //Mausbewegung
         private void MainGrid_MouseMove(object sender, MouseEventArgs e)
         {
             if (CanMoveCamera)
@@ -417,6 +450,7 @@ namespace KinematicViewer.UserControlLibrary
             }
         }
 
+        //Mittlere Maustaste gedrückt
         private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Middle && !(_bMouseDownLeft || _bMouseDownRight))
@@ -432,7 +466,8 @@ namespace KinematicViewer.UserControlLibrary
                 ViewportCam.setMouseToCenter();
             }
         }
-
+        
+        //Mittlere Maustaste losgelassen
         private void MainGrid_MouseUp(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Middle)
@@ -446,6 +481,7 @@ namespace KinematicViewer.UserControlLibrary
             }
         }
 
+        //Rechte Maustaste gedrückt
         private void MainGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             _bMouseDownRight = true;
@@ -464,6 +500,7 @@ namespace KinematicViewer.UserControlLibrary
             }
         }
 
+        //Rechte Maustaste losgelassen
         private void MainGrid_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             _bMouseDownRight = false;
@@ -481,6 +518,7 @@ namespace KinematicViewer.UserControlLibrary
             }
         }
 
+        //Linke Maustaste gedrückt
         private void MainGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _bMouseDownLeft = true;
@@ -494,10 +532,10 @@ namespace KinematicViewer.UserControlLibrary
                 Point pt = e.GetPosition(viewport);
                 Pt_leftClick = pt;
                 VisualTreeHelper.HitTest(viewport, null, HitTestLeftDown, new PointHitTestParameters(pt));
-                
             }
         }
 
+        //Linke Maustaste losgelassen
         private void MainGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             _bMouseDownLeft = false;
@@ -517,7 +555,8 @@ namespace KinematicViewer.UserControlLibrary
         }
 
 
-        //HitTest Verhalten, wenn mit mittlerer Maustaste auf dein visuelles Objekt geklickt wird
+        //HitTest Verhalten, wenn mit mittlerer Maustaste auf das visuelle Objekt geklickt wird
+        //Wenn mit mittlerer Maustaste auf einen Antrieb oder das Bauraummodell geklickt wird, fixiert sich die Kamera und Blickrichtung neu
         private HitTestResultBehavior HitTestMiddleDown(HitTestResult result)
         {
             RayMeshGeometry3DHitTestResult resultMesh = result as RayMeshGeometry3DHitTestResult;
@@ -531,6 +570,7 @@ namespace KinematicViewer.UserControlLibrary
             if (vis == null)
                 return HitTestResultBehavior.Continue;
 
+            //Aktiv bewegte Bauraummodelle wie Heckklappen und Seitentüren
             if (vis == (viewport.FindName("activeVisual") as ModelVisual3D))
             {
                 foreach (GeometricalElement e in ElementsActive)
@@ -548,6 +588,7 @@ namespace KinematicViewer.UserControlLibrary
                 return HitTestResultBehavior.Stop;
             }
 
+            //Passiv bewegte Bauraummodelle, also "guided" Elemente wie Antriebe
             if (vis == (viewport.FindName("passiveVisual") as ModelVisual3D))
             {
                 foreach (GeometricalElement e in ElementsPassive)
@@ -568,7 +609,8 @@ namespace KinematicViewer.UserControlLibrary
         }
 
 
-        //HitTest Verhalten, wenn mit Linker Maustaste auf dein visuelles Objekt geklickt wird
+        //HitTest Verhalten, wenn mit Linker Maustaste auf das visuelle Objekt geklickt wird
+        //Auswahl und Highlightingverfahren per links Klick auf Antrieb oder generelles visuelles Objekt im Viewport
         private HitTestResultBehavior HitTestLeftDown(HitTestResult result)
         {
             _bModelSelected = true;
@@ -581,9 +623,11 @@ namespace KinematicViewer.UserControlLibrary
             ModelVisual3D vis = resultMesh.VisualHit as ModelVisual3D;
             GeometryModel3D selectedModel = resultMesh.ModelHit as GeometryModel3D;
 
+            //Wenn kein visuelles Objekt angeklickt wird oder daneben soll mit Hit Testing weitergemacht werden
             if (vis == null)
                 return HitTestResultBehavior.Continue;
 
+            //Aktiv bewegte Bauraummodelle, wie Heckklappen und Seitentüren
             if (vis == (viewport.FindName("activeVisual") as ModelVisual3D))
             {
                 foreach (GeometricalElement e in ElementsActive)
@@ -609,6 +653,7 @@ namespace KinematicViewer.UserControlLibrary
                 return HitTestResultBehavior.Stop;
             }
 
+            //Passiv bewegte Bauraummodelle, also "guided" Elemente wie Antriebe
             if (vis == (viewport.FindName("passiveVisual") as ModelVisual3D))
             {
                 foreach (GeometricalElement e in ElementsPassive)
@@ -627,6 +672,7 @@ namespace KinematicViewer.UserControlLibrary
                 return HitTestResultBehavior.Stop;
             }
 
+            //Wirkungslinie
             if (vis == (viewport.FindName("lineOfActionVisual") as ModelVisual3D))
             {
                 foreach (GeometricalElement e in ElementsLineOfAction)
@@ -640,6 +686,7 @@ namespace KinematicViewer.UserControlLibrary
                 return HitTestResultBehavior.Stop;
             }
 
+            //Transparentes Bauraummodell minimaler Öffnungswinkel
             if (vis == (viewport.FindName("staticVisualMinAngle") as ModelVisual3D))
             {
                 foreach (GeometricalElement e in ElementsStaticMinAngle)
@@ -653,6 +700,7 @@ namespace KinematicViewer.UserControlLibrary
                 return HitTestResultBehavior.Stop;
             }
 
+            //Transparentes Bauraummodell maximaler Öffnungswinkel
             if (vis == (viewport.FindName("staticVisualMaxAngle") as ModelVisual3D))
             {
                 foreach (GeometricalElement e in ElementsStaticMaxAngle)
@@ -666,6 +714,7 @@ namespace KinematicViewer.UserControlLibrary
                 return HitTestResultBehavior.Stop;
             }
 
+            //Spurenpunkte
             if (vis == (viewport.FindName("trackPointVisual") as ModelVisual3D))
             {
                 foreach (GeometricalElement e in ElementsTrackPoint)
@@ -687,42 +736,48 @@ namespace KinematicViewer.UserControlLibrary
             ViewportCam.viewport_KeyDown(sender, e);
         }
 
-        //Dem Viewport bzw. dem MainGrid den Focus übergeben
+        //Dem Viewport bzw. dem MainGrid den Focus übergeben durch Mausklick Event
         private void viewport_MouseDown(object sender, MouseButtonEventArgs e)
         {
             MainGrid.Focus();
             e.Handled = true;
         }
 
+        //Dem Viewport bzw. dem MainGrid den Focus übergeben durch ein Button Event
         public void FocusToViewport(object sender, RoutedEventArgs e)
         {
             MainGrid.Focus();
             e.Handled = true;
         }
 
+        //Starten der perspektivischen Kamera
         public void switchToPerspective()
         {
             ViewportCam.startPerspectiveCamera();
             ViewportCam.MyCam = Cam.Perspective;
         }
 
+        //Starten der orthographischen Kamera
         public void switchToOrthographic()
         {
             ViewportCam.startOrthographicCamera();
             ViewportCam.MyCam = Cam.Orthographic;
         }
 
+        //Kamerartransformation zurücksetzen
         public void resetCam()
         {
             ViewportCam.reloadCameraPositionDefault();
             ViewportCam.resetCam();
         }
 
+        //Default Position der Kamera laden
         public void reloadCameraPositionDefault()
         {
             ViewportCam.reloadCameraPositionDefault();
         }
 
+        // Alle visuellen Objekte aus dem Viewport löschen
         public void clearModel()
         {
             ElementsActive.Clear();
@@ -746,41 +801,50 @@ namespace KinematicViewer.UserControlLibrary
             Guide = null;
         }
 
+        //QUICKSTEUERUNG DER KAMERA mittels Toolbar Buttons
+        //Die Szene von vorne betrachten
         public void viewFrontSide()
         {
             ViewportCam.viewFront();
         }
 
+        //Die Szene von hinten betrachten
         public void viewBackSide()
         {
             ViewportCam.viewBack();
         }
 
+        //Die Szene von rechts betrachten
         public void viewRightSide()
         {
             ViewportCam.viewRight();
         }
 
+        //Die Szene von links betrachten
         public void viewLeftSide()
         {
             ViewportCam.viewLeft();
         }
 
+        //Die Szene von oben betrachten
         public void viewTopSide()
         {
             ViewportCam.viewTop();
         }
 
+        //Die Szene von unten betrachten
         public void viewBottomSide()
         {
             ViewportCam.viewBottom();
         }
 
+        //Die Szene vergrößern
         public void zoomIn()
         {
             ViewportCam.ToolBoxZoomIn();
         }
 
+        //Die Szene verkleiner
         public void zoomOut()
         {
             ViewportCam.ToolBoxZoomOut();
@@ -804,11 +868,13 @@ namespace KinematicViewer.UserControlLibrary
             UpdateTrackPointGroup();
         }
 
+        //Zurücksetzen der visuellen Objekttransformation inklusive aller Antriebe
         public void resetModelTransformation()
         {
             VisualObjectTransformation.resetModelGroupTransformation(groupActive);
         }
 
+        //Farbiges Hervorheben der angeklickten visuellen Objekte (Hightlighting)
         private void HighlightingElement(GeometricalElement element)
         {
             HighlightedMaterial = new DiffuseMaterial(Brushes.LightSeaGreen);
@@ -817,7 +883,6 @@ namespace KinematicViewer.UserControlLibrary
             if (SelectedMaterial == null)
                 SelectedMaterial = element.Material;
            
-
             element.Material = HighlightedMaterial;
         }
     }
