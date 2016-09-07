@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="KinematicViewer.Geometry.Figures.Cuboid" Collapsed="true">
+    <Position X="3" Y="2.75" Width="1.5" />
+    <InheritanceLine Type="KinematicViewer.Geometry.GeometricalElement" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.25" Y="2.562" />
+        <Point X="5.25" Y="3.061" />
+        <Point X="4.5" Y="3.061" />
+        <Point X="4.5" Y="3.062" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AABAAACEAAABAAAgAAAAAAAoAAAAAAAAAAAgABAAAAA=</HashCode>
+      <FileName>Geometry\Figures\Cuboid.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KinematicViewer.Geometry.Figures.Cylinder" Collapsed="true">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABIAAAEAAAQQAQgAAAAAAABAAIAAAAAAAAgAAAAAAg=</HashCode>
+      <FileName>Geometry\Figures\Cylinder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KinematicViewer.Geometry.Figures.Sphere" Collapsed="true">
+    <Position X="3" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIIAIEAAAQAAAIAAAAAAAAgAAAAACAAAAAAACIAAA=</HashCode>
+      <FileName>Geometry\Figures\Sphere.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KinematicViewer.Geometry.GeometricalElement" Collapsed="true">
+    <Position X="4.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAFAAAAAAAAAAAAAAQAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Geometry\GeometricalElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KinematicViewer.Geometry.GuidedElements.Drive" Collapsed="true">
+    <Position X="3" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAECAgkQACASAACAgAFICRACBoAEAAAIAAEEAKgABg=</HashCode>
+      <FileName>Geometry\GuidedElements\Drive.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KinematicViewer.Geometry.GuidedElements.LineOfAction" Collapsed="true">
+    <Position X="3" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EGAQACAFEBAAAAAAAggIhAAAAEgEACAxABCAEAAkAAA=</HashCode>
+      <FileName>Geometry\GuidedElements\LineOfAction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KinematicViewer.Geometry.GuidedElements.TrackPoint" Collapsed="true">
+    <Position X="3" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AWAAAAAUAAAAAAAAEAAAAABAABAAAAAAABAAEAAgIAg=</HashCode>
+      <FileName>Geometry\GuidedElements\TrackPoint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KinematicViewer.Geometry.Guides.SideDoor" Collapsed="true">
+    <Position X="6" Y="4.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <InheritanceLine Type="KinematicViewer.Geometry.GeometricalElement" FixedToPoint="true">
+      <Path>
+        <Point X="5.25" Y="2.562" />
+        <Point X="5.25" Y="5.125" />
+        <Point X="6" Y="5.125" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>IEADgEAWQIYAAIwBEYQAAQACgAACACEQkBCgCQFggAA=</HashCode>
+      <FileName>Geometry\Guides\SideDoor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="KinematicViewer.Geometry.Guides.Tailgate" Collapsed="true">
+    <Position X="6" Y="6.25" Width="1.5" />
+    <InheritanceLine Type="KinematicViewer.Geometry.GeometricalElement" FixedToPoint="true">
+      <Path>
+        <Point X="5.25" Y="2.562" />
+        <Point X="5.25" Y="6.562" />
+        <Point X="6" Y="6.562" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AECCgEAGIJAAAJwBAYACASACgAASAGEQAHCgAQBggMA=</HashCode>
+      <FileName>Geometry\Guides\Tailgate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="KinematicViewer.Geometry.Guides.IGuide" Collapsed="true">
+    <Position X="6" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAgBAAAAAQACAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Geometry\Guides\IGuide.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
