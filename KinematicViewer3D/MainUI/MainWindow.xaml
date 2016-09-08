@@ -234,7 +234,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Button x:Name="clear_listBox1"
-								Content="clear Points"
+								Content="Punkte löschen"
 								Width="110"
 								Height="30"
 								Margin="5,0,0,0"
@@ -242,7 +242,7 @@
 								Click="clear_listBox1_Button_Click" />
 
                             <Button x:Name="clear_Button"
-								Content="clear Viewer"
+								Content="Viewer löschen"
 								Width="110"
 								Height="30"
 								Margin="5,0,5,0"
