@@ -45,7 +45,7 @@ namespace MainUI
 
         private MainViewPortControl _oMvpControl;
 
-        private bool _bTailgate = false;
+        private bool _bTailgate = true;
 
         //Punkt Drehachse
         private double _dX1, _dY1, _dZ1;
