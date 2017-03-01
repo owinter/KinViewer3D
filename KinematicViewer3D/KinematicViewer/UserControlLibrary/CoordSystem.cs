@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using KinematicViewer.Transformation;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
-using KinematicViewer.Transformation;
 
 namespace KinematicViewer.UserControlLibrary
 {
@@ -16,6 +16,7 @@ namespace KinematicViewer.UserControlLibrary
 
         //3D KoordinatenSystem Model der jeweiligen farbigen Achsen
         private GeometryModel3D _oAxes_Model_X;
+
         private GeometryModel3D _oAxes_Model_Y;
         private GeometryModel3D _oAxes_Model_Z;
         private GeometryModel3D _oCube_Model;

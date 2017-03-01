@@ -107,7 +107,7 @@
                     <Model3DGroup x:Name="groupLightsAndGroundGrid">
                         <!-- Color is Dark Gray....almost Black => Dark ambientlight-->
                         <AmbientLight Color="#4A4A4A" />
-                        
+
                         <!-- Color ist Light Gray, almost Silver-->
                         <DirectionalLight Color="#C0C0C0" Direction="-5000, -5000, -10000" />
                         <DirectionalLight Color="#C0C0C0" Direction=" 5000,  5000,  10000" />

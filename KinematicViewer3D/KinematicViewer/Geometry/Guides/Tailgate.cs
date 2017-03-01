@@ -1,10 +1,10 @@
-﻿using System;
+﻿using KinematicViewer.Geometry.Figures;
+using KinematicViewer.Transformation;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
-using KinematicViewer.Transformation;
-using KinematicViewer.Geometry.Figures;
 
 namespace KinematicViewer.Geometry.Guides
 {
@@ -166,7 +166,6 @@ namespace KinematicViewer.Geometry.Guides
             get { return _bTransparent; }
             set { _bTransparent = value; }
         }
-        
 
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
@@ -327,9 +326,8 @@ namespace KinematicViewer.Geometry.Guides
         public void Move(Model3DGroup groupActive, double per = 0)
         {
             InitiateMove(per);
-           VisualObjectTransformation.rotateModelGroup(CurValue, AxisOfRotation, AxisPoint, groupActive);
+            VisualObjectTransformation.rotateModelGroup(CurValue, AxisOfRotation, AxisPoint, groupActive);
         }
-
 
         /// <summary>
         /// Versetzt jeden Koordinatenpunkt einer Heckklappe in eine Bewegung
@@ -337,7 +335,6 @@ namespace KinematicViewer.Geometry.Guides
         /// <param name="per">Anteil der Bewegung in [%]</param>
         public void Move(double per = 0)
         {
-
             InitiateMove(per);
 
             //Bewegt alle Punkte des oberen Teils der Heckklappe
@@ -358,7 +355,7 @@ namespace KinematicViewer.Geometry.Guides
                 CoordsDownTail[i] = VisualObjectTransformation.rotatePoint(CoordsDownTail[i], DeltaCurValue, AxisOfRotation, AxisPoint);
             }
 
-            //Bewegt den Handangriffspunkt 
+            //Bewegt den Handangriffspunkt
             HandPoint = VisualObjectTransformation.rotatePoint(HandPoint, DeltaCurValue, AxisOfRotation, AxisPoint);
         }
     }

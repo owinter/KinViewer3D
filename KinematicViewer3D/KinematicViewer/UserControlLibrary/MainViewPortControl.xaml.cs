@@ -1,17 +1,15 @@
-﻿using System;
+﻿using KinematicViewer.Camera;
+using KinematicViewer.Geometry;
+using KinematicViewer.Geometry.GuidedElements;
+using KinematicViewer.Geometry.Guides;
+using KinematicViewer.Transformation;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
-using KinematicViewer.Camera;
-using KinematicViewer.Transformation;
-using KinematicViewer.Geometry;
-using KinematicViewer.Geometry.Figures;
-using KinematicViewer.Geometry.Guides;
-using KinematicViewer.Geometry.GuidedElements;
 
 namespace KinematicViewer.UserControlLibrary
 {
@@ -22,6 +20,7 @@ namespace KinematicViewer.UserControlLibrary
     {
         //Abfrage für die Maussteuerung
         private bool _bMouseDownRight;
+
         private bool _bMouseDownLeft;
         private bool _bMouseDownMiddle;
         private bool _bZoom = false;
@@ -35,6 +34,7 @@ namespace KinematicViewer.UserControlLibrary
 
         //Selektionen von Visuellen Objekten und dessen Materialien für das Highlightinh
         private GeometricalElement _oSelectedElement;
+
         private Material _oSelectedMaterial;
         private Material _oHighlightedMaterial;
 
@@ -55,6 +55,7 @@ namespace KinematicViewer.UserControlLibrary
 
         //Listen für alle visuellen Elemente
         public List<GeometricalElement> ElementsPassive;
+
         public List<GeometricalElement> ElementsActive;
         public List<GeometricalElement> ElementsStaticMinAngle;
         public List<GeometricalElement> ElementsStaticMaxAngle;
@@ -162,7 +163,7 @@ namespace KinematicViewer.UserControlLibrary
         public Point Pt_leftClick
         {
             get { return _oPt_leftClick; }
-            set {  _oPt_leftClick = value; }
+            set { _oPt_leftClick = value; }
         }
 
         public GeometricalElement SelectedElement
@@ -210,6 +211,7 @@ namespace KinematicViewer.UserControlLibrary
             ElementsStaticMinAngle.Add(elem);
             UpdateStaticMinAngleGroup();
         }
+
         //Transparentes Element mit maximalen Öffnungswinkel in entspr. Liste hinzufügen
         public void AddStaticElementMaxAngle(GeometricalElement elem)
         {
@@ -238,11 +240,19 @@ namespace KinematicViewer.UserControlLibrary
             UpdateActiveGroup();
         }
 
+        public void RemovePassiveElement(int i)
+        {
+            RemovePassiveElement(ElementsPassive[i]);
+        }
+
         //Passives Element aus entspr. Liste löschen
         public void RemovePassiveElement(GeometricalElement elem)
         {
-            ElementsPassive.Remove(elem);
-            UpdatePassiveGroup();
+            if (ElementsPassive.Contains(elem))
+            {
+                ElementsPassive.Remove(elem);
+                UpdatePassiveGroup();
+            }
         }
 
         //Transparentes Element mit minimalem Öffnungswinkel aus entspr. Liste löschen
@@ -423,7 +433,6 @@ namespace KinematicViewer.UserControlLibrary
             MainGrid.Children.Remove(GridCoordSystem);
         }
 
-
         //MAUSSTEUERUNG im MainGrid
         //Mausrad
         private void MainGrid_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -466,7 +475,7 @@ namespace KinematicViewer.UserControlLibrary
                 ViewportCam.setMouseToCenter();
             }
         }
-        
+
         //Mittlere Maustaste losgelassen
         private void MainGrid_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -544,7 +553,8 @@ namespace KinematicViewer.UserControlLibrary
             else
             {
                 _bModelSelected = false;
-                if(SelectedMaterial != null)
+
+                if (SelectedMaterial != null && SelectedElement != null)
                 {
                     SelectedElement.Material = SelectedMaterial;
                     SelectedElement = null;
@@ -553,7 +563,6 @@ namespace KinematicViewer.UserControlLibrary
                 }
             }
         }
-
 
         //HitTest Verhalten, wenn mit mittlerer Maustaste auf das visuelle Objekt geklickt wird
         //Wenn mit mittlerer Maustaste auf einen Antrieb oder das Bauraummodell geklickt wird, fixiert sich die Kamera und Blickrichtung neu
@@ -608,7 +617,6 @@ namespace KinematicViewer.UserControlLibrary
             return HitTestResultBehavior.Continue;
         }
 
-
         //HitTest Verhalten, wenn mit Linker Maustaste auf das visuelle Objekt geklickt wird
         //Auswahl und Highlightingverfahren per links Klick auf Antrieb oder generelles visuelles Objekt im Viewport
         private HitTestResultBehavior HitTestLeftDown(HitTestResult result)
@@ -659,7 +667,7 @@ namespace KinematicViewer.UserControlLibrary
                 foreach (GeometricalElement e in ElementsPassive)
                     foreach (GeometryModel3D m in e.GetGeometryModel(Guide))
                     {
-                        if(m.Bounds == selectedModel.Bounds)
+                        if (m.Bounds == selectedModel.Bounds)
                         {
                             if (e is Drive)
                             {
@@ -850,7 +858,6 @@ namespace KinematicViewer.UserControlLibrary
             ViewportCam.ToolBoxZoomOut();
         }
 
-
         /// <summary>
         ///Bewegt den "Guide" um einen bestimmten Anteil
         /// </summary>
@@ -882,7 +889,7 @@ namespace KinematicViewer.UserControlLibrary
             SelectedElement = element;
             if (SelectedMaterial == null)
                 SelectedMaterial = element.Material;
-           
+
             element.Material = HighlightedMaterial;
         }
     }

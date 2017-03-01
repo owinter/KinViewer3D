@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Media.Media3D;
+﻿using System.Windows.Media.Media3D;
 
 namespace KinematicViewer.Camera
 {
@@ -10,7 +8,7 @@ namespace KinematicViewer.Camera
         private double _dYaw;
 
         // Neigen um die Querachse x- Achse
-        private double _dPitch; 
+        private double _dPitch;
 
         //Rotationsmittelpunkt
         private Point3D _oRotationPoint;

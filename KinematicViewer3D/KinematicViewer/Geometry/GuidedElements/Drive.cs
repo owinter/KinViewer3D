@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using KinematicViewer.Geometry.Figures;
+using KinematicViewer.Geometry.Guides;
+using KinematicViewer.Transformation;
+using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
-using KinematicViewer.Geometry;
-using KinematicViewer.Geometry.Figures;
-using KinematicViewer.Geometry.Guides;
 
 namespace KinematicViewer.Geometry.GuidedElements
 {
@@ -16,16 +16,15 @@ namespace KinematicViewer.Geometry.GuidedElements
         private int _iRadiusBody;
         private int _iRadiusDoor;
 
+        private Material _oBodyPartMaterial;
+        private Material _oBodyPartMaterialStartPoint;
+        private Material _oDoorPartMaterialEndPoint;
+        private Material _oDoorPartMaterialExtracted;
+        private Material _oDoorPartMaterialMiddle;
+        private Material _oDoorPartMaterialRetracted;
         private Point3D _oEndPoint;
         private Point3D _oStartPoint;
         private Vector3D _oVDrive;
-
-        private Material _oBodyPartMaterial;
-        private Material _oBodyPartMaterialStartPoint;
-        private Material _oDoorPartMaterialRetracted;
-        private Material _oDoorPartMaterialMiddle;
-        private Material _oDoorPartMaterialExtracted;
-        private Material _oDoorPartMaterialEndPoint;
 
         /// <summary>
         /// Erzeugt ein visuelles Modell eines Antriebs
@@ -56,6 +55,42 @@ namespace KinematicViewer.Geometry.GuidedElements
             DoorPartMaterialRetracted = new DiffuseMaterial(Brushes.YellowGreen);
             DoorPartMaterialMiddle = new DiffuseMaterial(Brushes.Orange);
             DoorPartMaterialExtracted = new DiffuseMaterial(Brushes.OrangeRed);
+        }
+
+        public Material BodyPartMaterial
+        {
+            get { return _oBodyPartMaterial; }
+            set { _oBodyPartMaterial = value; }
+        }
+
+        public Material BodyPartMaterialStartPoint
+        {
+            get { return _oBodyPartMaterialStartPoint; }
+            set { _oBodyPartMaterialStartPoint = value; }
+        }
+
+        public Material DoorPartMaterialEndPoint
+        {
+            get { return _oDoorPartMaterialEndPoint; }
+            set { _oDoorPartMaterialEndPoint = value; }
+        }
+
+        public Material DoorPartMaterialExtracted
+        {
+            get { return _oDoorPartMaterialExtracted; }
+            set { _oDoorPartMaterialExtracted = value; }
+        }
+
+        public Material DoorPartMaterialMiddle
+        {
+            get { return _oDoorPartMaterialMiddle; }
+            set { _oDoorPartMaterialMiddle = value; }
+        }
+
+        public Material DoorPartMaterialRetracted
+        {
+            get { return _oDoorPartMaterialRetracted; }
+            set { _oDoorPartMaterialRetracted = value; }
         }
 
         public Point3D EndPoint
@@ -112,40 +147,12 @@ namespace KinematicViewer.Geometry.GuidedElements
             set { _oVDrive = value; }
         }
 
-        public Material BodyPartMaterial
+        public Drive generateReflectedDrive(Point3D SP, Vector3D RV)
         {
-            get { return _oBodyPartMaterial; }
-            set { _oBodyPartMaterial = value; }
-        }
+            Point3D p1 = TransformationUtilities.reflectPoint(SP, RV, StartPoint);
+            Point3D p2 = TransformationUtilities.reflectPoint(SP, RV, EndPoint);
 
-        public Material BodyPartMaterialStartPoint
-        {
-            get { return _oBodyPartMaterialStartPoint; }
-            set { _oBodyPartMaterialStartPoint = value; }
-        }
-
-        public Material DoorPartMaterialRetracted
-        {
-            get { return _oDoorPartMaterialRetracted; }
-            set { _oDoorPartMaterialRetracted = value; }
-        }
-
-        public Material DoorPartMaterialMiddle
-        {
-            get { return _oDoorPartMaterialMiddle; }
-            set { _oDoorPartMaterialMiddle = value; }
-        }
-
-        public Material DoorPartMaterialExtracted
-        {
-            get { return _oDoorPartMaterialExtracted; }
-            set { _oDoorPartMaterialExtracted = value; }
-        }
-
-        public Material DoorPartMaterialEndPoint
-        {
-            get { return _oDoorPartMaterialEndPoint; }
-            set { _oDoorPartMaterialEndPoint = value; }
+            return new Drive(p1, p2);
         }
 
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)
@@ -193,6 +200,15 @@ namespace KinematicViewer.Geometry.GuidedElements
             Res.AddRange(new Sphere(attPointDoor, 40, 16, 16, Material).GetGeometryModel(guide));
 
             return Res.ToArray();
+        }
+
+        public LineOfAction GetLever(Point3D point3D, Vector3D vector3D)
+        {
+            return new LineOfAction(
+                point3D,
+                this.StartPoint,
+                this.EndPoint,
+                vector3D);
         }
     }
 }

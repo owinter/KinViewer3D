@@ -1,9 +1,9 @@
-﻿using System;
+﻿using KinematicViewer.UserControlLibrary;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Media3D;
-using KinematicViewer.UserControlLibrary;
 
 namespace KinematicViewer.Camera
 {
@@ -32,6 +32,7 @@ namespace KinematicViewer.Camera
 
         //Zoom Faktoren
         private double _dZoomFactor;
+
         private double _dZoomFactorMouse;
 
         //Mitte des ViewPort in Bildschirmkoordinaten
@@ -42,10 +43,12 @@ namespace KinematicViewer.Camera
 
         //Speicherung der yaw und pitch Werte
         private double _dYaw;
+
         private double _dPitch;
 
         //benutzbare eigene Instanzen
         private Viewport3D _oViewport;
+
         private Viewport3D _oViewportCoordSystem;
         private CoordSystem _oCoordSystem;
         private CameraTransformation _oTrans;
@@ -305,7 +308,7 @@ namespace KinematicViewer.Camera
         //Liefert die Mausposition relativ zum Viewport3D und transformiert sie zum Center
         //actualRelativePos beinhaltet die X und Y Entfernung vom Center des Viewports
         private Point GetActualRelativePos()
-        {  
+        {
             Point relativePos = Mouse.GetPosition(Viewport);
             Point actualRelativePos = new Point(relativePos.X - Math.Ceiling(Viewport.ActualWidth / 2), Math.Ceiling(Viewport.ActualHeight / 2) - relativePos.Y);
 

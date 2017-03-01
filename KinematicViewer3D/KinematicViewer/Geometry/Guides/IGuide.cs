@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Windows.Media.Media3D;
+﻿using System.Windows.Media.Media3D;
 
 namespace KinematicViewer.Geometry.Guides
 {
     public interface IGuide
     {
-
         //Minimal- und Maximalwert des Öffnungswinkels
         double MaxValue { get; set; }
+
         double MinValue { get; set; }
         double CurValue { get; set; }
 

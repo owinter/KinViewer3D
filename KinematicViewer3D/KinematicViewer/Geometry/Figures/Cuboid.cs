@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
+﻿using KinematicViewer.Geometry.Guides;
 using KinematicViewer.Transformation;
-using KinematicViewer.Geometry;
-using KinematicViewer.Geometry.Guides;
+using System.Collections.Generic;
+using System.Windows.Media.Media3D;
 
 namespace KinematicViewer.Geometry.Figures
 {

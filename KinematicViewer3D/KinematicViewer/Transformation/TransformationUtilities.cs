@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Media.Media3D;
+﻿using System.Windows.Media.Media3D;
 
 namespace KinematicViewer.Transformation
 {
@@ -25,10 +23,10 @@ namespace KinematicViewer.Transformation
         /// Spiegelt einen Antriebspunkt um eine Ebene, welche durch den Scharnierachsenmittelpunkt und den Handangriffspunkt aufgespannt wird
         /// </summary>
         /// <param name="axisPoint">Scharnierachsenmittelpunkt</param>
-        /// <param name="handPoint">Handangriffspunkt</param>
+        /// <param name="axisVector">Handangriffspunkt</param>
         /// <param name="drivePoint">Anfangs-/ oder Endpunkt eines Antriebs</param>
         /// <returns></returns>
-        public static Point3D reflectPoint(Point3D axisPoint, Point3D handPoint, Point3D drivePoint)
+        public static Point3D reflectPoint(Point3D axisPoint, Vector3D axisVector, Point3D drivePoint)
         {
             /*
              * Hessische Form : Px * N - d = 0   ==> d = Px * N
@@ -52,14 +50,14 @@ namespace KinematicViewer.Transformation
              */
 
             Vector3D vR = new Vector3D(axisPoint.X, axisPoint.Y, axisPoint.Z);
-            Vector3D vAxisToHandE1 = handPoint - axisPoint;
-            Vector3D vE2 = Vector3D.CrossProduct(vAxisToHandE1, new Vector3D(0, 1, 0));
+            //Vector3D vAxisToHandE1 = handPoint - axisPoint;
+            //Vector3D vE2 = new Vector3D(axisVector.X, axisVector.Y, axisVector.Z);// Vector3D.CrossProduct(vAxisToHandE1, new Vector3D(0, 1, 0));
 
-            double d = Vector3D.DotProduct(vR, vE2);
+            double d = Vector3D.DotProduct(vR, axisVector);
 
-            double lambda = ((d - Vector3D.DotProduct(new Vector3D(drivePoint.X, drivePoint.Y, drivePoint.Z), vE2)) / (Vector3D.DotProduct(vE2, vE2)));
+            double lambda = ((d - Vector3D.DotProduct(new Vector3D(drivePoint.X, drivePoint.Y, drivePoint.Z), axisVector)) / (Vector3D.DotProduct(axisVector, axisVector)));
 
-            Point3D point = drivePoint + 2 * lambda * vE2;
+            Point3D point = drivePoint + 2 * lambda * axisVector;
 
             return point;
         }
@@ -122,7 +120,5 @@ namespace KinematicViewer.Transformation
 
             return res;
         }
-
-        
     }
 }

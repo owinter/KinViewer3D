@@ -1,11 +1,10 @@
-﻿using System;
+﻿using KinematicViewer.Geometry.Figures;
+using KinematicViewer.Transformation;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
-using KinematicViewer.Transformation;
-using KinematicViewer.Geometry.Figures;
-
 
 namespace KinematicViewer.Geometry.Guides
 {
@@ -157,8 +156,6 @@ namespace KinematicViewer.Geometry.Guides
             set { _bTransparent = value; }
         }
 
-        
-
         public override GeometryModel3D[] GetGeometryModel(IGuide guide)
         {
             List<GeometryModel3D> Res = new List<GeometryModel3D>();
@@ -293,7 +290,7 @@ namespace KinematicViewer.Geometry.Guides
         {
             InitiateMove(per);
 
-            for(int i = 0; i< CoordsBodyPart.Count; i++)
+            for (int i = 0; i < CoordsBodyPart.Count; i++)
             {
                 CoordsBodyPart[i] = VisualObjectTransformation.rotatePoint(CoordsBodyPart[i], DeltaCurValue, AxisOfRotation, AxisPoint);
             }
@@ -304,7 +301,5 @@ namespace KinematicViewer.Geometry.Guides
 
             LatchPoint = VisualObjectTransformation.rotatePoint(LatchPoint, DeltaCurValue, AxisOfRotation, AxisPoint);
         }
-
-
     }
 }

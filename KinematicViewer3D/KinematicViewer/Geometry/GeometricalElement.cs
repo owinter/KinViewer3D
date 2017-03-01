@@ -1,6 +1,6 @@
-﻿using System.Windows.Media;
+﻿using KinematicViewer.Geometry.Guides;
+using System.Windows.Media;
 using System.Windows.Media.Media3D;
-using KinematicViewer.Geometry.Guides;
 
 namespace KinematicViewer.Geometry
 {

@@ -1,11 +1,10 @@
-﻿using System;
+﻿using KinematicViewer.Geometry.Figures;
+using KinematicViewer.Geometry.Guides;
+using KinematicViewer.Transformation;
+using System;
 using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
-using KinematicViewer.Transformation;
-using KinematicViewer.Geometry;
-using KinematicViewer.Geometry.Figures;
-using KinematicViewer.Geometry.Guides;
 
 namespace KinematicViewer.Geometry.GuidedElements
 {
@@ -152,7 +151,7 @@ namespace KinematicViewer.Geometry.GuidedElements
         {
             List<Point3D> points = new List<Point3D>();
 
-            Vector3D vDirection = perpendicularDrive - startPoint; 
+            Vector3D vDirection = perpendicularDrive - startPoint;
 
             int elements = Convert.ToInt16((Math.Floor(vDirection.Length / (ELEMENTLENGTH + OFFSET))));
 
@@ -212,7 +211,7 @@ namespace KinematicViewer.Geometry.GuidedElements
             const double SMALL_DIVISOR = 0.00000001; // "Division overflow", um nicht durch 0 zu teilen
 
             List<Point3D> points = new List<Point3D>();
-      
+
             Vector3D u = axisOfRotation;
             Vector3D v = vDrive;
             Vector3D w0 = attachmentPointBody - axisPoint;

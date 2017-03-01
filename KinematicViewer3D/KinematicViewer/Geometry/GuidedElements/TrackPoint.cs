@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using KinematicViewer.Geometry.Figures;
+using KinematicViewer.Geometry.Guides;
+using KinematicViewer.Transformation;
+using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
-using KinematicViewer.Transformation;
-using KinematicViewer.Geometry;
-using KinematicViewer.Geometry.Figures;
-using KinematicViewer.Geometry.Guides;
 
 namespace KinematicViewer.Geometry.GuidedElements
 {
@@ -74,7 +73,7 @@ namespace KinematicViewer.Geometry.GuidedElements
             double curOpenVal = guide.CurValue / ELEMENTS;
             double openValue = curOpenVal;
 
-            //Startposition 
+            //Startposition
             Res.AddRange(new Sphere(StartPoint, RADIUS, 4, 4, TrackPointMaterial).GetGeometryModel(guide));
 
             //Bewegung der einzelnen Spurenpunkte

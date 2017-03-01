@@ -250,7 +250,11 @@ namespace MainUI
             convertUserInput();
 
             if (_bTailgate)
-                generateReflectedDrive();
+            {
+                Drive d = generateReflectedDrive();
+                AxisPoints[4] = d.StartPoint;
+                AxisPoints[5] = d.EndPoint;
+            }
 
             fill_TextBox();
             create_Button.IsEnabled = true;
@@ -655,13 +659,12 @@ namespace MainUI
             MvpControl.viewBottomSide();
         }
 
-        private void generateReflectedDrive()
+        public Drive generateReflectedDrive()
         {
             Point3D p1 = TransformationUtilities.reflectPoint(AxisPoints[0], AxisPoints[1], AxisPoints[2]);
             Point3D p2 = TransformationUtilities.reflectPoint(AxisPoints[0], AxisPoints[1], AxisPoints[3]);
 
-            AxisPoints.Add(p1);
-            AxisPoints.Add(p2);
+            return new Drive(p1, p2);
         }
 
         private void createStaticElementsTailgate()

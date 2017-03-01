@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Media.Media3D;
+﻿using System.Windows.Media.Media3D;
 
 namespace KinematicViewer.Transformation
 {
     public static class VisualObjectTransformation
     {
-        
         /// <summary>
         /// Rotiert einen bestehenden 3D Punkt um eine Achse mit Achsenmittelpunkt und gibt den 3D Punkt zurück
         /// </summary>
@@ -34,9 +28,9 @@ namespace KinematicViewer.Transformation
         /// <param name="groupActive">Model3DGroup welche komplett rotiert werden soll</param>
         public static void rotateModelGroup(double axisAngle, Vector3D axisOfRotation, Point3D rotationCenter, Model3DGroup groupActive)
         {
-                AxisAngleRotation3D aARot = new AxisAngleRotation3D(axisOfRotation, axisAngle);
-                RotateTransform3D rotation = new RotateTransform3D(aARot, rotationCenter);
-                groupActive.Transform = rotation;  
+            AxisAngleRotation3D aARot = new AxisAngleRotation3D(axisOfRotation, axisAngle);
+            RotateTransform3D rotation = new RotateTransform3D(aARot, rotationCenter);
+            groupActive.Transform = rotation;
         }
 
         /// <summary>
